@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<Manifest>
+	<identifier>WellMet</identifier>
+	<version>1.0</version>
+	<dependencies>
+		<li>Harmony</li>
+	</dependencies>
+	<loadAfter>
+		<li>brrainz.harmony</li>
+	</loadAfter>
+	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Well-Met/master/About/Manifest.xml</manifestUri>
+	<downloadUri>https://github.com/Lakuna/RimWorld-Well-Met/releases/latest</downloadUri>
+</Manifest>
