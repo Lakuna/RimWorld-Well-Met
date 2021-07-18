@@ -1,18 +1,24 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace WellMet.Patches {
-	[HarmonyPatch(typeof(CharacterCardUtility), "DrawCharacterCard")]
+	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
 	public class CharacterCardPatch {
+		public static CodeInstruction filterDiscoveredInstruction = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(WellMet), nameof(WellMet.FilterDiscovered)));
+
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
-			// TUTORIAL: https://harmony.pardeike.net/articles/patching-transpiler.html
-			return instructions; // TODO
+			foreach (CodeInstruction instruction in instructions) {
+				yield return instruction;
+
+				if (instruction.opcode == OpCodes.Ldfld && (FieldInfo) instruction.operand == AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits))) {
+					// Whenever allTraits is loaded, make a .Where() call to take out traits that haven't been discovered yet.
+					yield return filterDiscoveredInstruction;
+				}
+			}
 		}
 	}
 }
