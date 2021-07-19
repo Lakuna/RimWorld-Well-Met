@@ -9,6 +9,8 @@ namespace WellMet.Patches {
 	public class CharacterCardPatch {
 		public static CodeInstruction filterDiscoveredInstruction = new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(WellMet), nameof(WellMet.FilterDiscovered)));
 
+		// TODO: Alternatively, it's possible to add a postfix to the Trait.Label getter.
+		// TODO: Make sure that works with colors (i.e. trait rarity colors).
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			foreach (CodeInstruction instruction in instructions) {
