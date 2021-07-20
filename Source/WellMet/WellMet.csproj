@@ -58,6 +58,7 @@
     <Compile Include="Patches\ThoughtPatches\LabelCapSocial.cs" />
     <Compile Include="Patches\ThoughtPatches\LabelCap.cs" />
     <Compile Include="Patches\ThoughtPatches\ToString.cs" />
+    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTab.cs" />
     <Compile Include="Patches\TraitPatches\ToString.cs" />
     <Compile Include="Patches\TraitPatches\LabelCap.cs" />
     <Compile Include="Patches\TraitPatches\Label.cs" />
