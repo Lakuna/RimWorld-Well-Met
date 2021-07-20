@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellMet", "WellMet.csproj", "{44A604F0-8B2D-493C-B1EC-9BBE34C8EE54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellMet", "WellMet\WellMet.csproj", "{F2D3E86E-0947-453E-A2BE-DDA4F9C4E6D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{44A604F0-8B2D-493C-B1EC-9BBE34C8EE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44A604F0-8B2D-493C-B1EC-9BBE34C8EE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44A604F0-8B2D-493C-B1EC-9BBE34C8EE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44A604F0-8B2D-493C-B1EC-9BBE34C8EE54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2D3E86E-0947-453E-A2BE-DDA4F9C4E6D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2D3E86E-0947-453E-A2BE-DDA4F9C4E6D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2D3E86E-0947-453E-A2BE-DDA4F9C4E6D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2D3E86E-0947-453E-A2BE-DDA4F9C4E6D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6317D7CE-B200-41DA-B86B-F39D1E23D4C5}
+		SolutionGuid = {D2514013-4951-42CC-B76B-99A5C8117EEF}
 	EndGlobalSection
 EndGlobal

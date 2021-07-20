@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WellMet")]
-[assembly: AssemblyDescription("Well Met mod for RimWorld.")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WellMet")]
-[assembly: AssemblyCopyright("Copyright © Travis Martin 2021")]
+[assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("44a604f0-8b2d-493c-b1ec-9bbe34c8ee54")]
+[assembly: Guid("f2d3e86e-0947-453e-a2be-dda4f9c4e6d7")]
 
 // Version information for an assembly consists of the following four values:
 //

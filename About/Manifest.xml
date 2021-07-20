@@ -2,13 +2,14 @@
 
 <Manifest>
 	<identifier>WellMet</identifier>
-	<version>1.0</version>
+	<version>1.0.0.0</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
 	<loadAfter>
-		<li>brrainz.harmony</li>
+		<li>Harmony</li>
 	</loadAfter>
-	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Well-Met/master/About/Manifest.xml</manifestUri>
+	<showCrossPromotions>true</showCrossPromotions>
+	<manifestUri>https://github.com/Lakuna/RimWorld-Well-Met/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/Lakuna/RimWorld-Well-Met/releases/latest</downloadUri>
 </Manifest>
