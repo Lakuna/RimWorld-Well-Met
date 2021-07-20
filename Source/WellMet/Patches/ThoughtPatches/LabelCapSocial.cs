@@ -7,7 +7,7 @@ namespace WellMet.Patches.ThoughtPatches {
 	public class LabelCapSocial {
 		[HarmonyPostfix]
 		public static void Postfix(Thought __instance, ref string __result) {
-			if (__instance.def.requiredTraits != null && __instance.def.requiredTraits.All((traitDef) => __instance.pawn.story.traits.HasTrait(traitDef))) {
+			if (__instance.def.requiredTraits != null && __instance.def.requiredTraits.All((traitDef) => __instance.pawn.story.traits.HasTrait(traitDef) && WellMet.TraitDiscovered(__instance.pawn.story.traits.GetTrait(traitDef)))) {
 				__result = WellMet.UnknownThoughtName;
 			}
 		}
