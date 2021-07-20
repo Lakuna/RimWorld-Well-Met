@@ -3,7 +3,10 @@
 namespace WellMet {
 	public static class WellMet {
 		private const int TicksPerDay = 60000;
-		public const string UnknownTraitLabel = "???";
+		public const string UnknownTraitName = "???";
+		public const string UnknownTraitDescription = "You have to get to know this pawn better in order to discover this trait.";
+		public const string UnknownThoughtName = "Thought from unknown trait";
+		public const string UnknownThoughtDescription = "You have to get to know this pawn better in order to discover what is causing this thought.";
 
 		public static bool TraitDiscovered(Trait trait) {
 			// Can't use a switch statement because TraitDefOfs are not constant values.

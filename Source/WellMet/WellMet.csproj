@@ -54,10 +54,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patches\HarmonyPatcher.cs" />
-    <Compile Include="Patches\TraitLabelCapPatch.cs" />
-    <Compile Include="Patches\TraitLabelPatch.cs" />
-    <Compile Include="Patches\TraitTipStringPatch.cs" />
-    <Compile Include="Patches\TraitToStringPatch.cs" />
+    <Compile Include="Patches\ThoughtPatches\Description.cs" />
+    <Compile Include="Patches\ThoughtPatches\LabelCapSocial.cs" />
+    <Compile Include="Patches\ThoughtPatches\LabelCap.cs" />
+    <Compile Include="Patches\ThoughtPatches\ToString.cs" />
+    <Compile Include="Patches\TraitPatches\ToString.cs" />
+    <Compile Include="Patches\TraitPatches\LabelCap.cs" />
+    <Compile Include="Patches\TraitPatches\Label.cs" />
+    <Compile Include="Patches\TraitPatches\TipString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WellMet.cs" />
   </ItemGroup>
