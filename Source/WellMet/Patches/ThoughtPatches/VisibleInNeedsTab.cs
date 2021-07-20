@@ -10,10 +10,6 @@ namespace WellMet.Patches.ThoughtPatches {
 			if (__instance.def.requiredTraits != null && __instance.def.requiredTraits.All((traitDef) => __instance.pawn.story.traits.HasTrait(traitDef))) {
 				__result = false;
 			}
-
-			foreach (PawnRelationDef relationDef in __instance.pawn.GetRelations(__instance.pawn /* OTHER PAWN HERE */)) {
-
-			}
 		}
 	}
 }
