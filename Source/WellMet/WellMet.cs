@@ -25,4 +25,6 @@ namespace WellMet {
 			}
 		}
 	}
+
+	// TODO: Patch Pawn_RelationsTracker.OpinionExplanation.
 }
