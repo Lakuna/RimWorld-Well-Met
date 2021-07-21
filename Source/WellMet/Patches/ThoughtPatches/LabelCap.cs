@@ -10,6 +10,8 @@ namespace WellMet.Patches.ThoughtPatches {
 			if (__instance.def.requiredTraits != null && __instance.def.requiredTraits.All((traitDef) => __instance.pawn.story.traits.HasTrait(traitDef) && WellMet.TraitDiscovered(__instance.pawn.story.traits.GetTrait(traitDef)))) {
 				__result = WellMet.UnknownThoughtName;
 			}
+
+			// This is the string which is displayed in a pawn's needs list.
 		}
 	}
 }

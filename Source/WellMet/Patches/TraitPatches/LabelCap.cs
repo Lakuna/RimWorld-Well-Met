@@ -9,6 +9,8 @@ namespace WellMet.Patches.TraitPatches {
 			if (!WellMet.TraitDiscovered(__instance)) {
 				__result = WellMet.UnknownTraitName;
 			}
+
+			// This is the string which is displayed in a pawn's trait list.
 		}
 	}
 }
