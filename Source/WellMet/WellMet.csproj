@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patches\HarmonyPatcher.cs" />
+    <Compile Include="Patches\PawnRelationTrackerPatches\OpinionExplanation.cs" />
     <Compile Include="Patches\ThoughtPatches\Description.cs" />
     <Compile Include="Patches\ThoughtPatches\LabelCapSocial.cs" />
     <Compile Include="Patches\ThoughtPatches\LabelCap.cs" />
