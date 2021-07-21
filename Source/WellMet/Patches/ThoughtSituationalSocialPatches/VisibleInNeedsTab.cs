@@ -6,7 +6,7 @@ namespace WellMet.Patches.ThoughtSituationalSocialPatches {
 	public class VisibleInNeedsTab {
 		[HarmonyPostfix]
 		public static void Postfix(Thought_SituationalSocial __instance, ref bool __result) {
-			if (WellMet.ThoughtIsHiddenForPawn(__instance.pawn, __instance.def) || WellMet.ThoughtIsHiddenForPawn(__instance.otherPawn, __instance.def)) {
+			if (WellMet.ThoughtIsHiddenForPawn(__instance.pawn, __instance.def)) {
 				__result = false;
 			}
 		}

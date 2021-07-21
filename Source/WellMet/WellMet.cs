@@ -62,7 +62,7 @@ namespace WellMet {
 		public override void DoSettingsWindowContents(Rect rect) {
 			Listing_Standard listingStandard = new Listing_Standard();
 			listingStandard.Begin(rect);
-			_ = listingStandard.Label("Number of days before trait unlock per commonality");
+			_ = listingStandard.Label("Number of days before trait unlock per commonality (" + this.settings.daysToUnlockPerCommonality + ")");
 			this.settings.daysToUnlockPerCommonality = listingStandard.Slider(this.settings.daysToUnlockPerCommonality, 0, 60);
 			listingStandard.End();
 
