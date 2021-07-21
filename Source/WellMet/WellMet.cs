@@ -1,30 +1,69 @@
 ﻿using RimWorld;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
 
 namespace WellMet {
-	public static class WellMet {
+	public class WellMet : Mod {
 		private const int TicksPerDay = 60000;
 		public const string UnknownTraitName = "???";
 		public const string UnknownTraitDescription = "You have to get to know this pawn better in order to discover this trait.";
 		public const string UnknownThoughtName = "Thought from unknown trait";
 		public const string UnknownThoughtDescription = "You have to get to know this pawn better in order to discover what is causing this thought.";
 
-		public static bool TraitDiscovered(Trait trait) {
-			// Can't use a switch statement because TraitDefOfs are not constant values.
-			if (trait.def == TraitDefOf.Bloodlust) {
-				return trait.pawn.records.GetValue(RecordDefOf.Kills) > 0;
-			} else if (trait.def == TraitDefOf.Brawler) {
-				return trait.pawn.records.GetValue(RecordDefOf.ShotsFired) > 0;
-			} else if (trait.def == TraitDefOf.Masochist || trait.def == TraitDefOf.Tough || trait.def == TraitDefOf.Wimp) {
-				return trait.pawn.records.GetValue(RecordDefOf.DamageTaken) > 0;
-			} else if (trait.def == TraitDefOf.Transhumanist || trait.def == TraitDefOf.BodyPurist) {
-				return trait.pawn.records.GetValue(RecordDefOf.OperationsReceived) > 0;
-			} else if (trait.def == TraitDefOf.Pyromaniac) {
-				return trait.pawn.records.GetValue(RecordDefOf.TimesInMentalState) > 0;
-			} else {
-				return trait.pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) > trait.def.GetGenderSpecificCommonality(trait.pawn.gender) * (TicksPerDay * 15);
+		public static WellMet Instance;
+		public static Func<Trait, bool> defaultDiscoveryCondition = (trait) =>
+			trait.pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) >
+			trait.def.GetGenderSpecificCommonality(trait.pawn.gender) * (TicksPerDay * WellMet.Instance.settings.daysToUnlockPerCommonality);
+		private static Dictionary<TraitDef, Func<Trait, bool>> customDiscoveryConditions;
+		public static Dictionary<TraitDef, Func<Trait, bool>> CustomDiscoveryConditions {
+			get {
+				if (WellMet.customDiscoveryConditions == null) {
+					WellMet.customDiscoveryConditions = new Dictionary<TraitDef, Func<Trait, bool>> {
+						{ TraitDefOf.Bloodlust, (trait) => trait.pawn.records.GetValue(RecordDefOf.Kills) > 0 },
+						{ TraitDefOf.Brawler, (trait) => trait.pawn.records.GetValue(RecordDefOf.ShotsFired) > 0 },
+						{ TraitDefOf.Masochist, (trait) => trait.pawn.records.GetValue(RecordDefOf.DamageTaken) > 0 },
+						{ TraitDefOf.Tough, (trait) => trait.pawn.records.GetValue(RecordDefOf.DamageTaken) > 0 },
+						{ TraitDefOf.Wimp, (trait) => trait.pawn.records.GetValue(RecordDefOf.DamageTaken) > 0 },
+						{ TraitDefOf.Transhumanist, (trait) => trait.pawn.records.GetValue(RecordDefOf.OperationsReceived) > 0 },
+						{ TraitDefOf.BodyPurist, (trait) => trait.pawn.records.GetValue(RecordDefOf.OperationsReceived) > 0 },
+						{ TraitDefOf.Pyromaniac, (trait) => trait.pawn.records.GetValue(RecordDefOf.TimesInMentalState) > 0 }
+					};
+				}
+
+				return WellMet.customDiscoveryConditions;
 			}
 		}
-	}
 
-	// TODO: Patch Pawn_RelationsTracker.OpinionExplanation.
+		public static bool TraitDiscovered(Trait trait) {
+			_ = WellMet.CustomDiscoveryConditions.TryGetValue(trait.def, out Func<Trait, bool> customDiscoveryCondition);
+
+			return customDiscoveryCondition != null
+				? customDiscoveryCondition(trait)
+				: WellMet.defaultDiscoveryCondition(trait);
+		}
+
+		public Settings settings;
+
+		public WellMet(ModContentPack content) : base(content) {
+			if (WellMet.Instance == null) {
+				WellMet.Instance = this;
+			}
+
+			this.settings = this.GetSettings<Settings>();
+		}
+
+		public override void DoSettingsWindowContents(Rect rect) {
+			Listing_Standard listingStandard = new Listing_Standard();
+			listingStandard.Begin(rect);
+			_ = listingStandard.Label("Number of days before trait unlock per commonality");
+			this.settings.daysToUnlockPerCommonality = listingStandard.Slider(this.settings.daysToUnlockPerCommonality, 0, 60);
+			listingStandard.End();
+
+			base.DoSettingsWindowContents(rect);
+		}
+
+		public override string SettingsCategory() => "Well Met";
+	}
 }
