@@ -6,7 +6,7 @@ namespace WellMet.Patches.TraitPatches {
 	public class TipString {
 		[HarmonyPostfix]
 		public static void Postfix(Trait __instance, ref string __result) {
-			if (!WellMet.TraitDiscovered(__instance)) {
+			if (!WellMet.TraitIsDiscoveredForPawn(__instance)) {
 				__result = WellMet.UnknownTraitDescription;
 			}
 

@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -36,13 +37,17 @@ namespace WellMet {
 			}
 		}
 
-		public static bool TraitDiscovered(Trait trait) {
+		public static bool TraitIsDiscoveredForPawn(Trait trait) {
 			_ = WellMet.CustomDiscoveryConditions.TryGetValue(trait.def, out Func<Trait, bool> customDiscoveryCondition);
 
 			return customDiscoveryCondition != null
 				? customDiscoveryCondition(trait)
 				: WellMet.defaultDiscoveryCondition(trait);
 		}
+
+		public static bool ThoughtIsHiddenForPawn(Pawn pawn, ThoughtDef thoughtDef) => !thoughtDef.requiredTraits.NullOrEmpty()
+			&& thoughtDef.requiredTraits.Any((traitDef) => pawn.story.traits.HasTrait(traitDef)
+			&& WellMet.TraitIsDiscoveredForPawn(pawn.story.traits.GetTrait(traitDef)));
 
 		public Settings settings;
 
