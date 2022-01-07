@@ -47,7 +47,7 @@ namespace WellMet {
 
 		public static bool ThoughtIsHiddenForPawn(Pawn pawn, ThoughtDef thoughtDef) => !thoughtDef.requiredTraits.NullOrEmpty()
 			&& thoughtDef.requiredTraits.Any((traitDef) => pawn.story.traits.HasTrait(traitDef)
-			&& WellMet.TraitIsDiscoveredForPawn(pawn.story.traits.GetTrait(traitDef)));
+			&& !WellMet.TraitIsDiscoveredForPawn(pawn.story.traits.GetTrait(traitDef)));
 
 		public Settings settings;
 
