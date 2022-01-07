@@ -2,7 +2,7 @@
 
 <Manifest>
 	<identifier>WellMet</identifier>
-	<version>1.0.0.1</version>
+	<version>1.0.0.2</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
