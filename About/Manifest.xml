@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
 <Manifest>
 	<identifier>WellMet</identifier>
-	<version>1.0.0.2</version>
+	<version>2.0.0.0</version>
 	<dependencies>
 		<li>Harmony</li>
 	</dependencies>
@@ -10,6 +10,6 @@
 		<li>Harmony</li>
 	</loadAfter>
 	<showCrossPromotions>true</showCrossPromotions>
-	<manifestUri>https://github.com/Lakuna/RimWorld-Well-Met/About/Manifest.xml</manifestUri>
+	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Well-Met/master/About/Manifest.xml</manifestUri>
 	<downloadUri>https://github.com/Lakuna/RimWorld-Well-Met/releases/latest</downloadUri>
 </Manifest>

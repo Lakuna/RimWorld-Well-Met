@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <ModMetaData>
 	<name>Well Met</name>
 	<author>Lakuna</author>
-	<url>https://lakuna.pw</url>
+	<url>https://github.com/Lakuna/RimWorld-Well-Met</url>
 	<packageId>Lakuna.WellMet</packageId>
 	<supportedVersions>
+		<li>1.0</li>
+		<li>1.1</li>
+		<li>1.2</li>
 		<li>1.3</li>
+		<li>1.4</li>
 	</supportedVersions>
 	<description>Hides a pawn's traits until you get to know them.</description>
 	<modDependencies>

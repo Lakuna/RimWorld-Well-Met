@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WellMet", "WellMet\WellMet.csproj", "{1270CE11-98DD-48EE-A164-6D06F94053D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		v1.0|Any CPU = v1.0|Any CPU
+		v1.1|Any CPU = v1.1|Any CPU
+		v1.2|Any CPU = v1.2|Any CPU
+		v1.3|Any CPU = v1.3|Any CPU
+		v1.4|Any CPU = v1.4|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.0|Any CPU.ActiveCfg = v1.0|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.0|Any CPU.Build.0 = v1.0|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.1|Any CPU.ActiveCfg = v1.1|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.1|Any CPU.Build.0 = v1.1|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.2|Any CPU.ActiveCfg = v1.2|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.2|Any CPU.Build.0 = v1.2|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.3|Any CPU.ActiveCfg = v1.3|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.3|Any CPU.Build.0 = v1.3|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.4|Any CPU.ActiveCfg = v1.4|Any CPU
+		{1270CE11-98DD-48EE-A164-6D06F94053D6}.v1.4|Any CPU.Build.0 = v1.4|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C93AC3EB-6D56-4945-A6B0-33490BD70F02}
+	EndGlobalSection
+EndGlobal
