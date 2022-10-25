@@ -11,10 +11,9 @@ using System.Linq;
 using System.Text;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ThoughtPatches {
-	[HarmonyPatch(typeof(Thought), nameof(Thought.ToString))]
-	[HarmonyPatch(typeof(Thought_Memory), nameof(Thought_Memory.ToString))]
-	public static class ToStringPatch {
+namespace Lakuna.WellMet.Patches.ThoughtPatches.LabelCapPatches {
+	[HarmonyPatch(typeof(Thought_Situational), "get_" + nameof(Thought_Situational.LabelCap))]
+	public static class ThoughtSituationalLabelCapPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Thought __instance, ref string __result) {

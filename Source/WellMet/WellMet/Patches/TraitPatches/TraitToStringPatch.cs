@@ -13,7 +13,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.TraitPatches {
 #if !(V1_0 || V1_1)
 	[HarmonyPatch(typeof(Trait), nameof(Trait.ToString))]
-	public static class ToStringPatch {
+	public static class TraitToStringPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Trait __instance, ref string __result) {

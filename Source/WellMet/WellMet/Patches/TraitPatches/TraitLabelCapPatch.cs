@@ -12,8 +12,8 @@ using Verse;
 
 namespace Lakuna.WellMet.Patches.TraitPatches {
 #if !(V1_0 || V1_1)
-	[HarmonyPatch(typeof(Trait), "get_" + nameof(Trait.Label))]
-	public static class LabelPatch {
+	[HarmonyPatch(typeof(Trait), "get_" + nameof(Trait.LabelCap))]
+	public static class TraitLabelCapPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Trait __instance, ref string __result) {

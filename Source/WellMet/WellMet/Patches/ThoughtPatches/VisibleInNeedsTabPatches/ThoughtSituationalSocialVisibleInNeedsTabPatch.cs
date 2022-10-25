@@ -10,12 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lakuna.WellMet.Patches.ThoughtPatches {
-	[HarmonyPatch(typeof(Thought), "get_" + nameof(Thought.VisibleInNeedsTab))]
-	[HarmonyPatch(typeof(Thought_Memory), "get_" + nameof(Thought_Memory.VisibleInNeedsTab))]
-	[HarmonyPatch(typeof(Thought_MemorySocial), "get_" + nameof(Thought_MemorySocial.VisibleInNeedsTab))]
+namespace Lakuna.WellMet.Patches.ThoughtPatches.VisibleInNeedsTabPatches {
 	[HarmonyPatch(typeof(Thought_SituationalSocial), "get_" + nameof(Thought_SituationalSocial.VisibleInNeedsTab))]
-	public static class VisibleInNeedsTabPatch {
+	public static class ThoughtSituationalSocialVisibleInNeedsTabPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Thought __instance, ref bool __result) {
