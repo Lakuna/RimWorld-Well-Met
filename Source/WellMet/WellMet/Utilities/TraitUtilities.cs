@@ -15,7 +15,8 @@ namespace Lakuna.WellMet.Utilities {
 			: TraitIsDiscovered(trait.pawn, trait.def);
 #endif
 
-		public static bool TraitIsDiscovered(Pawn pawn, TraitDef def) => pawn == null
+		public static bool TraitIsDiscovered(Pawn pawn, TraitDef def) => WellMetMod.Settings.AllTraitsDiscovered
+			|| (pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
 			: def == null
 			? throw new ArgumentNullException(nameof(def))
@@ -41,6 +42,6 @@ namespace Lakuna.WellMet.Utilities {
 			: def == TraitDefOf.Nudist
 			? pawn.records.GetValue(RecordDefOf.BodiesStripped) > 0
 			: pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal)
-			> def.GetGenderSpecificCommonality(pawn.gender) * TicksPerDay * WellMetMod.Settings.DifficultyFactor;
+			> def.GetGenderSpecificCommonality(pawn.gender) * TicksPerDay * WellMetMod.Settings.DifficultyFactor);
 	}
 }

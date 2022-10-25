@@ -13,10 +13,21 @@ namespace Lakuna.WellMet {
 			set => this.difficultyFactor = value;
 		}
 
-		public WellMetSettings() => this.DifficultyFactor = 15;
+		private bool allTraitsDiscovered;
+
+		public bool AllTraitsDiscovered {
+			get => this.allTraitsDiscovered;
+			set => this.allTraitsDiscovered = value;
+		}
+
+		public WellMetSettings() {
+			this.DifficultyFactor = 15;
+			this.allTraitsDiscovered = false;
+		}
 
 		public override void ExposeData() {
 			Scribe_Values.Look(ref this.difficultyFactor, nameof(this.difficultyFactor));
+			Scribe_Values.Look(ref this.allTraitsDiscovered, nameof(this.allTraitsDiscovered));
 			base.ExposeData();
 		}
 	}

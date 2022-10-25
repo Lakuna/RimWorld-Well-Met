@@ -19,6 +19,12 @@ namespace Lakuna.WellMet {
 			listing.Label("DifficultyFactor".Translate().CapitalizeFirst() + " (" + Settings.DifficultyFactor + ")");
 			Settings.DifficultyFactor = listing.Slider(Settings.DifficultyFactor, 0, 60);
 
+			if (Prefs.DevMode) {
+				bool allTraitsDiscovered = Settings.AllTraitsDiscovered;
+				listing.CheckboxLabeled("AllTraitsDiscovered".Translate().CapitalizeFirst(), ref allTraitsDiscovered);
+				Settings.AllTraitsDiscovered = allTraitsDiscovered;
+			}
+
 			listing.End();
 
 			base.DoSettingsWindowContents(inRect);
