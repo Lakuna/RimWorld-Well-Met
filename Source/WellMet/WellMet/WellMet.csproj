@@ -52,6 +52,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Patches\HarmonyPatcher.cs" />
+    <Compile Include="Patches\ThoughtPatches\DescriptionPatch.cs" />
+    <Compile Include="Patches\ThoughtPatches\LabelCapPatch.cs" />
+    <Compile Include="Patches\ThoughtPatches\LabelCapSocialPatch.cs" />
+    <Compile Include="Patches\ThoughtPatches\ToStringPatch.cs" />
+    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatch.cs" />
+    <Compile Include="Patches\TraitPatches\ToStringPatch.cs" />
+    <Compile Include="Patches\TraitPatches\LabelCapPatch.cs" />
+    <Compile Include="Patches\TraitPatches\LabelPatch.cs" />
+    <Compile Include="Patches\TraitPatches\TipStringPatch.cs" />
+    <Compile Include="Utilities\ThoughtUtilities.cs" />
+    <Compile Include="Utilities\TraitUtilities.cs" />
+    <Compile Include="WellMetMod.cs" />
+    <Compile Include="WellMetSettings.cs" />
   </ItemGroup>
 
   <Choose>
