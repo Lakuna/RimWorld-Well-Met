@@ -20,7 +20,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Thought __instance, ref bool __result) {
 #pragma warning restore CA1707
-			if (ThoughtUtilities.ThoughtIsHidden(__instance)) {
+			if (!ThoughtUtilities.ThoughtIsDiscovered(__instance)) {
 				__result = false;
 			}
 		}

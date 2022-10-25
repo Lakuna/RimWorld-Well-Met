@@ -24,11 +24,11 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 
 #if V1_0 || V1_1
 			if (!TraitUtilities.TraitIsDiscovered(___pawn, __instance.def)) {
-				__result = TraitUtilities.UnknownTraitDescription;
+				__result = "UnknownTrait".Translate().CapitalizeFirst();
 			}
 #else
 			if (!TraitUtilities.TraitIsDiscovered(__instance)) {
-				__result = TraitUtilities.UnknownTraitDescription;
+				__result = "UnknownTrait".Translate().CapitalizeFirst();
 			}
 #endif
 		}

@@ -16,12 +16,14 @@ namespace Lakuna.WellMet {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(inRect);
 
-			listing.Label("Difficulty factor (" + Settings.DifficultyFactor + ")");
+			listing.Label("DifficultyFactor".Translate().CapitalizeFirst() + " (" + Settings.DifficultyFactor + ")");
 			Settings.DifficultyFactor = listing.Slider(Settings.DifficultyFactor, 0, 60);
 
 			listing.End();
 
 			base.DoSettingsWindowContents(inRect);
 		}
+
+		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst();
 	}
 }

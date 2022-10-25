@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Verse;
 
 namespace Lakuna.WellMet.Patches.TraitPatches {
 #if !(V1_0 || V1_1)
@@ -18,7 +19,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 		public static void Postfix(Trait __instance, ref string __result) {
 #pragma warning restore CA1707
 			if (!TraitUtilities.TraitIsDiscovered(__instance)) {
-				__result = TraitUtilities.UnknownTraitName;
+				__result = "UnknownTrait".Translate().CapitalizeFirst();
 			}
 		}
 	}

@@ -9,10 +9,6 @@ namespace Lakuna.WellMet.Utilities {
 	public static class TraitUtilities {
 		private const int TicksPerDay = 60000;
 
-		public const string UnknownTraitName = "???";
-
-		public const string UnknownTraitDescription = "You haven't discovered this trait yet.";
-
 #if !(V1_0 || V1_1)
 		public static bool TraitIsDiscovered(Trait trait) => trait == null
 			? throw new ArgumentNullException(nameof(trait))
