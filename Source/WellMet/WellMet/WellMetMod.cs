@@ -25,6 +25,18 @@ namespace Lakuna.WellMet {
 				Settings.AllTraitsDiscovered = allTraitsDiscovered;
 			}
 
+			bool showTraitsOnGrowthMoment = Settings.ShowTraitsOnGrowthMoment;
+			listing.CheckboxLabeled("ShowTraitsOnGrowthMoment".Translate().CapitalizeFirst(), ref showTraitsOnGrowthMoment);
+			Settings.ShowTraitsOnGrowthMoment = showTraitsOnGrowthMoment;
+
+			bool alwaysShowPhysicalTraits = Settings.AlwaysShowPhysicalTraits;
+			listing.CheckboxLabeled("AlwaysShowPhysicalTraits".Translate().CapitalizeFirst(), ref alwaysShowPhysicalTraits);
+			Settings.AlwaysShowPhysicalTraits = alwaysShowPhysicalTraits;
+
+			bool showTraitsForStartingColonists = Settings.ShowTraitsForStartingColonists;
+			listing.CheckboxLabeled("ShowTraitsForStartingColonists".Translate().CapitalizeFirst(), ref showTraitsForStartingColonists);
+			Settings.ShowTraitsForStartingColonists = showTraitsForStartingColonists;
+
 			listing.End();
 
 			base.DoSettingsWindowContents(inRect);

@@ -17,10 +17,12 @@ namespace Lakuna.WellMet.Utilities {
 
 		public static bool TraitIsDiscovered(Pawn pawn, TraitDef def) => WellMetMod.Settings.AllTraitsDiscovered
 			|| (pawn == null
-			? throw new ArgumentNullException(nameof(pawn))
-			: def == null
-			? throw new ArgumentNullException(nameof(def))
-			: def == TraitDefOf.Bloodlust
+			? WellMetMod.Settings.ShowTraitsOnGrowthMoment // Pawn is only null on growth moments in vanilla RimWorld.
+			: def == null // Causes some issues with pawns that cannot gain traits otherwise.
+			|| WellMetMod.Settings.ShowTraitsForStartingColonists
+			&& pawn.IsColonist
+			&& pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) == 0
+			|| (def == TraitDefOf.Bloodlust
 			? pawn.records.GetValue(RecordDefOf.Kills) > 0
 			: def == TraitDefOf.BodyPurist
 			|| def == TraitDefOf.Transhumanist
@@ -41,7 +43,11 @@ namespace Lakuna.WellMet.Utilities {
 			? pawn.records.GetValue(RecordDefOf.TimesInMentalState) > 0
 			: def == TraitDefOf.Nudist
 			? pawn.records.GetValue(RecordDefOf.BodiesStripped) > 0
-			: pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal)
-			> def.GetGenderSpecificCommonality(pawn.gender) * TicksPerDay * WellMetMod.Settings.DifficultyFactor);
+			: WellMetMod.Settings.AlwaysShowPhysicalTraits
+			&& (def == TraitDefOf.AnnoyingVoice
+			|| def == TraitDefOf.Beauty
+			|| def == TraitDefOf.CreepyBreathing)
+			|| pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal)
+			> def.GetGenderSpecificCommonality(pawn.gender) * TicksPerDay * WellMetMod.Settings.DifficultyFactor));
 	}
 }

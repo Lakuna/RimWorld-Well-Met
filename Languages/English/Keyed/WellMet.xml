@@ -6,4 +6,7 @@
 	<UnknownTrait>unknown trait</UnknownTrait>
 	<DifficultyFactor>difficulty factor</DifficultyFactor>
 	<AllTraitsDiscovered>all traits discovered</AllTraitsDiscovered>
+	<ShowTraitsOnGrowthMoment>show traits on growth moment</ShowTraitsOnGrowthMoment>
+	<AlwaysShowPhysicalTraits>always show physical traits</AlwaysShowPhysicalTraits>
+	<ShowTraitsForStartingColonists>show traits for starting colonists</ShowTraitsForStartingColonists>
 </LanguageData>
