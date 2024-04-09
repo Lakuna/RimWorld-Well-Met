@@ -1,161 +1,171 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Configurations>v1.0;v1.1;v1.2;v1.3;v1.4</Configurations>
-    <RootNamespace>Lakuna.WellMet</RootNamespace>
-    <IsPublishable>False</IsPublishable>
-    <BaseOutputPath />
-    <BaseIntermediateOutputPath />
-    <ErrorReport>send</ErrorReport>
-    <PackageId>Lakuna.WellMet</PackageId>
-    <Title>Well Met</Title>
-    <Authors>Travis Martin</Authors>
-    <Description>A RimWorld mod that hides a pawn's traits until you get to know them.</Description>
-    <Copyright>Travis Martin 2022</Copyright>
-    <PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2553173153</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>$(PackageVersion)</AssemblyVersion>
-    <FileVersion>$(PackageVersion)</FileVersion>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <AnalysisLevel>latest-all</AnalysisLevel>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
-    <AssemblyName>WellMet</AssemblyName>
-    <Version>2.1.0.0</Version>
-    <Company>$(Authors)</Company>
-    <Product>$(Title)</Product>
-    <Optimize>True</Optimize>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <DefineConstants />
-    <NoWarn />
-    <WarningsAsErrors />
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <IncludeSymbols>False</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <Deterministic>True</Deterministic>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5</Configurations>
+		<RootNamespace>Lakuna.WellMet</RootNamespace>
+		<IsPublishable>False</IsPublishable>
+		<BaseOutputPath />
+		<BaseIntermediateOutputPath />
+		<ErrorReport>send</ErrorReport>
+		<PackageId>Lakuna.WellMet</PackageId>
+		<Title>Well Met</Title>
+		<Authors>Travis Martin</Authors>
+		<Description>A RimWorld mod that hides a pawn's traits until you get to know them.</Description>
+		<Copyright>Travis Martin 2022</Copyright>
+		<PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2553173153</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
+		<FileVersion>$(PackageVersion)</FileVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<AnalysisLevel>latest-all</AnalysisLevel>
+		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
+		<AssemblyName>WellMet</AssemblyName>
+		<Version>2.1.0.0</Version>
+		<Company>$(Authors)</Company>
+		<Product>$(Title)</Product>
+		<Optimize>True</Optimize>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<DefineConstants />
+		<NoWarn />
+		<WarningsAsErrors />
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<IncludeSymbols>False</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+		<Deterministic>True</Deterministic>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="Patches\HarmonyPatcher.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtTameVeneratedAnimalDiedDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtSituationalWearingDesiredApparelDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtRelicAtRitualDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleLostDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleEmptyDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleApparelRequirementNotMetDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoMissingBuildingDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoLeaderResentmentDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoDisrespectedBuildingDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtAttendedRitualDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtMemoryRoyalTitleDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtDecreeUnmetDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtDescriptionPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoDisrespectedBuildingLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoLeaderResentmentLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoMissingBuildingLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleApparelRequirementNotMetLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleEmptyLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleLostLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtKilledInnocentAnimalLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryObservationTerrorLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtRelicAtRitualLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalWearingDesiredApparelLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtTameVeneratedAnimalDiedLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtOpinionOfMyLoverLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalSocialLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtDecreeUnmetLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryRoyalTitleLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtPsychicHarmonizerLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtWeaponTraitLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtAttendedRitualLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtLabelCapPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtMemoryLabelCapSocialPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtSituationalSocialLabelCapSocialPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtLabelCapSocialPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\ToStringPatches\ThoughtMemoryToStringPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\ToStringPatches\ThoughtToStringPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtSituationalSocialVisibleInNeedsTabPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtMemorySocialVisibleInNeedsTabPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtMemoryVisibleInNeedsTabPatch.cs" />
-    <Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtVisibleInNeedsTabPatch.cs" />
-    <Compile Include="Patches\TraitPatches\TraitToStringPatch.cs" />
-    <Compile Include="Patches\TraitPatches\TraitLabelCapPatch.cs" />
-    <Compile Include="Patches\TraitPatches\TraitLabelPatch.cs" />
-    <Compile Include="Patches\TraitPatches\TraitTipStringPatch.cs" />
-    <Compile Include="Utilities\ThoughtUtilities.cs" />
-    <Compile Include="Utilities\TraitUtilities.cs" />
-    <Compile Include="WellMetMod.cs" />
-    <Compile Include="WellMetSettings.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="Patches\HarmonyPatcher.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtTameVeneratedAnimalDiedDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtSituationalWearingDesiredApparelDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtRelicAtRitualDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleLostDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleEmptyDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoRoleApparelRequirementNotMetDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoMissingBuildingDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoLeaderResentmentDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtIdeoDisrespectedBuildingDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtAttendedRitualDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtMemoryRoyalTitleDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtDecreeUnmetDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\DescriptionPatches\ThoughtDescriptionPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoDisrespectedBuildingLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoLeaderResentmentLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoMissingBuildingLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleApparelRequirementNotMetLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleEmptyLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtIdeoRoleLostLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtKilledInnocentAnimalLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryObservationTerrorLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtRelicAtRitualLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalWearingDesiredApparelLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtTameVeneratedAnimalDiedLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtOpinionOfMyLoverLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtSituationalSocialLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtDecreeUnmetLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtMemoryRoyalTitleLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtPsychicHarmonizerLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtWeaponTraitLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtAttendedRitualLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapPatches\ThoughtLabelCapPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtMemoryLabelCapSocialPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtSituationalSocialLabelCapSocialPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\LabelCapSocialPatches\ThoughtLabelCapSocialPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\ToStringPatches\ThoughtMemoryToStringPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\ToStringPatches\ThoughtToStringPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtSituationalSocialVisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtMemorySocialVisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtMemoryVisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatches\ThoughtVisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\TraitPatches\TraitToStringPatch.cs" />
+		<Compile Include="Patches\TraitPatches\TraitLabelCapPatch.cs" />
+		<Compile Include="Patches\TraitPatches\TraitLabelPatch.cs" />
+		<Compile Include="Patches\TraitPatches\TraitTipStringPatch.cs" />
+		<Compile Include="Utilities\ThoughtUtilities.cs" />
+		<Compile Include="Utilities\TraitUtilities.cs" />
+		<Compile Include="WellMetMod.cs" />
+		<Compile Include="WellMetSettings.cs" />
+	</ItemGroup>
 
-  <Choose>
-    <When Condition="'$(Configuration)|$(Platform)'=='v1.0|AnyCPU'">
-      <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.0.2559-beta" />
-        <PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
-      </ItemGroup>
-      <PropertyGroup>
-        <TargetFramework>net35</TargetFramework>
-        <OutputPath>..\..\..\1.0\Assemblies</OutputPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)|$(Platform)'=='v1.1|AnyCPU'">
-      <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.1.2654" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-      </ItemGroup>
-      <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <OutputPath>..\..\..\1.1\Assemblies</OutputPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)|$(Platform)'=='v1.2|AnyCPU'">
-      <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.3062" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-      </ItemGroup>
-      <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <OutputPath>..\..\..\1.2\Assemblies</OutputPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)|$(Platform)'=='v1.3|AnyCPU'">
-      <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3389" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-      </ItemGroup>
-      <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <OutputPath>..\..\..\1.3\Assemblies</OutputPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)|$(Platform)'=='v1.4|AnyCPU'">
-      <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3527" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
-      </ItemGroup>
-      <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
-        <OutputPath>..\..\..\1.4\Assemblies</OutputPath>
-      </PropertyGroup>
-    </When>
-  </Choose>
+	<Choose>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.0|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.0.2559-beta" />
+				<PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net35</TargetFramework>
+				<OutputPath>..\..\..\1.0\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.1|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.1.2654" />
+				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.1\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.2|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.3062" />
+				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.2\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.3|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3389" />
+				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.3\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.4|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3901" />
+				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.4\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.5|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4055-beta" />
+				<PackageReference Include="Lib.Harmony" Version="2.3.1.1" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.5\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+	</Choose>
 </Project>

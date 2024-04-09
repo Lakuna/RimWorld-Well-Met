@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <loadFolders>
 	<!-- RimWorld v1.0 does not support loadFolders.xml. The following block is for reference. -->
@@ -25,5 +25,10 @@
 	<v1.4>
 		<li>/</li>
 		<li>1.4</li>
+	</v1.4>
+
+	<v1.4>
+		<li>/</li>
+		<li>1.5</li>
 	</v1.4>
 </loadFolders>
