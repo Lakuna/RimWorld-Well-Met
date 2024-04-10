@@ -1,18 +1,10 @@
-﻿#if V1_0
-using Harmony;
-#else
+﻿#if !(V1_0 || V1_1 || V1_2)
 using HarmonyLib;
-#endif
 using Lakuna.WellMet.Utilities;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ThoughtPatches.DescriptionPatches {
-#if !(V1_0 || V1_1 || V1_2)
 	[HarmonyPatch(typeof(Thought_IdeoRoleLost), "get_" + nameof(Thought_IdeoRoleLost.Description))]
 	public static class ThoughtIdeoRoleLostDescriptionPatch {
 		[HarmonyPostfix]
@@ -24,5 +16,5 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches.DescriptionPatches {
 			}
 		}
 	}
-#endif
 }
+#endif

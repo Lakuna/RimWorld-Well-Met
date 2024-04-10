@@ -5,10 +5,6 @@ using HarmonyLib;
 #endif
 using Lakuna.WellMet.Utilities;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lakuna.WellMet.Patches.ThoughtPatches.VisibleInNeedsTabPatches {
 	[HarmonyPatch(typeof(Thought_SituationalSocial), "get_" + nameof(Thought_SituationalSocial.VisibleInNeedsTab))]

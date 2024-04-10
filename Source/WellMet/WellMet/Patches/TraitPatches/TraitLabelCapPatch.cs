@@ -1,17 +1,10 @@
-﻿#if !V1_0
+﻿#if !(V1_0 || V1_1)
 using HarmonyLib;
-using System.Threading.Tasks;
-#endif
 using Lakuna.WellMet.Utilities;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TraitPatches {
-#if !(V1_0 || V1_1)
 	[HarmonyPatch(typeof(Trait), "get_" + nameof(Trait.LabelCap))]
 	public static class TraitLabelCapPatch {
 		[HarmonyPostfix]
@@ -23,5 +16,5 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 			}
 		}
 	}
-#endif
 }
+#endif

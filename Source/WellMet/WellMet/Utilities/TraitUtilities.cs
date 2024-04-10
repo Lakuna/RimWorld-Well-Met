@@ -1,9 +1,8 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Verse;
+#if !(V1_0 || V1_1)
+using System;
+#endif
 
 namespace Lakuna.WellMet.Utilities {
 	public static class TraitUtilities {

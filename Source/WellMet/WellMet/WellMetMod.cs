@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
-[assembly: CLSCompliant(false)]
 namespace Lakuna.WellMet {
 	public class WellMetMod : Mod {
 		public static WellMetSettings Settings { get; private set; }
