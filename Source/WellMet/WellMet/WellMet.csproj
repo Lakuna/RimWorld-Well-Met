@@ -9,8 +9,8 @@
 		<PackageId>Lakuna.WellMet</PackageId>
 		<Title>Well Met</Title>
 		<Authors>Travis Martin</Authors>
-		<Description>A RimWorld mod that hides a pawn's traits until you get to know them.</Description>
-		<Copyright>Travis Martin 2022</Copyright>
+		<Description>A RimWorld mod that hides pawns' traits until you get to know them.</Description>
+		<Copyright>Travis Martin 2024</Copyright>
 		<PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2553173153</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>WellMet</AssemblyName>
-		<Version>2.1.0.0</Version>
+		<Version>2.2.0.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>
