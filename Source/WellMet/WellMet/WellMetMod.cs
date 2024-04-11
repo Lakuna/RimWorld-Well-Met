@@ -32,9 +32,9 @@ namespace Lakuna.WellMet {
 
 				// Draw checkboxes.
 				for (int j = 0; j < pawnTypes.Length; j++) {
-					bool value = Settings.VisibleInformation[(int)pawnTypes[j], (int)informationCategories[i]];
+					bool value = Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]];
 					Widgets.Checkbox(new Vector2(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1)), ref value);
-					Settings.VisibleInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
+					Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
 				}
 			}
 

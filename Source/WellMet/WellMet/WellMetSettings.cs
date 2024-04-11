@@ -1,13 +1,12 @@
 ﻿using Lakuna.WellMet.Utility;
 using System;
-using System.Collections.Generic;
 using Verse;
 
 namespace Lakuna.WellMet {
 	public class WellMetSettings : ModSettings {
 		private BooleanMatrix visibleInformation;
 
-		public BooleanMatrix VisibleInformation => this.visibleInformation;
+		public BooleanMatrix KnownInformation => this.visibleInformation;
 
 		private int discoverSpeedFactor;
 

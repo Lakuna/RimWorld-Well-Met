@@ -12,7 +12,7 @@
 		// Name, gender, age (biological, chronological), xenotype, faction, title, favorite color.
 		Basic,
 
-		// Title, favorite color.
+		// Title, favorite color, genes.
 		Advanced,
 
 		// Childhood, adulthood.

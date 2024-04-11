@@ -55,6 +55,7 @@
 		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\BooleanMatrix.cs" />
 		<Compile Include="Utility\PawnType.cs" />
+		<Compile Include="Utility\PawnUtility.cs" />
 		<Compile Include="WellMetMod.cs" />
 		<Compile Include="WellMetSettings.cs" />
 	</ItemGroup>
