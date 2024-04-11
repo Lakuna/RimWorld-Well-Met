@@ -1,12 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <LanguageData>
 	<WellMet>Well Met</WellMet>
-	<UnknownThought>unknown thought</UnknownThought>
-	<UnknownTrait>unknown trait</UnknownTrait>
-	<DifficultyFactor>difficulty factor</DifficultyFactor>
-	<AllTraitsDiscovered>all traits discovered</AllTraitsDiscovered>
-	<ShowTraitsOnGrowthMoment>show traits on growth moment</ShowTraitsOnGrowthMoment>
-	<AlwaysShowPhysicalTraits>always show physical traits</AlwaysShowPhysicalTraits>
-	<ShowTraitsForStartingColonists>show traits for starting colonists</ShowTraitsForStartingColonists>
+	<DiscoverSpeedFactor>discover speed factor ({0})</DiscoverSpeedFactor>
+	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
+	<AlwaysKnowGrowthMoments>always know growth moments</AlwaysKnowGrowthMoments>
+	<Colonist>colonist</Colonist>
+	<Prisoner>prisoner</Prisoner>
+	<Slave>slave</Slave>
+	<Other>other</Other>
+	<Gear>gear</Gear>
+	<Ideoligion>ideoligion</Ideoligion>
+	<Social>social</Social>
+	<Basic>basic</Basic>
+	<Advanced>advanced</Advanced>
+	<Backstory>backstory</Backstory>
+	<Traits>traits</Traits>
+	<Abilities>abilities</Abilities>
+	<Skills>skills</Skills>
+	<Needs>needs</Needs>
+	<Mood>mood</Mood>
+	<Health>health</Health>
 </LanguageData>

@@ -1,56 +1,72 @@
-﻿using Verse;
+﻿using Lakuna.WellMet.Utility;
+using System;
+using System.Collections.Generic;
+using Verse;
 
 namespace Lakuna.WellMet {
 	public class WellMetSettings : ModSettings {
-		private float difficultyFactor;
+		private BooleanMatrix visibleInformation;
 
-		public float DifficultyFactor {
-			get => this.difficultyFactor;
-			set => this.difficultyFactor = value;
+		public BooleanMatrix VisibleInformation => this.visibleInformation;
+
+		private int discoverSpeedFactor;
+
+		public int DiscoverSpeedFactor {
+			get => this.discoverSpeedFactor;
+			set => this.discoverSpeedFactor = value;
 		}
 
-		private bool allTraitsDiscovered;
+		private bool alwaysKnowStartingColonists;
 
-		public bool AllTraitsDiscovered {
-			get => this.allTraitsDiscovered;
-			set => this.allTraitsDiscovered = value;
+		public bool AlwaysKnowStartingColonists {
+			get => this.alwaysKnowStartingColonists;
+			set => this.alwaysKnowStartingColonists = value;
 		}
 
-		private bool showTraitsOnGrowthMoment;
+		private bool alwaysKnowGrowthMoments;
 
-		public bool ShowTraitsOnGrowthMoment {
-			get => this.showTraitsOnGrowthMoment;
-			set => this.showTraitsOnGrowthMoment = value;
-		}
-
-		private bool alwaysShowPhysicalTraits;
-
-		public bool AlwaysShowPhysicalTraits {
-			get => this.alwaysShowPhysicalTraits;
-			set => this.alwaysShowPhysicalTraits = value;
-		}
-
-		private bool showTraitsForStartingColonists;
-
-		public bool ShowTraitsForStartingColonists {
-			get => this.showTraitsForStartingColonists;
-			set => this.showTraitsForStartingColonists = value;
+		public bool AlwaysKnowGrowthMoments {
+			get => this.alwaysKnowGrowthMoments;
+			set => this.alwaysKnowGrowthMoments = value;
 		}
 
 		public WellMetSettings() {
-			this.DifficultyFactor = 15;
-			this.allTraitsDiscovered = false;
-			this.showTraitsOnGrowthMoment = false;
-			this.alwaysShowPhysicalTraits = true;
-			this.showTraitsForStartingColonists = false;
+			this.visibleInformation = new BooleanMatrix(Enum.GetValues(typeof(PawnType)).Length, Enum.GetValues(typeof(InformationCategory)).Length);
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Gear] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Advanced] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Traits] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Mood] = true;
+			this.visibleInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
+			this.visibleInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
+			this.visibleInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
+			this.visibleInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
+			this.visibleInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
+			this.visibleInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
+			this.visibleInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
+			this.visibleInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
+			this.visibleInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
+			this.visibleInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
+			this.visibleInformation[(int)PawnType.Other, (int)InformationCategory.Basic] = true;
+
+			this.discoverSpeedFactor = 0;
+
+			this.alwaysKnowStartingColonists = true;
+
+			this.alwaysKnowGrowthMoments = true;
 		}
 
 		public override void ExposeData() {
-			Scribe_Values.Look(ref this.difficultyFactor, nameof(this.difficultyFactor));
-			Scribe_Values.Look(ref this.allTraitsDiscovered, nameof(this.allTraitsDiscovered));
-			Scribe_Values.Look(ref this.showTraitsOnGrowthMoment, nameof(this.showTraitsOnGrowthMoment));
-			Scribe_Values.Look(ref this.alwaysShowPhysicalTraits, nameof(this.alwaysShowPhysicalTraits));
-			Scribe_Values.Look(ref this.showTraitsForStartingColonists, nameof(this.showTraitsForStartingColonists));
+			Scribe_Deep.Look(ref this.visibleInformation, nameof(this.visibleInformation));
+			Scribe_Values.Look(ref this.discoverSpeedFactor, nameof(this.discoverSpeedFactor));
+			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
+			Scribe_Values.Look(ref this.alwaysKnowGrowthMoments, nameof(this.alwaysKnowGrowthMoments));
 			base.ExposeData();
 		}
 	}

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Lakuna.WellMet.Utility;
+using System;
+using UnityEngine;
 using Verse;
 
 namespace Lakuna.WellMet {
@@ -8,33 +10,52 @@ namespace Lakuna.WellMet {
 		public WellMetMod(ModContentPack content) : base(content) => Settings = this.GetSettings<WellMetSettings>();
 
 		public override void DoSettingsWindowContents(Rect inRect) {
-			Listing_Standard listing = new Listing_Standard();
-			listing.Begin(inRect);
+			base.DoSettingsWindowContents(inRect);
 
-			listing.Label("DifficultyFactor".Translate().CapitalizeFirst() + " (" + Settings.DifficultyFactor + ")");
-			Settings.DifficultyFactor = listing.Slider(Settings.DifficultyFactor, 0, 60);
+			PawnType[] pawnTypes = (PawnType[])Enum.GetValues(typeof(PawnType));
+			InformationCategory[] informationCategories = (InformationCategory[])Enum.GetValues(typeof(InformationCategory));
 
-			if (Prefs.DevMode) {
-				bool allTraitsDiscovered = Settings.AllTraitsDiscovered;
-				listing.CheckboxLabeled("AllTraitsDiscovered".Translate().CapitalizeFirst(), ref allTraitsDiscovered);
-				Settings.AllTraitsDiscovered = allTraitsDiscovered;
+			float columnWidth = inRect.width / (pawnTypes.Length + 1);
+			float rowHeight = Text.LineHeight;
+
+			// Draw column labels.
+			for (int i = 0; i < pawnTypes.Length; i++) {
+				Rect rect = new Rect(inRect.x + columnWidth * (i + 1), inRect.y, columnWidth, rowHeight);
+				Widgets.Label(rect, pawnTypes[i].ToString().Translate().CapitalizeFirst());
 			}
 
-			bool showTraitsOnGrowthMoment = Settings.ShowTraitsOnGrowthMoment;
-			listing.CheckboxLabeled("ShowTraitsOnGrowthMoment".Translate().CapitalizeFirst(), ref showTraitsOnGrowthMoment);
-			Settings.ShowTraitsOnGrowthMoment = showTraitsOnGrowthMoment;
+			// Draw rows.
+			for (int i = 0; i < informationCategories.Length; i++) {
+				// Draw row label.
+				Rect rect = new Rect(inRect.x, inRect.y + rowHeight * (i + 1), columnWidth, rowHeight);
+				Widgets.Label(rect, informationCategories[i].ToString().Translate().CapitalizeFirst());
 
-			bool alwaysShowPhysicalTraits = Settings.AlwaysShowPhysicalTraits;
-			listing.CheckboxLabeled("AlwaysShowPhysicalTraits".Translate().CapitalizeFirst(), ref alwaysShowPhysicalTraits);
-			Settings.AlwaysShowPhysicalTraits = alwaysShowPhysicalTraits;
+				// Draw checkboxes.
+				for (int j = 0; j < pawnTypes.Length; j++) {
+					bool value = Settings.VisibleInformation[(int)pawnTypes[j], (int)informationCategories[i]];
+					Widgets.Checkbox(new Vector2(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1)), ref value);
+					Settings.VisibleInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
+				}
+			}
 
-			bool showTraitsForStartingColonists = Settings.ShowTraitsForStartingColonists;
-			listing.CheckboxLabeled("ShowTraitsForStartingColonists".Translate().CapitalizeFirst(), ref showTraitsForStartingColonists);
-			Settings.ShowTraitsForStartingColonists = showTraitsForStartingColonists;
+			float tableHeight = rowHeight * (informationCategories.Length + 1);
+			Rect footerRect = new Rect(inRect.x, inRect.y + tableHeight, inRect.width, inRect.height - tableHeight);
+			Listing_Standard listing = new Listing_Standard();
+			listing.Begin(footerRect);
+
+			Settings.DiscoverSpeedFactor = (int)listing.SliderLabeled("DiscoverSpeedFactor".Translate(Settings.DiscoverSpeedFactor).CapitalizeFirst(), Settings.DiscoverSpeedFactor, 0, 10);
+
+			if (Settings.DiscoverSpeedFactor > 0) {
+				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
+				listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
+				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+
+				bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMoments;
+				listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+				Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
+			}
 
 			listing.End();
-
-			base.DoSettingsWindowContents(inRect);
 		}
 
 		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst();
