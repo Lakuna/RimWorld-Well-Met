@@ -10,7 +10,7 @@ namespace Lakuna.WellMet {
 
 		private int discoverSpeedFactor;
 
-		public int DiscoverSpeedFactor {
+		public int TraitDiscoverSpeedFactor {
 			get => this.discoverSpeedFactor;
 			set => this.discoverSpeedFactor = value;
 		}

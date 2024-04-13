@@ -4,7 +4,7 @@ using System.Linq;
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
-	public static class PawnUtility {
+	public static class KnowledgeUtility {
 		private const int TicksPerYear = 4 * 15 * 24 * 2500;
 
 		public static PawnType TypeOf(Pawn pawn) =>
@@ -42,16 +42,15 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsTraitKnown(Pawn pawn, TraitDef traitDef) {
 			if (pawn == null) {
 				// In vanilla RimWorld, `pawn == null` only during a growth moment.
-				return WellMetMod.Settings.AlwaysKnowGrowthMoments || WellMetMod.Settings.DiscoverSpeedFactor <= 0;
+				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)
+					&& (WellMetMod.Settings.AlwaysKnowGrowthMoments || WellMetMod.Settings.TraitDiscoverSpeedFactor <= 0);
 			}
 
 			if (traitDef == null) {
-				// Fixes an issue with pawns gaining traits.
 				return true;
 			}
 
 			PawnType pawnType = TypeOf(pawn);
-
 			if (!IsInformationKnownFor(InformationCategory.Traits, pawnType)) {
 				return false;
 			}
@@ -65,7 +64,7 @@ namespace Lakuna.WellMet.Utility {
 			}
 
 			return pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal)
-				> traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerYear / WellMetMod.Settings.DiscoverSpeedFactor;
+				> traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerYear / WellMetMod.Settings.TraitDiscoverSpeedFactor;
 		}
 
 		public static bool IsThoughtKnown(Thought thought) {

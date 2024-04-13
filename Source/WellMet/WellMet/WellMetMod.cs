@@ -1,4 +1,5 @@
 ﻿using Lakuna.WellMet.Utility;
+using RimWorld;
 using System;
 using UnityEngine;
 using Verse;
@@ -32,7 +33,7 @@ namespace Lakuna.WellMet {
 
 				// Draw checkboxes.
 				for (int j = 0; j < pawnTypes.Length; j++) {
-					bool value = Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]];
+					bool value = KnowledgeUtility.IsInformationKnownFor(informationCategories[i], pawnTypes[j]);
 					Widgets.Checkbox(new Vector2(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1)), ref value);
 					Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
 				}
@@ -43,16 +44,18 @@ namespace Lakuna.WellMet {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(footerRect);
 
-			Settings.DiscoverSpeedFactor = (int)listing.SliderLabeled("DiscoverSpeedFactor".Translate(Settings.DiscoverSpeedFactor).CapitalizeFirst(), Settings.DiscoverSpeedFactor, 0, 10);
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
+				Settings.TraitDiscoverSpeedFactor = (int)listing.SliderLabeled("TraitDiscoverSpeedFactor".Translate(Settings.TraitDiscoverSpeedFactor).CapitalizeFirst(), Settings.TraitDiscoverSpeedFactor, 0, 10);
 
-			if (Settings.DiscoverSpeedFactor > 0) {
-				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-				listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
-				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+				if (Settings.TraitDiscoverSpeedFactor > 0) {
+					bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
+					listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
+					Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
 
-				bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMoments;
-				listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
-				Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
+					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMoments;
+					listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+					Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
+				}
 			}
 
 			listing.End();

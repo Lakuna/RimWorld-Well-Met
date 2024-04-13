@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LanguageData>
+	<!-- UI -->
 	<WellMet>Well Met</WellMet>
-	<DiscoverSpeedFactor>discover speed factor ({0})</DiscoverSpeedFactor>
+	<TraitDiscoverSpeedFactor>trait discover speed factor ({0})</TraitDiscoverSpeedFactor>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowGrowthMoments>always know growth moments</AlwaysKnowGrowthMoments>
+
+	<!-- Pawn types. -->
 	<Colonist>colonist</Colonist>
 	<Prisoner>prisoner</Prisoner>
 	<Slave>slave</Slave>
 	<Other>other</Other>
+
+	<!-- Information categories. -->
 	<Gear>gear</Gear>
 	<Ideoligion>ideoligion</Ideoligion>
 	<Social>social</Social>
 	<Basic>basic</Basic>
 	<Advanced>advanced</Advanced>
 	<Backstory>backstory</Backstory>
-	<Traits>traits</Traits>
 	<Abilities>abilities</Abilities>
 	<Skills>skills</Skills>
 	<Needs>needs</Needs>
 	<Mood>mood</Mood>
-	<Health>health</Health>
+
+	<!-- Obfuscation. -->
+	<UnknownTrait>unknown trait</UnknownTrait>
 </LanguageData>

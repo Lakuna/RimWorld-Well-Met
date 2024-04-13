@@ -9,7 +9,7 @@
 		// Opinions, romance chances.
 		Social,
 
-		// Name, gender, age (biological, chronological), xenotype, faction, title, favorite color.
+		// Name, gender, age (biological, chronological), xenotype, faction.
 		Basic,
 
 		// Title, favorite color, genes.
