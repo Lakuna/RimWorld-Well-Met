@@ -2,7 +2,6 @@
 using Harmony;
 #else
 using HarmonyLib;
-
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
@@ -28,19 +27,32 @@ namespace Lakuna.WellMet.Patches {
 
 		public readonly static MethodInfo RoyaltyObfuscatorMethod = SymbolExtensions.GetMethodInfo((Pawn_RoyaltyTracker royalty) => RoyaltyObfuscator(royalty));
 
+		public readonly static FieldInfo PawnGuiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
+
+		public static Pawn_GuiltTracker GuiltObfuscator(Pawn_GuiltTracker guilt) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) ? guilt : null;
+
+		public readonly static MethodInfo GuiltObfuscatorMethod = SymbolExtensions.GetMethodInfo((Pawn_GuiltTracker royalty) => GuiltObfuscator(royalty));
+
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions == null) { throw new ArgumentNullException(nameof(instructions)); }
 
 			bool previousLoadedRoyalty = false;
+			bool previousLoadedGuilt = false;
 			foreach (CodeInstruction instruction in instructions) {
 				if (previousLoadedRoyalty && instruction.Branches(out _)) {
 					yield return new CodeInstruction(OpCodes.Call, RoyaltyObfuscatorMethod);
 				}
 
+				if (previousLoadedGuilt && instruction.Branches(out _)) {
+					yield return new CodeInstruction(OpCodes.Call, GuiltObfuscatorMethod);
+				}
+
 				yield return instruction;
 
 				previousLoadedRoyalty = instruction.LoadsField(PawnRoyaltyField);
+				previousLoadedGuilt = instruction.LoadsField(PawnGuiltField);
 			}
 		}
 	}

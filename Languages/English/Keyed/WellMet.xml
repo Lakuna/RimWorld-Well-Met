@@ -20,11 +20,13 @@
 	<Basic>basic</Basic>
 	<Advanced>advanced</Advanced>
 	<Backstory>backstory</Backstory>
+	<Traits>traits</Traits>
 	<Abilities>abilities</Abilities>
 	<Skills>skills</Skills>
 	<Needs>needs</Needs>
 	<Mood>mood</Mood>
+	<Health>health</Health>
 
 	<!-- Obfuscation. -->
-	<UnknownTrait>unknown trait</UnknownTrait>
+	<Unknown>unknown</Unknown>
 </LanguageData>

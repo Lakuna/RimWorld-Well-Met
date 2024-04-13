@@ -2,7 +2,6 @@
 using Harmony;
 #else
 using HarmonyLib;
-
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
@@ -19,7 +18,7 @@ namespace Lakuna.WellMet.Patches {
 		public static void Postfix(Trait __instance, ref string __result) {
 #pragma warning restore CA1707
 			if (KnowledgeUtility.IsTraitKnown(__instance)) { return; }
-			__result = "UnknownTrait".Translate().CapitalizeFirst();
+			__result = "Unknown".Translate().CapitalizeFirst();
 		}
 	}
 }

@@ -54,6 +54,8 @@
 	<ItemGroup>
 		<Compile Include="Patches\DrawCharacterCardPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
+		<Compile Include="Patches\PawnBasicPatch.cs" />
+		<Compile Include="Patches\PawnBestKindLabelPatch.cs" />
 		<Compile Include="Patches\TraitLabelPatch.cs" />
 		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\BooleanMatrix.cs" />
