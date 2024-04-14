@@ -52,6 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="Patches\CharacterCardTopStackPatch.cs" />
 		<Compile Include="Patches\DrawCharacterCardPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Patches\PawnBasicPatch.cs" />

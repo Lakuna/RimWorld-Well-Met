@@ -10,6 +10,8 @@ namespace Lakuna.WellMet {
 
 		public WellMetMod(ModContentPack content) : base(content) => Settings = this.GetSettings<WellMetSettings>();
 
+		private const float CheckboxSize = 24;
+
 		public override void DoSettingsWindowContents(Rect inRect) {
 			base.DoSettingsWindowContents(inRect);
 
@@ -17,7 +19,7 @@ namespace Lakuna.WellMet {
 			InformationCategory[] informationCategories = (InformationCategory[])Enum.GetValues(typeof(InformationCategory));
 
 			float columnWidth = inRect.width / (pawnTypes.Length + 1);
-			float rowHeight = Text.LineHeight;
+			float rowHeight = Math.Max(Text.LineHeight, CheckboxSize);
 
 			// Draw column labels.
 			for (int i = 0; i < pawnTypes.Length; i++) {
@@ -33,9 +35,15 @@ namespace Lakuna.WellMet {
 
 				// Draw checkboxes.
 				for (int j = 0; j < pawnTypes.Length; j++) {
+					Rect checkboxRect = new Rect(inRect.x + columnWidth * (j - 1), inRect.y + rowHeight * (i + 1), CheckboxSize, CheckboxSize);
+
 					bool value = KnowledgeUtility.IsInformationKnownFor(informationCategories[i], pawnTypes[j]);
-					Widgets.Checkbox(new Vector2(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1)), ref value);
+					Widgets.Checkbox(checkboxRect.min, ref value, Math.Min(checkboxRect.width, checkboxRect.height));
 					Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
+
+					if (Mouse.IsOver(checkboxRect)) {
+						TooltipHandler.TipRegion(checkboxRect, pawnTypes[j].ToString().Translate().CapitalizeFirst() + ": " + informationCategories[i].ToString().Translate());
+					}
 				}
 			}
 
@@ -56,6 +64,10 @@ namespace Lakuna.WellMet {
 					listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
 					Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
 				}
+			}
+
+			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist)) {
+				_ = listing.Label(("WarningDisabledBasicForColonists".Translate().CapitalizeFirst() + ".").Colorize(ColoredText.WarningColor));
 			}
 
 			listing.End();
