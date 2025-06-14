@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5</Configurations>
+		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5;v1.6</Configurations>
 		<RootNamespace>Lakuna.WellMet</RootNamespace>
 		<IsPublishable>False</IsPublishable>
 		<BaseOutputPath />
@@ -10,7 +10,7 @@
 		<Title>Well Met</Title>
 		<Authors>Travis Martin</Authors>
 		<Description>A RimWorld mod that hides pawns' traits until you get to know them.</Description>
-		<Copyright>Travis Martin 2024</Copyright>
+		<Copyright>Travis Martin 2025</Copyright>
 		<PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2553173153</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>WellMet</AssemblyName>
-		<Version>3.0.0.0</Version>
+		<Version>4.0.0.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>
@@ -52,20 +52,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="WellMetMod.cs" />
+		<Compile Include="WellMetSettings.cs" />
 		<Compile Include="Patches\CharacterCardTopStackPatch.cs" />
 		<Compile Include="Patches\DrawCharacterCardPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Patches\PawnBasicPatch.cs" />
 		<Compile Include="Patches\PawnBestKindLabelPatch.cs" />
 		<Compile Include="Patches\TraitLabelPatch.cs" />
-		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\BooleanMatrix.cs" />
-		<Compile Include="Utility\PawnType.cs" />
+		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\KnowledgeUtility.cs" />
+		<Compile Include="Utility\PawnType.cs" />
 		<Compile Include="Utility\WellMetLogger.cs" />
 		<Compile Include="Utility\WellMetLoggerCategory.cs" />
-		<Compile Include="WellMetMod.cs" />
-		<Compile Include="WellMetSettings.cs" />
 	</ItemGroup>
 
 	<Choose>
@@ -121,12 +121,22 @@
 		</When>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.5|AnyCPU'">
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4055-beta" />
-				<PackageReference Include="Lib.Harmony" Version="2.3.1.1" />
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4409" />
+				<PackageReference Include="Lib.Harmony" Version="2.3.3" />
 			</ItemGroup>
 			<PropertyGroup>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.5\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.6|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4489-beta" />
+				<PackageReference Include="Lib.Harmony" Version="2.3.6" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net472</TargetFramework>
+				<OutputPath>..\..\..\1.6\Assemblies</OutputPath>
 			</PropertyGroup>
 		</When>
 	</Choose>
