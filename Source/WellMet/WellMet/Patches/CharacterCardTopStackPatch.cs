@@ -15,13 +15,18 @@ namespace Lakuna.WellMet.Patches {
 	public static class CharacterCardTopStackPatch {
 		[HarmonyPrefix]
 		public static void Prefix(Pawn pawn, ref bool creationMode) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) { return; }
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) {
+				return;
+			}
+
 			creationMode = false; // `creationMode` is used only to determine whether the gender icon and initial faction should be shown.
 		}
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
-			if (instructions == null) { throw new ArgumentNullException(nameof(instructions)); }
+			if (instructions == null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
 
 			// TODO: Remove main description label and corresponding age tooltip.
 

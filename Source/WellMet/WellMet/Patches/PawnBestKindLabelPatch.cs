@@ -14,7 +14,10 @@ namespace Lakuna.WellMet.Patches {
 #pragma warning disable CA1707 // Underscores are required for special Harmony parameters.
 		public static void Postfix(Pawn pawn, ref string __result) {
 #pragma warning restore CA1707
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) { return; }
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) {
+				return;
+			}
+
 			__result = "Unknown".Translate().CapitalizeFirst();
 		}
 	}

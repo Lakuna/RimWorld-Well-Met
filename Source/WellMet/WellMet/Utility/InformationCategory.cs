@@ -34,6 +34,9 @@
 		Mood,
 
 		// Pain, consciousness, moving, manipulation, talking, eating, sight, hearing, breathing, blood filtration, blood pumping, digestion, hediffs.
-		Health
+		Health,
+
+		// TODO
+		Meta
 	}
 }

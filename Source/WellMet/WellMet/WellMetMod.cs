@@ -53,9 +53,9 @@ namespace Lakuna.WellMet {
 			listing.Begin(footerRect);
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
-				Settings.TraitDiscoverSpeedFactor = (int)listing.SliderLabeled("TraitDiscoverSpeedFactor".Translate(Settings.TraitDiscoverSpeedFactor).CapitalizeFirst(), Settings.TraitDiscoverSpeedFactor, 0, 10);
+				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
 
-				if (Settings.TraitDiscoverSpeedFactor > 0) {
+				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
 					listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
 					Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;

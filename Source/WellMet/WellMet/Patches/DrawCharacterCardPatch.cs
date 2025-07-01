@@ -15,13 +15,18 @@ namespace Lakuna.WellMet.Patches {
 	public static class DrawCharacterCardPatch {
 		[HarmonyPrefix]
 		public static void Prefix(Pawn pawn, ref bool showName) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) { return; }
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) {
+				return;
+			}
+
 			showName = false;
 		}
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
-			if (instructions == null) { throw new ArgumentNullException(nameof(instructions)); }
+			if (instructions == null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
 
 			Queue<CodeInstruction> loadPawnStack = new Queue<CodeInstruction>();
 			bool previousLoadedRoyalty = false;
