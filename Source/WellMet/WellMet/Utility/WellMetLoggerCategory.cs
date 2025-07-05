@@ -1,5 +1,5 @@
 ﻿namespace Lakuna.WellMet.Utility {
-	public enum WellMetLoggerCategory {
+	internal enum WellMetLoggerCategory {
 		Unrestricted
 	}
 }

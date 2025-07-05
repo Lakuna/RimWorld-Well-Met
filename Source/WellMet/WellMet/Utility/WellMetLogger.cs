@@ -2,10 +2,10 @@
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
-	public static class WellMetLogger {
+	internal static class WellMetLogger {
 		private const string Prefix = "Well Met encountered an exception: ";
 
-		public static void LogException(Exception e, string description = "No description provided.", WellMetLoggerCategory category = WellMetLoggerCategory.Unrestricted) {
+		internal static void LogException(Exception e, string description = "No description provided.", WellMetLoggerCategory category = WellMetLoggerCategory.Unrestricted) {
 			if (e == null) {
 				throw new ArgumentNullException(nameof(e));
 			}
@@ -28,7 +28,7 @@ namespace Lakuna.WellMet.Utility {
 			Log.ErrorOnce(output, (int)category);
 		}
 
-		public static void LogErrorMessage(string e, WellMetLoggerCategory category = WellMetLoggerCategory.Unrestricted) {
+		internal static void LogErrorMessage(string e, WellMetLoggerCategory category = WellMetLoggerCategory.Unrestricted) {
 			if (category == WellMetLoggerCategory.Unrestricted) {
 				Log.Error(Prefix + e);
 				return;
@@ -37,6 +37,6 @@ namespace Lakuna.WellMet.Utility {
 			Log.ErrorOnce(Prefix + e, (int)category);
 		}
 
-		public static void LogMessage(string message) => Log.Message(message);
+		internal static void LogMessage(string message) => Log.Message(message);
 	}
 }

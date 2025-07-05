@@ -7,7 +7,7 @@ using Verse;
 
 namespace Lakuna.WellMet.Patches {
 	[StaticConstructorOnStartup]
-	public static class HarmonyPatcher {
+	internal static class HarmonyPatcher {
 		static HarmonyPatcher() =>
 #if V1_0
 				HarmonyInstance.Create(nameof(WellMet)).PatchAll();
