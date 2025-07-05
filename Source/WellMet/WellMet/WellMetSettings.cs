@@ -31,27 +31,26 @@ namespace Lakuna.WellMet {
 
 		public WellMetSettings() {
 			this.knownInformation = new BoolGrid(Enum.GetValues(typeof(PawnType)).Length, Enum.GetValues(typeof(InformationCategory)).Length);
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Advanced] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Traits] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Traits] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Advanced] = true;
 			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
 			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Other, (int)InformationCategory.Basic] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
+			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
+			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
+			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
+			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
 
 			this.colonistTraitDiscoveryDifficulty = 0;
 

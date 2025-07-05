@@ -52,9 +52,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\AbilitiesPatch.cs" />
-		<Compile Include="Patches\TabsPatch.cs" />
-		<Compile Include="Patches\InspectorPatch.cs" />
+		<Compile Include="Patches\BioTabPatch.cs" />
 		<Compile Include="WellMetMod.cs" />
 		<Compile Include="WellMetSettings.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
