@@ -1,8 +1,9 @@
 ﻿namespace Lakuna.WellMet.Utility {
 	public enum PawnType {
 		Colonist,
-		Slave,
+		Controlled,
 		Prisoner,
-		Other
+		Neutral,
+		Hostile
 	}
 }

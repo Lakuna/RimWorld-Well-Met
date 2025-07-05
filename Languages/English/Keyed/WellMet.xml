@@ -9,22 +9,20 @@
 	<WarningDisabledBasicForColonists>disabling basic information for starting colonists may disable the ability to randomize them</WarningDisabledBasicForColonists>
 
 	<!-- Pawn types. -->
-	<Colonist>colonist</Colonist>
-	<Prisoner>prisoner</Prisoner>
-	<Slave>slave</Slave>
-	<Other>other</Other>
+	<Controlled>controlled</Controlled>
+
+	<!-- Pawn type blurbs. -->
+	<ColonistBlurb>free, non-slave colonists</ColonistBlurb>
+	<ControlledBlurb>other player-controlled pawns</ControlledBlurb>
+	<PrisonerBlurb>colony prisoners</PrisonerBlurb>
+	<NeutralBlurb>other non-hostile pawns</NeutralBlurb>
+	<HostileBlurb>hostile pawns</HostileBlurb>
 
 	<!-- Information categories. -->
 	<Gear>gear</Gear>
 	<Ideoligion>ideoligion</Ideoligion>
 	<Social>social</Social>
-	<Basic>basic</Basic>
-	<Advanced>advanced</Advanced>
-	<Backstory>backstory</Backstory>
-	<Abilities>abilities</Abilities>
-	<Skills>skills</Skills>
 	<Needs>needs</Needs>
-	<Health>health</Health>
 
 	<!-- Information category blurbs. -->
 	<GearBlurb>weapons, armor, and held items</GearBlurb>
@@ -38,7 +36,4 @@
 	<SkillsBlurb>incapabilities, skills, and passions</SkillsBlurb>
 	<NeedsBlurb>needs, addictions, and mood</NeedsBlurb>
 	<HealthBlurb>health and injuries</HealthBlurb>
-
-	<!-- Obfuscation. -->
-	<Unknown>unknown</Unknown>
 </LanguageData>

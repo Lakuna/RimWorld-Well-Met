@@ -19,9 +19,9 @@ namespace Lakuna.WellMet.Patches.Tabs {
 				return;
 			}
 
-			// Never hide the biography tab for colonists and slaves because it contains the renounce title, rename colonist, and banish buttons.
+			// Never hide the biography tab for player-controlled pawns because it contains the renounce title, rename colonist, and banish buttons.
 			PawnType type = KnowledgeUtility.TypeOf(pawn);
-			if (type == PawnType.Colonist || type == PawnType.Slave) {
+			if (KnowledgeUtility.IsPlayerControlled(type)) {
 				return;
 			}
 

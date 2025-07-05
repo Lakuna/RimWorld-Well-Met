@@ -19,9 +19,9 @@ namespace Lakuna.WellMet.Patches.Tabs {
 				return;
 			}
 
-			// Never hide the gear tab for colonists and slaves because it contains the drop item buttons.
+			// Never hide the gear tab for player-controlled pawns because it contains the drop item buttons.
 			PawnType type = KnowledgeUtility.TypeOf(pawn);
-			if (type == PawnType.Colonist || type == PawnType.Slave) {
+			if (KnowledgeUtility.IsPlayerControlled(type)) {
 				return;
 			}
 

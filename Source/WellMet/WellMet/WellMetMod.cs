@@ -25,6 +25,11 @@ namespace Lakuna.WellMet {
 			for (int i = 0; i < pawnTypes.Length; i++) {
 				Rect rect = new Rect(inRect.x + columnWidth * (i + 1), inRect.y, columnWidth, rowHeight);
 				Widgets.Label(rect, pawnTypes[i].ToString().Translate().CapitalizeFirst());
+
+				// Draw label tooltips.
+				if (Mouse.IsOver(rect)) {
+					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst() + ".");
+				}
 			}
 
 			// Draw rows.

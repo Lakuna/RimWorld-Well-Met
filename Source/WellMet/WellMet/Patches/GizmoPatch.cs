@@ -21,9 +21,9 @@ namespace Lakuna.WellMet.Patches {
 					return;
 				}
 
-				// Never hide weapon gizmos for colonists and slaves because they are required to manually target weapons.
+				// Never hide weapon gizmos for player-controlled pawns because they are required to manually target weapons.
 				PawnType type = KnowledgeUtility.TypeOf(weaponGizmo.verb.CasterPawn);
-				if (type == PawnType.Colonist || type == PawnType.Slave) {
+				if (KnowledgeUtility.IsPlayerControlled(type)) {
 					return;
 				}
 
@@ -51,9 +51,9 @@ namespace Lakuna.WellMet.Patches {
 					return;
 				}
 
-				// Never hide psychic entropy gizmos for colonists and slaves because they are required to toggle the neural heat limiter and set the desired psyfocus.
+				// Never hide psychic entropy gizmos for player-controlled pawns because they are required to toggle the neural heat limiter and set the desired psyfocus.
 				PawnType type = KnowledgeUtility.TypeOf(psychicEntropyTracker.Pawn);
-				if (type == PawnType.Colonist || type == PawnType.Slave) {
+				if (KnowledgeUtility.IsPlayerControlled(type)) {
 					return;
 				}
 

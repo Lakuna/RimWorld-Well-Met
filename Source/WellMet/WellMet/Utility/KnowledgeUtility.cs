@@ -13,13 +13,15 @@ namespace Lakuna.WellMet.Utility {
 
 		public static PawnType TypeOf(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.IsSlave
-				? PawnType.Slave
-				: pawn.IsPrisoner
-					? PawnType.Prisoner
-					: pawn.IsColonist
-						? PawnType.Colonist
-						: PawnType.Other;
+			: pawn.IsFreeNonSlaveColonist ? PawnType.Colonist
+			: pawn.IsPlayerControlled ? PawnType.Controlled
+			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
+			: pawn.HostileTo(Faction.OfPlayer) ? PawnType.Hostile
+			: PawnType.Neutral;
+
+		public static bool IsPlayerControlled(Pawn pawn) => IsPlayerControlled(TypeOf(pawn));
+
+		public static bool IsPlayerControlled(PawnType type) => type == PawnType.Colonist || type == PawnType.Controlled;
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => IsInformationKnownFor(informationCategory, TypeOf(pawn));
 

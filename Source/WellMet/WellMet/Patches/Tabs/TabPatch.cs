@@ -21,9 +21,9 @@ namespace Lakuna.WellMet.Patches.Tabs {
 					return;
 				}
 
-				// Never hide the health tab for colonists, slaves, and prisoners because it contains the allow food and medicine dropdowns, self-tend toggle, and operations menu.
+				// Never hide the health tab for player-controlled pawns and prisoners because it contains the allow food and medicine dropdowns, self-tend toggle, and operations menu.
 				PawnType type = KnowledgeUtility.TypeOf(pawn);
-				if (type == PawnType.Colonist || type == PawnType.Slave || type == PawnType.Prisoner) {
+				if (KnowledgeUtility.IsPlayerControlled(type) || type == PawnType.Prisoner) {
 					return;
 				}
 

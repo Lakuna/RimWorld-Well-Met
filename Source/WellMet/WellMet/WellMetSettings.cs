@@ -42,15 +42,16 @@ namespace Lakuna.WellMet {
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Advanced] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
+			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Basic] = true;
+			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Health] = true;
+			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Needs] = true;
+			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Skills] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Neutral, (int)InformationCategory.Basic] = true;
 
 			this.colonistTraitDiscoveryDifficulty = 0;
 
