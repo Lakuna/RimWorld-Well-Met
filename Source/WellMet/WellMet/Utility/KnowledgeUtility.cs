@@ -1,8 +1,6 @@
-﻿using HarmonyLib;
-using RimWorld;
+﻿using RimWorld;
 using System;
 using System.Linq;
-using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
@@ -102,30 +100,6 @@ namespace Lakuna.WellMet.Utility {
 
 		public static bool IsThoughtKnown(Pawn pawn, ThoughtDef thoughtDef) => thoughtDef == null
 			? throw new ArgumentNullException(nameof(thoughtDef))
-			: IsInformationKnownFor(InformationCategory.Mood, pawn) && !thoughtDef.requiredTraits.Any((traitDef) => !IsTraitKnown(pawn, traitDef));
-
-		public readonly static FieldInfo PawnRoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
-
-		public static Pawn_RoyaltyTracker RoyaltyObfuscator(Pawn_RoyaltyTracker royalty) => royalty != null && IsInformationKnownFor(InformationCategory.Advanced, royalty.pawn) ? royalty : null;
-
-		public readonly static MethodInfo RoyaltyObfuscatorInfo = SymbolExtensions.GetMethodInfo(() => RoyaltyObfuscator(null));
-
-		public readonly static FieldInfo PawnGuiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
-
-		public static Pawn_GuiltTracker GuiltObfuscator(Pawn_GuiltTracker guilt, Pawn pawn) => IsInformationKnownFor(InformationCategory.Basic, pawn) ? guilt : null;
-
-		public readonly static MethodInfo GuiltObfuscatorInfo = SymbolExtensions.GetMethodInfo(() => GuiltObfuscator(null, null));
-
-		public readonly static MethodInfo PawnFactionGetterInfo = SymbolExtensions.GetMethodInfo((Pawn pawn) => pawn.Faction);
-
-		public static Faction FactionObfuscator(Faction faction, Pawn pawn) => IsInformationKnownFor(InformationCategory.Basic, pawn) ? faction : null;
-
-		public readonly static MethodInfo FactionObfuscatorInfo = SymbolExtensions.GetMethodInfo(() => FactionObfuscator(null, null));
-
-		public readonly static FieldInfo PawnGenesField = AccessTools.Field(typeof(Pawn), nameof(Pawn.genes));
-
-		public static Pawn_GeneTracker GeneObfuscator(Pawn_GeneTracker genes) => genes != null && IsInformationKnownFor(InformationCategory.Basic, genes.pawn) ? genes : null;
-
-		public readonly static MethodInfo GeneObfuscatorInfo = SymbolExtensions.GetMethodInfo(() => GeneObfuscator(null));
+			: IsInformationKnownFor(InformationCategory.Needs, pawn) && !thoughtDef.requiredTraits.Any((traitDef) => !IsTraitKnown(pawn, traitDef));
 	}
 }

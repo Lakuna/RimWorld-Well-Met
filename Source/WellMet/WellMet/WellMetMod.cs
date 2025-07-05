@@ -33,14 +33,20 @@ namespace Lakuna.WellMet {
 				Rect rect = new Rect(inRect.x, inRect.y + rowHeight * (i + 1), columnWidth, rowHeight);
 				Widgets.Label(rect, informationCategories[i].ToString().Translate().CapitalizeFirst());
 
+				// Draw label tooltips.
+				if (Mouse.IsOver(rect)) {
+					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst() + ".");
+				}
+
 				// Draw checkboxes.
 				for (int j = 0; j < pawnTypes.Length; j++) {
-					Rect checkboxRect = new Rect(inRect.x + columnWidth * (j - 1), inRect.y + rowHeight * (i + 1), CheckboxSize, CheckboxSize);
+					Rect checkboxRect = new Rect(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1), CheckboxSize, CheckboxSize);
 
 					bool value = KnowledgeUtility.IsInformationKnownFor(informationCategories[i], pawnTypes[j]);
 					Widgets.Checkbox(checkboxRect.min, ref value, Math.Min(checkboxRect.width, checkboxRect.height));
 					Settings.KnownInformation[(int)pawnTypes[j], (int)informationCategories[i]] = value;
 
+					// Draw checkbox tooltips.
 					if (Mouse.IsOver(checkboxRect)) {
 						TooltipHandler.TipRegion(checkboxRect, pawnTypes[j].ToString().Translate().CapitalizeFirst() + ": " + informationCategories[i].ToString().Translate());
 					}

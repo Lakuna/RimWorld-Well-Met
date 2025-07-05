@@ -41,7 +41,6 @@ namespace Lakuna.WellMet {
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Mood] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
