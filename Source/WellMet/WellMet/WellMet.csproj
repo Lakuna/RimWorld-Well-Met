@@ -52,7 +52,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\BioTabPatch.cs" />
+		<Compile Include="Patches\Tabs\GearTabPatch.cs" />
+		<Compile Include="Patches\Tabs\SocialTabPatch.cs" />
+		<Compile Include="Patches\Tabs\NeedsTabPatch.cs" />
+		<Compile Include="Patches\Tabs\TabPatch.cs" />
+		<Compile Include="Patches\Tabs\BioTabPatch.cs" />
 		<Compile Include="WellMetMod.cs" />
 		<Compile Include="WellMetSettings.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />

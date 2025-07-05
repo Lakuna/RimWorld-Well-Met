@@ -4,7 +4,7 @@ using RimWorld;
 using System;
 using Verse;
 
-namespace Lakuna.WellMet.Patches {
+namespace Lakuna.WellMet.Patches.Tabs {
 	[HarmonyPatch(typeof(ITab_Pawn_Character), nameof(ITab_Pawn_Character.IsVisible), MethodType.Getter)]
 	internal static class BioTabPatch {
 		[HarmonyPostfix]
@@ -19,17 +19,16 @@ namespace Lakuna.WellMet.Patches {
 				return;
 			}
 
-			// Never hide the biography tab for colonists or slaves because it contains the renounce title, rename colonist, and banish buttons.
+			// Never hide the biography tab for colonists and slaves because it contains the renounce title, rename colonist, and banish buttons.
 			PawnType type = KnowledgeUtility.TypeOf(pawn);
 			if (type == PawnType.Colonist || type == PawnType.Slave) {
 				return;
 			}
 
-			// Show the biography tab if any of the information on the tab is supposed to be shown.
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) // Name (first, nickname, last), gender, age (biological, chronological), xenotype, faction, home faction, and title.
+			// Show the biography tab only if any of the information on the tab is supposed to be shown.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) // Name (first, nickname, and last), gender, age (biological and chronological), xenotype, faction, home faction, and title.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, type) // Ideology.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, type) // Royal title (honor) and favorite color.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, type) // Unwaveringly loyal.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, type) // Royal title (honor), favorite color, and unwaveringly loyal.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type) // Childhood and adulthood.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type) // Traits.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type) // Incapabilities, skills, and passions.

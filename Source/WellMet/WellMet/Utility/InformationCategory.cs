@@ -10,7 +10,6 @@
 		Backstory,
 		Social,
 		Ideoligion,
-		Advanced,
-		Meta
+		Advanced
 	}
 }

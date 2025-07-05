@@ -21,26 +21,23 @@
 	<Basic>basic</Basic>
 	<Advanced>advanced</Advanced>
 	<Backstory>backstory</Backstory>
-	<Traits>traits</Traits>
 	<Abilities>abilities</Abilities>
 	<Skills>skills</Skills>
 	<Needs>needs</Needs>
 	<Health>health</Health>
-	<Meta>meta</Meta>
 
 	<!-- Information category blurbs. -->
-	<GearBlurb>weapons, armor, held items, and related stats</GearBlurb>
+	<GearBlurb>weapons, armor, and held items</GearBlurb>
 	<IdeoligionBlurb>ideology and role</IdeoligionBlurb>
 	<SocialBlurb>relationships</SocialBlurb>
 	<BasicBlurb>name, gender, age, xenotype, and faction</BasicBlurb>
-	<AdvancedBlurb>log, royal title, and favorite color</AdvancedBlurb>
+	<AdvancedBlurb>log, royal title, favorite color, and more</AdvancedBlurb>
 	<BackstoryBlurb>childhood and adulthood</BackstoryBlurb>
 	<TraitsBlurb>traits</TraitsBlurb>
 	<AbilitiesBlurb>xenotype and species abilities, psycasts, and more</AbilitiesBlurb>
 	<SkillsBlurb>incapabilities, skills, and passions</SkillsBlurb>
 	<NeedsBlurb>needs, addictions, and mood</NeedsBlurb>
 	<HealthBlurb>health and injuries</HealthBlurb>
-	<MetaBlurb>suppression, terror, resistance, will, and other gamified information</MetaBlurb>
 
 	<!-- Obfuscation. -->
 	<Unknown>unknown</Unknown>
