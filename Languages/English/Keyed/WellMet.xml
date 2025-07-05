@@ -30,8 +30,8 @@
 	<GearBlurb>weapons, armor, and held items</GearBlurb>
 	<IdeoligionBlurb>ideology and role</IdeoligionBlurb>
 	<SocialBlurb>relationships</SocialBlurb>
-	<BasicBlurb>name, gender, age, xenotype, and faction</BasicBlurb>
-	<AdvancedBlurb>log, royal title, favorite color, and more</AdvancedBlurb>
+	<BasicBlurb>name, gender, age, and faction</BasicBlurb>
+	<AdvancedBlurb>xenotype, log, royal title, favorite color, and more</AdvancedBlurb>
 	<BackstoryBlurb>childhood and adulthood</BackstoryBlurb>
 	<TraitsBlurb>traits</TraitsBlurb>
 	<AbilitiesBlurb>xenotype and species abilities, psycasts, and more</AbilitiesBlurb>

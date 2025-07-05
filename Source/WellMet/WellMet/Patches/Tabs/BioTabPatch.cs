@@ -26,9 +26,9 @@ namespace Lakuna.WellMet.Patches.Tabs {
 			}
 
 			// Show the biography tab only if any of the information on the tab is supposed to be shown.
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) // Name (first, nickname, and last), gender, age (biological and chronological), xenotype, faction, home faction, and title.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) // Name (first, nickname, and last), gender, age (biological and chronological), faction, home faction, and title.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, type) // Ideology.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, type) // Royal title (honor), favorite color, and unwaveringly loyal.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, type) // Xenotype, royal title (honor), favorite color, and unwaveringly loyal.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type) // Childhood and adulthood.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type) // Traits.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type) // Incapabilities, skills, and passions.

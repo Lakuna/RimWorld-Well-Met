@@ -20,7 +20,7 @@ namespace Lakuna.WellMet.Patches.Tabs {
 			}
 
 			// Show the needs tab only if any of the information on the tab is supposed to be shown.
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, KnowledgeUtility.TypeOf(pawn)); // Food, sleep, beauty, and outdoors needs, psychite, go-juice, luciferium, wake-up, alcohol, smokeleaf, and ambrosia dependencies, mood, and moodlets.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn); // Food, sleep, beauty, and outdoors needs, psychite, go-juice, luciferium, wake-up, alcohol, smokeleaf, and ambrosia dependencies, mood, and moodlets.
 		}
 	}
 }

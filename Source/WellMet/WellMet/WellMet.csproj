@@ -52,19 +52,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\Tabs\GearTabPatch.cs" />
-		<Compile Include="Patches\Tabs\SocialTabPatch.cs" />
-		<Compile Include="Patches\Tabs\NeedsTabPatch.cs" />
-		<Compile Include="Patches\Tabs\TabPatch.cs" />
 		<Compile Include="Patches\Tabs\BioTabPatch.cs" />
-		<Compile Include="WellMetMod.cs" />
-		<Compile Include="WellMetSettings.cs" />
+		<Compile Include="Patches\Tabs\GearTabPatch.cs" />
+		<Compile Include="Patches\Tabs\NeedsTabPatch.cs" />
+		<Compile Include="Patches\Tabs\SocialTabPatch.cs" />
+		<Compile Include="Patches\Tabs\TabPatch.cs" />
+		<Compile Include="Patches\GizmoPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\KnowledgeUtility.cs" />
 		<Compile Include="Utility\PawnType.cs" />
 		<Compile Include="Utility\WellMetLogger.cs" />
 		<Compile Include="Utility\WellMetLoggerCategory.cs" />
+		<Compile Include="WellMetMod.cs" />
+		<Compile Include="WellMetSettings.cs" />
 	</ItemGroup>
 
 	<Choose>

@@ -40,7 +40,7 @@ namespace Lakuna.WellMet.Patches.Tabs {
 				}
 
 				// Show the log tab only if any of the information on the tab is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, KnowledgeUtility.TypeOf(pawn)); // Log.
+				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn); // Log.
 			}
 		}
 	}
