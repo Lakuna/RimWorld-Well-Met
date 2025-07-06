@@ -51,10 +51,6 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			// TODO: Required work types.
-
-			// TODO: Required work tags.
-
 			// Only colonists' traits might need to be learned over time.
 			if (pawnType != PawnType.Colonist || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0) {
 				return true;

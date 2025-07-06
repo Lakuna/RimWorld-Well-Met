@@ -1,0 +1,170 @@
+Well Met Notes
+
+Categories:
+- Colonist
+- Colonist animal
+- Colonist ghoul
+- Slave
+- Prisoner
+- Guest
+- Enemy
+- Shambler
+- Wild animal
+- Corpses (same stuff as when alive but don't have to worry about availability of most buttons)
+- Other
+
+Tabs:
+- Log (everything has)	-	-	-	-	-	-	-	-	-	-	Advanced
+- Gear (all humanoid including mechs and ghouls but excluding metalhorrors has)	-	-	-	Gear (N/A for colonists and slaves)
+ - Mass carried	-	-	-	-	-	-	-	-	-	-	-	Gear
+ - Comfortable temperature range	-	-	-	-	-	-	-	-	Gear
+ - Overall armor	-	-	-	-	-	-	-	-	-	-	Gear
+  - Sharp	-	-	-	-	-	-	-	-	-	-	-	Gear
+  - Blunt	-	-	-	-	-	-	-	-	-	-	-	Gear
+  - Heat	-	-	-	-	-	-	-	-	-	-	-	Gear
+ - Equipment (colonists and slaves but not prisoners can be forced to drop)	-	-	-	Gear (N/A for colonists and slaves)
+ - Apparel (colonists and slaves but not prisoners can be forced to drop)	-	-	-	Gear (N/A for colonists and slaves)
+ - Inventory (colonists and slaves but not prisoners can be forced to drop (or consume for food))	Gear (N/A for colonists and slaves)
+- Slave (only slaves have)	-	-	-	-	-	-	-	-	-	N/A
+ - Suppression	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Suppression fall rate	-	-	-	-	-	-	-	-	-	Advanced
+ - Terror	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Slave rebellion interval	-	-	-	-	-	-	-	-	-	Advanced
+ - Slave price	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Relations gain on release	-	-	-	-	-	-	-	-	-	Advanced
+ - Setting for how wardens should treat the slave.	-	-	-	-	-	-	N/A
+- Prisoner (only prisoners have)	-	-	-	-	-	-	-	-	N/A
+ - Prison break interval	-	-	-	-	-	-	-	-	-	Advanced
+ - Resistance	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Will	-	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Slave price	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Relations gain on release	-	-	-	-	-	-	-	-	-	Advanced
+ - Allow medicine dropdown (also in medical tab)	-	-	-	-	-	-	N/A
+ - Setting for how wardens should treat the prisoner.	-	-	-	-	-	-	N/A
+ - Hemogen farm toggle	-	-	-	-	-	-	-	-	-	-	N/A
+- Social (all humans and animals have, mechs and metalhorrors don't)	-	-	-	-	Social (N/A for colonists)
+ - Ideology (only humans excluding ghouls have)	-	-	-	-	-	-	-	Ideology
+ - Ideology role (only humans excluding ghouls have)	-	-	-	-	-	-	Ideology
+ - Assign role button (only colonists have)	-	-	-	-	-	-	-	N/A
+ - Relations	-	-	-	-	-	-	-	-	-	-	-	Social
+ - Romance button (only colonists have; slaves also have but it is disabled)	-	-	-	N/A
+ - Social log	-	-	-	-	-	-	-	-	-	-	-	Social
+- Bio (all humans including ghouls and shamblers have)	-	-	-	-	-	-	Basic (N/A for colonists and slaves)
+ - Name	-	-	-	-	-	-	-	-	-	-	-	-	Basic
+  - First name	-	-	-	-	-	-	-	-	-	-	-	Basic
+  - Nickname	-	-	-	-	-	-	-	-	-	-	-	Basic
+  - Last name	-	-	-	-	-	-	-	-	-	-	-	Basic
+ - Renounce title button (colonist and slave only)	-	-	-	-	-	-	N/A
+ - Rename colonist button (colonist and slave only)	-	-	-	-	-	-	N/A
+ - Banish button (colonist and slave only)	-	-	-	-	-	-	-	N/A
+ - Gender	-	-	-	-	-	-	-	-	-	-	-	Basic
+ - Age	-	-	-	-	-	-	-	-	-	-	-	-	Basic
+  - Biological	-	-	-	-	-	-	-	-	-	-	-	Basic
+  - Chronological	-	-	-	-	-	-	-	-	-	-	Basic
+ - Xenotype	-	-	-	-	-	-	-	-	-	-	-	Basic
+ - Faction	-	-	-	-	-	-	-	-	-	-	-	Basic
+ - Home faction	-	-	-	-	-	-	-	-	-	-	-	Basic
+ - Ideology	-	-	-	-	-	-	-	-	-	-	-	Ideology
+ - Royal title	-	-	-	-	-	-	-	-	-	-	-	Advanced
+  - Honor	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Favorite color	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Unwaveringly loyal	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Childhood	-	-	-	-	-	-	-	-	-	-	-	Backstory
+ - Adulthood	-	-	-	-	-	-	-	-	-	-	-	Backstory
+ - Title (colonist and slave only - set via rename colonist button)	-	-	-	-	Basic
+ - Traits	-	-	-	-	-	-	-	-	-	-	-	Traits
+ - Incapable of	-	-	-	-	-	-	-	-	-	-	-	Skills
+ - Abilities	-	-	-	-	-	-	-	-	-	-	-	Abilities
+ - Skills	-	-	-	-	-	-	-	-	-	-	-	Skills
+  - Passions	-	-	-	-	-	-	-	-	-	-	-	Skills
+- Training (colonist animals only)	-	-	-	-	-	-	-	-	N/A
+ - Rename animal button	-	-	-	-	-	-	-	-	-	-	N/A
+ - Trainability	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Wildness	-	-	-	-	-	-	-	-	-	-	-	Advanced
+ - Master dropdown	-	-	-	-	-	-	-	-	-	-	N/A
+ - Follow master while drafted toggle	-	-	-	-	-	-	-	-	N/A
+ - Follow master while doing field work toggle	-	-	-	-	-	-	-	N/A
+ - Tameness training toggle	-	-	-	-	-	-	-	-	-	N/A
+ - Guard training toggle	-	-	-	-	-	-	-	-	-	N/A
+ - Attack training toggle	-	-	-	-	-	-	-	-	-	N/A
+ - Rescue training toggle	-	-	-	-	-	-	-	-	-	N/A
+ - Haul training toggle	-	-	-	-	-	-	-	-	-	-	N/A
+- Needs (humans and animals including ghouls but excluding shamblers)	-	-	-	-	Needs
+ - Food	-	-	-	-	-	-	-	-	-	-	-	-	Needs
+ - Sleep (all but ghouls)	-	-	-	-	-	-	-	-	-	Needs
+ - Beauty (slaves, prisoners, and colonists)	-	-	-	-	-	-	-	Needs
+ - Outdoors (slaves, prisoners, and colonists)	-	-	-	-	-	-	-	Needs
+ - Psychite (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Go-juice (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Luciferium (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Wake-up (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Alcohol (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Smokeleaf (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Ambrosia (addicted only)	-	-	-	-	-	-	-	-	-	Needs
+ - Mood (humans excluding ghouls)	-	-	-	-	-	-	-	-	Needs
+ - Moodlets (humans excluding ghouls)	-	-	-	-	-	-	-	-	Needs
+- Health	-	-	-	-	-	-	-	-	-	-	-	Health (N/A for colonists, prisoners, and slaves)
+ - Overview	-	-	-	-	-	-	-	-	-	-	-	Health (N/A for colonists, prisoners, and slaves)
+  - Allow food dropdown (slaves, prisoners, and colonists)	-	-	-	-	-	N/A
+  - Allow medicine dropdown (slaves, prisoners, and colonists)	-	-	-	-	-	N/A
+  - Allow self-tend toggle (slaves and colonists)	-	-	-	-	-	-	N/A
+  - Stats	-	-	-	-	-	-	-	-	-	-	-	Health
+ - Hediffs	-	-	-	-	-	-	-	-	-	-	-	Health
+ - Operations (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
+  - Add bill button (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
+  - Bill list (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
+
+Other:
+- "____ tended" pop-ups.
+- Separate guest?/visitor?/(hostile/enemy)/other?
+- Name tag.
+- Health bar on name tag.
+- Health bar on pawn list at top of screen.
+- Might want to hide mini text pop-ups for events (social, recruitment, etc.)
+- Might want to hide name under pawn on map.
+- Reaction to nearby enemies button on blurb (colonists and slaves only)
+- "View information" button on blurb
+ - Stats
+ - Bio
+ - Health
+ - Permits (royal title rewards; colonists and slaves only; has buttons that need to be accessed)
+ - Records
+- Name on blurb
+ - First name (if no nickname)
+ - Nickname
+ - Backstory shorthand (if no title)
+ - Title (colonist and slave only, set via rename colonist button)
+- Health bar on blurb
+- Mood bar on blurb
+- Current schedule on blurb (colonists and slaves only)
+- Area restriction on blurb (colonists and slaves only - also acts as a button to set area restriction)
+- Gender on blurb
+- Age on blurb
+ - Biological
+ - Chronological
+- Faction on blurb
+- Home faction on blurb (slaves)
+- "Trader" in blurb
+- "Unwaveringly loyal" in blurb
+- Current action on blurb (colonists, prisoners, slaves, colonist animals)
+- "In restraints (slowed)" on blurb (prisoners)
+- Equipped weapon on blurb
+- "Class" on blurb (i.e. wild man, shambler, ghoul, pirate gunner, stellarch, mature metalhorror, etc.)
+- Weapon in action bar (appears for all equipped humans, disabled for non-drafted, non-colonist, non-slaves)
+- Bandwidth in action bar (mechanitors only)
+- Mech groups in action bar (mechanitors only)
+- Summon mech threat in action bar (mechanitors only)
+- Abilities in action bar (colonists and slaves only)
+- Call aid in action bar (royalty only)
+- Psyfocus in action bar (colonists and slaves only; psylink only)
+ - Heat
+ - Psyfocus
+ - Toggle neural heat limiter button
+- Draft button in action bar (colonists and slaves only)
+- Strip button in action bar (prisoners, downed, and corpses only)
+- Hunt button in action bar (wild animals including wild men only)
+- Tame button in action bar (wild animals including wild men only)
+- Slaughter button in action bar (colonist animals only)
+- Release to wild button in action bar (colonist animals only)
+- Extract skull button in action bar (corpses only)
+- Allow toggle in action bar (corpses only)
