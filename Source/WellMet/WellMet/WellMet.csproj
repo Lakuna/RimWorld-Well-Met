@@ -56,9 +56,8 @@
 		<Compile Include="Patches\InspectPane\EnergyPatch.cs" />
 		<Compile Include="Patches\InspectPane\AreaPatch.cs" />
 		<Compile Include="Patches\InspectPane\LabelPatch.cs" />
-		<Compile Include="Patches\InspectPane\RoyalTitlePatch.cs" />
-		<Compile Include="Patches\InspectPane\MainDescriptionPatch.cs" />
-		<Compile Include="Patches\InspectPane\PaneContentsPatch.cs" />
+		<Compile Include="Patches\InspectPane\CorpseInspectStringPatch.cs" />
+		<Compile Include="Patches\InspectPane\PawnInspectStringPatch.cs" />
 		<Compile Include="Patches\InspectPane\TimetablePatch.cs" />
 		<Compile Include="Patches\InspectPane\MoodPatch.cs" />
 		<Compile Include="Patches\InspectPane\HealthPatch.cs" />

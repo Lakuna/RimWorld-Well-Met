@@ -9,7 +9,12 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 	internal static class LabelPatch {
 		[HarmonyPostfix]
 		private static void Postfix(List<object> selected, ref string __result) {
-			if (selected.Count != 1 || !(selected[0] is Pawn pawn)) {
+			if (selected.Count != 1) {
+				return;
+			}
+
+			Pawn pawn = selected[0] as Pawn ?? (selected[0] as Corpse)?.InnerPawn;
+			if (pawn == null) {
 				return;
 			}
 

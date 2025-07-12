@@ -115,6 +115,7 @@ Tabs:
   - Bill list (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
 
 Other:
+- Hide information for corpses as if they were alive.
 - "____ tended" pop-ups.
 - Separate guest?/visitor?/(hostile/enemy)/other?
 - Name tag.

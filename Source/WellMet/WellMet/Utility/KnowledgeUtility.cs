@@ -1,6 +1,8 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System;
 using System.Linq;
+using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
@@ -13,10 +15,10 @@ namespace Lakuna.WellMet.Utility {
 
 		public static PawnType TypeOf(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: pawn.IsFreeNonSlaveColonist ? PawnType.Colonist
+			: (pawn.IsFreeNonSlaveColonist || pawn.IsAnimal && pawn.training != null) ? PawnType.Colonist
 			: pawn.IsPlayerControlled ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
-			: pawn.HostileTo(Faction.OfPlayer) ? PawnType.Hostile
+			: (pawn.HostileTo(Faction.OfPlayer) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayer)) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		public static bool IsPlayerControlled(Pawn pawn) => IsPlayerControlled(TypeOf(pawn));
@@ -24,6 +26,8 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsPlayerControlled(PawnType type) => type == PawnType.Colonist || type == PawnType.Controlled;
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => IsInformationKnownFor(informationCategory, TypeOf(pawn));
+
+		public static readonly MethodInfo IsInformationKnownForMethod = SymbolExtensions.GetMethodInfo(() => IsInformationKnownFor(InformationCategory.Basic, null));
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory];
 
