@@ -1,5 +1,32 @@
 Well Met Notes
 
+TODO METHODS:
+// Corpse.GetInspectString
+// QuestUtility.GetExtraFactionsFromQuestParts
+// GuestUtility.GetExtraFactionsFromGuestStatus
+// PawnUtility.ShouldDisplayLordReport
+// PawnUtility.ShouldDisplayJobReport
+// PawnUtility.ShouldDisplayFactionInInspectString
+// RoyalTitleDef.GetLabelCapFor
+// ThingWithComps.GetInspectString
+// MentalState.InspectLine
+// Hediff.GetInspectString
+// Pawn_FlightTracker.GetStatusString
+// Ability.GetInspectString
+// Pawn_RopeTracker.InspectLine
+// LordJob.GetReport
+// Job.GetReport
+// Pawn_MutantTracker.GetInspectString
+// Pawn_CreepJoinerTracker.GetInspectString
+// RestraintsUtility.ShouldShowRestraintsInfo
+// PawnAttackGizmoUtility.GetAttackGizmos
+// MechanitorUtility.IsMechanitor
+// MechanitorUtility.GetMechGizmos
+// QuestUtility.GetQuestRelatedGizmos
+// Name.ToStringFull
+// Name.ToStringShort
+// Faction.NameColored
+
 Categories:
 - Colonist
 - Colonist animal
@@ -115,6 +142,7 @@ Tabs:
   - Bill list (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
 
 Other:
+- Possible setting to know extra information for relatives of colonists?
 - Hide information for corpses as if they were alive.
 - "____ tended" pop-ups.
 - Separate guest?/visitor?/(hostile/enemy)/other?

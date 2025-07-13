@@ -52,20 +52,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\InspectPane\HungerPatch.cs" />
-		<Compile Include="Patches\InspectPane\EnergyPatch.cs" />
-		<Compile Include="Patches\InspectPane\AreaPatch.cs" />
-		<Compile Include="Patches\InspectPane\LabelPatch.cs" />
-		<Compile Include="Patches\InspectPane\CorpseInspectStringPatch.cs" />
-		<Compile Include="Patches\InspectPane\PawnInspectStringPatch.cs" />
-		<Compile Include="Patches\InspectPane\TimetablePatch.cs" />
-		<Compile Include="Patches\InspectPane\MoodPatch.cs" />
-		<Compile Include="Patches\InspectPane\HealthPatch.cs" />
-		<Compile Include="Patches\Tabs\BioTabPatch.cs" />
-		<Compile Include="Patches\Tabs\GearTabPatch.cs" />
-		<Compile Include="Patches\Tabs\NeedsTabPatch.cs" />
-		<Compile Include="Patches\Tabs\SocialTabPatch.cs" />
-		<Compile Include="Patches\Tabs\TabPatch.cs" />
+		<Compile Include="Patches\CorpsePatches\GetInspectStringPatch.cs" />
+		<Compile Include="Patches\InspectPanePatches\NeedsPatch.cs" />
+		<Compile Include="Patches\InspectPanePatches\AreaPatch.cs" />
+		<Compile Include="Patches\PawnPatches\GetGizmosPatch.cs" />
+		<Compile Include="Patches\PawnPatches\GetInspectStringPatch.cs" />
+		<Compile Include="Patches\PawnPatches\GetJobReportPatch.cs" />
+		<Compile Include="Patches\PawnPatches\FactionDescPatch.cs" />
+		<Compile Include="Patches\PawnPatches\MainDescPatch.cs" />
+		<Compile Include="Patches\PawnPatches\DescriptionFlavorPatch.cs" />
+		<Compile Include="Patches\PawnPatches\LegalStatusPatch.cs" />
+		<Compile Include="Patches\PawnPatches\NameFullColoredPatch.cs" />
+		<Compile Include="Patches\PawnPatches\NameShortColoredPatch.cs" />
+		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
+		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
+		<Compile Include="Patches\PawnPatches\LabelNoCountPatch.cs" />
+		<Compile Include="Patches\PawnPatches\LabelPrefixPatch.cs" />
+		<Compile Include="Patches\InspectPanePatches\TimetablePatch.cs" />
+		<Compile Include="Patches\InspectPanePatches\HealthPatch.cs" />
+		<Compile Include="Patches\TabPatches\BioTabPatch.cs" />
+		<Compile Include="Patches\TabPatches\GearTabPatch.cs" />
+		<Compile Include="Patches\TabPatches\NeedsTabPatch.cs" />
+		<Compile Include="Patches\TabPatches\SocialTabPatch.cs" />
+		<Compile Include="Patches\TabPatches\TabPatch.cs" />
 		<Compile Include="Patches\GizmoPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Utility\InformationCategory.cs" />

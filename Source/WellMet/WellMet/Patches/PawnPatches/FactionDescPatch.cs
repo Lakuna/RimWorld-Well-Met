@@ -5,15 +5,11 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InspectPane {
-	[HarmonyPatch(typeof(Corpse), nameof(Corpse.GetInspectString))]
-	internal static class CorpseInspectStringPatch {
-		private static readonly MethodInfo InnerPawnMethod = AccessTools.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
-
+namespace Lakuna.WellMet.Patches.PawnPatches {
+	[HarmonyPatch(typeof(Pawn), nameof(Pawn.FactionDesc))]
+	internal static class FactionDescPatch {
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
-			{ AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff)), InformationCategory.Health },
-			{ AccessTools.Method(typeof(ThingWithComps), nameof(ThingWithComps.GetInspectString)), InformationCategory.Basic }
+			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic }
 		};
 
 		[HarmonyTranspiler]
@@ -27,7 +23,6 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 						Label dontNullifyLabel = generator.DefineLabel();
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, InnerPawnMethod);
 						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);

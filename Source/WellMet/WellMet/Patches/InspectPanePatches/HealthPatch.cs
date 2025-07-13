@@ -3,7 +3,7 @@ using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InspectPane {
+namespace Lakuna.WellMet.Patches.InspectPanePatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), nameof(InspectPaneFiller.DrawHealth))]
 	internal static class HealthPatch {
 		[HarmonyPrefix]

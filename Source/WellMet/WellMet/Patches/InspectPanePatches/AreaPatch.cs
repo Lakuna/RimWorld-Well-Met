@@ -3,7 +3,7 @@ using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InspectPane {
+namespace Lakuna.WellMet.Patches.InspectPanePatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawAreaAllowed")]
 	internal static class AreaPatch {
 		[HarmonyPrefix]

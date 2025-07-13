@@ -8,10 +8,10 @@ using System.Reflection.Emit;
 using Verse;
 using Verse.AI.Group;
 
-namespace Lakuna.WellMet.Patches.InspectPane {
+namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
-	internal static class PawnInspectStringPatch {
-		private static readonly FieldInfo HideMainDescriptionField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
+	internal static class GetInspectStringPatch {
+		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
 
 		private static readonly MethodInfo InMentalStateMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.InMentalState));
 
@@ -19,7 +19,15 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 
+		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
+
 		private static readonly MethodInfo ShouldShowRestraintsInfoMethod = SymbolExtensions.GetMethodInfo(() => RestraintsUtility.ShouldShowRestraintsInfo(null));
+
+		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
+
+		private static readonly MethodInfo IsSlaveOfColonyMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSlaveOfColony));
+
+		private static readonly MethodInfo IsPrisonerOfColonyMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsPrisonerOfColony));
 
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
@@ -32,8 +40,6 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.mutant)), InformationCategory.Health },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.creepjoiner)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
 		};
 
@@ -41,7 +47,8 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 			{ AccessTools.Method(typeof(ThingWithComps), nameof(ThingWithComps.GetInspectString)), InformationCategory.Basic },
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.TraderKind)), InformationCategory.Basic },
 			{ AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord), new Type[] { typeof(Pawn) }), InformationCategory.Advanced },
-			{ AccessTools.Method(typeof(Pawn), nameof(Pawn.GetJobReport)), InformationCategory.Advanced }
+			{ AccessTools.Method(typeof(Pawn), nameof(Pawn.GetJobReport)), InformationCategory.Advanced },
+			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic }
 		};
 
 		[HarmonyTranspiler]
@@ -50,7 +57,7 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 				yield return instruction;
 
 				// Replace `this.def.hideMainDesc` with `this.def.hideMainDesc || !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, this)`.
-				if (instruction.LoadsField(HideMainDescriptionField)) {
+				if (instruction.LoadsField(HideMainDescField)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Basic);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
 					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
@@ -101,7 +108,8 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 				}
 
 				// Replace `this.IsMutant` with `this.IsMutant && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, this)`.
-				if (instruction.Calls(IsMutantMethod)) {
+				// Replace `this.IsSubhuman` with `this.IsSubhuman && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, this)`.
+				if (instruction.Calls(IsMutantMethod) || instruction.Calls(IsSubhumanMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
 					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
@@ -109,8 +117,17 @@ namespace Lakuna.WellMet.Patches.InspectPane {
 				}
 
 				// Replace `RestraintsUtility.ShouldShowRestraintsInfo(this)` with `RestraintsUtility.ShouldShowRestraintsInfo(this) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, this)`.
-				if (instruction.Calls(ShouldShowRestraintsInfoMethod)) {
+				// Replace `this.IsSlave` with `this.IsSlave && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, this)`.
+				if (instruction.Calls(ShouldShowRestraintsInfoMethod) || instruction.Calls(IsSlaveOfColonyMethod) || instruction.Calls(IsPrisonerOfColonyMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Basic);
+					yield return new CodeInstruction(OpCodes.Ldarg_0);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.And);
+				}
+
+				// Replace `this.IsCreepJoiner` with `this.IsCreepJoiner && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, this)`.
+				if (instruction.Calls(IsCreepJoinerMethod)) {
+					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
 					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
 					yield return new CodeInstruction(OpCodes.And);
