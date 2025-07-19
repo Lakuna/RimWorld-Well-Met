@@ -1,22 +1,38 @@
 ﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
+using RimWorld;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnPatches {
-	[HarmonyPatch(typeof(Pawn), nameof(Pawn.LabelNoCount), MethodType.Getter)]
-	internal static class LabelNoCountPatch {
-		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
-
+namespace Lakuna.WellMet.Patches.CharacterCardPatches {
+	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
+	internal static class TopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.story)), InformationCategory.Backstory }
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Basic },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.favoriteColor)), InformationCategory.Advanced }, // `story` is used only for favorite color in this method.
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }, // `guest` is used only for unwaveringly loyal status in this method.
+			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic } // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
 		};
 
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Name)), InformationCategory.Basic }
+			{ AccessTools.Method(typeof(GenderUtility), nameof(GenderUtility.GetIcon)), InformationCategory.Basic },
+			{ AccessTools.Method(typeof(GenderUtility), nameof(GenderUtility.GetLabel)), InformationCategory.Basic },
+			{ AccessTools.PropertyGetter(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.AgeTooltipString)), InformationCategory.Basic },
+			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
+			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
 		};
+
+		[HarmonyPrefix]
+		private static void Prefix(Pawn pawn, ref bool creationMode) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) {
+				return;
+			}
+
+			creationMode = false;
+		}
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -54,25 +70,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						yield return dontNullifyTarget;
 					}
 				}
-
-				// Replace `this.IsSubhuman` with `this.IsSubhuman && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, this)`.
-				if (instruction.Calls(IsSubhumanMethod)) {
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
-					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-					yield return new CodeInstruction(OpCodes.And);
-				}
 			}
-		}
-
-		[HarmonyPostfix]
-		private static void Postfix(Pawn __instance, ref string __result) {
-			PawnType type = KnowledgeUtility.TypeOf(__instance);
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) || __instance.IsAnimal) {
-				return;
-			}
-
-			__result = (type.ToString() + "Pawn").Translate().CapitalizeFirst();
 		}
 	}
 }

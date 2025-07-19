@@ -19,7 +19,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				if (instruction.Calls(IsMutantMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 			}

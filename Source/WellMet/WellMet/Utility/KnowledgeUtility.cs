@@ -21,13 +21,23 @@ namespace Lakuna.WellMet.Utility {
 			: (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)) ? PawnType.Hostile
 			: PawnType.Neutral;
 
+		public static PawnType TypeOf(Faction faction) => faction == null
+			? throw new ArgumentNullException(nameof(faction))
+			: faction == Faction.OfPlayerSilentFail ? PawnType.Colonist
+			: faction.HostileTo(Faction.OfPlayerSilentFail) ? PawnType.Hostile
+			: PawnType.Neutral;
+
 		public static bool IsPlayerControlled(Pawn pawn) => IsPlayerControlled(TypeOf(pawn));
 
 		public static bool IsPlayerControlled(PawnType type) => type == PawnType.Colonist || type == PawnType.Controlled;
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => IsInformationKnownFor(informationCategory, TypeOf(pawn));
 
-		public static readonly MethodInfo IsInformationKnownForMethod = SymbolExtensions.GetMethodInfo(() => IsInformationKnownFor(InformationCategory.Basic, null));
+		public static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn) });
+
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction) => IsInformationKnownFor(informationCategory, TypeOf(faction));
+
+		public static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction) });
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory];
 
@@ -40,7 +50,7 @@ namespace Lakuna.WellMet.Utility {
 			: IsTraitKnown(trait.pawn, trait.def);
 
 		public static bool IsTraitKnown(Pawn pawn, TraitDef traitDef) {
-			// In vanilla RimWorld, `pawn == null` only during a growth moment.
+			// In vanilla RimWorld, `pawn == null` only during a growth moment. A better way to do this might be `Find.WindowStack.WindowOfType<Dialog_GrowthMomentChoices>() == null`.
 			if (pawn == null) {
 				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMoments || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0);
 			}

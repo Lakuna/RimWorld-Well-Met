@@ -52,7 +52,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="Patches\CharacterCardPatches\TopStackPatch.cs" />
+		<Compile Include="Patches\CharacterCardPatches\DrawPatch.cs" />
 		<Compile Include="Patches\CorpsePatches\GetInspectStringPatch.cs" />
+		<Compile Include="Patches\DrawTexturePatch.cs" />
 		<Compile Include="Patches\InspectPanePatches\NeedsPatch.cs" />
 		<Compile Include="Patches\InspectPanePatches\AreaPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetGizmosPatch.cs" />

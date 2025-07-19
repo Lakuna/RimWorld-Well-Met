@@ -27,7 +27,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
 						yield return new CodeInstruction(OpCodes.Call, InnerPawnMethod);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);
 						yield return new CodeInstruction(OpCodes.Ldnull);

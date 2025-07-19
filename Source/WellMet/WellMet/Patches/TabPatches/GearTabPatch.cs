@@ -4,7 +4,7 @@ using RimWorld;
 using System;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.Tabs {
+namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Gear), nameof(ITab_Pawn_Gear.IsVisible), MethodType.Getter)]
 	internal static class GearTabPatch {
 		[HarmonyPostfix]

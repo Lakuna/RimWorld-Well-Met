@@ -1,6 +1,19 @@
 Well Met Notes
 
 TODO METHODS:
+// IdeoUIUtility.DrawIdeoPlate
+// Dialog_ViewGenes
+// InspectPaneUtility.OpenTab
+// Pawn_GeneTracker.XenotypeLabelCap
+// Pawn_GeneTracker.XenotypeDescShort
+// GenLabel.BestKindLabel
+// GenderUtility.GetLabel
+// CharacterCardUtility.DoTopStack
+// CharacterCardUtility.DoLeftSection
+// SkillUI.DrawSkillsOf
+// GenderUtility.GetIcon
+// CharacterCardUtility.DoTopStack
+// CharacterCardUtility.DoTopStack
 // Corpse.GetInspectString
 // QuestUtility.GetExtraFactionsFromQuestParts
 // GuestUtility.GetExtraFactionsFromGuestStatus
@@ -142,6 +155,7 @@ Tabs:
   - Bill list (slaves, prisoners, and colonists)	-	-	-	-	-	-	N/A
 
 Other:
+- If a neutral pawn starts off as a corpse, it makes sense to know nothing about them.
 - Possible setting to know extra information for relatives of colonists?
 - Hide information for corpses as if they were alive.
 - "____ tended" pop-ups.

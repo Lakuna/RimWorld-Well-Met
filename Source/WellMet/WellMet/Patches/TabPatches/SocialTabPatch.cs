@@ -4,7 +4,7 @@ using RimWorld;
 using System;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.Tabs {
+namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Social), nameof(ITab_Pawn_Social.IsVisible), MethodType.Getter)]
 	internal static class SocialTabPatch {
 		[HarmonyPostfix]

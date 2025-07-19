@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
+using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -20,6 +22,8 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic }
 		};
 
+		private static readonly MethodInfo BestKindLabelMethod = AccessTools.Method(typeof(GenLabel), nameof(GenLabel.BestKindLabel), new Type[] { typeof(Pawn), typeof(bool), typeof(bool), typeof(bool), typeof(int) });
+
 		[HarmonyPrefix]
 		private static void Prefix(Pawn __instance, ref bool writeFaction, ref bool writeGender) {
 			bool basicIsKnown = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
@@ -38,7 +42,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						Label dontNullifyLabel = generator.DefineLabel();
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);
 						yield return new CodeInstruction(OpCodes.Ldnull);
@@ -54,7 +58,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						Label dontNullifyLabel = generator.DefineLabel();
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);
 						yield return new CodeInstruction(OpCodes.Ldnull);
@@ -64,11 +68,25 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					}
 				}
 
+				// Replace `GenLabel.BestKindLabel(this)` with `KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, this) ? GenLabel.BestKindLabel(this) : ""`.
+				if (instruction.Calls(BestKindLabelMethod)) {
+					Label dontNullifyLabel = generator.DefineLabel();
+					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Basic);
+					yield return new CodeInstruction(OpCodes.Ldarg_0);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
+					yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
+					yield return new CodeInstruction(OpCodes.Pop);
+					yield return new CodeInstruction(OpCodes.Ldstr, "");
+					CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
+					dontNullifyTarget.labels.Add(dontNullifyLabel);
+					yield return dontNullifyTarget;
+				}
+
 				// Replace `this.IsMutant` with `this.IsMutant && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, this)`.
 				if (instruction.Calls(IsMutantMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 
@@ -76,7 +94,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				if (instruction.Calls(IsCreepJoinerMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 			}

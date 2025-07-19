@@ -4,7 +4,7 @@ using RimWorld;
 using System;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.Tabs {
+namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(InspectTabBase), nameof(InspectTabBase.IsVisible), MethodType.Getter)]
 	internal static class TabPatch {
 		[HarmonyPostfix]

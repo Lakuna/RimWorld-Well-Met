@@ -46,7 +46,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						Label dontNullifyLabel = generator.DefineLabel();
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);
 						yield return new CodeInstruction(OpCodes.Ldnull);
@@ -62,7 +62,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						Label dontNullifyLabel = generator.DefineLabel();
 						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
 						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
 						yield return new CodeInstruction(OpCodes.Pop);
 						yield return new CodeInstruction(OpCodes.Ldnull);
@@ -76,7 +76,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				if (instruction.Calls(IsMutantMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 
@@ -84,7 +84,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				if (instruction.Calls(IsCreepJoinerMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 
@@ -92,7 +92,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				if (instruction.Calls(IsMechanitorMethod)) {
 					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Abilities);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForMethod);
+					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);
 				}
 			}
