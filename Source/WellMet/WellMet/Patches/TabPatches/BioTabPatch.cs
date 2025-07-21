@@ -19,20 +19,14 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 				return;
 			}
 
-			// Never hide the biography tab for player-controlled pawns because it contains the renounce title, rename colonist, and banish buttons.
-			PawnType type = KnowledgeUtility.TypeOf(pawn);
-			if (KnowledgeUtility.IsPlayerControlled(type)) {
-				return;
-			}
-
 			// Show the biography tab only if any of the information on the tab is supposed to be shown.
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) // Name (first, nickname, and last), gender, age (biological and chronological), faction, home faction, and title.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, type) // Ideology.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, type) // Xenotype, royal title (honor), favorite color, and unwaveringly loyal.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type) // Childhood and adulthood.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type) // Traits.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type) // Incapabilities, skills, and passions.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, type); // Abilities.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) // Name (first, nickname, and last), gender, age (biological and chronological), faction, home faction, and title.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn) // Ideology.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn) // Xenotype, royal title (honor), favorite color, and unwaveringly loyal.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn) // Childhood and adulthood.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn) // Traits.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, pawn) // Incapabilities, skills, and passions.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn); // Abilities.
 		}
 	}
 }

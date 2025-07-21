@@ -8,11 +8,13 @@ using Verse;
 namespace Lakuna.WellMet.Patches {
 	[StaticConstructorOnStartup]
 	internal static class HarmonyPatcher {
-		static HarmonyPatcher() =>
 #if V1_0
-				HarmonyInstance.Create(nameof(WellMet)).PatchAll();
+		public static readonly HarmonyInstance Instance = HarmonyInstance.Create(nameof(WellMet));
 #else
-				new Harmony(nameof(WellMet)).PatchAll();
+		public static readonly Harmony Instance = new Harmony(nameof(WellMet));
 #endif
+
+		static HarmonyPatcher() => Instance.PatchAll();
+
 	}
 }

@@ -20,13 +20,12 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			}
 
 			// Never hide the gear tab for player-controlled pawns because it contains the drop item buttons.
-			PawnType type = KnowledgeUtility.TypeOf(pawn);
-			if (KnowledgeUtility.IsPlayerControlled(type)) {
+			if (KnowledgeUtility.IsPlayerControlled(pawn)) {
 				return;
 			}
 
 			// Show the gear tab only if any of the information on the tab is supposed to be shown.
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, type); // Mass carried, comfortable temperature range, overall armor (sharp, blunt, and heat), equipment, apparel, and inventory.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn); // Mass carried, comfortable temperature range, overall armor (sharp, blunt, and heat), equipment, apparel, and inventory.
 		}
 	}
 }

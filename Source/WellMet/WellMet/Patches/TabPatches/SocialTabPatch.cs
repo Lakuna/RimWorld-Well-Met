@@ -20,9 +20,8 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			}
 
 			// Show the social tab only if any of the information on the tab is supposed to be shown.
-			PawnType type = KnowledgeUtility.TypeOf(pawn);
-			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, type) // Relations and social log.
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, type); // Ideology and ideology role.
+			__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn) // Relations and social log.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn); // Ideology and ideology role.
 		}
 	}
 }

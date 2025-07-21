@@ -22,13 +22,12 @@ namespace Lakuna.WellMet.Patches {
 				}
 
 				// Never hide weapon gizmos for player-controlled pawns because they are required to manually target weapons.
-				PawnType type = KnowledgeUtility.TypeOf(weaponGizmo.verb.CasterPawn);
-				if (KnowledgeUtility.IsPlayerControlled(type)) {
+				if (KnowledgeUtility.IsPlayerControlled(weaponGizmo.verb.CasterPawn)) {
 					return;
 				}
 
 				// Show the weapon gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, type);
+				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, weaponGizmo.verb.CasterPawn);
 				return;
 			}
 
@@ -52,13 +51,12 @@ namespace Lakuna.WellMet.Patches {
 				}
 
 				// Never hide psychic entropy gizmos for player-controlled pawns because they are required to toggle the neural heat limiter and set the desired psyfocus.
-				PawnType type = KnowledgeUtility.TypeOf(psychicEntropyTracker.Pawn);
-				if (KnowledgeUtility.IsPlayerControlled(type)) {
+				if (KnowledgeUtility.IsPlayerControlled(psychicEntropyTracker.Pawn)) {
 					return;
 				}
 
 				// Show the psychic entropy gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, type);
+				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, psychicEntropyTracker.Pawn);
 				return;
 			}
 

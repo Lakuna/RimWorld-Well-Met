@@ -67,12 +67,11 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Pawn __instance, ref TaggedString __result) {
-			PawnType type = KnowledgeUtility.TypeOf(__instance);
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) || __instance.IsAnimal) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance) || __instance.IsAnimal) {
 				return;
 			}
 
-			__result = (type.ToString() + "Pawn").Translate().CapitalizeFirst();
+			__result = (KnowledgeUtility.TypeOf(__instance).ToString() + "Pawn").Translate().CapitalizeFirst();
 		}
 	}
 }

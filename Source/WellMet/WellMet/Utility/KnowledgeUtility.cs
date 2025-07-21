@@ -41,10 +41,6 @@ namespace Lakuna.WellMet.Utility {
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory];
 
-		public static bool IsAllInformationKnownFor(Pawn pawn) => IsAllInformationKnownFor(TypeOf(pawn));
-
-		public static bool IsAllInformationKnownFor(PawnType pawnType) => ((InformationCategory[])Enum.GetValues(typeof(InformationCategory))).Any((informationCategory) => !IsInformationKnownFor(informationCategory, pawnType));
-
 		public static bool IsTraitKnown(Trait trait) => trait == null
 			? throw new ArgumentNullException(nameof(trait))
 			: IsTraitKnown(trait.pawn, trait.def);
@@ -60,13 +56,12 @@ namespace Lakuna.WellMet.Utility {
 				return true;
 			}
 
-			PawnType pawnType = TypeOf(pawn);
-			if (!IsInformationKnownFor(InformationCategory.Traits, pawnType)) {
+			if (!IsInformationKnownFor(InformationCategory.Traits, pawn)) {
 				return false;
 			}
 
 			// Only colonists' traits might need to be learned over time.
-			if (pawnType != PawnType.Colonist || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0) {
+			if (TypeOf(pawn) != PawnType.Colonist || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0) {
 				return true;
 			}
 

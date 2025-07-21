@@ -22,13 +22,12 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 				}
 
 				// Never hide the health tab for player-controlled pawns and prisoners because it contains the allow food and medicine dropdowns, self-tend toggle, and operations menu.
-				PawnType type = KnowledgeUtility.TypeOf(pawn);
-				if (KnowledgeUtility.IsPlayerControlled(type) || type == PawnType.Prisoner) {
+				if (KnowledgeUtility.IsPlayerControlled(pawn) || KnowledgeUtility.TypeOf(pawn) == PawnType.Prisoner) {
 					return;
 				}
 
 				// Show the health tab only if any of the information on the tab is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, type); // Statistics and hediffs.
+				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn); // Statistics and hediffs.
 				return;
 			}
 
