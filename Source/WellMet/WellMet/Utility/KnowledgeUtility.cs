@@ -13,6 +13,10 @@ namespace Lakuna.WellMet.Utility {
 
 		private const float HumanDailyNutrition = 1.6f;
 
+		public static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn) });
+
+		public static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction) });
+
 		public static PawnType TypeOf(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
 			: (pawn.IsFreeNonSlaveColonist || pawn.IsAnimal && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
@@ -27,17 +31,9 @@ namespace Lakuna.WellMet.Utility {
 			: faction.HostileTo(Faction.OfPlayerSilentFail) ? PawnType.Hostile
 			: PawnType.Neutral;
 
-		public static bool IsPlayerControlled(Pawn pawn) => IsPlayerControlled(TypeOf(pawn));
-
-		public static bool IsPlayerControlled(PawnType type) => type == PawnType.Colonist || type == PawnType.Controlled;
-
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => IsInformationKnownFor(informationCategory, TypeOf(pawn));
 
-		public static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn) });
-
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction) => IsInformationKnownFor(informationCategory, TypeOf(faction));
-
-		public static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction) });
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory];
 

@@ -2,11 +2,14 @@
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
+using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Needs), nameof(ITab_Pawn_Needs.IsVisible), MethodType.Getter)]
 	internal static class NeedsTabPatch {
+		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+
 		[HarmonyPostfix]
 		private static void Postfix(ITab_Pawn_Needs __instance, ref bool __result) {
 			// Don't show the tab if it was already hidden.
@@ -15,7 +18,7 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			}
 
 			// If there is no selected pawn, do nothing.
-			if (!(AccessTools.DeclaredPropertyGetter(typeof(ITab).FullName + ":SelPawn").Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
+			if (!(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
 				return;
 			}
 

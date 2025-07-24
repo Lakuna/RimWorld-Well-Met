@@ -2,11 +2,14 @@
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
+using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Character), nameof(ITab_Pawn_Character.IsVisible), MethodType.Getter)]
 	internal static class BioTabPatch {
+		private static readonly MethodInfo PawnToShowInfoAboutMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Character), "PawnToShowInfoAbout");
+
 		[HarmonyPostfix]
 		private static void Postfix(ITab_Pawn_Character __instance, ref bool __result) {
 			// Don't show the tab if it was already hidden.
@@ -15,7 +18,7 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			}
 
 			// If there is no selected pawn, do nothing.
-			if (!(AccessTools.DeclaredPropertyGetter(typeof(ITab_Pawn_Character).FullName + ":PawnToShowInfoAbout").Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
+			if (!(PawnToShowInfoAboutMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
 				return;
 			}
 

@@ -54,7 +54,10 @@
 	<ItemGroup>
 		<Compile Include="Patches\CharacterCardPatches\GetWorkTypeDisableCausesPatch.cs" />
 		<Compile Include="Patches\CharacterCardPatches\LeftSectionPatch.cs" />
-		<Compile Include="Patches\CharacterCardPatches\DrawSkillsOfPatch.cs" />
+		<Compile Include="Patches\InfoCardButtonFactionPatch.cs" />
+		<Compile Include="Patches\InfoCardButtonThingPatch.cs" />
+		<Compile Include="Patches\SkillUiPatches\DrawSkillPatch.cs" />
+		<Compile Include="Patches\SkillUiPatches\DrawSkillsOfPatch.cs" />
 		<Compile Include="Patches\CharacterCardPatches\RandomizeOptionsPatch.cs" />
 		<Compile Include="Patches\CharacterCardPatches\TopStackPatch.cs" />
 		<Compile Include="Patches\CharacterCardPatches\DrawPatch.cs" />
@@ -84,6 +87,9 @@
 		<Compile Include="Patches\TabPatches\TabPatch.cs" />
 		<Compile Include="Patches\GizmoPatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
+		<Compile Include="Patches\TraitPatches\TipStringPatch.cs" />
+		<Compile Include="Patches\TraitPatches\LabelCapPatch.cs" />
+		<Compile Include="Patches\TraitPatches\LabelPatch.cs" />
 		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\KnowledgeUtility.cs" />
 		<Compile Include="Utility\PawnType.cs" />

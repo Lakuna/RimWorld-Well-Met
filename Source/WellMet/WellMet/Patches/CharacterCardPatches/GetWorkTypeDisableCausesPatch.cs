@@ -18,7 +18,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardPatches {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Basic },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits }
 		};
 

@@ -6,11 +6,11 @@ using Verse;
 
 namespace Lakuna.WellMet {
 	public class WellMetMod : Mod {
+		private const float CheckboxSize = 24;
+
 		public static WellMetSettings Settings { get; private set; }
 
 		public WellMetMod(ModContentPack content) : base(content) => Settings = this.GetSettings<WellMetSettings>();
-
-		private const float CheckboxSize = 24;
 
 		public override void DoSettingsWindowContents(Rect inRect) {
 			base.DoSettingsWindowContents(inRect);
@@ -24,11 +24,11 @@ namespace Lakuna.WellMet {
 			// Draw column labels.
 			for (int i = 0; i < pawnTypes.Length; i++) {
 				Rect rect = new Rect(inRect.x + columnWidth * (i + 1), inRect.y, columnWidth, rowHeight);
-				Widgets.Label(rect, pawnTypes[i].ToString().Translate().CapitalizeFirst());
+				Widgets.Label(rect, pawnTypes[i].ToString().Translate().CapitalizeFirst().Resolve());
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst() + ".");
+					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod().Resolve());
 				}
 			}
 
@@ -36,11 +36,11 @@ namespace Lakuna.WellMet {
 			for (int i = 0; i < informationCategories.Length; i++) {
 				// Draw row label.
 				Rect rect = new Rect(inRect.x, inRect.y + rowHeight * (i + 1), columnWidth, rowHeight);
-				Widgets.Label(rect, informationCategories[i].ToString().Translate().CapitalizeFirst());
+				Widgets.Label(rect, informationCategories[i].ToString().Translate().CapitalizeFirst().Resolve());
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst() + ".");
+					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod().Resolve());
 				}
 
 				// Draw checkboxes.
@@ -53,7 +53,7 @@ namespace Lakuna.WellMet {
 
 					// Draw checkbox tooltips.
 					if (Mouse.IsOver(checkboxRect)) {
-						TooltipHandler.TipRegion(checkboxRect, pawnTypes[j].ToString().Translate().CapitalizeFirst() + ": " + informationCategories[i].ToString().Translate());
+						TooltipHandler.TipRegion(checkboxRect, pawnTypes[j].ToString().Translate().CapitalizeFirst().Resolve() + ": " + informationCategories[i].ToString().Translate().Resolve());
 					}
 				}
 			}
@@ -64,26 +64,26 @@ namespace Lakuna.WellMet {
 			listing.Begin(footerRect);
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
-				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst().Resolve(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
 
 				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-					listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
+					listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowStartingColonists);
 					Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
 
 					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMoments;
-					listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+					listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowGrowthMoments);
 					Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
 				}
 			}
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist)) {
-				_ = listing.Label(("WarningDisabledBasicForColonists".Translate().CapitalizeFirst() + ".").Colorize(ColoredText.WarningColor));
+				_ = listing.Label("WarningDisabledBasicForColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
 			}
 
 			listing.End();
 		}
 
-		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst();
+		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst().Resolve();
 	}
 }

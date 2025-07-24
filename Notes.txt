@@ -1,12 +1,45 @@
 Well Met Notes
 
+TODO classes:
+- Ability
+- BackstoryDef
+- Dialog_InfoCard
+- Dialog_ViewGenes
+- Faction
+- GenderUtility
+- GenLabel
+- GuestUtility
+- HealthCardUtility
+- Hediff
+- IdeoUIUtility
+- InspectPaneUtility
+- Job
+- LordJob
+- MechanitorUtility
+- MentalState
+- Name
+- Pawn_CreepJoinerTracker
+- Pawn_FlightTracker
+- Pawn_GeneTracker
+- Pawn_MutantTracker
+- Pawn_RopeTracker
+- PawnAttackGizmoUtility
+- PawnBanishUtility
+- PawnNamingUtility
+- PawnUtility
+- QuestUtility
+- RestraintsUtility
+- RoyalTitleDef
+- SkillUI
+- SocialCardUtility
+- StartingPawnUtility
+- ThingWithComps
+- WorkTypeDefsUtility
+
 TODO METHODS:
 // Ability.GetInspectString
 // BackstoryDef.FullDescriptionFor
 // BackstoryDef.TitleCapFor
-// Dialog_InfoCard
-// Dialog_ViewGenes
-// Faction
 // Faction.GetCallLabel
 // Faction.NameColored
 // GenderUtility.GetIcon
@@ -41,7 +74,6 @@ TODO METHODS:
 // QuestUtility.GetWorkDisabledQuestPart
 // RestraintsUtility.ShouldShowRestraintsInfo
 // RoyalTitleDef.GetLabelCapFor
-// SkillUI.DrawSkill
 // SkillUI.GetLabel
 // SkillUI.GetLearningFactor
 // SkillUI.GetSkillDescription
@@ -49,9 +81,6 @@ TODO METHODS:
 // SkillUI.ListGlobalLearningSpeedOffsets
 // StartingPawnUtility.DrawSkillSummaries
 // ThingWithComps.GetInspectString
-// Trait.LabelCap
-// Trait.TipString
-// Widgets.InfoCardButton
 // WorkTypeDefsUtility.LabelTranslated
 
 Categories:

@@ -21,7 +21,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
 
-		private static readonly MethodInfo ShouldShowRestraintsInfoMethod = SymbolExtensions.GetMethodInfo(() => RestraintsUtility.ShouldShowRestraintsInfo(null));
+		private static readonly MethodInfo ShouldShowRestraintsInfoMethod = AccessTools.Method(typeof(RestraintsUtility), nameof(RestraintsUtility.ShouldShowRestraintsInfo));
 
 		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
 
@@ -37,7 +37,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.carryTracker)), InformationCategory.Gear },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Advanced },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
@@ -127,7 +127,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 				// Replace `this.IsCreepJoiner` with `this.IsCreepJoiner && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, this)`.
 				if (instruction.Calls(IsCreepJoinerMethod)) {
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced);
+					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Basic);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
 					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);

@@ -10,9 +10,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
 	internal static class TopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Basic },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.favoriteColor)), InformationCategory.Advanced }, // `story` is used only for favorite color in this method.
+			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.favoriteColor)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }, // `guest` is used only for unwaveringly loyal status in this method.
 			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic } // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
 		};

@@ -14,7 +14,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
 
-		private static readonly MethodInfo IsMechanitorMethod = SymbolExtensions.GetMethodInfo(() => MechanitorUtility.IsMechanitor(null));
+		private static readonly MethodInfo IsMechanitorMethod = AccessTools.Method(typeof(MechanitorUtility), nameof(MechanitorUtility.IsMechanitor));
 
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
@@ -27,7 +27,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.inventory)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.mindState)), InformationCategory.Needs },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.connections)), InformationCategory.Basic },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Basic },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.training)), InformationCategory.Basic }
 		};
 
@@ -82,7 +82,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 				// Replace `this.IsCreepJoiner` with `this.IsCreepJoiner && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, this)`.
 				if (instruction.Calls(IsCreepJoinerMethod)) {
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced);
+					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Basic);
 					yield return new CodeInstruction(OpCodes.Ldarg_0);
 					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
 					yield return new CodeInstruction(OpCodes.And);

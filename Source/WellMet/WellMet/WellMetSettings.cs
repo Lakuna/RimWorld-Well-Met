@@ -4,31 +4,6 @@ using Verse;
 
 namespace Lakuna.WellMet {
 	public class WellMetSettings : ModSettings {
-		private BoolGrid knownInformation;
-
-		public BoolGrid KnownInformation => this.knownInformation;
-
-		private int colonistTraitDiscoveryDifficulty;
-
-		public int ColonistTraitDiscoveryDifficulty {
-			get => this.colonistTraitDiscoveryDifficulty;
-			set => this.colonistTraitDiscoveryDifficulty = value;
-		}
-
-		private bool alwaysKnowStartingColonists;
-
-		public bool AlwaysKnowStartingColonists {
-			get => this.alwaysKnowStartingColonists;
-			set => this.alwaysKnowStartingColonists = value;
-		}
-
-		private bool alwaysKnowGrowthMoments;
-
-		public bool AlwaysKnowGrowthMoments {
-			get => this.alwaysKnowGrowthMoments;
-			set => this.alwaysKnowGrowthMoments = value;
-		}
-
 		public WellMetSettings() {
 			this.knownInformation = new BoolGrid(Enum.GetValues(typeof(PawnType)).Length, Enum.GetValues(typeof(InformationCategory)).Length);
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
@@ -59,6 +34,31 @@ namespace Lakuna.WellMet {
 			this.alwaysKnowStartingColonists = true;
 
 			this.alwaysKnowGrowthMoments = true;
+		}
+
+		private BoolGrid knownInformation;
+
+		public BoolGrid KnownInformation => this.knownInformation;
+
+		private int colonistTraitDiscoveryDifficulty;
+
+		public int ColonistTraitDiscoveryDifficulty {
+			get => this.colonistTraitDiscoveryDifficulty;
+			set => this.colonistTraitDiscoveryDifficulty = value;
+		}
+
+		private bool alwaysKnowStartingColonists;
+
+		public bool AlwaysKnowStartingColonists {
+			get => this.alwaysKnowStartingColonists;
+			set => this.alwaysKnowStartingColonists = value;
+		}
+
+		private bool alwaysKnowGrowthMoments;
+
+		public bool AlwaysKnowGrowthMoments {
+			get => this.alwaysKnowGrowthMoments;
+			set => this.alwaysKnowGrowthMoments = value;
 		}
 
 		public override void ExposeData() {

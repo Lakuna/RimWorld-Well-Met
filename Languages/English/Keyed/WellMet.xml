@@ -6,7 +6,7 @@
 	<ColonistTraitDiscoveryDifficulty>colonist trait discovery difficulty ({0})</ColonistTraitDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowGrowthMoments>always know growth moments</AlwaysKnowGrowthMoments>
-	<WarningDisabledBasicForColonists>disabling basic information for starting colonists may disable the ability to randomize them</WarningDisabledBasicForColonists>
+	<WarningDisabledBasicForColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForColonists>
 
 	<!-- Pawn types. -->
 	<Controlled>controlled</Controlled>

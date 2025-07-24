@@ -71,7 +71,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				return;
 			}
 
-			__result = (KnowledgeUtility.TypeOf(__instance).ToString() + "Pawn").Translate().CapitalizeFirst();
+			__result = (KnowledgeUtility.TypeOf(__instance).ToString() + "Pawn").Translate().CapitalizeFirst().Resolve();
 		}
 	}
 }

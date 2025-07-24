@@ -3,7 +3,7 @@ using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CharacterCardPatches {
+namespace Lakuna.WellMet.Patches.SkillUiPatches {
 	[HarmonyPatch(typeof(SkillUI), nameof(SkillUI.DrawSkillsOf))]
 	internal static class DrawSkillsOfPatch {
 		[HarmonyPrefix]

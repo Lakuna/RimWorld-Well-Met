@@ -2,11 +2,16 @@
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
+using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TabPatches {
 	[HarmonyPatch(typeof(InspectTabBase), nameof(InspectTabBase.IsVisible), MethodType.Getter)]
 	internal static class TabPatch {
+		private static readonly MethodInfo PawnForHealthMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Health), "PawnForHealth");
+
+		private static readonly MethodInfo SelPawnForCombatInfoMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Log), "SelPawnForCombatInfo");
+
 		[HarmonyPostfix]
 		private static void Postfix(InspectTabBase __instance, ref bool __result) {
 			// Don't show the tab if it was already hidden.
@@ -17,12 +22,7 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			// Health tab.
 			if (__instance is ITab_Pawn_Health healthTab) {
 				// If there is no selected pawn, do nothing.
-				if (!(AccessTools.DeclaredPropertyGetter(typeof(ITab_Pawn_Health).FullName + ":PawnForHealth").Invoke(healthTab, Array.Empty<object>()) is Pawn pawn)) {
-					return;
-				}
-
-				// Never hide the health tab for player-controlled pawns and prisoners because it contains the allow food and medicine dropdowns, self-tend toggle, and operations menu.
-				if (KnowledgeUtility.IsPlayerControlled(pawn) || KnowledgeUtility.TypeOf(pawn) == PawnType.Prisoner) {
+				if (!(PawnForHealthMethod.Invoke(healthTab, Array.Empty<object>()) is Pawn pawn)) {
 					return;
 				}
 
@@ -34,7 +34,7 @@ namespace Lakuna.WellMet.Patches.TabPatches {
 			// Log tab.
 			if (__instance is ITab_Pawn_Log logTab) {
 				// If there is no selected pawn, do nothing.
-				if (!(AccessTools.DeclaredPropertyGetter(typeof(ITab_Pawn_Log).FullName + ":SelPawnForCombatInfo").Invoke(logTab, Array.Empty<object>()) is Pawn pawn)) {
+				if (!(SelPawnForCombatInfoMethod.Invoke(logTab, Array.Empty<object>()) is Pawn pawn)) {
 					return;
 				}
 
