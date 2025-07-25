@@ -5,8 +5,9 @@
 	<WellMet>Well Met</WellMet>
 	<ColonistTraitDiscoveryDifficulty>colonist trait discovery difficulty ({0})</ColonistTraitDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
-	<AlwaysKnowGrowthMoments>always know growth moments</AlwaysKnowGrowthMoments>
-	<WarningDisabledBasicForColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForColonists>
+	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
+	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
+	<HideFactionInformation>hide faction information</HideFactionInformation>
 
 	<!-- Pawn types. -->
 	<Controlled>controlled</Controlled>

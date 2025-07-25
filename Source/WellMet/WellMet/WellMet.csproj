@@ -52,19 +52,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="Patches\CharacterCardPatches\GetWorkTypeDisableCausesPatch.cs" />
-		<Compile Include="Patches\CharacterCardPatches\LeftSectionPatch.cs" />
-		<Compile Include="Patches\InfoCardButtonFactionPatch.cs" />
-		<Compile Include="Patches\InfoCardButtonThingPatch.cs" />
+		<Compile Include="Patches\AbilityDefPatches\GetTooltipPatch.cs" />
+		<Compile Include="Patches\AbilityPatches\GetInspectStringPatch.cs" />
+		<Compile Include="Patches\AbilityCompPatches\CompInspectStringExtraPatch.cs" />
+		<Compile Include="Patches\AbilityPatches\TooltipPatch.cs" />
+		<Compile Include="Patches\AbilityPatches\GizmoExtraLabelPatch.cs" />
+		<Compile Include="Patches\BackstoryDefPatches\FullDescriptionForPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\GetXenotypeIconPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\GetWorkTypeDisabledCausedByPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\GetXenotypeLabelPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\GetTitleTipStringPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\GetWorkTypeDisableCausesPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\DoLeftSectionPatch.cs" />
+		<Compile Include="Patches\WidgetsPatches\InfoCardButtonFactionPatch.cs" />
+		<Compile Include="Patches\WidgetsPatches\InfoCardButtonThingPatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawMoodPatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawHungerPatch.cs" />
 		<Compile Include="Patches\SkillUiPatches\DrawSkillPatch.cs" />
 		<Compile Include="Patches\SkillUiPatches\DrawSkillsOfPatch.cs" />
-		<Compile Include="Patches\CharacterCardPatches\RandomizeOptionsPatch.cs" />
-		<Compile Include="Patches\CharacterCardPatches\TopStackPatch.cs" />
-		<Compile Include="Patches\CharacterCardPatches\DrawPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\LifestageAndXenotypeOptionsPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\DoTopStackPatch.cs" />
+		<Compile Include="Patches\CharacterCardUtilityPatches\DrawCharacterCardPatch.cs" />
 		<Compile Include="Patches\CorpsePatches\GetInspectStringPatch.cs" />
-		<Compile Include="Patches\DrawTexturePatch.cs" />
-		<Compile Include="Patches\InspectPanePatches\NeedsPatch.cs" />
-		<Compile Include="Patches\InspectPanePatches\AreaPatch.cs" />
+		<Compile Include="Patches\GuiPatches\DrawTexturePatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawMechEnergyPatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawAreaAllowedPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetGizmosPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetInspectStringPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetJobReportPatch.cs" />
@@ -78,14 +90,14 @@
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelPrefixPatch.cs" />
-		<Compile Include="Patches\InspectPanePatches\TimetablePatch.cs" />
-		<Compile Include="Patches\InspectPanePatches\HealthPatch.cs" />
-		<Compile Include="Patches\TabPatches\BioTabPatch.cs" />
-		<Compile Include="Patches\TabPatches\GearTabPatch.cs" />
-		<Compile Include="Patches\TabPatches\NeedsTabPatch.cs" />
-		<Compile Include="Patches\TabPatches\SocialTabPatch.cs" />
-		<Compile Include="Patches\TabPatches\TabPatch.cs" />
-		<Compile Include="Patches\GizmoPatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawTimetableSettingPatch.cs" />
+		<Compile Include="Patches\InspectPaneFillerPatches\DrawHealthPatch.cs" />
+		<Compile Include="Patches\ITabPawnCharacterPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnNeedsPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnSocialPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\InspectTabBasePatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\GizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Patches\TraitPatches\TipStringPatch.cs" />
 		<Compile Include="Patches\TraitPatches\LabelCapPatch.cs" />
@@ -162,7 +174,7 @@
 		</When>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.6|AnyCPU'">
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4490-beta" />
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4530-beta" />
 				<PackageReference Include="Lib.Harmony" Version="2.3.6" />
 			</ItemGroup>
 			<PropertyGroup>

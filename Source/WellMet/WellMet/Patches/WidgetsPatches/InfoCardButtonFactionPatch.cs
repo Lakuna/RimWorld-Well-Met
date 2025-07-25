@@ -4,7 +4,7 @@ using RimWorld;
 using System;
 using Verse;
 
-namespace Lakuna.WellMet.Patches {
+namespace Lakuna.WellMet.Patches.WidgetsPatches {
 	[HarmonyPatch(typeof(Widgets), nameof(Widgets.InfoCardButton), new Type[] { typeof(float), typeof(float), typeof(Faction) })]
 	internal static class InfoCardButtonFactionPatch {
 		[HarmonyPrefix]

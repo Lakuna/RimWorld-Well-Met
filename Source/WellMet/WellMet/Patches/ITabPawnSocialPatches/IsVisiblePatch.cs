@@ -5,9 +5,9 @@ using System;
 using System.Reflection;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TabPatches {
+namespace Lakuna.WellMet.Patches.ITabPawnSocialPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Social), nameof(ITab_Pawn_Social.IsVisible), MethodType.Getter)]
-	internal static class SocialTabPatch {
+	internal static class IsVisiblePatch {
 		private static readonly MethodInfo SelPawnForSocialInfoMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Social), "SelPawnForSocialInfo");
 
 		[HarmonyPostfix]

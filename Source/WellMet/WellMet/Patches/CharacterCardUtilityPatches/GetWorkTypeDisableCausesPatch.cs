@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CharacterCardPatches {
+namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "GetWorkTypeDisableCauses")]
 	internal static class GetWorkTypeDisableCausesPatch {
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));

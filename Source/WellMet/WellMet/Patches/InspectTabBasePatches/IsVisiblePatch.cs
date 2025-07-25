@@ -5,9 +5,9 @@ using System;
 using System.Reflection;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TabPatches {
+namespace Lakuna.WellMet.Patches.InspectTabBasePatches {
 	[HarmonyPatch(typeof(InspectTabBase), nameof(InspectTabBase.IsVisible), MethodType.Getter)]
-	internal static class TabPatch {
+	internal static class IsVisiblePatch {
 		private static readonly MethodInfo PawnForHealthMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Health), "PawnForHealth");
 
 		private static readonly MethodInfo SelPawnForCombatInfoMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Log), "SelPawnForCombatInfo");

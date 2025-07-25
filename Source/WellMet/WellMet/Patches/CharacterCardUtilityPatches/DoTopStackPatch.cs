@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CharacterCardPatches {
+namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
-	internal static class TopStackPatch {
+	internal static class DoTopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },

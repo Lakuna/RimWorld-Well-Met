@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CharacterCardPatches {
+namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
-	internal static class LeftSectionPatch {
+	internal static class DoLeftSectionPatch {
 		private static readonly MethodInfo AllAbilitiesForReadingMethod = AccessTools.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
 
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
@@ -31,7 +31,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardPatches {
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, pawn);
 
-		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(LeftSectionPatch), nameof(ActionDelegateTranspiler));
+		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(DoLeftSectionPatch), nameof(ActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");

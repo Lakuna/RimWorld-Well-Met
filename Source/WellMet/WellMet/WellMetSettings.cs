@@ -30,10 +30,9 @@ namespace Lakuna.WellMet {
 			this.knownInformation[(int)PawnType.Neutral, (int)InformationCategory.Basic] = true;
 
 			this.colonistTraitDiscoveryDifficulty = 0;
-
 			this.alwaysKnowStartingColonists = true;
-
-			this.alwaysKnowGrowthMoments = true;
+			this.alwaysKnowGrowthMomentTraits = true;
+			this.hideFactionInformation = false;
 		}
 
 		private BoolGrid knownInformation;
@@ -54,18 +53,26 @@ namespace Lakuna.WellMet {
 			set => this.alwaysKnowStartingColonists = value;
 		}
 
-		private bool alwaysKnowGrowthMoments;
+		private bool alwaysKnowGrowthMomentTraits;
 
-		public bool AlwaysKnowGrowthMoments {
-			get => this.alwaysKnowGrowthMoments;
-			set => this.alwaysKnowGrowthMoments = value;
+		public bool AlwaysKnowGrowthMomentTraits {
+			get => this.alwaysKnowGrowthMomentTraits;
+			set => this.alwaysKnowGrowthMomentTraits = value;
+		}
+
+		private bool hideFactionInformation;
+
+		public bool HideFactionInformation {
+			get => this.hideFactionInformation;
+			set => this.hideFactionInformation = value;
 		}
 
 		public override void ExposeData() {
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
 			Scribe_Values.Look(ref this.colonistTraitDiscoveryDifficulty, nameof(this.colonistTraitDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
-			Scribe_Values.Look(ref this.alwaysKnowGrowthMoments, nameof(this.alwaysKnowGrowthMoments));
+			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
+			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
 			base.ExposeData();
 		}
 	}

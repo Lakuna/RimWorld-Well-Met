@@ -63,22 +63,26 @@ namespace Lakuna.WellMet {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(footerRect);
 
+			bool hideFactionInformation = Settings.HideFactionInformation;
+			listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst().Resolve(), ref hideFactionInformation);
+			Settings.HideFactionInformation = hideFactionInformation;
+
+			bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
+			listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowStartingColonists);
+			Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+
+			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists) {
+				_ = listing.Label("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
+			}
+
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
 				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst().Resolve(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
 
 				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
-					bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-					listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowStartingColonists);
-					Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
-
-					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMoments;
-					listing.CheckboxLabeled("AlwaysKnowGrowthMoments".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowGrowthMoments);
-					Settings.AlwaysKnowGrowthMoments = alwaysKnowGrowthMoments;
+					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
+					listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst().Resolve(), ref alwaysKnowGrowthMoments);
+					Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
 				}
-			}
-
-			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist)) {
-				_ = listing.Label("WarningDisabledBasicForColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
 			}
 
 			listing.End();

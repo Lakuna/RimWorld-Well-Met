@@ -31,9 +31,11 @@ namespace Lakuna.WellMet.Utility {
 			: faction.HostileTo(Faction.OfPlayerSilentFail) ? PawnType.Hostile
 			: PawnType.Neutral;
 
-		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => IsInformationKnownFor(informationCategory, TypeOf(pawn));
+		private static bool IsStartingColonist(Pawn pawn) => Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false;
 
-		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction) => IsInformationKnownFor(informationCategory, TypeOf(faction));
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn) => WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn) || IsInformationKnownFor(informationCategory, TypeOf(pawn));
+
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction) => !WellMetMod.Settings.HideFactionInformation || IsInformationKnownFor(informationCategory, TypeOf(faction));
 
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory];
 
@@ -44,7 +46,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsTraitKnown(Pawn pawn, TraitDef traitDef) {
 			// In vanilla RimWorld, `pawn == null` only during a growth moment. A better way to do this might be `Find.WindowStack.WindowOfType<Dialog_GrowthMomentChoices>() == null`.
 			if (pawn == null) {
-				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMoments || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0);
+				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMomentTraits || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0);
 			}
 
 			// Prevents some issues where some pawns cannot gain traits.
@@ -57,13 +59,7 @@ namespace Lakuna.WellMet.Utility {
 			}
 
 			// Only colonists' traits might need to be learned over time.
-			if (TypeOf(pawn) != PawnType.Colonist || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0) {
-				return true;
-			}
-
-			// Respect user setting for being able to see traits of starting colonists.
-			float timeAsColonist = pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal);
-			if (WellMetMod.Settings.AlwaysKnowStartingColonists && timeAsColonist <= 0) {
+			if (TypeOf(pawn) != PawnType.Colonist || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0 || WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)) {
 				return true;
 			}
 
@@ -94,7 +90,7 @@ namespace Lakuna.WellMet.Utility {
 			}
 
 			// For traits without special discovery conditions, discover based on user settings and time as a colonist.
-			return timeAsColonist > 1 / traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.ColonistTraitDiscoveryDifficulty;
+			return pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) > 1 / traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.ColonistTraitDiscoveryDifficulty;
 		}
 
 		public static bool IsThoughtKnown(Thought thought) => thought == null

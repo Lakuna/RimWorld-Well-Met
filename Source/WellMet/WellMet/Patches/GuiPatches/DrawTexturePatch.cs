@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace Lakuna.WellMet.Patches {
+namespace Lakuna.WellMet.Patches.GuiPatches {
 	[HarmonyPatch(typeof(GUI), nameof(GUI.DrawTexture), new Type[] { typeof(Rect), typeof(Texture), typeof(ScaleMode), typeof(bool), typeof(float), typeof(Color), typeof(Vector4), typeof(Vector4) })]
 	internal static class DrawTexturePatch {
 		[HarmonyPrefix]
