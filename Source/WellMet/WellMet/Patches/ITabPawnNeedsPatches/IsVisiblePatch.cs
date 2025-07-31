@@ -12,13 +12,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnNeedsPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(ITab_Pawn_Needs __instance, ref bool __result) {
-			// Don't show the tab if it was already hidden.
-			if (!__result) {
-				return;
-			}
-
-			// If there is no selected pawn, do nothing.
-			if (!(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
+			// Don't modify the tab if it was already hidden or if there is no selected pawn.
+			if (!__result || !(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)) {
 				return;
 			}
 

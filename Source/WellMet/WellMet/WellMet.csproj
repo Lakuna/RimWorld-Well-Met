@@ -64,6 +64,13 @@
 		<Compile Include="Patches\CharacterCardUtilityPatches\GetTitleTipStringPatch.cs" />
 		<Compile Include="Patches\CharacterCardUtilityPatches\GetWorkTypeDisableCausesPatch.cs" />
 		<Compile Include="Patches\CharacterCardUtilityPatches\DoLeftSectionPatch.cs" />
+		<Compile Include="Patches\CommandVerbTargetPatches\GizmoUpdateOnMouseoverPatch.cs" />
+		<Compile Include="Patches\CommandVerbTargetPatches\DrawIconPatch.cs" />
+		<Compile Include="Patches\FactionPatches\HiddenPatch.cs" />
+		<Compile Include="Patches\FactionPatches\HasNamePatch.cs" />
+		<Compile Include="Patches\FactionPatches\GetReportTextPatch.cs" />
+		<Compile Include="Patches\FactionPatches\NameColoredPatch.cs" />
+		<Compile Include="Patches\FactionPatches\NamePatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonFactionPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonThingPatch.cs" />
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawMoodPatch.cs" />
