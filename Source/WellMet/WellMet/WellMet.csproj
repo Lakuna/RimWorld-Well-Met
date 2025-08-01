@@ -61,6 +61,9 @@
 		<Compile Include="Patches\ITabPawnTrainingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
+		<Compile Include="Patches\NeedKillThirstPatches\ShowOnNeedListPatch.cs" />
+		<Compile Include="Patches\NeedChemicalAnyPatches\ShowOnNeedListPatch.cs" />
+		<Compile Include="Patches\NeedPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
 		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />

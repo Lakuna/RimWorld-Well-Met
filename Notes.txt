@@ -6,7 +6,7 @@ TODO:
 - Hide thoughts caused by health (i.e. intense pain; health).
 - Hide thoughts caused by traits (i.e. constraining clothes; traits).
 - Hide thoughts caused by gear (i.e. constraining clothes, wielding noble weapon; gear).
-- Hide needs caused by addiction (health).
+- Hide abilities given by genes and royal titles (advanced).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
 - Hide ideoligion on social tab (ideoligion).
 - Hide relations on social tab (social).

@@ -8,7 +8,7 @@ namespace Lakuna.WellMet {
 	public class WellMetMod : Mod {
 		private const float CheckboxSize = 24;
 
-		public static WellMetSettings Settings { get; private set; }
+		internal static WellMetSettings Settings { get; private set; }
 
 		public WellMetMod(ModContentPack content) : base(content) => Settings = this.GetSettings<WellMetSettings>();
 

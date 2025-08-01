@@ -37,32 +37,32 @@ namespace Lakuna.WellMet {
 
 		private BoolGrid knownInformation;
 
-		public BoolGrid KnownInformation => this.knownInformation;
+		internal BoolGrid KnownInformation => this.knownInformation;
 
 		private int colonistTraitDiscoveryDifficulty;
 
-		public int ColonistTraitDiscoveryDifficulty {
+		internal int ColonistTraitDiscoveryDifficulty {
 			get => this.colonistTraitDiscoveryDifficulty;
 			set => this.colonistTraitDiscoveryDifficulty = value;
 		}
 
 		private bool alwaysKnowStartingColonists;
 
-		public bool AlwaysKnowStartingColonists {
+		internal bool AlwaysKnowStartingColonists {
 			get => this.alwaysKnowStartingColonists;
 			set => this.alwaysKnowStartingColonists = value;
 		}
 
 		private bool alwaysKnowGrowthMomentTraits;
 
-		public bool AlwaysKnowGrowthMomentTraits {
+		internal bool AlwaysKnowGrowthMomentTraits {
 			get => this.alwaysKnowGrowthMomentTraits;
 			set => this.alwaysKnowGrowthMomentTraits = value;
 		}
 
 		private bool hideFactionInformation;
 
-		public bool HideFactionInformation {
+		internal bool HideFactionInformation {
 			get => this.hideFactionInformation;
 			set => this.hideFactionInformation = value;
 		}

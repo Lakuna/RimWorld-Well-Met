@@ -8,6 +8,6 @@ namespace Lakuna.WellMet.Patches.WidgetsPatches {
 	[HarmonyPatch(typeof(Widgets), nameof(Widgets.InfoCardButton), new Type[] { typeof(float), typeof(float), typeof(Faction) })]
 	internal static class InfoCardButtonFactionPatch {
 		[HarmonyPrefix]
-		public static bool Prefix(Faction faction) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, faction);
+		private static bool Prefix(Faction faction) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, faction);
 	}
 }

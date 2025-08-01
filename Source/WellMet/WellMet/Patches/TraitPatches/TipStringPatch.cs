@@ -7,7 +7,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
 	internal static class TipStringPatch {
 		[HarmonyPostfix]
-		public static void Postfix(Trait __instance, ref string __result) {
+		private static void Postfix(Trait __instance, ref string __result) {
 			if (KnowledgeUtility.IsTraitKnown(__instance)) {
 				return;
 			}
