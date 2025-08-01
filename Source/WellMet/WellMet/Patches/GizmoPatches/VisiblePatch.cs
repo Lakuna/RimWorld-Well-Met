@@ -18,68 +18,45 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Gizmo __instance, ref bool __result) {
-			// Don't show the gizmo if it was already hidden.
-			if (!__result) {
+			if (__instance is Command_VerbTarget commandVerbTarget) {
+				__result = __result
+					&& (!commandVerbTarget.verb.CasterIsPawn
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, commandVerbTarget.verb.CasterPawn));
 				return;
 			}
 
-			// Weapon gizmo.
-			if (__instance is Command_VerbTarget weaponGizmo) {
-				// If there is no selected pawn, do nothing.
-				if (!weaponGizmo.verb.CasterIsPawn) {
-					return;
-				}
-
-				// Show the weapon gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, weaponGizmo.verb.CasterPawn);
+			if (__instance is Command_Psycast commandPsycast) {
+				__result = __result
+					&& (commandPsycast.Pawn == null
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Pawn));
 				return;
 			}
 
-			// Gene resource gizmo.
-			if (__instance is GeneGizmo_Resource geneResourceGizmo) {
-				// If there is no selected pawn, do nothing.
-				if (!(ResourceGeneField.GetValue(geneResourceGizmo) is Gene_Resource geneResource)) {
-					return;
-				}
-
-				// Show the gene resource gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneResource.pawn);
+			if (__instance is GeneGizmo_Resource geneGizmoResource) {
+				__result = __result
+					&& (!(ResourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneResource.pawn));
 				return;
 			}
 
-			// Psychic entropy gizmo.
 			if (__instance is PsychicEntropyGizmo psychicEntropyGizmo) {
-				// If there is no selected pawn, do nothing.
-				if (!(TrackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker psychicEntropyTracker)) {
-					return;
-				}
-
-				// Show the psychic entropy gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, psychicEntropyTracker.Pawn);
+				__result = __result
+					&& (!(TrackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker pawnPsychicEntropyTracker)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnPsychicEntropyTracker.Pawn));
 				return;
 			}
 
-			// Shield energy status gizmo.
-			if (__instance is Gizmo_EnergyShieldStatus energyShieldStatusGizmo) {
-				// If there is no selected pawn, do nothing.
-				if (!(PawnOwnerMethod.Invoke(energyShieldStatusGizmo.shield, Array.Empty<object>()) is Pawn pawn)) {
-					return;
-				}
-
-				// Show the energy shield status gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn);
+			if (__instance is Gizmo_EnergyShieldStatus gizmoEnergyShieldStatus) {
+				__result = __result
+					&& (!(PawnOwnerMethod.Invoke(gizmoEnergyShieldStatus.shield, Array.Empty<object>()) is Pawn pawn)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn));
 				return;
 			}
 
-			// Deathrest capacity gizmo.
-			if (__instance is GeneGizmo_DeathrestCapacity deathrestCapacityGizmo) {
-				// If there is no selected pawn, do nothing.
-				if (!(DeathrestGeneField.GetValue(deathrestCapacityGizmo) is Gene_Deathrest geneDeathrest)) {
-					return;
-				}
-
-				// Show the deathrest capacity gizmo only if any of the information on the gizmo is supposed to be shown.
-				__result = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneDeathrest.pawn);
+			if (__instance is GeneGizmo_DeathrestCapacity geneGizmoDeathrestCapacity) {
+				__result = __result
+					&& (!(DeathrestGeneField.GetValue(geneGizmoDeathrestCapacity) is Gene_Deathrest geneDeathrest)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneDeathrest.pawn));
 			}
 		}
 	}

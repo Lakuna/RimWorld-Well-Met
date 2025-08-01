@@ -8,70 +8,45 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.LabelNoCount), MethodType.Getter)]
 	internal static class LabelNoCountPatch {
+		private static readonly MethodInfo NameMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
+
+		private static readonly FieldInfo StoryField = AccessTools.Field(typeof(Pawn), nameof(Pawn.story));
+
 		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
 
-		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.story)), InformationCategory.Backstory }
-		};
-
-		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Name)), InformationCategory.Basic }
-		};
+		private static readonly MethodInfo LabelPrefixMethod = AccessTools.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Replace fields with `null` if they are locked behind an information category that the user has disabled.
-				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+				if (instruction.Calls(NameMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
 
-				// Replace method results with `null` if they are locked behind an information category that the user has disabled.
-				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
-					if (instruction.Calls(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+				if (instruction.LoadsField(StoryField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
 
-				// Replace `this.IsSubhuman` with `this.IsSubhuman && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, this)`.
 				if (instruction.Calls(IsSubhumanMethod)) {
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Health);
-					yield return new CodeInstruction(OpCodes.Ldarg_0);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-					yield return new CodeInstruction(OpCodes.And);
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
+						yield return i;
+					}
+				}
+
+				if (instruction.Calls(LabelPrefixMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, "")) {
+						yield return i;
+					}
 				}
 			}
-		}
-
-		[HarmonyPostfix]
-		private static void Postfix(Pawn __instance, ref string __result) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance) || __instance.IsAnimal) {
-				return;
-			}
-
-			__result = (KnowledgeUtility.TypeOf(__instance).ToString() + "Pawn").Translate().CapitalizeFirst().Resolve();
 		}
 	}
 }

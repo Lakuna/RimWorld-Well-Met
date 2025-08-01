@@ -11,65 +11,46 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	internal static class DoTopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
+			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic }, // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.favoriteColor)), InformationCategory.Advanced },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }, // `guest` is used only for unwaveringly loyal status in this method.
-			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic } // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.story)), InformationCategory.Advanced }, // `story` is used only for favorite color in this method.
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced } // `guest` is used only for unwaveringly loyal status in this method.
 		};
 
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.Method(typeof(GenderUtility), nameof(GenderUtility.GetIcon)), InformationCategory.Basic },
-			{ AccessTools.Method(typeof(GenderUtility), nameof(GenderUtility.GetLabel)), InformationCategory.Basic },
-			{ AccessTools.PropertyGetter(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.AgeTooltipString)), InformationCategory.Basic },
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
 		};
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn, ref bool creationMode) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)) {
-				return true;
-			}
-
-			creationMode = false;
-			return KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
+			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
+			creationMode = creationMode && basic;
+			return basic
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 		}
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Replace fields with `null` if they are locked behind an information category that the user has disabled.
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (instruction.LoadsField(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
+							yield return i;
+						}
 					}
 				}
 
-				// Replace method results with `null` if they are locked behind an information category that the user has disabled.
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
 					if (instruction.Calls(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
+							yield return i;
+						}
 					}
 				}
 			}

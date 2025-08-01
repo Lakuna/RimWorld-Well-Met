@@ -1,5 +1,5 @@
 ﻿namespace Lakuna.WellMet.Utility {
-	public enum InformationCategory {
+	public enum InformationCategory : int {
 		Basic,
 		Health,
 		Needs,

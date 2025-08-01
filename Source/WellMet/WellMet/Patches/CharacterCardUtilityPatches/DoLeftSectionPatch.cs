@@ -13,19 +13,18 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
 
+		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
+
+		private static readonly MethodInfo GetBackstoryMethod = AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory));
+
+		private static readonly FieldInfo SourceGeneField = AccessTools.Field(typeof(Trait), nameof(Trait.sourceGene));
+
+		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
+
 		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
 
-		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title)), InformationCategory.Basic },
-			{ AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits)), InformationCategory.Traits }
-		};
-
-		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory)), InformationCategory.Backstory }
-		};
-
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)
+		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
@@ -35,6 +34,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, pawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
@@ -44,20 +44,15 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				// Replace method results with `null` if they are locked behind an information category that the user has disabled.
-				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
-					if (instruction.Calls(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_0);
-						yield return new CodeInstruction(OpCodes.Ldfld, pawnField);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+				if (instruction.Calls(GetBackstoryMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
+						yield return i;
+					}
+				}
+
+				if (instruction.LoadsField(TitleField) || instruction.LoadsField(SourceGeneField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
 			}
@@ -65,8 +60,22 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_2) };
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
+
+				if (instruction.Calls(AllAbilitiesForReadingMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
+						yield return i;
+					}
+				}
+
+				if (instruction.LoadsField(TitleField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
+					}
+				}
 
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(CharacterCardUtility)) {
@@ -75,48 +84,16 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					}
 				}
 
-				// Replace fields with `null` if they are locked behind an information category that the user has disabled.
-				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
-						Label dontNullifyLabel = generator.DefineLabel();
-						yield return new CodeInstruction(OpCodes.Ldc_I4, (int)row.Value);
-						yield return new CodeInstruction(OpCodes.Ldarg_2);
-						yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-						yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-						yield return new CodeInstruction(OpCodes.Pop);
-						yield return new CodeInstruction(OpCodes.Ldnull);
-						CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-						dontNullifyTarget.labels.Add(dontNullifyLabel);
-						yield return dontNullifyTarget;
+				if (instruction.LoadsField(AllTraitsField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
 
-				// Replace `pawn.abilities.AllAbilitiesForReading` with `KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn) ? pawn.abilities.AllAbilitiesForReading : new List<Ability>()`.
-				if (instruction.Calls(AllAbilitiesForReadingMethod)) {
-					Label dontNullifyLabel = generator.DefineLabel();
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Abilities);
-					yield return new CodeInstruction(OpCodes.Ldarg_2);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-					yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-					yield return new CodeInstruction(OpCodes.Pop);
-					yield return new CodeInstruction(OpCodes.Newobj, AbilityListConstructor);
-					CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-					dontNullifyTarget.labels.Add(dontNullifyLabel);
-					yield return dontNullifyTarget;
-				}
-
-				// Replace `pawn.CombinedDisabledWorkTags` with `KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, pawn) ? pawn.CombinedDisabledWorkTags : WorkTags.None`.
 				if (instruction.Calls(CombinedDisabledWorkTagsMethod)) {
-					Label dontNullifyLabel = generator.DefineLabel();
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Skills);
-					yield return new CodeInstruction(OpCodes.Ldarg_2);
-					yield return new CodeInstruction(OpCodes.Call, KnowledgeUtility.IsInformationKnownForPawnMethod);
-					yield return new CodeInstruction(OpCodes.Brtrue_S, dontNullifyLabel);
-					yield return new CodeInstruction(OpCodes.Pop);
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)WorkTags.None);
-					CodeInstruction dontNullifyTarget = new CodeInstruction(OpCodes.Nop);
-					dontNullifyTarget.labels.Add(dontNullifyLabel);
-					yield return dontNullifyTarget;
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator)) {
+						yield return i;
+					}
 				}
 			}
 		}
