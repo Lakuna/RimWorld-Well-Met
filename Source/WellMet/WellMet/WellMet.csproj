@@ -58,13 +58,16 @@
 		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\HealthCardUtilityPatches\VisibleHediffsPatch.cs" />
+		<Compile Include="Patches\ITabPawnTrainingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
+		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />
 		<Compile Include="Patches\SocialCardUtilityPatches\AnyRelationsPatch.cs" />
 		<Compile Include="Patches\StartingPawnUtilityPatches\DrawPortraitAreaPatch.cs" />
 		<Compile Include="Patches\StartingPawnUtilityPatches\DrawSkillSummariesPatch.cs" />
+		<Compile Include="Patches\TrainingCardUtilityPatches\DrawTrainingCardPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonFactionPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonThingPatch.cs" />
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawMoodPatch.cs" />

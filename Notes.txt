@@ -1,12 +1,11 @@
 Well Met Notes
 
 TODO:
-- Hide animal trainability and wildness on training tab (advanced).
-- Hide animal bond on training tab (next to bond's name in parentheses; social).
 - Hide thoughts caused by ideoligion (i.e. wielding noble weapon; ideoligion).
 - Hide thoughts caused by relationships (i.e. master of bonded animal; social).
 - Hide thoughts caused by health (i.e. intense pain; health).
 - Hide thoughts caused by traits (i.e. constraining clothes; traits).
+- Hide thoughts caused by gear (i.e. constraining clothes, wielding noble weapon; gear).
 - Hide needs caused by addiction (health).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
 - Hide ideoligion on social tab (ideoligion).
@@ -36,7 +35,6 @@ Need to patch:
 - ITab_Pawn_Log.FillTab
 - ITab_Pawn_Prisoner.IsVisible
 - ITab_Pawn_Slave.IsVisible
-- ITab_Pawn_Training.IsVisible
 - ITab_Pawn_Visitor.FillTab
 - NeedsCardUtility.DoNeedsMoodAndThoughts
 - Pawn_AgeTracker.AgeTooltipString (used in DoTopStack when hovering over the Rect that contains the MainDesc)
@@ -45,4 +43,3 @@ Need to patch:
 - RestraintsUtility.ShouldShowRestraintsInfo
 - SocialCardUtility.DrawSocialCard
 - Thing.GetInspectStringLowPriority (maybe; used in InspectPaneFiller.DrawInspectStringFor)
-- TrainingCardUtility.DrawTrainingCard
