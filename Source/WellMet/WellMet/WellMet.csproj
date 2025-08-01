@@ -59,6 +59,7 @@
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
+		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonFactionPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonThingPatch.cs" />

@@ -1,7 +1,6 @@
 Well Met Notes
 
 TODO:
-- Hide name on corpses (basic).
 - Hide health, relations, and possessions when selecting starting pawns (health, social, and gear, respectively).
 - Hide animal trainability and wildness on training tab (advanced).
 - Hide animal bond on training tab (next to bond's name in parentheses; social).
@@ -48,5 +47,5 @@ Need to patch:
 - RestraintsUtility.ShouldShowRestraintsInfo
 - SocialCardUtility.DrawSocialCard
 - StartingPawnUtility.DrawSkillSummaries
-- Thing.GetInspectStringLowPriority (maybe; used in DrawInspectStringFor)
+- Thing.GetInspectStringLowPriority (maybe; used in InspectPaneFiller.DrawInspectStringFor)
 - TrainingCardUtility.DrawTrainingCard
