@@ -1,7 +1,6 @@
 Well Met Notes
 
 TODO:
-- Hide health, relations, and possessions when selecting starting pawns (health, social, and gear, respectively).
 - Hide animal trainability and wildness on training tab (advanced).
 - Hide animal bond on training tab (next to bond's name in parentheses; social).
 - Hide thoughts caused by ideoligion (i.e. wielding noble weapon; ideoligion).
@@ -9,7 +8,6 @@ TODO:
 - Hide thoughts caused by health (i.e. intense pain; health).
 - Hide thoughts caused by traits (i.e. constraining clothes; traits).
 - Hide needs caused by addiction (health).
-- Hide ability gizmos (abilities).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
 - Hide ideoligion on social tab (ideoligion).
 - Hide relations on social tab (social).
@@ -18,7 +16,7 @@ TODO:
 - Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
 - Hide mood on colonist bar (needs).
 - Hide settlement and faction names on world map (basic).
-- Hide "condition tended" pop-ups (health).
+- Hide pop-ups (i.e. "hediff tended," "headshot," "skill level up;" various).
 - Hide social interaction pop-ups (social).
 - Hide information on tooltip when hovering over pawns (various).
 - Hide all information about corpses that start off dead (new setting).
@@ -46,6 +44,5 @@ Need to patch:
 - PawnUtility.ShouldDisplayLordReport
 - RestraintsUtility.ShouldShowRestraintsInfo
 - SocialCardUtility.DrawSocialCard
-- StartingPawnUtility.DrawSkillSummaries
 - Thing.GetInspectStringLowPriority (maybe; used in InspectPaneFiller.DrawInspectStringFor)
 - TrainingCardUtility.DrawTrainingCard
