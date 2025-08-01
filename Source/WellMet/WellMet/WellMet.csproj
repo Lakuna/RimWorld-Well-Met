@@ -95,7 +95,6 @@
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawTimetableSettingPatch.cs" />
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawHealthPatch.cs" />
 		<Compile Include="Patches\ITabPawnCharacterPatches\IsVisiblePatch.cs" />
-		<Compile Include="Patches\ITabPawnGearPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnNeedsPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnSocialPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\InspectTabBasePatches\IsVisiblePatch.cs" />
