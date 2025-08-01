@@ -1,11 +1,7 @@
 Well Met Notes
 
 TODO:
-- Hide thoughts caused by ideoligion (i.e. wielding noble weapon; ideoligion).
-- Hide thoughts caused by relationships (i.e. master of bonded animal; social).
-- Hide thoughts caused by health (i.e. intense pain; health).
-- Hide thoughts caused by traits (i.e. constraining clothes; traits).
-- Hide thoughts caused by gear (i.e. constraining clothes, wielding noble weapon; gear).
+- Hide traits completely instead of writing "Unknown" (traits).
 - Hide "last human meat" thought (ideoligion?).
 - Hide abilities given by genes and royal titles (advanced).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
@@ -25,7 +21,6 @@ TODO:
 - New preview image, logo, and name.
 
 Need to patch:
-- HealthCardUtility.DrawPawnHealthCard
 - MainTabWindow_Inspect.DoInspectPaneButtons (maybe; used by InspectPaneUtility.InspectPaneOnGUI via MainTabWindow_Inspect.DoWindowContents)
 - IInspectPane.ShouldShowPaneContents (maybe better than a prefix patch on IInspectPane.DoPaneContents)
 - ITab_Pawn_FormingCaravan.IsVisible
@@ -35,7 +30,6 @@ Need to patch:
 - ITab_Pawn_Prisoner.IsVisible
 - ITab_Pawn_Slave.IsVisible
 - ITab_Pawn_Visitor.FillTab
-- NeedsCardUtility.DoNeedsMoodAndThoughts
 - Pawn_AgeTracker.AgeTooltipString (used in DoTopStack when hovering over the Rect that contains the MainDesc)
 - PawnUtility.ShouldDisplayJobReport
 - PawnUtility.ShouldDisplayLordReport

@@ -11,13 +11,13 @@ namespace Lakuna.WellMet.Patches.NeedPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Need __instance, ref bool __result) {
-			if (__instance is Need_Chemical needChemical) {
-				__result = __result && (!(PawnField.GetValue(needChemical) is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn));
+			if (__instance is Need_Chemical) {
+				__result = __result && (!(PawnField.GetValue(__instance) is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn));
 				return;
 			}
 
-			if (__instance is Need_Deathrest needDeathrest) {
-				__result = __result && (!(PawnField.GetValue(needDeathrest) is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn));
+			if (__instance is Need_Deathrest) {
+				__result = __result && (!(PawnField.GetValue(__instance) is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn));
 			}
 		}
 	}

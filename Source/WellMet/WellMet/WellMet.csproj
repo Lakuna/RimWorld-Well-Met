@@ -58,6 +58,7 @@
 		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\HealthCardUtilityPatches\VisibleHediffsPatch.cs" />
+		<Compile Include="Patches\IdeoUiUtilityPatches\DrawExtraThoughtInfoFromIdeoPatch.cs" />
 		<Compile Include="Patches\ITabPawnFormingCaravanPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnFeedingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowInventoryPatch.cs" />
@@ -78,6 +79,10 @@
 		<Compile Include="Patches\SocialCardUtilityPatches\AnyRelationsPatch.cs" />
 		<Compile Include="Patches\StartingPawnUtilityPatches\DrawPortraitAreaPatch.cs" />
 		<Compile Include="Patches\StartingPawnUtilityPatches\DrawSkillSummariesPatch.cs" />
+		<Compile Include="Patches\ThoughtMemoryPatches\VisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtMemorySocialPatches\VisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtSituationalSocialPatches\VisibleInNeedsTabPatch.cs" />
+		<Compile Include="Patches\ThoughtPatches\VisibleInNeedsTabPatch.cs" />
 		<Compile Include="Patches\TrainingCardUtilityPatches\DrawTrainingCardPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonFactionPatch.cs" />
 		<Compile Include="Patches\WidgetsPatches\InfoCardButtonThingPatch.cs" />
