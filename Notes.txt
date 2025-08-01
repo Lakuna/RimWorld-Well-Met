@@ -3,8 +3,6 @@ Well Met Notes
 TODO:
 - Hide name on corpses (basic).
 - Hide health, relations, and possessions when selecting starting pawns (health, social, and gear, respectively).
-- Hide name under pawns (basic).
-- Hide health bars under pawns (health).
 - Hide animal trainability and wildness on training tab (advanced).
 - Hide animal bond on training tab (next to bond's name in parentheses; social).
 - Hide thoughts caused by ideoligion (i.e. wielding noble weapon; ideoligion).
@@ -20,8 +18,6 @@ TODO:
 - Hide permits tab in inspect dialog (abilities).
 - Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
 - Hide mood on colonist bar (needs).
-- Hide name on colonist bar nametag (basic).
-- Hide health on colonist bar nametag (health).
 - Hide settlement and faction names on world map (basic).
 - Hide "condition tended" pop-ups (health).
 - Hide social interaction pop-ups (social).
@@ -31,7 +27,6 @@ TODO:
 - New preview image, logo, and name.
 
 Need to patch:
-- GenLabel.BestKindLabel (used by Pawn.MainDesc and Pawn.LabelNoCount).
 - HealthCardUtility.DrawPawnHealthCard
 - MainTabWindow_Inspect.DoInspectPaneButtons (maybe; used by InspectPaneUtility.InspectPaneOnGUI via MainTabWindow_Inspect.DoWindowContents)
 - IInspectPane.ShouldShowPaneContents (maybe better than a prefix patch on IInspectPane.DoPaneContents)
@@ -47,7 +42,7 @@ Need to patch:
 - ITab_Pawn_Training.IsVisible
 - ITab_Pawn_Visitor.FillTab
 - NeedsCardUtility.DoNeedsMoodAndThoughts
-- Pawn_AgeTracker.AgeTooltipString (used in DoTopStack when hovering over the Rect that contains the MainDesc).
+- Pawn_AgeTracker.AgeTooltipString (used in DoTopStack when hovering over the Rect that contains the MainDesc)
 - PawnUtility.ShouldDisplayJobReport
 - PawnUtility.ShouldDisplayLordReport
 - RestraintsUtility.ShouldShowRestraintsInfo

@@ -55,6 +55,7 @@
 		<Compile Include="Patches\CharacterCardUtilityPatches\GetWorkTypeDisableCausesPatch.cs" />
 		<Compile Include="Patches\CharacterCardUtilityPatches\DoLeftSectionPatch.cs" />
 		<Compile Include="Patches\GenLabelPatches\BestKindLabelPatch.cs" />
+		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
