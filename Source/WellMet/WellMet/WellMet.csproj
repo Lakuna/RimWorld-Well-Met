@@ -58,6 +58,14 @@
 		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\HealthCardUtilityPatches\VisibleHediffsPatch.cs" />
+		<Compile Include="Patches\ITabPawnFormingCaravanPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnFeedingPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowInventoryPatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowApparelPatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowEquipmentPatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\TryDrawComfyTemperatureRangePatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowOverallArmorPatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\TryDrawMassInfoPatch.cs" />
 		<Compile Include="Patches\ITabPawnTrainingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
