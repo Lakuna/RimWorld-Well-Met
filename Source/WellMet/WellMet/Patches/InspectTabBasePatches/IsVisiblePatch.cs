@@ -17,15 +17,15 @@ namespace Lakuna.WellMet.Patches.InspectTabBasePatches {
 			if (__instance is ITab_Pawn_Health healthTab) {
 				__result = __result
 					&& (!(PawnForHealthMethod.Invoke(healthTab, Array.Empty<object>()) is Pawn pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, true));
 				return;
 			}
 
 			if (__instance is ITab_Pawn_Log logTab) {
 				__result = __result
 					&& (!(SelPawnForCombatInfoMethod.Invoke(logTab, Array.Empty<object>()) is Pawn pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn));
 			}
 		}
 	}

@@ -73,6 +73,7 @@
 		<Compile Include="Patches\NeedKillThirstPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedChemicalAnyPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedPatches\ShowOnNeedListPatch.cs" />
+		<Compile Include="Patches\PawnAgeTrackerPatches\AgeTooltipStringPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
 		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />

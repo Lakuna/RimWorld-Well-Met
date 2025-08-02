@@ -33,6 +33,7 @@ namespace Lakuna.WellMet {
 			this.alwaysKnowStartingColonists = true;
 			this.alwaysKnowGrowthMomentTraits = true;
 			this.hideFactionInformation = false;
+			this.neverHideControls = true;
 		}
 
 		private BoolGrid knownInformation;
@@ -67,13 +68,21 @@ namespace Lakuna.WellMet {
 			set => this.hideFactionInformation = value;
 		}
 
+		private bool neverHideControls;
+
+		internal bool NeverHideControls {
+			get => this.neverHideControls;
+			set => this.neverHideControls = value;
+		}
+
 		public override void ExposeData() {
+			base.ExposeData();
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
 			Scribe_Values.Look(ref this.colonistTraitDiscoveryDifficulty, nameof(this.colonistTraitDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
 			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
 			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
-			base.ExposeData();
+			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
 		}
 	}
 }

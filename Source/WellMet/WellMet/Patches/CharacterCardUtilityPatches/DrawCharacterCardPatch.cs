@@ -16,10 +16,10 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn, ref bool showName) {
-			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
+			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
 			showName = showName && basic;
 			return basic
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, true) // "Renounce title" button.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn)
@@ -36,7 +36,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (instruction.LoadsField(row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
+						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, isControl: true)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
 							yield return i;
 						}
 					}

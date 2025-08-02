@@ -1,8 +1,6 @@
 Well Met Notes
 
 TODO:
-- Hide traits completely instead of writing "Unknown" (traits).
-- Hide "last human meat" thought (ideoligion?).
 - Hide abilities given by genes and royal titles (advanced).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
 - Hide ideoligion on social tab (ideoligion).
@@ -21,8 +19,6 @@ TODO:
 - New preview image, logo, and name.
 
 Need to patch:
-- MainTabWindow_Inspect.DoInspectPaneButtons (maybe; used by InspectPaneUtility.InspectPaneOnGUI via MainTabWindow_Inspect.DoWindowContents)
-- IInspectPane.ShouldShowPaneContents (maybe better than a prefix patch on IInspectPane.DoPaneContents)
 - ITab_Pawn_FormingCaravan.IsVisible
 - ITab_Pawn_FormingCaravan.FillTab (maybe; does the tab contain multiple categories of content?)
 - ITab_Pawn_Guest.IsVisible
@@ -30,7 +26,6 @@ Need to patch:
 - ITab_Pawn_Prisoner.IsVisible
 - ITab_Pawn_Slave.IsVisible
 - ITab_Pawn_Visitor.FillTab
-- Pawn_AgeTracker.AgeTooltipString (used in DoTopStack when hovering over the Rect that contains the MainDesc)
 - PawnUtility.ShouldDisplayJobReport
 - PawnUtility.ShouldDisplayLordReport
 - RestraintsUtility.ShouldShowRestraintsInfo

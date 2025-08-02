@@ -15,6 +15,5 @@ namespace Lakuna.WellMet.Patches {
 #endif
 
 		static HarmonyPatcher() => Instance.PatchAll();
-
 	}
 }
