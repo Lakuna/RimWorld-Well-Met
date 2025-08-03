@@ -28,6 +28,8 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, IssueDefListConstructor)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(GetAffectedMemesMethod)) {

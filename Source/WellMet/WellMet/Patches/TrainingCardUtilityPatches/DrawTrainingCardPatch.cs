@@ -24,6 +24,8 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(ToStringPercentMethod)) {

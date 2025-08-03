@@ -46,32 +46,47 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
+				bool flag = false;
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (instruction.LoadsField(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
+
+						flag = true;
+						break;
 					}
+				}
+				if (flag) {
+					continue;
 				}
 
 				if (instruction.Calls(GetInspectStringMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(TraderKindMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(InMentalStateMethod) || instruction.Calls(InspiredMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(IsMutantMethod)) {

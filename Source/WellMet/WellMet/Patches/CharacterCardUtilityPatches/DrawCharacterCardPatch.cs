@@ -39,6 +39,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, isControl: true)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
 							yield return i;
 						}
+
+						break;
 					}
 				}
 			}

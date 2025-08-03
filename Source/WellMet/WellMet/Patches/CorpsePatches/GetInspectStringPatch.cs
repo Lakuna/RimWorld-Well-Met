@@ -27,6 +27,8 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
+
+						break;
 					}
 				}
 			}

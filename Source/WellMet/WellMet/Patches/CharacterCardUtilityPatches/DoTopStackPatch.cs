@@ -38,12 +38,19 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+				bool flag = false;
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (instruction.LoadsField(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
+
+						flag = true;
+						break;
 					}
+				}
+				if (flag) {
+					continue;
 				}
 
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
@@ -51,6 +58,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
+
+						break;
 					}
 				}
 			}

@@ -48,6 +48,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.LoadsField(TitleField) || instruction.LoadsField(SourceGeneField)) {
@@ -69,12 +71,16 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.LoadsField(TitleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				// Apply a transpiler to action delegates.
@@ -82,12 +88,16 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, null, null, ActionDelegateTranspilerMethod);
 					}
+
+					continue;
 				}
 
 				if (instruction.LoadsField(AllTraitsField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(CombinedDisabledWorkTagsMethod)) {

@@ -1,8 +1,8 @@
 Well Met Notes
 
 TODO:
+- Robot power gizmo? (needs? advanced?)
 - Hide abilities given by genes and royal titles (advanced).
-- Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
 - Hide permits tab in inspect dialog (abilities).
 - Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
 - Hide settlement and faction names on world map (basic).

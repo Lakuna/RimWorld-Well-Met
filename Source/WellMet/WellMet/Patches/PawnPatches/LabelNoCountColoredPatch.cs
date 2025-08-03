@@ -27,18 +27,24 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.LoadsField(StoryField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(IsSubhumanMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				if (instruction.Calls(LabelPrefixMethod)) {

@@ -21,7 +21,7 @@ namespace Lakuna.WellMet.Patches.GenLabelPatches {
 			}
 
 			// If this isn't done, NPC humans with basic information not known will show their kind (i.e. "mercenary gunner").
-			__result = "Human".Translate();
+			__result = (KnowledgeUtility.TypeOf(pawn).ToString() + "Pawn").Translate();
 		}
 	}
 }

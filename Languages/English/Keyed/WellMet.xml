@@ -15,7 +15,11 @@
 	<Controlled>controlled</Controlled>
 
 	<!-- Pawn type labels. -->
-	<Human>human</Human>
+	<ColonistPawn>colonist pawn</ColonistPawn>
+	<ControlledPawn>controlled pawn</ControlledPawn>
+	<PrisonerPawn>prisoner pawn</PrisonerPawn>
+	<NeutralPawn>neutral pawn</NeutralPawn>
+	<HostilePawn>hostile pawn</HostilePawn>
 
 	<!-- Pawn type blurbs. -->
 	<ColonistBlurb>free, non-slave colonists</ColonistBlurb>

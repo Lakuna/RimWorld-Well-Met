@@ -63,8 +63,10 @@
 		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\GizmoPatches\VisiblePatch.cs" />
+		<Compile Include="Patches\HealthCardUtilityPatches\DrawHediffListingPatch.cs" />
 		<Compile Include="Patches\HealthCardUtilityPatches\DrawOverviewTabPatch.cs" />
 		<Compile Include="Patches\HealthCardUtilityPatches\VisibleHediffsPatch.cs" />
+		<Compile Include="Patches\HealthUtilityPatches\GetGeneralConditionLabelPatch.cs" />
 		<Compile Include="Patches\IdeoUiUtilityPatches\DrawExtraThoughtInfoFromIdeoPatch.cs" />
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawAreaAllowedPatch.cs" />
 		<Compile Include="Patches\InspectPaneFillerPatches\DrawHealthPatch.cs" />
@@ -94,6 +96,7 @@
 		<Compile Include="Patches\NeedKillThirstPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\PawnAgeTrackerPatches\AgeTooltipStringPatch.cs" />
+		<Compile Include="Patches\PawnPatches\GetTooltipPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetInspectStringPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountColoredPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelNoCountPatch.cs" />
