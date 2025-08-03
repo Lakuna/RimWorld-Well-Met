@@ -19,15 +19,8 @@ TODO:
 - New preview image, logo, and name.
 
 Need to patch:
-- ITab_Pawn_FormingCaravan.IsVisible
-- ITab_Pawn_FormingCaravan.FillTab (maybe; does the tab contain multiple categories of content?)
 - ITab_Pawn_Guest.IsVisible
 - ITab_Pawn_Log.FillTab
 - ITab_Pawn_Prisoner.IsVisible
 - ITab_Pawn_Slave.IsVisible
 - ITab_Pawn_Visitor.FillTab
-- PawnUtility.ShouldDisplayJobReport
-- PawnUtility.ShouldDisplayLordReport
-- RestraintsUtility.ShouldShowRestraintsInfo
-- SocialCardUtility.DrawSocialCard
-- Thing.GetInspectStringLowPriority (maybe; used in InspectPaneFiller.DrawInspectStringFor)

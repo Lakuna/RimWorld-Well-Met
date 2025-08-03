@@ -19,12 +19,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// `KnowledgeUtility.IsInformationKnownFor` given a `Pawn` as an argument.
 		/// </summary>
-		private static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn), typeof(bool) });
+		internal static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn), typeof(bool) });
 
 		/// <summary>
 		/// `KnowledgeUtility.IsInformationKnownFor` given a `Faction` as an argument.
 		/// </summary>
-		private static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction), typeof(bool) });
+		internal static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction), typeof(bool) });
 
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn.
@@ -198,7 +198,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <returns>The instruction that will load the given value onto the stack.</returns>
-		private static CodeInstruction LoadValue(object value) {
+		internal static CodeInstruction LoadValue(object value) {
 			if (value is int intValue) {
 				switch (intValue) {
 					case -1:
