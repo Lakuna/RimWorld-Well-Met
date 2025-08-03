@@ -1,5 +1,0 @@
-Well Met Notes
-
-TODO:
-- Know additional information about pawns with relationships with colonists (new setting).
-- New preview image, logo, and name.

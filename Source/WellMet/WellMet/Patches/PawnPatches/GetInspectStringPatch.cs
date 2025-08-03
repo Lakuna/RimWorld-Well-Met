@@ -14,7 +14,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.flight)), InformationCategory.Basic },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.stances)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },

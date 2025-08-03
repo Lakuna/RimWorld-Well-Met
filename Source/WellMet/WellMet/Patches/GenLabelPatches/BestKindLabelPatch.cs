@@ -16,7 +16,13 @@ namespace Lakuna.WellMet.Patches.GenLabelPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Pawn pawn, ref string __result) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) || pawn.IsAnimal) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				|| pawn.RaceProps.Animal
+#else
+				|| pawn.IsAnimal
+#endif
+			) {
 				return;
 			}
 

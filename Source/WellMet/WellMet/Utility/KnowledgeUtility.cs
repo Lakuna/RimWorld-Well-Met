@@ -31,7 +31,13 @@ namespace Lakuna.WellMet.Utility {
 		/// <exception cref="ArgumentNullException">When no pawn is given.</exception>
 		public static PawnType TypeOf(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: (pawn.IsFreeNonSlaveColonist || pawn.IsAnimal && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+			: (pawn.IsFreeNonSlaveColonist
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+				|| pawn.RaceProps.Animal
+#else
+				|| pawn.IsAnimal
+#endif
+				&& pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: pawn.IsPlayerControlled ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)))) ? PawnType.Hostile
