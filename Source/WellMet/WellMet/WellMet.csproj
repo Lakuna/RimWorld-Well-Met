@@ -56,7 +56,9 @@
 		<Compile Include="Patches\CharacterCardUtilityPatches\DoTopStackPatch.cs" />
 		<Compile Include="Patches\CharacterCardUtilityPatches\DrawCharacterCardPatch.cs" />
 		<Compile Include="Patches\CharacterCardUtilityPatches\GetWorkTypeDisableCausesPatch.cs" />
+		<Compile Include="Patches\ColonistBarColonistDrawerPatches\DrawColonistPatch.cs" />
 		<Compile Include="Patches\CorpsePatches\GetInspectStringPatch.cs" />
+		<Compile Include="Patches\FactionPatches\HiddenPatch.cs" />
 		<Compile Include="Patches\GenLabelPatches\BestKindLabelPatch.cs" />
 		<Compile Include="Patches\GenMapUiPatches\DrawPawnLabelPatch.cs" />
 		<Compile Include="Patches\GizmoGrowthTierPatches\VisiblePatch.cs" />

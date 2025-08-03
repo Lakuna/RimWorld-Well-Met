@@ -34,7 +34,7 @@ namespace Lakuna.WellMet.Utility {
 			: (pawn.IsFreeNonSlaveColonist || pawn.IsAnimal && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: pawn.IsPlayerControlled ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
-			: (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)) ? PawnType.Hostile
+			: (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)))) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace Lakuna.WellMet.Utility {
 		public static PawnType TypeOf(Faction faction) => faction == null
 			? throw new ArgumentNullException(nameof(faction))
 			: faction == Faction.OfPlayerSilentFail ? PawnType.Colonist
-			: faction.HostileTo(Faction.OfPlayerSilentFail) ? PawnType.Hostile
+			: (faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && faction.HostileTo(Faction.OfPlayerSilentFail)) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>

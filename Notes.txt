@@ -3,10 +3,8 @@ Well Met Notes
 TODO:
 - Hide abilities given by genes and royal titles (advanced).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
-- Hide health tab in inspect dialog (health).
 - Hide permits tab in inspect dialog (abilities).
 - Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
-- Hide mood on colonist bar (needs).
 - Hide settlement and faction names on world map (basic).
 - Hide pop-ups (i.e. "hediff tended," "headshot," "skill level up;" various).
 - Hide social interaction pop-ups (social).

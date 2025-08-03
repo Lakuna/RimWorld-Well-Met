@@ -9,6 +9,7 @@
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
 	<HideFactionInformation>hide faction information</HideFactionInformation>
 	<NeverHideControls>never hide controls</NeverHideControls>
+	<HideAncientCorpses>hide ancient corpses</HideAncientCorpses>
 
 	<!-- Pawn types. -->
 	<Controlled>controlled</Controlled>

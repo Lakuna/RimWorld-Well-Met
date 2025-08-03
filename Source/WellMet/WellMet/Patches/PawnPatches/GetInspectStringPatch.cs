@@ -9,6 +9,8 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
 	internal static class GetInspectStringPatch {
+		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
+
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
@@ -23,7 +25,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
 		};
 
-		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
+		private static readonly MethodInfo GetInspectStringMethod = AccessTools.Method(typeof(ThingWithComps), nameof(ThingWithComps.GetInspectString)); // Used for stuff like egg progress.
 
 		private static readonly MethodInfo TraderKindMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.TraderKind));
 
@@ -40,6 +42,12 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+				if (instruction.LoadsField(HideMainDescField)) {
+					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
+						yield return i;
+					}
+				}
+
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (instruction.LoadsField(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
@@ -48,8 +56,8 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					}
 				}
 
-				if (instruction.LoadsField(HideMainDescField)) {
-					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
+				if (instruction.Calls(GetInspectStringMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
 				}
