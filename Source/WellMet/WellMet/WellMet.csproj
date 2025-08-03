@@ -77,6 +77,12 @@
 		<Compile Include="Patches\InspectTabBasePatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\InteractionCardUtilityPatches\DrawInteractionsLogPatch.cs" />
 		<Compile Include="Patches\ITabPawnCharacterPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnVisitorPatches\DoSlaveTabPatch.cs" />
+		<Compile Include="Patches\ITabPawnVisitorPatches\DoSlavePriceListingPatch.cs" />
+		<Compile Include="Patches\ITabPawnVisitorPatches\DoPrisonerTabPatch.cs" />
+		<Compile Include="Patches\ITabPawnSlavePatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnPrisonerPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnGuestPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnFeedingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnFormingCaravanPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnGearPatches\ShouldShowApparelPatch.cs" />
@@ -92,9 +98,11 @@
 		<Compile Include="Patches\ITabPawnTrainingPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
+		<Compile Include="Patches\MentalStatePatches\InspectLinePatch.cs" />
 		<Compile Include="Patches\NeedChemicalAnyPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedKillThirstPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedPatches\ShowOnNeedListPatch.cs" />
+		<Compile Include="Patches\NeedSuppressionPatches\DrawSuppressionBarPatch.cs" />
 		<Compile Include="Patches\PawnAgeTrackerPatches\AgeTooltipStringPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetTooltipPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetInspectStringPatch.cs" />
@@ -107,6 +115,8 @@
 		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />
 		<Compile Include="Patches\RestraintsUtilityPatches\ShouldShowRestraintsInfoPatch.cs" />
 		<Compile Include="Patches\SkillUiPatches\DrawSkillsOfPatch.cs" />
+		<Compile Include="Patches\SlaveRebellionUtilityPatches\GetAnySlaveRebellionExplanationPatch.cs" />
+		<Compile Include="Patches\SlaveRebellionUtilityPatches\GetSlaveRebellionMtbCalculationExplanationPatch.cs" />
 		<Compile Include="Patches\SocialCardUtilityPatches\AnyRelationsPatch.cs" />
 		<Compile Include="Patches\SocialCardUtilityPatches\DrawPawnCertaintyPatch.cs" />
 		<Compile Include="Patches\SocialCardUtilityPatches\DrawPawnRolePatch.cs" />

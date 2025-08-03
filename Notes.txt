@@ -1,21 +1,5 @@
 Well Met Notes
 
 TODO:
-- Robot power gizmo? (needs? advanced?)
-- Hide abilities given by genes and royal titles (advanced).
-- Hide permits tab in inspect dialog (abilities).
-- Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
-- Hide settlement and faction names on world map (basic).
-- Hide pop-ups (i.e. "hediff tended," "headshot," "skill level up;" various).
-- Hide social interaction pop-ups (social).
-- Hide information on tooltip when hovering over pawns (various).
-- Caravan inspector information (various).
-- Hide egg progress (advanced).
 - Know additional information about pawns with relationships with colonists (new setting).
 - New preview image, logo, and name.
-
-Need to patch:
-- ITab_Pawn_Guest.IsVisible
-- ITab_Pawn_Prisoner.IsVisible
-- ITab_Pawn_Slave.IsVisible
-- ITab_Pawn_Visitor.FillTab
