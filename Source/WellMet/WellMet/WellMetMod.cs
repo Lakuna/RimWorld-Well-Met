@@ -75,6 +75,10 @@ namespace Lakuna.WellMet {
 			listing.CheckboxLabeled("NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls);
 			Settings.NeverHideControls = neverHideControls;
 
+			bool hideAncientCorpses = Settings.HideAncientCorpses;
+			listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
+			Settings.HideAncientCorpses = hideAncientCorpses;
+
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
 				_ = listing.Label("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
 			}

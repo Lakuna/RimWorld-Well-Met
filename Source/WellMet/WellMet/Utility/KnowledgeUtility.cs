@@ -79,13 +79,30 @@ namespace Lakuna.WellMet.Utility {
 		private static bool IsStartingColonist(Pawn pawn) => Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false;
 
 		/// <summary>
+		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
+		public static bool IsAncientCorpse(Pawn pawn) => pawn != null && pawn.Dead && IsAncientCorpse(pawn.Corpse);
+
+		/// <summary>
+		/// Determine whether or not the given corpse was dead when the player discovered it.
+		/// </summary>
+		/// <param name="corpse">The corpse.</param>
+		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
+		public static bool IsAncientCorpse(Corpse corpse) => corpse != null && corpse.timeOfDeath <= 0;
+
+		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
 		/// </summary>
 		/// <param name="informationCategory">The information category.</param>
 		/// <param name="pawn">The pawn.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
-		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn, bool isControl = false) => WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn) || IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead);
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn, bool isControl = false) =>
+			(WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
+				|| IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead))
+			&& !(IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -94,7 +111,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="faction">The faction.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>Whether the given information category is known for the given faction.</returns>
-		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction, bool isControl = false) => !WellMetMod.Settings.HideFactionInformation || IsInformationKnownFor(informationCategory, TypeOf(faction), isControl);
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, Faction faction, bool isControl = false) =>
+			!WellMetMod.Settings.HideFactionInformation
+			|| IsInformationKnownFor(informationCategory, TypeOf(faction), isControl);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given pawn type.
@@ -104,7 +123,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the given information category is known for the given pawn type.</returns>
-		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType, bool isControl = false, bool isAlive = true) => WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory] || isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
+		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType, bool isControl = false, bool isAlive = true) =>
+			WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory]
+			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
 
 		/// <summary>
 		/// Determine whether the given trait is known.

@@ -3,8 +3,6 @@ Well Met Notes
 TODO:
 - Hide abilities given by genes and royal titles (advanced).
 - Hide "agrees with memes," "overrides some precepts related to," etc. on traits (ideoligion).
-- Hide ideoligion on social tab (ideoligion).
-- Hide relations on social tab (social).
 - Hide health tab in inspect dialog (health).
 - Hide permits tab in inspect dialog (abilities).
 - Hide faction name in messages (i.e. "raid from faction" or "pirates from faction are fleeing;" basic).
@@ -14,13 +12,12 @@ TODO:
 - Hide social interaction pop-ups (social).
 - Hide information on tooltip when hovering over pawns (various).
 - Caravan inspector information (various).
-- Hide all information about corpses that start off dead (new setting).
+- Hide egg progress (advanced).
 - Know additional information about pawns with relationships with colonists (new setting).
 - New preview image, logo, and name.
 
 Need to patch:
 - ITab_Pawn_Guest.IsVisible
-- ITab_Pawn_Log.FillTab
 - ITab_Pawn_Prisoner.IsVisible
 - ITab_Pawn_Slave.IsVisible
 - ITab_Pawn_Visitor.FillTab
