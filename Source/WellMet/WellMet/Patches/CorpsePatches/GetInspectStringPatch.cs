@@ -12,7 +12,9 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			{ AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff)), InformationCategory.Health }
+#endif
 		};
 
 		[HarmonyTranspiler]

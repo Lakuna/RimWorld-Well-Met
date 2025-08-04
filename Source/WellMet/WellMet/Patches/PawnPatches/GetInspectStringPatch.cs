@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using RimWorld;
+#endif
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -24,7 +26,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.carryTracker)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
 		};

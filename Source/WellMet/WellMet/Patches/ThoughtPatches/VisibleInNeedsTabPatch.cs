@@ -14,7 +14,9 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 			bool gear = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, __instance.pawn);
 
 			__result = __result
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
+#endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
 #endif
@@ -42,7 +44,11 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				return;
 			}
 
-			if (__instance is Thought_DecreeUnmet || __instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency) {
+			if (__instance is Thought_DecreeUnmet
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				|| __instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency
+#endif
+				) {
 				__result = __result && advanced;
 				return;
 			}

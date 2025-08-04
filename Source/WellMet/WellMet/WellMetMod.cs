@@ -1,5 +1,7 @@
 ﻿using Lakuna.WellMet.Utility;
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using RimWorld;
+#endif
 using System;
 using UnityEngine;
 using Verse;
@@ -102,7 +104,12 @@ namespace Lakuna.WellMet {
 			}
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
+#if V1_0 || V1_1 || V1_2 || V1_3
+				listing.Label("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst());
+				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.Slider(Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+#else
 				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+#endif
 
 				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;

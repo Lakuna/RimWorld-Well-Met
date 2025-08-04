@@ -17,7 +17,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly MethodInfo GetBackstoryMethod = AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory));
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static readonly FieldInfo SourceGeneField = AccessTools.Field(typeof(Trait), nameof(Trait.sourceGene));
+#endif
 
 		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
 
@@ -52,11 +54,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 				if (instruction.LoadsField(TitleField) || instruction.LoadsField(SourceGeneField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
 				}
+#endif
 			}
 		}
 
