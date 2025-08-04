@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -11,36 +7,21 @@ using System.Reflection.Emit;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
-#if V1_0 || V1_1 || V1_2 || V1_3
-	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
-#else
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
-#endif
 	internal static class DoTopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
-#endif
-#if !V1_0
 			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic }, // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-#endif
-#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.story)), InformationCategory.Advanced }, // `story` is used only for favorite color in this method.
-#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced } // `guest` is used only for unwaveringly loyal status in this method.
 		};
 
-#if !V1_0
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
-#if !(V1_0 || V1_1 || V1_2)
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
-#endif
 		};
-#endif
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn, ref bool creationMode) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
@@ -49,28 +30,17 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 		}
-#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
-#if V1_0
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
-#else
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
-#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
 				bool flag = false;
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (
-#if V1_0
-						PatchUtility.LoadsField(instruction, row.Key)
-#else
-						instruction.LoadsField(row.Key)
-#endif
-						) {
+					if (instruction.LoadsField(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
@@ -83,7 +53,6 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-#if !V1_0
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
 					if (instruction.Calls(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
@@ -93,7 +62,6 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 						break;
 					}
 				}
-#endif
 			}
 		}
 	}

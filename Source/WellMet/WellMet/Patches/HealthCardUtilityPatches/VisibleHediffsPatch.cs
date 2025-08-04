@@ -1,13 +1,7 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
-#if !V1_0
 using System;
-#endif
 using System.Collections.Generic;
 using Verse;
 
@@ -20,11 +14,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 				return;
 			}
 
-#if V1_0
-			__result = new Hediff[] { };
-#else
 			__result = Array.Empty<Hediff>();
-#endif
 		}
 	}
 }

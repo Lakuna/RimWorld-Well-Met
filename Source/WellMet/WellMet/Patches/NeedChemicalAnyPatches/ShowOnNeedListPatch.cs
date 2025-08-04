@@ -1,5 +1,4 @@
-﻿#if !V1_0
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -12,4 +11,3 @@ namespace Lakuna.WellMet.Patches.NeedChemicalAnyPatches {
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, ___pawn);
 	}
 }
-#endif

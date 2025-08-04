@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using System.Collections.Generic;
 using System.Reflection;
@@ -12,35 +8,19 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.MainDesc))]
 	internal static class MainDescPatch {
-#if V1_0
-		private static readonly MethodInfo FactionMethod = AccessTools.Method(typeof(Thing), "get_" + nameof(Thing.Faction));
-#else
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
-#endif
 
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 
 		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
-#endif
 
 		[HarmonyPrefix]
-		private static void Prefix(Pawn __instance,
-#if V1_0
-			ref bool writeAge
-#else
-			ref bool writeFaction, ref bool writeGender
-#endif
-			) {
-			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
-#if V1_0
-			writeAge = writeAge && basic;
-#else
-			writeFaction = writeFaction && basic;
-			writeGender = writeGender && basic;
-#endif
+		private static void Prefix(Pawn __instance, ref bool writeFaction, ref bool writeGender) {
+			bool basicIsKnown = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
+			writeFaction = writeFaction && basicIsKnown;
+			writeGender = writeGender && basicIsKnown;
 		}
 
 		[HarmonyTranspiler]
@@ -50,13 +30,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (
-#if V1_0
-					PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.LoadsField(instruction, AgeTrackerField)
-#else
-					instruction.Calls(FactionMethod) || instruction.LoadsField(AgeTrackerField)
-#endif
-					) {
+				if (instruction.Calls(FactionMethod) || instruction.LoadsField(AgeTrackerField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -64,7 +38,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
@@ -78,7 +51,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						yield return i;
 					}
 				}
-#endif
 			}
 		}
 	}

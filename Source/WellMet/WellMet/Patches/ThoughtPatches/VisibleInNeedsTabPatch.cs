@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -18,21 +14,13 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 			bool gear = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, __instance.pawn);
 
 			__result = __result
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
-#endif
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
-#endif
 				&& (__instance.def.requiredTraits?.TrueForAll((traitDef) => KnowledgeUtility.IsTraitKnown(__instance.pawn, traitDef)) ?? true)
 				&& (__instance.def.workerClass != typeof(ThoughtWorker_Pain) && __instance.def.workerClass != typeof(ThoughtWorker_Sick) || health)
-#if !(V1_0 || V1_1 || V1_2)
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept)) ?? false) || ideoligion)
-				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept_Social)) ?? false) || ideoligion && social)
-#endif
-				;
+				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept_Social)) ?? false) || ideoligion && social);
 
-#if !(V1_0 || V1_1 || V1_2)
 			if (__instance is Thought_Situational_Precept_SlavesInColony
 				|| __instance is Thought_Situational_Precept_HighLife
 				|| __instance is Thought_IdeoMissingBuilding
@@ -46,29 +34,20 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				__result = __result && ideoligion && gear;
 				return;
 			}
-#endif
 
 			if (__instance is Thought_OpinionOfMyLover || __instance is Thought_BondedAnimalMaster || __instance is Thought_NotBondedAnimalMaster || __instance is Thought_SharedBed) {
 				__result = __result && social;
 				return;
 			}
 
-#if !V1_0
-			if (__instance is Thought_DecreeUnmet
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
-				|| __instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency
-#endif
-				) {
+			if (__instance is Thought_DecreeUnmet || __instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency) {
 				__result = __result && advanced;
 				return;
 			}
-#endif
 
-#if !(V1_0 || V1_1 || V1_2)
 			if (__instance is Thought_IdeoLeaderResentment) {
 				__result = __result && ideoligion && social;
 			}
-#endif
 		}
 	}
 }

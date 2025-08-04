@@ -1,5 +1,4 @@
-﻿#if !(V1_0 || V1_1 || V1_2)
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
@@ -17,4 +16,3 @@ namespace Lakuna.WellMet.Patches.ITabPawnSlavePatches {
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true));
 	}
 }
-#endif

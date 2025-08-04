@@ -1,5 +1,4 @@
-﻿#if !V1_0
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -11,4 +10,3 @@ namespace Lakuna.WellMet.Patches.InspectPaneFillerPatches {
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn);
 	}
 }
-#endif

@@ -1,5 +1,4 @@
-﻿#if !V1_0
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,9 +12,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly FieldInfo StoryField = AccessTools.Field(typeof(Pawn), nameof(Pawn.story));
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
-#endif
 
 		private static readonly MethodInfo LabelPrefixMethod = AccessTools.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 
@@ -42,7 +39,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 				if (instruction.Calls(IsSubhumanMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
@@ -50,7 +46,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 					continue;
 				}
-#endif
 
 				if (instruction.Calls(LabelPrefixMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, "")) {
@@ -61,4 +56,3 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		}
 	}
 }
-#endif

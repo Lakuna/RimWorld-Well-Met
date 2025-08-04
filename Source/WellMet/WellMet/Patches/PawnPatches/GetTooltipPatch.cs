@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using System.Collections.Generic;
 using System.Reflection;
@@ -23,13 +19,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (
-#if V1_0
-					PatchUtility.LoadsField(instruction, GenderField)
-#else
-					instruction.LoadsField(GenderField)
-#endif
-					) {
+				if (instruction.LoadsField(GenderField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, (int)Gender.None)) {
 						yield return i;
 					}
@@ -37,13 +27,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (
-#if V1_0
-					PatchUtility.LoadsField(instruction, EquipmentField)
-#else
-					instruction.LoadsField(EquipmentField)
-#endif
-					) {
+				if (instruction.LoadsField(EquipmentField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Gear, getPawnInstructions, generator)) {
 						yield return i;
 					}

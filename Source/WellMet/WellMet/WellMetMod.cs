@@ -1,7 +1,5 @@
 ﻿using Lakuna.WellMet.Utility;
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using RimWorld;
-#endif
 using System;
 using UnityEngine;
 using Verse;
@@ -30,13 +28,7 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst()
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-						+ "."
-#else
-						.EndWithPeriod()
-#endif
-						);
+					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
 				}
 			}
 
@@ -48,13 +40,7 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst()
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-						+ "."
-#else
-						.EndWithPeriod()
-#endif
-						);
+					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
 				}
 
 				// Draw checkboxes.
@@ -94,33 +80,11 @@ namespace Lakuna.WellMet {
 			Settings.HideAncientCorpses = hideAncientCorpses;
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
-#if V1_0
-				listing.Label(
-#else
-				_ = listing.Label(
-#endif
-#if V1_0
-					"WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + "."
-#elif V1_1 || V1_2 || V1_3
-					("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + ".").Resolve()
-#elif V1_4
-					("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + ".")
-#else
-					"WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod()
-#endif
-#if !V1_0
-					.Colorize(ColoredText.WarningColor)
-#endif
-					);
+				_ = listing.Label("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
 			}
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
-#if V1_0 || V1_1 || V1_2 || V1_3
-				listing.Label("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst());
-				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.Slider(Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
-#else
 				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
-#endif
 
 				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;

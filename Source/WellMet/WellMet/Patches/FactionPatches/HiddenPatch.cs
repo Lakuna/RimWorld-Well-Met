@@ -1,5 +1,4 @@
-﻿#if !(V1_0 || V1_1)
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -10,4 +9,3 @@ namespace Lakuna.WellMet.Patches.FactionPatches {
 		private static void Postfix(Faction __instance, ref bool __result) => __result = __result || !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
 	}
 }
-#endif

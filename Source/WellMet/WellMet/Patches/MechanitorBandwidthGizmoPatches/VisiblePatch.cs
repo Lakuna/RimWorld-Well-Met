@@ -1,5 +1,4 @@
-﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -11,4 +10,3 @@ namespace Lakuna.WellMet.Patches.MechanitorBandwidthGizmoPatches {
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ___tracker.Pawn, true);
 	}
 }
-#endif

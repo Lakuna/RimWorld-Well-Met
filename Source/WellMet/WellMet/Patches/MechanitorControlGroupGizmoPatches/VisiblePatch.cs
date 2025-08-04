@@ -1,5 +1,4 @@
-﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Reflection;
@@ -15,4 +14,3 @@ namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnMechanitorTracker.Pawn, true));
 	}
 }
-#endif

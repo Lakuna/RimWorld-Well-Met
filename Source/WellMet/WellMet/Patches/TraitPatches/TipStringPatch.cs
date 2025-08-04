@@ -1,21 +1,14 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
-#if !(V1_0 || V1_1 || V1_2)
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-#endif
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
 	internal static class TipStringPatch {
-#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo GetAffectedIssuesMethod = AccessTools.Method(typeof(TraitDegreeData), nameof(TraitDegreeData.GetAffectedIssues));
 
 		private static readonly ConstructorInfo IssueDefListConstructor = AccessTools.Constructor(typeof(List<IssueDef>));
@@ -46,30 +39,14 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				}
 			}
 		}
-#endif
 
 		[HarmonyPostfix]
-		private static void Postfix(Trait __instance,
-#if V1_0 || V1_1
-			Pawn pawn,
-#endif
-			ref string __result) {
-			if (
-#if V1_0 || V1_1
-				KnowledgeUtility.IsTraitKnown(pawn, __instance.def)
-#else
-				KnowledgeUtility.IsTraitKnown(__instance)
-#endif
-				) {
+		private static void Postfix(Trait __instance, ref string __result) {
+			if (KnowledgeUtility.IsTraitKnown(__instance)) {
 				return;
 			}
 
-			__result = "Unknown".Translate().CapitalizeFirst()
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-				+ ".";
-#else
-				.EndWithPeriod();
-#endif
+			__result = "Unknown".Translate().CapitalizeFirst().EndWithPeriod();
 		}
 	}
 }

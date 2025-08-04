@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -17,11 +13,9 @@ namespace Lakuna.WellMet.Patches.NeedPatches {
 				return;
 			}
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
 			if (__instance is Need_Deathrest) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___pawn);
 			}
-#endif
 		}
 	}
 }

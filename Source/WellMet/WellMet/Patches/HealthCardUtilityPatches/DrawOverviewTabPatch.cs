@@ -1,8 +1,4 @@
-﻿#if V1_0
-using Harmony;
-#else
-using HarmonyLib;
-#endif
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -18,13 +14,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			foreach (CodeInstruction instruction in instructions) {
 				// Don't call `HealthCardUtility.DrawLeftRow`; just pop its arguments instead.
-				if (
-#if V1_0
-					PatchUtility.Calls(instruction, DrawLeftRowMethod)
-#else
-					instruction.Calls(DrawLeftRowMethod)
-#endif
-					) {
+				if (instruction.Calls(DrawLeftRowMethod)) {
 					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 					yield return PatchUtility.LoadValue(InformationCategory.Health); // `informationCategory`
 					yield return new CodeInstruction(OpCodes.Ldarg_1); // `pawn`

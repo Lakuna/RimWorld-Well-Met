@@ -1,5 +1,4 @@
-﻿#if !(V1_0 || V1_1 || V1_2)
-using HarmonyLib;
+﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -17,4 +16,3 @@ namespace Lakuna.WellMet.Patches.SlaveRebellionUtilityPatches {
 		}
 	}
 }
-#endif
