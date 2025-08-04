@@ -25,7 +25,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.carryTracker)), InformationCategory.Gear },
+#if !(V1_0 || V1_1 || V1_2)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
+#endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
 #endif

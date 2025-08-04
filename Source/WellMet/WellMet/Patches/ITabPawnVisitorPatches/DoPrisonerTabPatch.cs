@@ -27,11 +27,15 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
 
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
+#endif
 
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
 
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static readonly FieldInfo FinalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
@@ -64,7 +68,11 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField) || instruction.LoadsField(WillField)) {
+				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField)
+#if !(V1_0 || V1_1 || V1_2)
+					|| instruction.LoadsField(WillField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, 0f)) {
 						yield return i;
 					}
@@ -72,7 +80,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod) || instruction.LoadsField(IdeoForConversionField)
+				if (instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod)
+#if !(V1_0 || V1_1 || V1_2)
+					|| instruction.LoadsField(IdeoForConversionField)
+#endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 					|| instruction.LoadsField(FinalResistanceInteractionDataField)
 #endif

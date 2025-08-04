@@ -95,7 +95,9 @@ namespace Lakuna.WellMet {
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
 				_ = listing.Label(
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+#if V1_0 || V1_1 || V1_2 || V1_3
+					("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + ".").Resolve()
+#elif V1_4
 					("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + ".")
 #else
 					"WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod()

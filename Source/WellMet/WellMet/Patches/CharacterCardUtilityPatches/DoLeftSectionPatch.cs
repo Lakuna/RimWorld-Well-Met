@@ -7,9 +7,17 @@ using System.Reflection.Emit;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
+#if V1_0 || V1_1 || V1_2 || V1_3
+	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
+#else
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
+#endif
 	internal static class DoLeftSectionPatch {
+#if V1_0 || V1_1 || V1_2
+		private static readonly FieldInfo AbilitiesField = AccessTools.Field(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.abilities));
+#else
 		private static readonly MethodInfo AllAbilitiesForReadingMethod = AccessTools.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
+#endif
 
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
 
@@ -71,7 +79,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(AllAbilitiesForReadingMethod)) {
+				if (
+#if V1_0 || V1_1 || V1_2
+					instruction.LoadsField(AbilitiesField)
+#else
+					instruction.Calls(AllAbilitiesForReadingMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
 						yield return i;
 					}

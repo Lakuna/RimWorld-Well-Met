@@ -7,7 +7,11 @@ using System.Reflection.Emit;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
+#if V1_0 || V1_1 || V1_2 || V1_3
+	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
+#else
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
+#endif
 	internal static class DoTopStackPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
@@ -21,7 +25,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
+#if !(V1_0 || V1_1 || V1_2)
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
+#endif
 		};
 
 		[HarmonyPrefix]

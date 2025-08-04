@@ -15,15 +15,19 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo GetStatValueMethod = AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue));
 
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo GetTerrorThoughtsMethod = AccessTools.Method(typeof(TerrorUtility), nameof(TerrorUtility.GetTerrorThoughts));
 
 		private static readonly ConstructorInfo ThoughtMemoryObservationTerrorListConstructor = AccessTools.Constructor(typeof(List<Thought_MemoryObservationTerror>));
 
 		private static readonly MethodInfo InitiateSlaveRebellionMtbDaysMethod = AccessTools.Method(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.InitiateSlaveRebellionMtbDays));
+#endif
 
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
 
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo SlaveFactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.SlaveFaction));
+#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -40,6 +44,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
+#if !(V1_0 || V1_1 || V1_2)
 				if (instruction.Calls(GetTerrorThoughtsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, ThoughtMemoryObservationTerrorListConstructor)) {
 						yield return i;
@@ -55,8 +60,13 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 					continue;
 				}
+#endif
 
-				if (instruction.Calls(FactionMethod) || instruction.Calls(SlaveFactionMethod)) {
+				if (instruction.Calls(FactionMethod)
+#if !(V1_0 || V1_1 || V1_2)
+					|| instruction.Calls(SlaveFactionMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}

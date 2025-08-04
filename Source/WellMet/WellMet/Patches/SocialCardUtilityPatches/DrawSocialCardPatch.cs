@@ -1,20 +1,25 @@
 ﻿using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
+#if !(V1_0 || V1_1 || V1_2)
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+#endif
 using Verse;
 
 namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawSocialCard))]
 	internal static class DrawSocialCardPatch {
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo IdeoMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
+#endif
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, true) // Role selection dropdown.
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, true); // Romance button.
 
+#if !(V1_0 || V1_1 || V1_2)
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
@@ -29,5 +34,6 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 				}
 			}
 		}
+#endif
 	}
 }
