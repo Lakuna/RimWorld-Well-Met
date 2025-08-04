@@ -38,7 +38,11 @@ namespace Lakuna.WellMet.Utility {
 				|| pawn.IsAnimal
 #endif
 				&& pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+			: pawn.IsSlaveOfColony ? PawnType.Controlled
+#else
 			: pawn.IsPlayerControlled ? PawnType.Controlled
+#endif
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)))) ? PawnType.Hostile
 			: PawnType.Neutral;

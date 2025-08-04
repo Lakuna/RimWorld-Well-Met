@@ -46,7 +46,12 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				return;
 			}
 
-			__result = "Unknown".Translate().CapitalizeFirst().EndWithPeriod();
+			__result = "Unknown".Translate().CapitalizeFirst()
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+				+ ".";
+#else
+				.EndWithPeriod();
+#endif
 		}
 	}
 }

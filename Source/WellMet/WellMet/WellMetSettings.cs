@@ -9,7 +9,9 @@ namespace Lakuna.WellMet {
 			Map map = new Map();
 			map.info.Size = new IntVec3(Enum.GetValues(typeof(PawnType)).Length, 0, Enum.GetValues(typeof(InformationCategory)).Length);
 			this.knownInformation = new BoolGrid(map);
+#if V1_5
 			map.Dispose();
+#endif
 #else
 			this.knownInformation = new BoolGrid(Enum.GetValues(typeof(PawnType)).Length, Enum.GetValues(typeof(InformationCategory)).Length);
 #endif

@@ -85,8 +85,18 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(CharacterCardUtility)) {
-					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
-						_ = HarmonyPatcher.Instance.Patch(methodInfo, null, null, ActionDelegateTranspilerMethod);
+					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+						.GetMethods()
+#else
+						.GetDeclaredMethods()
+#endif
+						) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+						HarmonyPatcher.Instance.Patch(methodInfo, transpiler: new HarmonyMethod(ActionDelegateTranspilerMethod));
+#else
+						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
+#endif
 					}
 
 					continue;

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,3 +27,4 @@ namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
 		}
 	}
 }
+#endif

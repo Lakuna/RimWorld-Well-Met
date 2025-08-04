@@ -15,7 +15,9 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 
 			__result = __result
 				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
+#endif
 				&& (__instance.def.requiredTraits?.TrueForAll((traitDef) => KnowledgeUtility.IsTraitKnown(__instance.pawn, traitDef)) ?? true)
 				&& (__instance.def.workerClass != typeof(ThoughtWorker_Pain) && __instance.def.workerClass != typeof(ThoughtWorker_Sick) || health)
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept)) ?? false) || ideoligion)

@@ -9,7 +9,9 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
 	internal static class GetInspectStringPatch {
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
+#endif
 
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
@@ -35,7 +37,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly MethodInfo InspiredMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Inspired));
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
+#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -44,6 +48,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.LoadsField(HideMainDescField)) {
 					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
@@ -51,6 +56,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 					continue;
 				}
+#endif
 
 				bool flag = false;
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
@@ -91,11 +97,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
 					}
 				}
+#endif
 			}
 		}
 	}

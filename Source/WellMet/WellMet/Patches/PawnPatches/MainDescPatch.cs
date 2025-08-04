@@ -12,9 +12,11 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 
 		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
+#endif
 
 		[HarmonyPrefix]
 		private static void Prefix(Pawn __instance, ref bool writeFaction, ref bool writeGender) {
@@ -38,6 +40,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
@@ -51,6 +54,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 						yield return i;
 					}
 				}
+#endif
 			}
 		}
 	}

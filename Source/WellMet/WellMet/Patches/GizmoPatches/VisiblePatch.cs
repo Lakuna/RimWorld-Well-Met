@@ -27,8 +27,13 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+					&& (commandPsycast.Ability.pawn == null
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Ability.pawn, true));
+#else
 					&& (commandPsycast.Pawn == null
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Pawn, true));
+#endif
 				return;
 			}
 

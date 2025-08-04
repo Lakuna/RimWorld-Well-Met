@@ -28,7 +28,13 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
+					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst()
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+						+ "."
+#else
+						.EndWithPeriod()
+#endif
+						);
 				}
 			}
 
@@ -40,7 +46,13 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
+					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst()
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+						+ "."
+#else
+						.EndWithPeriod()
+#endif
+						);
 				}
 
 				// Draw checkboxes.
@@ -80,7 +92,13 @@ namespace Lakuna.WellMet {
 			Settings.HideAncientCorpses = hideAncientCorpses;
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
-				_ = listing.Label("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
+				_ = listing.Label(
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+					("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst() + ".")
+#else
+					"WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod()
+#endif
+					.Colorize(ColoredText.WarningColor));
 			}
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
