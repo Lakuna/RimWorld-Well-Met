@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -26,7 +30,13 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-				if (instruction.LoadsField(TrainabilityField)) {
+				if (
+#if V1_0
+					PatchUtility.LoadsField(instruction, TrainabilityField)
+#else
+					instruction.LoadsField(TrainabilityField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -43,7 +53,13 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 				}
 #endif
 
-				if (instruction.Calls(ToStringPercentMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, ToStringPercentMethod)
+#else
+					instruction.Calls(ToStringPercentMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
 						yield return i;
 					}

@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -49,6 +53,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				return;
 			}
 
+#if !V1_0
 			if (__instance is Thought_DecreeUnmet
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 				|| __instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency
@@ -57,6 +62,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				__result = __result && advanced;
 				return;
 			}
+#endif
 
 #if !(V1_0 || V1_1 || V1_2)
 			if (__instance is Thought_IdeoLeaderResentment) {

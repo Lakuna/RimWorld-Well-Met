@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -10,7 +14,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
 	internal static class DrawCharacterCardPatch {
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
+#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt)), InformationCategory.Basic }
 		};
 
@@ -35,7 +41,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
+					if (
+#if V1_0
+						PatchUtility.LoadsField(instruction, row.Key)
+#else
+						instruction.LoadsField(row.Key)
+#endif
+						) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, isControl: true)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
 							yield return i;
 						}

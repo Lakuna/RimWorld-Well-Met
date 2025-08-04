@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !V1_0
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -32,3 +33,4 @@ namespace Lakuna.WellMet.Patches.ThoughtMemoryPatches {
 		}
 	}
 }
+#endif

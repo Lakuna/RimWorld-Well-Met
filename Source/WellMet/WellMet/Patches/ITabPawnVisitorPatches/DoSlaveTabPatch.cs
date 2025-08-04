@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -9,9 +13,15 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoSlaveTab")]
 	internal static class DoSlaveTabPatch {
+#if V1_0
+		private static readonly MethodInfo SelPawnMethod = AccessTools.Method(typeof(ITab), "get_SelPawn");
+
+		private static readonly MethodInfo CurLevelMethod = AccessTools.Method(typeof(Need), "get_" + nameof(Need.CurLevel));
+#else
 		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
 
 		private static readonly MethodInfo CurLevelMethod = AccessTools.PropertyGetter(typeof(Need), nameof(Need.CurLevel));
+#endif
 
 		private static readonly MethodInfo GetStatValueMethod = AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue));
 
@@ -23,7 +33,11 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 		private static readonly MethodInfo InitiateSlaveRebellionMtbDaysMethod = AccessTools.Method(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.InitiateSlaveRebellionMtbDays));
 #endif
 
+#if V1_0
+		private static readonly MethodInfo FactionMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.Faction));
+#else
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo SlaveFactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.SlaveFaction));
@@ -36,7 +50,13 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(CurLevelMethod) || instruction.Calls(GetStatValueMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, CurLevelMethod) || PatchUtility.Calls(instruction, GetStatValueMethod)
+#else
+					instruction.Calls(CurLevelMethod) || instruction.Calls(GetStatValueMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, 0f)) {
 						yield return i;
 					}
@@ -62,7 +82,12 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				}
 #endif
 
-				if (instruction.Calls(FactionMethod)
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, FactionMethod)
+#else
+					instruction.Calls(FactionMethod)
+#endif
 #if !(V1_0 || V1_1 || V1_2)
 					|| instruction.Calls(SlaveFactionMethod)
 #endif

@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using System.Collections.Generic;
 using System.Reflection;
@@ -8,7 +12,11 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.MainDesc))]
 	internal static class MainDescPatch {
+#if V1_0
+		private static readonly MethodInfo FactionMethod = AccessTools.Method(typeof(Thing), "get_" + nameof(Thing.Faction));
+#else
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+#endif
 
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));
 
@@ -32,7 +40,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(FactionMethod) || instruction.LoadsField(AgeTrackerField)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.LoadsField(instruction, AgeTrackerField)
+#else
+					instruction.Calls(FactionMethod) || instruction.LoadsField(AgeTrackerField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}

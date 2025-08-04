@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -9,7 +13,11 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoPrisonerTab")]
 	internal static class DoPrisonerTabPatch {
+#if V1_0
+		private static readonly MethodInfo SelPawnMethod = AccessTools.Method(typeof(ITab), "get_SelPawn");
+#else
 		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+#endif
 
 		private static readonly MethodInfo InitiatePrisonBreakMtbDaysMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.InitiatePrisonBreakMtbDays));
 
@@ -25,13 +33,19 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo MaxField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.max));
 
+#if !V1_0
 		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2)
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 #endif
 
+#if V1_0
+		private static readonly MethodInfo FactionMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.Faction));
+#else
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2)
 		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
@@ -48,7 +62,13 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(InitiatePrisonBreakMtbDaysMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, InitiatePrisonBreakMtbDaysMethod)
+#else
+					instruction.Calls(InitiatePrisonBreakMtbDaysMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, -1f)) {
 						yield return i;
 					}
@@ -56,7 +76,12 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IsPrisonBreakingMethod)
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, IsPrisonBreakingMethod)
+#else
+					instruction.Calls(IsPrisonBreakingMethod)
+#endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 					|| instruction.Calls(GenePreventsPrisonBreakingMethod)
 #endif
@@ -68,7 +93,12 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField)
+				if (
+#if V1_0
+					PatchUtility.LoadsField(instruction, ResistanceField) || PatchUtility.LoadsField(instruction, MinField) || PatchUtility.LoadsField(instruction, MaxField)
+#else
+					instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField)
+#endif
 #if !(V1_0 || V1_1 || V1_2)
 					|| instruction.LoadsField(WillField)
 #endif
@@ -80,7 +110,12 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod)
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, FactionMethod)
+#else
+					instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod)
+#endif
 #if !(V1_0 || V1_1 || V1_2)
 					|| instruction.LoadsField(IdeoForConversionField)
 #endif

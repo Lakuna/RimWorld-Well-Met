@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 using RimWorld;
@@ -16,14 +20,18 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
+#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.flight)), InformationCategory.Basic },
 #endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.stances)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment)), InformationCategory.Gear },
+#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.carryTracker)), InformationCategory.Gear },
 #if !(V1_0 || V1_1 || V1_2)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
@@ -37,11 +45,19 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly MethodInfo GetInspectStringMethod = AccessTools.Method(typeof(ThingWithComps), nameof(ThingWithComps.GetInspectString)); // Used for stuff like egg progress.
 
+#if V1_0
+		private static readonly MethodInfo TraderKindMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.TraderKind));
+
+		private static readonly MethodInfo InMentalStateMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.InMentalState));
+
+		private static readonly MethodInfo InspiredMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.Inspired));
+#else
 		private static readonly MethodInfo TraderKindMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.TraderKind));
 
 		private static readonly MethodInfo InMentalStateMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.InMentalState));
 
 		private static readonly MethodInfo InspiredMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Inspired));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
@@ -66,7 +82,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 				bool flag = false;
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
+					if (
+#if V1_0
+						PatchUtility.LoadsField(instruction, row.Key)
+#else
+						instruction.LoadsField(row.Key)
+#endif
+						) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
@@ -79,7 +101,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (instruction.Calls(GetInspectStringMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, GetInspectStringMethod)
+#else
+					instruction.Calls(GetInspectStringMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -87,7 +115,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (instruction.Calls(TraderKindMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, TraderKindMethod)
+#else
+					instruction.Calls(TraderKindMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -95,7 +129,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (instruction.Calls(InMentalStateMethod) || instruction.Calls(InspiredMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, InMentalStateMethod) || PatchUtility.Calls(instruction, InspiredMethod)
+#else
+					instruction.Calls(InMentalStateMethod) || instruction.Calls(InspiredMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions)) {
 						yield return i;
 					}

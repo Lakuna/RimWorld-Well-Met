@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -13,13 +17,16 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
 #endif
 	internal static class DoLeftSectionPatch {
-#if V1_0 || V1_1 || V1_2
+#if V1_0
+#elif V1_1 || V1_2
 		private static readonly FieldInfo AbilitiesField = AccessTools.Field(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.abilities));
 #else
 		private static readonly MethodInfo AllAbilitiesForReadingMethod = AccessTools.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
 #endif
 
+#if !V1_0
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
+#endif
 
 		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
 
@@ -31,7 +38,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
 
+#if !V1_0
 		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
+#endif
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
@@ -54,7 +63,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(GetBackstoryMethod)) {
+				if (
+#if V1_0
+					PatchUtility.Calls(instruction, GetBackstoryMethod)
+#else
+					instruction.Calls(GetBackstoryMethod)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -79,6 +94,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+#if !V1_0
 				if (
 #if V1_0 || V1_1 || V1_2
 					instruction.LoadsField(AbilitiesField)
@@ -92,8 +108,15 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 					continue;
 				}
+#endif
 
-				if (instruction.LoadsField(TitleField)) {
+				if (
+#if V1_0
+					PatchUtility.LoadsField(instruction, TitleField)
+#else
+					instruction.LoadsField(TitleField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -120,7 +143,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(AllTraitsField)) {
+				if (
+#if V1_0
+					PatchUtility.LoadsField(instruction, AllTraitsField)
+#else
+					instruction.LoadsField(AllTraitsField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -128,11 +157,13 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
+#if !V1_0
 				if (instruction.Calls(CombinedDisabledWorkTagsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator)) {
 						yield return i;
 					}
 				}
+#endif
 			}
 		}
 	}

@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -17,7 +21,13 @@ namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.LoadsField(MoodField)) {
+				if (
+#if V1_0
+						PatchUtility.LoadsField(instruction, MoodField)
+#else
+						instruction.LoadsField(MoodField)
+#endif
+					) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Needs, getPawnInstructions, generator)) {
 						yield return i;
 					}
