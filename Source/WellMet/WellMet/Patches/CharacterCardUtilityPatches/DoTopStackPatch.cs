@@ -25,7 +25,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic }, // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
 #endif
+#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.story)), InformationCategory.Advanced }, // `story` is used only for favorite color in this method.
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced } // `guest` is used only for unwaveringly loyal status in this method.
 		};
 
@@ -38,6 +40,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		};
 #endif
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn, ref bool creationMode) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
@@ -46,10 +49,15 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 		}
+#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
+#else
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;

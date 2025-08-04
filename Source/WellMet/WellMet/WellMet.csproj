@@ -77,6 +77,7 @@
 		<Compile Include="Patches\InspectTabBasePatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\InteractionCardUtilityPatches\DrawInteractionsLogPatch.cs" />
 		<Compile Include="Patches\ITabPawnCharacterPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnGearPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnVisitorPatches\DoSlaveTabPatch.cs" />
 		<Compile Include="Patches\ITabPawnVisitorPatches\DoSlavePriceListingPatch.cs" />
 		<Compile Include="Patches\ITabPawnVisitorPatches\DoPrisonerTabPatch.cs" />

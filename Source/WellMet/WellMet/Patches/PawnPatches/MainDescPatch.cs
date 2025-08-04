@@ -27,10 +27,20 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 		[HarmonyPrefix]
-		private static void Prefix(Pawn __instance, ref bool writeFaction, ref bool writeGender) {
-			bool basicIsKnown = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
-			writeFaction = writeFaction && basicIsKnown;
-			writeGender = writeGender && basicIsKnown;
+		private static void Prefix(Pawn __instance,
+#if V1_0
+			ref bool writeAge
+#else
+			ref bool writeFaction, ref bool writeGender
+#endif
+			) {
+			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
+#if V1_0
+			writeAge = writeAge && basic;
+#else
+			writeFaction = writeFaction && basic;
+			writeGender = writeGender && basic;
+#endif
 		}
 
 		[HarmonyTranspiler]

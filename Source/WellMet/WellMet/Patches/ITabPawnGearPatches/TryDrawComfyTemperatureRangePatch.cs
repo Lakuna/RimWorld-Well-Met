@@ -22,7 +22,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnGearPatches {
 		private static readonly MethodInfo SelPawnForGearMethod = AccessTools.PropertyGetter(typeof(ITab_Pawn_Gear), "SelPawnForGear");
 #endif
 
-		[HarmonyPostfix]
+		[HarmonyPrefix]
 		private static bool Prefix(ITab_Pawn_Gear __instance) =>
 #if V1_0
 			!(SelPawnForGearMethod.Invoke(__instance, Parameters) is Pawn pawn)

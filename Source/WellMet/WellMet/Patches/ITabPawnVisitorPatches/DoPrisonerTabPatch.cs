@@ -11,7 +11,11 @@ using System.Reflection.Emit;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
+#if V1_0
+	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "FillTab")]
+#else
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoPrisonerTab")]
+#endif
 	internal static class DoPrisonerTabPatch {
 #if V1_0
 		private static readonly MethodInfo SelPawnMethod = AccessTools.Method(typeof(ITab), "get_SelPawn");

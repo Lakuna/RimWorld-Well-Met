@@ -11,6 +11,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
+#if V1_0
+using Verse.AI;
+using Verse.AI.Group;
+#endif
 
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
@@ -39,7 +43,11 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
 #endif
+#if V1_0
+			{ AccessTools.Field(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.curJob)), InformationCategory.Advanced },
+#else
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
+#endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
 		};
 
@@ -51,6 +59,8 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		private static readonly MethodInfo InMentalStateMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.InMentalState));
 
 		private static readonly MethodInfo InspiredMethod = AccessTools.Method(typeof(Pawn), "get_" + nameof(Pawn.Inspired));
+
+		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord));
 #else
 		private static readonly MethodInfo TraderKindMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.TraderKind));
 
@@ -69,6 +79,16 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
+
+#if V1_0
+				if (PatchUtility.Calls(instruction, GetLordMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+#endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.LoadsField(HideMainDescField)) {

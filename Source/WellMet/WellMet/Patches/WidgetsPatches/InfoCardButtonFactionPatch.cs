@@ -1,8 +1,5 @@
-﻿#if V1_0
-using Harmony;
-#else
+﻿#if !V1_0
 using HarmonyLib;
-#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
@@ -15,3 +12,4 @@ namespace Lakuna.WellMet.Patches.WidgetsPatches {
 		private static bool Prefix(Faction faction) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, faction, true);
 	}
 }
+#endif

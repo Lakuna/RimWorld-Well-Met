@@ -5,6 +5,9 @@ using HarmonyLib;
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
+#if V1_0
+using System;
+#endif
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -21,9 +24,21 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		};
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn, ref bool showName) {
+		private static bool Prefix(Pawn pawn,
+#if V1_0
+			ref Action randomizeCallback
+#else
+			ref bool showName
+#endif
+			) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
+#if V1_0
+			if (!basic) {
+				randomizeCallback = null;
+			}
+#else
 			showName = showName && basic;
+#endif
 			return basic
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, true) // "Renounce title" button.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn)

@@ -1,8 +1,5 @@
-﻿#if V1_0
-using Harmony;
-#else
+﻿#if !V1_0
 using HarmonyLib;
-#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -13,9 +10,9 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "GetWorkTypeDisableCauses")]
 	internal static class GetWorkTypeDisableCausesPatch {
-#if !(V1_0 || V1_1 || V1_2)
+#if !(V1_1 || V1_2)
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_1 || V1_2 || V1_3)
 			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Childhood)), InformationCategory.Backstory },
 			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood)), InformationCategory.Backstory },
 #endif
@@ -24,21 +21,19 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-#if V1_0 || V1_1 || V1_2 || V1_3
+#if V1_1 || V1_2 || V1_3
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood)), InformationCategory.Backstory },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood)), InformationCategory.Backstory },
 #endif
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits },
-#if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-#endif
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced }
 #endif
 		};
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
+#if !(V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 #endif
 
@@ -50,7 +45,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 				bool flag = false;
-#if !(V1_0 || V1_1 || V1_2)
+#if !(V1_1 || V1_2)
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
 					if (instruction.Calls(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
@@ -67,13 +62,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (
-#if V1_0
-						PatchUtility.LoadsField(instruction, row.Key)
-#else
-						instruction.LoadsField(row.Key)
-#endif
-						) {
+					if (instruction.LoadsField(row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
 							yield return i;
 						}
@@ -86,7 +75,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
+#if !(V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
@@ -97,3 +86,4 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		}
 	}
 }
+#endif
