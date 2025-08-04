@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !V1_0
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -10,3 +11,4 @@ namespace Lakuna.WellMet.Patches.PawnUtilityPatches {
 		private static void Postfix(Pawn pawn, ref bool __result) => __result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 	}
 }
+#endif

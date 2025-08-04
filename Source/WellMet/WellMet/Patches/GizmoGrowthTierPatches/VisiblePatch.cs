@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !V1_0
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using Verse;
@@ -11,3 +12,4 @@ namespace Lakuna.WellMet.Patches.GizmoGrowthTierPatches {
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___child, true);
 	}
 }
+#endif

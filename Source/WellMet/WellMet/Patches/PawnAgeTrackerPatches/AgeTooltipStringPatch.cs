@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using Verse;
 
@@ -11,7 +15,7 @@ namespace Lakuna.WellMet.Patches.PawnAgeTrackerPatches {
 				return;
 			}
 
-			__result = "Unknown".Translate().CapitalizeFirst().EndWithPeriod();
+			__result = MiscellaneousUtility.EndWithPeriod("Unknown".Translate().CapitalizeFirst());
 		}
 	}
 }

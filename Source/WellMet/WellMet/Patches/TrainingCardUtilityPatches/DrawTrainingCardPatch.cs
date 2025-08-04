@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -9,7 +13,13 @@ using Verse;
 namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 	[HarmonyPatch(typeof(TrainingCardUtility), nameof(TrainingCardUtility.DrawTrainingCard))]
 	internal static class DrawTrainingCardPatch {
+#if V1_0
+		private static readonly MethodInfo LabelCapMethod = PatchUtility.PropertyGetter(typeof(Def), nameof(Def.LabelCap)); // Used only for creature trainability in this method.
+
+		private static readonly MethodInfo GetWildnessExplanationMethod = AccessTools.Method(typeof(TrainableUtility), nameof(TrainableUtility.GetWildnessExplanation));
+#else
 		private static readonly MethodInfo GetTrainabilityMethod = AccessTools.Method(typeof(TrainableUtility), nameof(TrainableUtility.GetTrainability));
+#endif
 
 		private static readonly MethodInfo ToStringPercentMethod = SymbolExtensions.GetMethodInfo((float f) => f.ToStringPercent()); // Used only for creature wildness in this method.
 
@@ -20,6 +30,15 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+#if V1_0
+				if (PatchUtility.Calls(instruction, LabelCapMethod) || PatchUtility.Calls(instruction, GetWildnessExplanationMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
+						yield return i;
+					}
+
+					continue;
+				}
+#else
 				if (instruction.Calls(GetTrainabilityMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
@@ -27,8 +46,9 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 
 					continue;
 				}
+#endif
 
-				if (instruction.Calls(ToStringPercentMethod)) {
+				if (PatchUtility.Calls(instruction, ToStringPercentMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
 						yield return i;
 					}

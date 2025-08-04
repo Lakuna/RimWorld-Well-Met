@@ -1,13 +1,22 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
+#if !V1_0
 using System;
+#endif
 using System.Reflection;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.GizmoPatches {
 	[HarmonyPatch(typeof(Gizmo), nameof(Gizmo.Visible), MethodType.Getter)]
 	internal static class VisiblePatch {
+#if V1_0
+		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(Apparel), nameof(Apparel.Wearer));
+#else
 		private static readonly FieldInfo ResourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
 
 		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
@@ -15,6 +24,7 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 		private static readonly MethodInfo PawnOwnerMethod = AccessTools.PropertyGetter(typeof(CompShield), "PawnOwner");
 
 		private static readonly FieldInfo DeathrestGeneField = AccessTools.Field(typeof(GeneGizmo_DeathrestCapacity), "gene");
+#endif
 
 		[HarmonyPostfix]
 		private static void Postfix(Gizmo __instance, ref bool __result) {
@@ -25,6 +35,14 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 				return;
 			}
 
+			if (__instance is Gizmo_EnergyShieldStatus gizmoEnergyShieldStatus) {
+				__result = __result
+					&& (!(PawnOwnerMethod.Invoke(gizmoEnergyShieldStatus.shield, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn, true));
+				return;
+			}
+
+#if !V1_0
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
 					&& (commandPsycast.Pawn == null
@@ -46,18 +64,12 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 				return;
 			}
 
-			if (__instance is Gizmo_EnergyShieldStatus gizmoEnergyShieldStatus) {
-				__result = __result
-					&& (!(PawnOwnerMethod.Invoke(gizmoEnergyShieldStatus.shield, Array.Empty<object>()) is Pawn pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn, true));
-				return;
-			}
-
 			if (__instance is GeneGizmo_DeathrestCapacity geneGizmoDeathrestCapacity) {
 				__result = __result
 					&& (!(DeathrestGeneField.GetValue(geneGizmoDeathrestCapacity) is Gene_Deathrest geneDeathrest)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneDeathrest.pawn, true));
 			}
+#endif
 		}
 	}
 }

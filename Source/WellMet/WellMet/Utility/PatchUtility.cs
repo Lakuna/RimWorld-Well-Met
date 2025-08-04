@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -25,6 +29,45 @@ namespace Lakuna.WellMet.Utility {
 		/// `KnowledgeUtility.IsInformationKnownFor` given a `Faction` as an argument.
 		/// </summary>
 		internal static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction), typeof(bool) });
+
+		/// <summary>
+		/// Determine whether the given instruction calls the given method. Only necessary for RimWorld 1.0, since the versions of Harmony for later RimWorld versions have their own built-in method for this.
+		/// </summary>
+		/// <param name="instruction">The instruction.</param>
+		/// <param name="method">The method.</param>
+		/// <returns>Whether the given instruction calls the given method.</returns>
+		internal static bool Calls(CodeInstruction instruction, MethodInfo method) =>
+#if V1_0
+			(instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Calli || instruction.opcode == OpCodes.Callvirt || instruction.opcode == OpCodes.Tailcall) && instruction.operand == method;
+#else
+			instruction.Calls(method);
+#endif
+
+		/// <summary>
+		/// Determine whether the given instruction loads the given field. Only necessary for RimWorld 1.0, since the versions of Harmony for later RimWorld versions have their own built-in method for this.
+		/// </summary>
+		/// <param name="instruction">The instruction.</param>
+		/// <param name="field">The field.</param>
+		/// <returns>Whether the given instruction loads the given field.</returns>
+		internal static bool LoadsField(CodeInstruction instruction, FieldInfo field) =>
+#if V1_0
+			(instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda || instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda) && instruction.operand == field;
+#else
+			instruction.LoadsField(field);
+#endif
+
+		/// <summary>
+		/// Get the getter method for the given accessor. Only necessary for RimWorld 1.0, since the versions of Harmony for later RimWorld versions have their own built-in method for this.
+		/// </summary>
+		/// <param name="type">The type on which the accessor exists.</param>
+		/// <param name="name">The name of the accessor.</param>
+		/// <returns>The getter method.</returns>
+		internal static MethodInfo PropertyGetter(Type type, string name) =>
+#if V1_0
+			AccessTools.Method(type, "get_" + name);
+#else
+			AccessTools.PropertyGetter(type, name);
+#endif
 
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn.

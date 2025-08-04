@@ -5,7 +5,16 @@ using Verse;
 namespace Lakuna.WellMet {
 	public class WellMetSettings : ModSettings {
 		public WellMetSettings() {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+			Map map = new Map();
+			map.info.Size = new IntVec3(Enum.GetValues(typeof(PawnType)).Length, 0, Enum.GetValues(typeof(InformationCategory)).Length);
+			this.knownInformation = new BoolGrid(map);
+#if V1_5
+			map.Dispose();
+#endif
+#else
 			this.knownInformation = new BoolGrid(Enum.GetValues(typeof(PawnType)).Length, Enum.GetValues(typeof(InformationCategory)).Length);
+#endif
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;

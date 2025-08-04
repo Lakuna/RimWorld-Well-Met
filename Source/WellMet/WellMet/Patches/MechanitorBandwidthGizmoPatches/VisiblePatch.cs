@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !V1_0
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 
@@ -10,3 +11,4 @@ namespace Lakuna.WellMet.Patches.MechanitorBandwidthGizmoPatches {
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ___tracker.Pawn, true);
 	}
 }
+#endif

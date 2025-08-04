@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using System;
 using System.Collections.Generic;
@@ -10,7 +14,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.GenMapUiPatches {
 	[HarmonyPatch(typeof(GenMapUI), nameof(GenMapUI.DrawPawnLabel), new Type[] { typeof(Pawn), typeof(Rect), typeof(float), typeof(float), typeof(Dictionary<string, string>), typeof(GameFont), typeof(bool), typeof(bool) })]
 	internal static class DrawPawnLabelPatch {
-		private static readonly MethodInfo SummaryHealthPercentMethod = AccessTools.PropertyGetter(typeof(SummaryHealthHandler), nameof(SummaryHealthHandler.SummaryHealthPercent));
+		private static readonly MethodInfo SummaryHealthPercentMethod = PatchUtility.PropertyGetter(typeof(SummaryHealthHandler), nameof(SummaryHealthHandler.SummaryHealthPercent));
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)
@@ -23,7 +27,7 @@ namespace Lakuna.WellMet.Patches.GenMapUiPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(SummaryHealthPercentMethod)) {
+				if (PatchUtility.Calls(instruction, SummaryHealthPercentMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, 1f)) {
 						yield return i;
 					}

@@ -96,6 +96,7 @@
 		<Compile Include="Patches\ITabPawnNeedsPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnSocialPatches\IsVisiblePatch.cs" />
 		<Compile Include="Patches\ITabPawnTrainingPatches\IsVisiblePatch.cs" />
+		<Compile Include="Patches\ITabPawnVisitorPatches\FillTabPatch.cs" />
 		<Compile Include="Patches\MechanitorBandwidthGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MechanitorControlGroupGizmoPatches\VisiblePatch.cs" />
 		<Compile Include="Patches\MentalStatePatches\InspectLinePatch.cs" />
@@ -103,6 +104,7 @@
 		<Compile Include="Patches\NeedKillThirstPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedPatches\ShowOnNeedListPatch.cs" />
 		<Compile Include="Patches\NeedSuppressionPatches\DrawSuppressionBarPatch.cs" />
+		<Compile Include="Patches\PageConfigureStartingPawnsPatches\DrawSkillSummariesPatch.cs" />
 		<Compile Include="Patches\PawnAgeTrackerPatches\AgeTooltipStringPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetTooltipPatch.cs" />
 		<Compile Include="Patches\PawnPatches\GetInspectStringPatch.cs" />
@@ -138,6 +140,7 @@
 		<Compile Include="Patches\HarmonyPatcher.cs" />
 		<Compile Include="Utility\InformationCategory.cs" />
 		<Compile Include="Utility\KnowledgeUtility.cs" />
+		<Compile Include="Utility\MiscellaneousUtility.cs" />
 		<Compile Include="Utility\PatchUtility.cs" />
 		<Compile Include="Utility\PawnType.cs" />
 		<Compile Include="Utility\WellMetLogger.cs" />

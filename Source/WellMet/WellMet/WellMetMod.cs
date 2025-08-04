@@ -1,5 +1,7 @@
 ﻿using Lakuna.WellMet.Utility;
+#if !V1_0
 using RimWorld;
+#endif
 using System;
 using UnityEngine;
 using Verse;
@@ -28,7 +30,7 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
+					TooltipHandler.TipRegion(rect, MiscellaneousUtility.EndWithPeriod((pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
 				}
 			}
 
@@ -40,7 +42,7 @@ namespace Lakuna.WellMet {
 
 				// Draw label tooltips.
 				if (Mouse.IsOver(rect)) {
-					TooltipHandler.TipRegion(rect, (informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst().EndWithPeriod());
+					TooltipHandler.TipRegion(rect, MiscellaneousUtility.EndWithPeriod((informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
 				}
 
 				// Draw checkboxes.
@@ -80,11 +82,20 @@ namespace Lakuna.WellMet {
 			Settings.HideAncientCorpses = hideAncientCorpses;
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
-				_ = listing.Label("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst().EndWithPeriod().Colorize(ColoredText.WarningColor));
+#if V1_0
+				listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
+#else
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
+#endif
 			}
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
+#if V1_0
+				listing.Label("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst());
+				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.Slider(Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+#else
 				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+#endif
 
 				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;

@@ -31,8 +31,8 @@ namespace Lakuna.WellMet.Utility {
 		/// <exception cref="ArgumentNullException">When no pawn is given.</exception>
 		public static PawnType TypeOf(Pawn pawn) => pawn == null
 			? throw new ArgumentNullException(nameof(pawn))
-			: (pawn.IsFreeNonSlaveColonist || pawn.IsAnimal && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
-			: pawn.IsPlayerControlled ? PawnType.Controlled
+			: (MiscellaneousUtility.IsFreeNonSlaveColonist(pawn) || MiscellaneousUtility.IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+			: MiscellaneousUtility.IsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)))) ? PawnType.Hostile
 			: PawnType.Neutral;
@@ -127,6 +127,7 @@ namespace Lakuna.WellMet.Utility {
 			WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory]
 			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
 
+#if !V1_0
 		/// <summary>
 		/// Determine whether the given trait is known.
 		/// </summary>
@@ -136,6 +137,18 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsTraitKnown(Trait trait) => trait == null
 			? throw new ArgumentNullException(nameof(trait))
 			: IsTraitKnown(trait.pawn, trait.def);
+#endif
+
+		/// <summary>
+		/// Get the trait definition of the wimp trait.
+		/// </summary>
+		/// <returns>The trait definition of the wimp trait.</returns>
+		private static TraitDef TraitDefOfWimp() =>
+#if V1_0
+			null;
+#else
+			TraitDefOf.Wimp;
+#endif
 
 		/// <summary>
 		/// Determine whether the given trait type is known for the given pawn.
@@ -153,7 +166,7 @@ namespace Lakuna.WellMet.Utility {
 				|| (traitDef == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
 					: traitDef == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
 					: traitDef == TraitDefOf.Brawler || traitDef.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * 10
-					: traitDef == TraitDefOf.Wimp || traitDef.defName == "Tough" || traitDef.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * (HumanMaxHealth / 10)
+					: traitDef == TraitDefOfWimp() || traitDef.defName == "Tough" || traitDef.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * (HumanMaxHealth / 10)
 					: traitDef == TraitDefOf.BodyPurist || traitDef == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
 					: traitDef.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * HumanDailyNutrition * 10
 					: pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) > 1 / traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.ColonistTraitDiscoveryDifficulty));

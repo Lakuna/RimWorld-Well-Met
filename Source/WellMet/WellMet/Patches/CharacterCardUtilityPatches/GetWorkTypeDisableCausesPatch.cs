@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿#if !V1_0
+using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System.Collections.Generic;
@@ -69,3 +70,4 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		}
 	}
 }
+#endif

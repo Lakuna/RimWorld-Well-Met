@@ -1,6 +1,13 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
+#if V1_0
+using System;
+#endif
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,21 +16,65 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
 	internal static class DrawCharacterCardPatch {
+#if V1_0
+		private static readonly MethodInfo ToStringFullMethod = AccessTools.Method(typeof(Name), nameof(Name.ToStringFull));
+
+		private static readonly MethodInfo SpawnedMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Spawned));
+
+		private static readonly MethodInfo IsColonistMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsColonist));
+
+		private static readonly MethodInfo GetBackstoryMethod = AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory));
+
+		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.CombinedDisabledWorkTags));
+
+		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
+
+		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
+
+		private static readonly MethodInfo FilterTraitsMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(FilterTraits));
+		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
+			List<Trait> outValue = new List<Trait>();
+			foreach (Trait trait in traits) {
+				if (!KnowledgeUtility.IsTraitKnown(pawn, trait.def)) {
+					continue;
+				}
+
+				outValue.Add(trait);
+			}
+
+			return outValue;
+		}
+#else
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt)), InformationCategory.Basic }
 		};
+#endif
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn, ref bool showName) {
+		private static bool Prefix(Pawn pawn,
+#if V1_0
+			ref Action randomizeCallback
+#else
+			ref bool showName
+#endif
+			) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
+#if V1_0
+			if (!basic) {
+				randomizeCallback = null;
+			}
+#else
 			showName = showName && basic;
+#endif
 			return basic
+#if !V1_0
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, true) // "Renounce title" button.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn)
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
+#endif
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn)
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, pawn);
 		}
 
@@ -34,8 +85,58 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+#if V1_0
+				if (PatchUtility.Calls(instruction, ToStringFullMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, "")) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.Calls(instruction, SpawnedMethod) || PatchUtility.Calls(instruction, IsColonistMethod)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions, true)) { // `Spawned` is used only for the "banish" button. `IsColonist` is used only for the "rename colonist" button.
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.Calls(instruction, CombinedDisabledWorkTagsMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator, (int)WorkTags.None)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.LoadsField(instruction, TitleField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.LoadsField(instruction, AllTraitsField)) {
+					foreach (CodeInstruction i in getPawnInstructions) {
+						yield return new CodeInstruction(i);
+					}
+
+					yield return new CodeInstruction(OpCodes.Call, FilterTraitsMethod);
+					continue;
+				}
+#else
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
+					if (PatchUtility.LoadsField(instruction, row.Key)) {
 						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, isControl: true)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
 							yield return i;
 						}
@@ -43,6 +144,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 						break;
 					}
 				}
+#endif
 			}
 		}
 	}

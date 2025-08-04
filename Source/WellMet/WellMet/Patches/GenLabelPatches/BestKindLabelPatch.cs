@@ -1,4 +1,8 @@
-﻿using HarmonyLib;
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 using System;
@@ -16,7 +20,7 @@ namespace Lakuna.WellMet.Patches.GenLabelPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Pawn pawn, ref string __result) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) || pawn.IsAnimal) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) || MiscellaneousUtility.IsAnimal(pawn)) { // Animals should still show their kind since it's their species.
 				return;
 			}
 
