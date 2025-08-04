@@ -45,8 +45,18 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 #endif
 
 		[HarmonyPostfix]
-		private static void Postfix(Trait __instance, ref string __result) {
-			if (KnowledgeUtility.IsTraitKnown(__instance)) {
+		private static void Postfix(Trait __instance,
+#if V1_0 || V1_1
+			Pawn pawn,
+#endif
+			ref string __result) {
+			if (
+#if V1_0 || V1_1
+				KnowledgeUtility.IsTraitKnown(pawn, __instance.def)
+#else
+				KnowledgeUtility.IsTraitKnown(__instance)
+#endif
+				) {
 				return;
 			}
 

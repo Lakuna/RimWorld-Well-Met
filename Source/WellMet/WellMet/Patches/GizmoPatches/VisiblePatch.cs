@@ -24,6 +24,10 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 		private static readonly FieldInfo DeathrestGeneField = AccessTools.Field(typeof(GeneGizmo_DeathrestCapacity), "gene");
 #endif
 
+#if V1_0 || V1_1
+		private static readonly FieldInfo AbilityField = AccessTools.Field(typeof(Command_Ability), "ability");
+#endif
+
 		[HarmonyPostfix]
 		private static void Postfix(Gizmo __instance, ref bool __result) {
 			if (__instance is Command_VerbTarget commandVerbTarget) {
@@ -35,7 +39,10 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+#if V1_0 || V1_1
+					&& (!(AbilityField.GetValue(commandPsycast) is Ability ability)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ability.pawn, true));
+#elif V1_2 || V1_3 || V1_4
 					&& (commandPsycast.Ability.pawn == null
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Ability.pawn, true));
 #else

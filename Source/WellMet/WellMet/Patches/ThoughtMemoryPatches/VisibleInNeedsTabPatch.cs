@@ -19,10 +19,12 @@ namespace Lakuna.WellMet.Patches.ThoughtMemoryPatches {
 			}
 #endif
 
+#if !(V1_0 || V1_1)
 			if (__instance is Thought_WeaponTrait) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, __instance.pawn);
 				return;
 			}
+#endif
 
 			if (__instance is Thought_MemoryRoyalTitle) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, __instance.pawn);

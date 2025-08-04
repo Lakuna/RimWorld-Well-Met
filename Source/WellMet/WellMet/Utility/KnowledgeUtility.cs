@@ -144,6 +144,7 @@ namespace Lakuna.WellMet.Utility {
 			WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory]
 			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
 
+#if !(V1_0 || V1_1)
 		/// <summary>
 		/// Determine whether the given trait is known.
 		/// </summary>
@@ -153,6 +154,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsTraitKnown(Trait trait) => trait == null
 			? throw new ArgumentNullException(nameof(trait))
 			: IsTraitKnown(trait.pawn, trait.def);
+#endif
 
 		/// <summary>
 		/// Determine whether the given trait type is known for the given pawn.
