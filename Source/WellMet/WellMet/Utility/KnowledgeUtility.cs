@@ -24,6 +24,23 @@ namespace Lakuna.WellMet.Utility {
 		private const float HumanDailyNutrition = 1.6f;
 
 		/// <summary>
+		/// Check whether the given pawn is hostile to the player's faction.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
+		private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction));
+
+		/// <summary>
+		/// Check whether the given faction is hostile to the player's faction.
+		/// </summary>
+		/// <param name="faction">The faction.</param>
+		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
+		private static bool HostileToPlayer(Faction faction) => faction != null
+			&& faction != Faction.OfPlayerSilentFail
+			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+			&& faction.HostileTo(Faction.OfPlayerSilentFail);
+
+		/// <summary>
 		/// Get the type of the given pawn.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
@@ -34,7 +51,7 @@ namespace Lakuna.WellMet.Utility {
 			: (MiscellaneousUtility.IsFreeNonSlaveColonist(pawn) || MiscellaneousUtility.IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: MiscellaneousUtility.IsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
-			: (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || pawn.Dead && pawn.Faction.HostileTo(Faction.OfPlayerSilentFail)))) ? PawnType.Hostile
+			: HostileToPlayer(pawn) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>
@@ -46,7 +63,7 @@ namespace Lakuna.WellMet.Utility {
 		public static PawnType TypeOf(Faction faction) => faction == null
 			? throw new ArgumentNullException(nameof(faction))
 			: faction == Faction.OfPlayerSilentFail ? PawnType.Colonist
-			: (faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && faction.HostileTo(Faction.OfPlayerSilentFail)) ? PawnType.Hostile
+			: HostileToPlayer(faction) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>
