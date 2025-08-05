@@ -1,5 +1,9 @@
-﻿#if V1_0
+﻿#if V1_0 || V1_1
+#if V1_0
 using Harmony;
+#else
+using HarmonyLib;
+#endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
 

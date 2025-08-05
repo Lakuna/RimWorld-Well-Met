@@ -7,11 +7,14 @@ using Lakuna.WellMet.Utility;
 #if !V1_0
 using RimWorld;
 #endif
+#if V1_1
+using System;
+#endif
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Verse;
-#if V1_0
+#if V1_0 || V1_1
 using Verse.AI;
 using Verse.AI.Group;
 #endif
@@ -24,15 +27,17 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.stances)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment)), InformationCategory.Gear },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.carryTracker)), InformationCategory.Gear },
-#if V1_0
-			{ AccessTools.Field(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.curJob)), InformationCategory.Advanced }
+#if V1_0 || V1_1
+			{ AccessTools.Field(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.curJob)), InformationCategory.Advanced },
 #else
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.flight)), InformationCategory.Basic },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
+#endif
+#if !V1_0
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.abilities)), InformationCategory.Abilities },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced }
 #endif
 		};
@@ -44,13 +49,17 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		private static readonly MethodInfo InspiredMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Inspired));
 
 #if V1_0
-		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord));
-
 		private static readonly MethodInfo InspectStringPartsFromCompsMethod = AccessTools.Method(typeof(ThingWithComps), "InspectStringPartsFromComps");
 #else
-		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
-
 		private static readonly MethodInfo GetInspectStringMethod = AccessTools.Method(typeof(ThingWithComps), nameof(ThingWithComps.GetInspectString)); // Used for stuff like egg progress.
+#endif
+
+#if V1_0
+		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord));
+#elif V1_1
+		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord), new Type[] { typeof(Pawn) });
+#else
+		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
 
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 #endif
@@ -63,14 +72,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				yield return instruction;
 
 #if V1_0
-				if (PatchUtility.Calls(instruction, GetLordMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
-						yield return i;
-					}
-
-					continue;
-				}
-
 				if (PatchUtility.Calls(instruction, InspectStringPartsFromCompsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
 						yield return i;
@@ -79,16 +80,26 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 #else
-				if (instruction.LoadsField(HideMainDescField)) {
-					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
+				if (instruction.Calls(GetInspectStringMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
 					continue;
 				}
+#endif
 
-				if (instruction.Calls(GetInspectStringMethod)) {
+#if V1_0 || V1_1
+				if (PatchUtility.Calls(instruction, GetLordMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+#else
+				if (instruction.LoadsField(HideMainDescField)) {
+					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
 

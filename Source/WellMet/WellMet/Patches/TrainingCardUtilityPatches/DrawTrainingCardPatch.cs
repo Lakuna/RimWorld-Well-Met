@@ -13,7 +13,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 	[HarmonyPatch(typeof(TrainingCardUtility), nameof(TrainingCardUtility.DrawTrainingCard))]
 	internal static class DrawTrainingCardPatch {
-#if V1_0
+#if V1_0 || V1_1
 		private static readonly MethodInfo LabelCapMethod = PatchUtility.PropertyGetter(typeof(Def), nameof(Def.LabelCap)); // Used only for creature trainability in this method.
 
 		private static readonly MethodInfo GetWildnessExplanationMethod = AccessTools.Method(typeof(TrainableUtility), nameof(TrainableUtility.GetWildnessExplanation));
@@ -30,7 +30,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-#if V1_0
+#if V1_0 || V1_1
 				if (PatchUtility.Calls(instruction, LabelCapMethod) || PatchUtility.Calls(instruction, GetWildnessExplanationMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
 						yield return i;

@@ -102,7 +102,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn, bool isControl = false) =>
 			(WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
 				|| IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead))
-			&& !(IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses);
+			&& !(IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses && !WellMetMod.Settings.LegacyMode);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -125,9 +125,10 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given information category is known for the given pawn type.</returns>
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, PawnType pawnType, bool isControl = false, bool isAlive = true) =>
 			WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory]
+			|| WellMetMod.Settings.LegacyMode
 			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
 
-#if !V1_0
+#if !(V1_0 || V1_1)
 		/// <summary>
 		/// Determine whether the given trait is known.
 		/// </summary>
@@ -144,7 +145,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <returns>The trait definition of the wimp trait.</returns>
 		private static TraitDef TraitDefOfWimp() =>
-#if V1_0
+#if V1_0 || V1_1
 			null;
 #else
 			TraitDefOf.Wimp;

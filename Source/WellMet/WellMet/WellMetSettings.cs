@@ -44,6 +44,7 @@ namespace Lakuna.WellMet {
 			this.hideFactionInformation = false;
 			this.neverHideControls = true;
 			this.hideAncientCorpses = true;
+			this.legacyMode = false;
 		}
 
 		private BoolGrid knownInformation;
@@ -92,6 +93,13 @@ namespace Lakuna.WellMet {
 			set => this.hideAncientCorpses = value;
 		}
 
+		private bool legacyMode;
+
+		internal bool LegacyMode {
+			get => this.legacyMode;
+			set => this.legacyMode = value;
+		}
+
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
@@ -101,6 +109,7 @@ namespace Lakuna.WellMet {
 			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
 			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
+			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
 		}
 	}
 }

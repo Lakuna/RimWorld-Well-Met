@@ -14,12 +14,14 @@ using Verse;
 namespace Lakuna.WellMet.Patches.GizmoPatches {
 	[HarmonyPatch(typeof(Gizmo), nameof(Gizmo.Visible), MethodType.Getter)]
 	internal static class VisiblePatch {
-#if V1_0
+#if !V1_0
+		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
+#endif
+
+#if V1_0 || V1_1
 		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(Apparel), nameof(Apparel.Wearer));
 #else
 		private static readonly FieldInfo ResourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
-
-		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
 
 		private static readonly MethodInfo PawnOwnerMethod = AccessTools.PropertyGetter(typeof(CompShield), "PawnOwner");
 
@@ -43,6 +45,15 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 			}
 
 #if !V1_0
+			if (__instance is PsychicEntropyGizmo psychicEntropyGizmo) {
+				__result = __result
+					&& (!(TrackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker pawnPsychicEntropyTracker)
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnPsychicEntropyTracker.Pawn, true));
+				return;
+			}
+#endif
+
+#if !(V1_0 || V1_1)
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
 					&& (commandPsycast.Pawn == null
@@ -54,13 +65,6 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 				__result = __result
 					&& (!(ResourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneResource.pawn, true));
-				return;
-			}
-
-			if (__instance is PsychicEntropyGizmo psychicEntropyGizmo) {
-				__result = __result
-					&& (!(TrackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker pawnPsychicEntropyTracker)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnPsychicEntropyTracker.Pawn, true));
 				return;
 			}
 

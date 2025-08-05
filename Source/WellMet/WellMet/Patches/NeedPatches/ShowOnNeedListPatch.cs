@@ -17,7 +17,7 @@ namespace Lakuna.WellMet.Patches.NeedPatches {
 				return;
 			}
 
-#if !V1_0
+#if !(V1_0 || V1_1)
 			if (__instance is Need_Deathrest) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___pawn);
 			}

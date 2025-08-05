@@ -15,7 +15,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 	internal static class DrawHediffListingPatch {
 		private static readonly MethodInfo BleedRateTotalMethod = PatchUtility.PropertyGetter(typeof(HediffSet), nameof(HediffSet.BleedRateTotal));
 
-#if !V1_0
+#if !(V1_0 || V1_1)
 		private static readonly FieldInfo GenesField = AccessTools.Field(typeof(Pawn), nameof(Pawn.genes));
 #endif
 
@@ -34,7 +34,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 					continue;
 				}
 
-#if !V1_0
+#if !(V1_0 || V1_1)
 				if (instruction.LoadsField(GenesField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;

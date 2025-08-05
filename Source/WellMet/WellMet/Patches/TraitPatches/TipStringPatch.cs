@@ -15,7 +15,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
 	internal static class TipStringPatch {
-#if !V1_0
+#if !(V1_0 || V1_1)
 		private static readonly MethodInfo GetAffectedIssuesMethod = AccessTools.Method(typeof(TraitDegreeData), nameof(TraitDegreeData.GetAffectedIssues));
 
 		private static readonly ConstructorInfo IssueDefListConstructor = AccessTools.Constructor(typeof(List<IssueDef>));
@@ -50,11 +50,11 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 
 		[HarmonyPostfix]
 		private static void Postfix(Trait __instance,
-#if V1_0
+#if V1_0 || V1_1
 			Pawn pawn,
 #endif
 			ref string __result) {
-#if V1_0
+#if V1_0 || V1_1
 			if (KnowledgeUtility.IsTraitKnown(pawn, __instance.def)) {
 #else
 			if (KnowledgeUtility.IsTraitKnown(__instance)) {

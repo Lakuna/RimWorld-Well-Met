@@ -1,4 +1,4 @@
-﻿#if !V1_0
+﻿#if !(V1_0 || V1_1)
 using HarmonyLib;
 using Lakuna.WellMet.Utility;
 using RimWorld;
@@ -95,7 +95,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(CharacterCardUtility)) {
 					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
-						_ = HarmonyPatcher.Instance.Patch(methodInfo, null, null, ActionDelegateTranspilerMethod);
+						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
 
 					continue;

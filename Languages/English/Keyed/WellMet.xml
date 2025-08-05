@@ -10,6 +10,7 @@
 	<HideFactionInformation>hide faction information</HideFactionInformation>
 	<NeverHideControls>never hide controls</NeverHideControls>
 	<HideAncientCorpses>hide ancient corpses</HideAncientCorpses>
+	<LegacyMode>legacy mode</LegacyMode>
 	<Unknown>unknown</Unknown>
 
 	<!-- Pawn types. -->
@@ -25,7 +26,6 @@
 
 	<!-- Information categories. -->
 	<Basic>basic</Basic>
-	<Abilities>abilities</Abilities>
 	<Gear>gear</Gear>
 	<Ideoligion>ideoligion</Ideoligion>
 	<Social>social</Social>

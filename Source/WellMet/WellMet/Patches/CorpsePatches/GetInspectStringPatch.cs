@@ -17,7 +17,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
-#if !V1_0
+#if !(V1_0 || V1_1)
 			{ AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff)), InformationCategory.Health }
 #endif
 		};
