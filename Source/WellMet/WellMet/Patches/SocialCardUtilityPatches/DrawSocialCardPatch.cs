@@ -19,7 +19,7 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, true) // Role selection dropdown.
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, true); // Romance button.
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo IdeoMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
 
 		[HarmonyTranspiler]

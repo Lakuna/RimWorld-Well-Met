@@ -5,7 +5,7 @@ using HarmonyLib;
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
-#if !V1_0
+#if !(V1_0 || V1_1)
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -15,7 +15,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
 	internal static class TipStringPatch {
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo GetAffectedIssuesMethod = AccessTools.Method(typeof(TraitDegreeData), nameof(TraitDegreeData.GetAffectedIssues));
 
 		private static readonly ConstructorInfo IssueDefListConstructor = AccessTools.Constructor(typeof(List<IssueDef>));

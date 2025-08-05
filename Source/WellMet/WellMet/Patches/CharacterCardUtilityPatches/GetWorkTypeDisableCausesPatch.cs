@@ -10,7 +10,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "GetWorkTypeDisableCauses")]
 	internal static class GetWorkTypeDisableCausesPatch {
-#if !V1_1
+#if !(V1_1 || V1_2)
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Childhood)), InformationCategory.Backstory },
 			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood)), InformationCategory.Backstory },
@@ -24,7 +24,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-#if V1_1
+#if V1_1 || V1_2
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood)), InformationCategory.Backstory },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood)), InformationCategory.Backstory },
 #else
@@ -39,7 +39,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-#if !V1_1
+#if !(V1_1 || V1_2)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;

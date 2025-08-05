@@ -14,13 +14,13 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 			bool advanced = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, __instance.pawn);
 			bool health = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.pawn);
 			bool social = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, __instance.pawn);
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 			bool ideoligion = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, __instance.pawn);
 			bool gear = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, __instance.pawn);
 #endif
 
 			__result = __result
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept)) ?? false) || ideoligion)
@@ -29,7 +29,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				&& (__instance.def.requiredTraits?.TrueForAll((traitDef) => KnowledgeUtility.IsTraitKnown(__instance.pawn, traitDef)) ?? true)
 				&& (__instance.def.workerClass != typeof(ThoughtWorker_Pain) && __instance.def.workerClass != typeof(ThoughtWorker_Sick) || health);
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 			if (__instance is Thought_Situational_Precept_SlavesInColony
 				|| __instance is Thought_Situational_Precept_HighLife
 				|| __instance is Thought_IdeoMissingBuilding

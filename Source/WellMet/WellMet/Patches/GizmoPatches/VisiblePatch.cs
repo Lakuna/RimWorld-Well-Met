@@ -18,7 +18,7 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
 #endif
 
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(Apparel), nameof(Apparel.Wearer));
 #else
 		private static readonly FieldInfo ResourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
@@ -53,14 +53,24 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 			}
 #endif
 
-#if !(V1_0 || V1_1)
+#if V1_0 || V1_1
+#elif V1_2
+			if (__instance is Command_Psycast commandPsycast) {
+				__result = __result
+					&& (commandPsycast.Ability.pawn == null
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Ability.pawn, true));
+				return;
+			}
+#else
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
 					&& (commandPsycast.Pawn == null
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Pawn, true));
 				return;
 			}
+#endif
 
+#if !(V1_0 || V1_1 || V1_2)
 			if (__instance is GeneGizmo_Resource geneGizmoResource) {
 				__result = __result
 					&& (!(ResourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)

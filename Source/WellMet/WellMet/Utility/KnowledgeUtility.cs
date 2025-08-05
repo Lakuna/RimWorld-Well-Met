@@ -145,7 +145,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <returns>The trait definition of the wimp trait.</returns>
 		private static TraitDef TraitDefOfWimp() =>
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 			null;
 #else
 			TraitDefOf.Wimp;

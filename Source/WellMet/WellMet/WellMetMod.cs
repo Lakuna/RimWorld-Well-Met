@@ -94,7 +94,7 @@ namespace Lakuna.WellMet {
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
 #if V1_0
 				listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
-#elif V1_1
+#elif V1_1 || V1_2
 				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor));
 #else
 				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
@@ -102,7 +102,7 @@ namespace Lakuna.WellMet {
 			}
 
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 				listing.Label("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst());
 				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.Slider(Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
 #else
