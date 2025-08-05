@@ -21,13 +21,22 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 
 			__result = __result
 #if !(V1_0 || V1_1 || V1_2)
-				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
-				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept)) ?? false) || ideoligion)
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept_Social)) ?? false) || ideoligion && social)
 #endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
+				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
+#endif
 				&& (__instance.def.requiredTraits?.TrueForAll((traitDef) => KnowledgeUtility.IsTraitKnown(__instance.pawn, traitDef)) ?? true)
 				&& (__instance.def.workerClass != typeof(ThoughtWorker_Pain) && __instance.def.workerClass != typeof(ThoughtWorker_Sick) || health);
+
+#if !V1_0
+			if (__instance is Thought_DecreeUnmet) {
+				__result = __result && advanced;
+				return;
+			}
+#endif
 
 #if !(V1_0 || V1_1 || V1_2)
 			if (__instance is Thought_Situational_Precept_SlavesInColony
@@ -48,15 +57,10 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				__result = __result && ideoligion && social;
 				return;
 			}
-
-			if (__instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency) {
-				__result = __result && advanced;
-				return;
-			}
 #endif
 
-#if !V1_0
-			if (__instance is Thought_DecreeUnmet) {
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+			if (__instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency) {
 				__result = __result && advanced;
 				return;
 			}

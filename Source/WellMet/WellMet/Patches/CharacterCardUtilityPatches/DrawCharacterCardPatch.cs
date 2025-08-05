@@ -5,7 +5,7 @@ using HarmonyLib;
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 using System;
 #endif
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
 	internal static class DrawCharacterCardPatch {
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 		private static readonly MethodInfo ToStringFullMethod = PatchUtility.PropertyGetter(typeof(Name), nameof(Name.ToStringFull));
 
 		private static readonly MethodInfo SpawnedMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Spawned));
@@ -50,7 +50,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		}
 #endif
 
-#if V1_1 || V1_2
+#if V1_1 || V1_2 || V1_3
 		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly MethodInfo GetExtraFactionsFromQuestPartsMethod = AccessTools.Method(typeof(QuestUtility), nameof(QuestUtility.GetExtraFactionsFromQuestParts));
@@ -101,14 +101,14 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn,
-#if V1_0 || V1_1 || V1_2
-		ref Action randomizeCallback
+#if V1_0 || V1_1 || V1_2 || V1_3
+			ref Action randomizeCallback
 #else
 			ref bool showName
 #endif
 		) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 			if (!basic) {
 				randomizeCallback = null;
 			}
@@ -133,7 +133,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
 
 			foreach (CodeInstruction instruction in instructions) {
-#if V1_1 || V1_2
+#if V1_1 || V1_2 || V1_3
 				// Don't call `QuestUtility.GetExtraFactionsFromQuestPartsMethod`; just pop its arguments instead.
 				if (instruction.Calls(GetExtraFactionsFromQuestPartsMethod)) {
 					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
@@ -177,7 +177,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 				yield return instruction;
 
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 				if (PatchUtility.Calls(instruction, ToStringFullMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, "")) {
 						yield return i;
@@ -228,7 +228,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 #endif
 
-#if V1_1 || V1_2
+#if V1_1 || V1_2 || V1_3
 				if (instruction.Calls(FactionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;

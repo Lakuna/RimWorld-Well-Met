@@ -16,7 +16,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));
 
-#if !(V1_0 || V1_1 || V1_2)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 
 		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
@@ -27,7 +27,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #if V1_0
 			ref bool writeAge
 #else
-#if !(V1_1 || V1_2)
+#if !(V1_1 || V1_2 || V1_3)
 			ref bool writeGender,
 #endif
 			ref bool writeFaction
@@ -37,7 +37,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #if V1_0
 			writeAge = writeAge && basic;
 #else
-#if !(V1_1 || V1_2)
+#if !(V1_1 || V1_2 || V1_3)
 			writeGender = writeGender && basic;
 #endif
 			writeFaction = writeFaction && basic;
@@ -59,7 +59,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1 || V1_2)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 				if (instruction.Calls(IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
