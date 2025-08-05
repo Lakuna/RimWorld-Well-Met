@@ -14,7 +14,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 	internal static class LabelShortPatch {
 		private static readonly MethodInfo NameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo LabelPrefixMethod = AccessTools.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 #endif
 
@@ -33,7 +33,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (instruction.Calls(LabelPrefixMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, "")) {
 						yield return i;

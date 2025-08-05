@@ -26,6 +26,8 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 #endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
+#endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
 #endif
 				&& (__instance.def.requiredTraits?.TrueForAll((traitDef) => KnowledgeUtility.IsTraitKnown(__instance.pawn, traitDef)) ?? true)

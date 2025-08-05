@@ -54,7 +54,7 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 #endif
 
 #if V1_0 || V1_1
-#elif V1_2 || V1_3
+#elif V1_2 || V1_3 || V1_4
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
 					&& (commandPsycast.Ability.pawn == null

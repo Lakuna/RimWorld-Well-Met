@@ -16,7 +16,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood)), InformationCategory.Backstory },
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
 		};
+#endif
 
+#if !(V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 #endif
 
@@ -40,14 +42,6 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 #if !(V1_1 || V1_2 || V1_3)
-				if (instruction.Calls(IsMutantMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
-						yield return i;
-					}
-
-					continue;
-				}
-
 				bool flag = false;
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
 					if (instruction.Calls(row.Key)) {
@@ -60,6 +54,16 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					}
 				}
 				if (flag) {
+					continue;
+				}
+#endif
+
+#if !(V1_1 || V1_2 || V1_3 || V1_4)
+				if (instruction.Calls(IsMutantMethod)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
+						yield return i;
+					}
+
 					continue;
 				}
 #endif

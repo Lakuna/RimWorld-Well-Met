@@ -7,7 +7,7 @@ using Lakuna.WellMet.Utility;
 #if !V1_0
 using RimWorld;
 #endif
-#if V1_1 || V1_2 || V1_3
+#if V1_1 || V1_2 || V1_3 || V1_4
 using System;
 #endif
 using System.Collections.Generic;
@@ -16,6 +16,8 @@ using System.Reflection.Emit;
 using Verse;
 #if V1_0 || V1_1 || V1_2 || V1_3
 using Verse.AI;
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using Verse.AI.Group;
 #endif
 
@@ -31,11 +33,13 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			{ AccessTools.Field(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.curJob)), InformationCategory.Advanced },
 #else
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs)), InformationCategory.Advanced },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.flight)), InformationCategory.Basic },
 			{ AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.energy)), InformationCategory.Needs },
 #endif
 #if !(V1_0 || V1_1 || V1_2)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.roping)), InformationCategory.Basic },
+#endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
+			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.flight)), InformationCategory.Basic },
 #endif
 #if !V1_0
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
@@ -58,7 +62,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if V1_0
 		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord));
-#elif V1_1 || V1_2 || V1_3
+#elif V1_1 || V1_2 || V1_3 || V1_4
 		private static readonly MethodInfo GetLordMethod = AccessTools.Method(typeof(LordUtility), nameof(LordUtility.GetLord), new Type[] { typeof(Pawn) });
 #else
 		private static readonly FieldInfo HideMainDescField = AccessTools.Field(typeof(ThingDef), nameof(ThingDef.hideMainDesc));
@@ -91,7 +95,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				}
 #endif
 
-#if V1_0 || V1_1 || V1_2 || V1_3
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 				if (PatchUtility.Calls(instruction, GetLordMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
 						yield return i;
