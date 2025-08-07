@@ -26,6 +26,11 @@
 		/// <summary>
 		/// A pawn that is not a member of the player's faction, not controllable by the player, and not a prisoner of the player's faction, but is hostile to the player's faction, a corpse that belongs to a pawn whose faction is hostile to the player's faction, or a faction that is hostile to the player's faction.
 		/// </summary>
-		Hostile
+		Hostile,
+
+		/// <summary>
+		/// A wild (non-colonist) animal.
+		/// </summary>
+		WildAnimal
 	}
 }

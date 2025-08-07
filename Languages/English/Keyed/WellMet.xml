@@ -3,7 +3,8 @@
 <LanguageData>
 	<!-- UI -->
 	<WellMet>Well Met</WellMet>
-	<ColonistTraitDiscoveryDifficulty>colonist trait discovery difficulty ({0})</ColonistTraitDiscoveryDifficulty>
+	<TraitDiscoveryDifficulty>trait discovery difficulty ({0})</TraitDiscoveryDifficulty>
+	<BackstoryDiscoveryDifficulty>backstory discovery difficulty ({0})</BackstoryDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
@@ -16,6 +17,7 @@
 	<!-- Pawn types. -->
 	<Colonist>colonist</Colonist>
 	<Controlled>controlled</Controlled>
+	<WildAnimal>wild animal</WildAnimal>
 
 	<!-- Pawn type blurbs. -->
 	<ColonistBlurb>free, non-slave colonists</ColonistBlurb>
@@ -23,6 +25,7 @@
 	<PrisonerBlurb>colony prisoners</PrisonerBlurb>
 	<NeutralBlurb>other non-hostile pawns</NeutralBlurb>
 	<HostileBlurb>hostile pawns</HostileBlurb>
+	<WildAnimalBlurb>wild animals</WildAnimalBlurb>
 
 	<!-- Information categories. -->
 	<Basic>basic</Basic>

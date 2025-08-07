@@ -3,7 +3,6 @@
 using RimWorld;
 #endif
 using System;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -101,19 +100,28 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
+			if (KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Traits)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-				listing.Label("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst());
-				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.Slider(Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+				listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
+				Settings.TraitDiscoveryDifficulty = (int)listing.Slider(Settings.TraitDiscoveryDifficulty, 0, 10);
 #else
-				Settings.ColonistTraitDiscoveryDifficulty = (int)listing.SliderLabeled("ColonistTraitDiscoveryDifficulty".Translate(Settings.ColonistTraitDiscoveryDifficulty).CapitalizeFirst(), Settings.ColonistTraitDiscoveryDifficulty, 0, 10);
+				Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
 #endif
 
-				if (Settings.ColonistTraitDiscoveryDifficulty > 0) {
+				if (Settings.TraitDiscoveryDifficulty > 0) {
 					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
 					listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
 					Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
 				}
+			}
+
+			if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Backstory)) {
+#if V1_0 || V1_1 || V1_2 || V1_3
+				listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
+				Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
+#else
+				Settings.BackstoryDiscoveryDifficulty = (int)listing.SliderLabeled("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst(), Settings.BackstoryDiscoveryDifficulty, 0, 10);
+#endif
 			}
 
 			listing.End();

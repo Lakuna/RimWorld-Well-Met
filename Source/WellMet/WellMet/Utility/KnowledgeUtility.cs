@@ -51,6 +51,7 @@ namespace Lakuna.WellMet.Utility {
 			: (MiscellaneousUtility.IsFreeNonSlaveColonist(pawn) || MiscellaneousUtility.IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: MiscellaneousUtility.IsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
+			: MiscellaneousUtility.IsAnimal(pawn) ? PawnType.WildAnimal
 			: HostileToPlayer(pawn) ? PawnType.Hostile
 			: PawnType.Neutral;
 
@@ -119,7 +120,8 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn, bool isControl = false) =>
 			(WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
 				|| IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead))
-			&& !(IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses && !WellMetMod.Settings.LegacyMode);
+			&& !(!WellMetMod.Settings.LegacyMode && IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses)
+			&& !(!WellMetMod.Settings.LegacyMode && informationCategory == InformationCategory.Backstory && pawn != null && WellMetMod.Settings.BackstoryDiscoveryDifficulty * TicksPerQuadrum > pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal));
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -144,6 +146,13 @@ namespace Lakuna.WellMet.Utility {
 			WellMetMod.Settings.KnownInformation[(int)pawnType, (int)informationCategory]
 			|| WellMetMod.Settings.LegacyMode
 			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(pawnType, isAlive);
+
+		/// <summary>
+		/// Determine whether the given information category is known for any pawn type.
+		/// </summary>
+		/// <param name="informationCategory">The information category.</param>
+		/// <returns>Whether the given information category is known for any pawn type.</returns>
+		public static bool IsInformationKnownForAny(InformationCategory informationCategory) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsInformationKnownFor(informationCategory, type));
 
 #if !(V1_0 || V1_1)
 		/// <summary>
@@ -174,20 +183,19 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="pawn">The pawn.</param>
 		/// <param name="traitDef">The trait type.</param>
 		/// <returns>Whether the given trait type is known for the given pawn.</returns>
-		public static bool IsTraitKnown(Pawn pawn, TraitDef traitDef) => pawn == null
-			? IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMomentTraits || WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0) // In vanilla RimWorld, `pawn == null` only during a growth moment. A better way to do this might be `Find.WindowStack.WindowOfType<Dialog_GrowthMomentChoices>() == null`.
-			: traitDef == null // // Prevents some issues where some pawns cannot gain traits.
+		public static bool IsTraitKnown(Pawn pawn, TraitDef traitDef) =>
+			pawn == null ? IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMomentTraits || WellMetMod.Settings.TraitDiscoveryDifficulty <= 0) // In vanilla RimWorld, `pawn == null` only during a growth moment. A better way to do this might be `Find.WindowStack.WindowOfType<Dialog_GrowthMomentChoices>() == null`.
+			: traitDef == null // Prevents some issues where some pawns cannot gain traits.
 			|| IsInformationKnownFor(InformationCategory.Traits, pawn)
-			&& (TypeOf(pawn) != PawnType.Colonist // Only colonists' traits might need to be learned over time.
-				|| WellMetMod.Settings.ColonistTraitDiscoveryDifficulty <= 0
+			&& (WellMetMod.Settings.TraitDiscoveryDifficulty <= 0
 				|| WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
-				|| (traitDef == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
-					: traitDef == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
-					: traitDef == TraitDefOf.Brawler || traitDef.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * 10
-					: traitDef == TraitDefOfWimp() || traitDef.defName == "Tough" || traitDef.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * (HumanMaxHealth / 10)
-					: traitDef == TraitDefOf.BodyPurist || traitDef == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty
-					: traitDef.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.ColonistTraitDiscoveryDifficulty * HumanDailyNutrition * 10
-					: pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) > 1 / traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.ColonistTraitDiscoveryDifficulty));
+				|| (traitDef == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.TraitDiscoveryDifficulty
+					: traitDef == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.TraitDiscoveryDifficulty
+					: traitDef == TraitDefOf.Brawler || traitDef.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.TraitDiscoveryDifficulty * 10
+					: traitDef == TraitDefOfWimp() || traitDef.defName == "Tough" || traitDef.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.TraitDiscoveryDifficulty * (HumanMaxHealth / 10)
+					: traitDef == TraitDefOf.BodyPurist || traitDef == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.TraitDiscoveryDifficulty
+					: traitDef.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.TraitDiscoveryDifficulty * HumanDailyNutrition * 10
+					: pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) > 1 / traitDef.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitDiscoveryDifficulty));
 
 		/// <summary>
 		/// Determine whether the given thought is known.
@@ -206,8 +214,15 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="thoughtDef">The thought type.</param>
 		/// <returns>Whether the given thought type is known for the given pawn.</returns>
 		/// <exception cref="ArgumentNullException">When no thought type is given.</exception>
-		public static bool IsThoughtKnown(Pawn pawn, ThoughtDef thoughtDef) => thoughtDef == null
-			? throw new ArgumentNullException(nameof(thoughtDef))
-			: IsInformationKnownFor(InformationCategory.Needs, pawn) && !thoughtDef.requiredTraits.Any((traitDef) => !IsTraitKnown(pawn, traitDef));
+		public static bool IsThoughtKnown(Pawn pawn, ThoughtDef thoughtDef) =>
+			thoughtDef == null ? throw new ArgumentNullException(nameof(thoughtDef))
+			: IsInformationKnownFor(InformationCategory.Needs, pawn)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				&& !(thoughtDef.requiredGenes?.Count > 0 && !IsInformationKnownFor(InformationCategory.Advanced, pawn))
+#endif
+#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
+				&& !(thoughtDef.requiredHediffs?.Count > 0 && !IsInformationKnownFor(InformationCategory.Health, pawn))
+#endif
+				&& !(thoughtDef.requiredTraits?.Any((traitDef) => !IsTraitKnown(pawn, traitDef)) ?? false);
 	}
 }
