@@ -97,6 +97,13 @@ namespace Lakuna.WellMet.Utility {
 		private static bool IsStartingColonist(Pawn pawn) => Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false;
 
 		/// <summary>
+		/// Determine whether or not the given pawn is related to any colonist.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
+		private static bool IsRelativeOfColonist(Pawn pawn) => pawn.relations.RelatedPawns.Any((other) => TypeOf(other) == PawnType.Colonist);
+
+		/// <summary>
 		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
@@ -119,7 +126,8 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
 		public static bool IsInformationKnownFor(InformationCategory informationCategory, Pawn pawn, bool isControl = false) =>
 			(WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
-				|| IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead))
+				|| IsInformationKnownFor(informationCategory, TypeOf(pawn), isControl, !pawn.Dead)
+				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && IsRelativeOfColonist(pawn) && (informationCategory == InformationCategory.Backstory || informationCategory == InformationCategory.Basic || informationCategory == InformationCategory.Traits))
 			&& !(!WellMetMod.Settings.LegacyMode && IsAncientCorpse(pawn) && WellMetMod.Settings.HideAncientCorpses)
 			&& !(!WellMetMod.Settings.LegacyMode && informationCategory == InformationCategory.Backstory && pawn != null && WellMetMod.Settings.BackstoryDiscoveryDifficulty * TicksPerQuadrum > pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal));
 

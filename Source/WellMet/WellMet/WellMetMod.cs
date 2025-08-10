@@ -84,6 +84,10 @@ namespace Lakuna.WellMet {
 				bool hideAncientCorpses = Settings.HideAncientCorpses;
 				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
 				Settings.HideAncientCorpses = hideAncientCorpses;
+
+				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
+				listing.CheckboxLabeled("AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives);
+				Settings.AlwaysKnowMoreAboutColonistRelatives = alwaysKnowMoreAboutColonistRelatives;
 			}
 
 			bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;

@@ -18,6 +18,7 @@ namespace Lakuna.WellMet {
 			this.neverHideControls = true;
 			this.hideAncientCorpses = true;
 			this.legacyMode = false;
+			this.alwaysKnowMoreAboutColonistRelatives = true;
 		}
 
 		private BoolGrid knownInformation;
@@ -43,6 +44,13 @@ namespace Lakuna.WellMet {
 		internal bool AlwaysKnowStartingColonists {
 			get => this.alwaysKnowStartingColonists;
 			set => this.alwaysKnowStartingColonists = value;
+		}
+
+		private bool alwaysKnowMoreAboutColonistRelatives;
+
+		internal bool AlwaysKnowMoreAboutColonistRelatives {
+			get => this.alwaysKnowMoreAboutColonistRelatives;
+			set => this.alwaysKnowMoreAboutColonistRelatives = value;
 		}
 
 		private bool alwaysKnowGrowthMomentTraits;
@@ -84,13 +92,23 @@ namespace Lakuna.WellMet {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			Map map = new Map();
 			map.info.Size = new IntVec3(InfoWidth, 0, InfoHeight);
-			this.knownInformation = new BoolGrid(map);
+			if (this.knownInformation == null) {
+				this.knownInformation = new BoolGrid(map);
+			} else {
+				this.knownInformation.ClearAndResizeTo(map);
+			}
+
 #if V1_5
 			map.Dispose();
 #endif
 #else
-			this.knownInformation = new BoolGrid(InfoWidth, InfoHeight);
+			if (this.knownInformation == null) {
+				this.knownInformation = new BoolGrid(InfoWidth, InfoHeight);
+			} else {
+				this.knownInformation.ClearAndResizeTo(InfoWidth, InfoHeight);
+			}
 #endif
+
 
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
@@ -134,14 +152,16 @@ namespace Lakuna.WellMet {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
 			Scribe_Values.Look(ref this.traitDiscoveryDifficulty, nameof(this.traitDiscoveryDifficulty));
+			Scribe_Values.Look(ref this.backstoryDiscoveryDifficulty, nameof(this.backstoryDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
+			Scribe_Values.Look(ref this.alwaysKnowMoreAboutColonistRelatives, nameof(this.alwaysKnowMoreAboutColonistRelatives));
 			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
 			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
 			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
 			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
 
-			if (!this.KnownSizeIsCorrect()) {
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && !this.KnownSizeIsCorrect()) {
 				this.InitKnown();
 			}
 		}

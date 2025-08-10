@@ -6,6 +6,7 @@
 	<TraitDiscoveryDifficulty>trait discovery difficulty ({0})</TraitDiscoveryDifficulty>
 	<BackstoryDiscoveryDifficulty>backstory discovery difficulty ({0})</BackstoryDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
+	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
 	<HideFactionInformation>hide faction information</HideFactionInformation>

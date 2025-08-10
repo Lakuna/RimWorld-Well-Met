@@ -24,6 +24,12 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 
 		private static readonly ConstructorInfo MemeDefListConstructor = AccessTools.Constructor(typeof(List<MemeDef>));
 
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		private static readonly FieldInfo SourceGeneField = AccessTools.Field(typeof(Trait), nameof(Trait.sourceGene));
+
+		private static readonly MethodInfo SuppressedMethod = AccessTools.PropertyGetter(typeof(Trait), nameof(Trait.Suppressed));
+#endif
+
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
@@ -43,7 +49,25 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, MemeDefListConstructor)) {
 						yield return i;
 					}
+
+					continue;
 				}
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				if (instruction.LoadsField(SourceGeneField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (instruction.Calls(SuppressedMethod)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Advanced, getPawnInstructions)) {
+						yield return i;
+					}
+				}
+#endif
 			}
 		}
 #endif
@@ -53,7 +77,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 #if V1_0 || V1_1
 			Pawn pawn,
 #endif
-			ref string __result) {
+	ref string __result) {
 #if V1_0 || V1_1
 			if (KnowledgeUtility.IsTraitKnown(pawn, __instance.def)) {
 #else
