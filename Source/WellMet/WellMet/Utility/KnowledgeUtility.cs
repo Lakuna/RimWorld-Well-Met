@@ -101,7 +101,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
-		private static bool IsRelativeOfColonist(Pawn pawn) => pawn.relations.RelatedPawns.Any((other) => TypeOf(other) == PawnType.Colonist);
+		private static bool IsRelativeOfColonist(Pawn pawn) => pawn.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
 
 		/// <summary>
 		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
