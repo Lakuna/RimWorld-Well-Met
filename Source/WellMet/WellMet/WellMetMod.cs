@@ -139,7 +139,7 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (KnowledgeUtility.IsLearningEnabledForAny()) {
+			if (pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type))) {
 				if (KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Traits)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 					listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
@@ -163,7 +163,7 @@ namespace Lakuna.WellMet {
 					}
 				}
 
-				if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Backstory)) {
+				if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type))) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 					listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
 					Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
@@ -172,7 +172,7 @@ namespace Lakuna.WellMet {
 #endif
 				}
 
-				if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Skills)) {
+				if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type))) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 					listing.Label("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst());
 					Settings.SkillsDiscoveryDifficulty = (int)listing.Slider(Settings.SkillsDiscoveryDifficulty, 0, 10);
