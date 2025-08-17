@@ -5,6 +5,7 @@
 	<WellMet>Well Met</WellMet>
 	<TraitDiscoveryDifficulty>trait discovery difficulty ({0})</TraitDiscoveryDifficulty>
 	<BackstoryDiscoveryDifficulty>backstory discovery difficulty ({0})</BackstoryDiscoveryDifficulty>
+	<SkillsDiscoveryDifficulty>skills discovery difficulty ({0})</SkillsDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
@@ -14,6 +15,8 @@
 	<HideAncientCorpses>hide ancient corpses</HideAncientCorpses>
 	<LegacyMode>legacy mode</LegacyMode>
 	<Unknown>unknown</Unknown>
+	<LearningEnabled>learning enabled</LearningEnabled>
+	<EnableUniqueTraitUnlockConditions>enable unique trait unlock conditions</EnableUniqueTraitUnlockConditions>
 
 	<!-- Pawn types. -->
 	<Colonist>colonist</Colonist>

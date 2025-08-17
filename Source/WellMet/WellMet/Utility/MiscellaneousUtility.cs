@@ -1,5 +1,14 @@
-﻿#if !V1_0
+﻿#if V1_0
+using Harmony;
+#else
+using HarmonyLib;
+#endif
+using RimWorld;
+#if !V1_0
 using System;
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3
+using System.Reflection;
 #endif
 using Verse;
 
@@ -88,6 +97,15 @@ namespace Lakuna.WellMet.Utility {
 #else
 			s.EndWithPeriod();
 #endif
+#endif
+
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
+
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) => PawnField.GetValue(skill) as Pawn;
+#else
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) => skill?.Pawn;
 #endif
 	}
 }

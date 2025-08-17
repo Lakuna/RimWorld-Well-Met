@@ -10,8 +10,10 @@ namespace Lakuna.WellMet {
 
 		public WellMetSettings() {
 			this.InitKnown();
-			this.traitDiscoveryDifficulty = 0;
-			this.backstoryDiscoveryDifficulty = 0;
+			this.InitLearningEnabled();
+			this.traitDiscoveryDifficulty = 1;
+			this.backstoryDiscoveryDifficulty = 1;
+			this.skillsDiscoveryDifficulty = 1;
 			this.alwaysKnowStartingColonists = true;
 			this.alwaysKnowGrowthMomentTraits = true;
 			this.hideFactionInformation = false;
@@ -19,11 +21,16 @@ namespace Lakuna.WellMet {
 			this.hideAncientCorpses = true;
 			this.legacyMode = false;
 			this.alwaysKnowMoreAboutColonistRelatives = true;
+			this.enableUniqueTraitUnlockConditions = true;
 		}
 
 		private BoolGrid knownInformation;
 
 		internal BoolGrid KnownInformation => this.knownInformation;
+
+		private bool[] learningEnabled;
+
+		internal bool[] LearningEnabled => this.learningEnabled;
 
 		private int traitDiscoveryDifficulty;
 
@@ -37,6 +44,13 @@ namespace Lakuna.WellMet {
 		internal int BackstoryDiscoveryDifficulty {
 			get => this.backstoryDiscoveryDifficulty;
 			set => this.backstoryDiscoveryDifficulty = value;
+		}
+
+		private int skillsDiscoveryDifficulty;
+
+		internal int SkillsDiscoveryDifficulty {
+			get => this.skillsDiscoveryDifficulty;
+			set => this.skillsDiscoveryDifficulty = value;
 		}
 
 		private bool alwaysKnowStartingColonists;
@@ -88,6 +102,13 @@ namespace Lakuna.WellMet {
 			set => this.legacyMode = value;
 		}
 
+		private bool enableUniqueTraitUnlockConditions;
+
+		internal bool EnableUniqueTraitUnlockConditions {
+			get => this.enableUniqueTraitUnlockConditions;
+			set => this.enableUniqueTraitUnlockConditions = value;
+		}
+
 		private void InitKnown() {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			Map map = new Map();
@@ -131,6 +152,7 @@ namespace Lakuna.WellMet {
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Skills] = true;
 			this.knownInformation[(int)PawnType.Neutral, (int)InformationCategory.Basic] = true;
 		}
 
@@ -148,11 +170,20 @@ namespace Lakuna.WellMet {
 #endif
 		}
 
+		private void InitLearningEnabled() {
+			this.learningEnabled = MiscellaneousUtility.EmptyArray<bool>();
+			this.learningEnabled[(int)PawnType.Prisoner] = true;
+		}
+
+		private bool LearningEnabledSizeIsCorrect() => this.learningEnabled.Length == InfoWidth;
+
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
+			Scribe_Deep.Look(ref this.learningEnabled, nameof(this.learningEnabled));
 			Scribe_Values.Look(ref this.traitDiscoveryDifficulty, nameof(this.traitDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.backstoryDiscoveryDifficulty, nameof(this.backstoryDiscoveryDifficulty));
+			Scribe_Values.Look(ref this.skillsDiscoveryDifficulty, nameof(this.skillsDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
 			Scribe_Values.Look(ref this.alwaysKnowMoreAboutColonistRelatives, nameof(this.alwaysKnowMoreAboutColonistRelatives));
 			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
@@ -160,9 +191,18 @@ namespace Lakuna.WellMet {
 			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
 			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
+			Scribe_Values.Look(ref this.enableUniqueTraitUnlockConditions, nameof(this.enableUniqueTraitUnlockConditions));
 
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && !this.KnownSizeIsCorrect()) {
+			if (Scribe.mode != LoadSaveMode.PostLoadInit) {
+				return;
+			}
+
+			if (!this.KnownSizeIsCorrect()) {
 				this.InitKnown();
+			}
+
+			if (!this.LearningEnabledSizeIsCorrect()) {
+				this.InitLearningEnabled();
 			}
 		}
 	}

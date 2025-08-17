@@ -3,6 +3,7 @@
 using RimWorld;
 #endif
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -17,39 +18,47 @@ namespace Lakuna.WellMet {
 		public override void DoSettingsWindowContents(Rect inRect) {
 			base.DoSettingsWindowContents(inRect);
 
-			PawnType[] pawnTypes = (PawnType[])Enum.GetValues(typeof(PawnType));
-			InformationCategory[] informationCategories = (InformationCategory[])Enum.GetValues(typeof(InformationCategory));
+			PawnType[] pawnTypes = Enum.GetValues(typeof(PawnType)).OfType<PawnType>().ToArray();
+			InformationCategory[] informationCategories = Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().ToArray();
 
-			float rowHeight = Math.Max(Text.LineHeight, CheckboxSize);
+			int rowCount = informationCategories.Length + 1; // Add one blank row for the column labels.
+			float labelHeight = Text.LineHeight;
+			float rowHeight = Math.Max(labelHeight, CheckboxSize);
+			Rect tableRect = new Rect(inRect.x, inRect.y, inRect.width, Settings.LegacyMode ? 0 : rowHeight * rowCount);
+			Rect learningEnabledLabelRect = new Rect(inRect.x, tableRect.yMax, inRect.width, Settings.LegacyMode ? 0 : labelHeight);
+			Rect learningEnabledRect = new Rect(tableRect.x, learningEnabledLabelRect.yMax, tableRect.width, Settings.LegacyMode ? 0 : rowHeight); // Horizontally align the "learning enabled" rectangle with the table so that the column labels can be reused.
 
 			if (!Settings.LegacyMode) {
-				float columnWidth = inRect.width / (pawnTypes.Length + 1);
+				int columnCount = pawnTypes.Length + 1; // Add one blank column for the row labels.
+				float columnWidth = tableRect.width / columnCount;
 
 				// Draw column labels.
 				for (int i = 0; i < pawnTypes.Length; i++) {
-					Rect rect = new Rect(inRect.x + columnWidth * (i + 1), inRect.y, columnWidth, rowHeight);
-					Widgets.Label(rect, pawnTypes[i].ToString().Translate().CapitalizeFirst());
+					Rect columnRect = new Rect(tableRect.x + columnWidth * (i + 1), tableRect.y, columnWidth, tableRect.height); // Add one blank column for the row labels.
+					Rect labelRect = new Rect(columnRect.x, columnRect.y, columnRect.width, rowHeight);
+					Widgets.Label(labelRect, pawnTypes[i].ToString().Translate().CapitalizeFirst());
 
 					// Draw label tooltips.
-					if (Mouse.IsOver(rect)) {
-						TooltipHandler.TipRegion(rect, MiscellaneousUtility.EndWithPeriod((pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
+					if (Mouse.IsOver(labelRect)) {
+						TooltipHandler.TipRegion(labelRect, MiscellaneousUtility.EndWithPeriod((pawnTypes[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
 					}
 				}
 
 				// Draw rows.
 				for (int i = 0; i < informationCategories.Length; i++) {
 					// Draw row label.
-					Rect rect = new Rect(inRect.x, inRect.y + rowHeight * (i + 1), columnWidth, rowHeight);
-					Widgets.Label(rect, informationCategories[i].ToString().Translate().CapitalizeFirst());
+					Rect rowRect = new Rect(tableRect.x, tableRect.y + rowHeight * (i + 1), tableRect.width, rowHeight); // Add one blank row for the column labels.
+					Rect labelRect = new Rect(rowRect.x, rowRect.y, columnWidth, rowRect.height);
+					Widgets.Label(labelRect, informationCategories[i].ToString().Translate().CapitalizeFirst());
 
 					// Draw label tooltips.
-					if (Mouse.IsOver(rect)) {
-						TooltipHandler.TipRegion(rect, MiscellaneousUtility.EndWithPeriod((informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
+					if (Mouse.IsOver(labelRect)) {
+						TooltipHandler.TipRegion(labelRect, MiscellaneousUtility.EndWithPeriod((informationCategories[i].ToString() + "Blurb").Translate().CapitalizeFirst()));
 					}
 
 					// Draw checkboxes.
 					for (int j = 0; j < pawnTypes.Length; j++) {
-						Rect checkboxRect = new Rect(inRect.x + columnWidth * (j + 1), inRect.y + rowHeight * (i + 1), CheckboxSize, CheckboxSize);
+						Rect checkboxRect = new Rect(rowRect.x + columnWidth * (j + 1), rowRect.y, columnWidth, rowRect.height); // Add one blank column for the row labels.
 
 						bool value = KnowledgeUtility.IsInformationKnownFor(informationCategories[i], pawnTypes[j]);
 						Widgets.Checkbox(checkboxRect.min, ref value, Math.Min(checkboxRect.width, checkboxRect.height));
@@ -61,12 +70,23 @@ namespace Lakuna.WellMet {
 						}
 					}
 				}
+
+				// Draw "learning enabled" label.
+				Widgets.Label(learningEnabledLabelRect, "LearningEnabled".Translate().CapitalizeFirst());
+
+				// Draw "learning enabled" row.
+				for (int i = 0; i < pawnTypes.Length; i++) {
+					Rect checkboxRect = new Rect(learningEnabledRect.x + columnWidth * (i + 1), learningEnabledRect.y, columnWidth, learningEnabledRect.height); // Add one blank column for the row labels.
+
+					bool value = KnowledgeUtility.IsLearningEnabledFor(pawnTypes[i]);
+					Widgets.Checkbox(checkboxRect.min, ref value, Math.Min(checkboxRect.width, checkboxRect.height));
+					Settings.LearningEnabled[(int)pawnTypes[i]] = value;
+				}
 			}
 
-			float tableHeight = Settings.LegacyMode ? 0 : rowHeight * (informationCategories.Length + 1);
-			Rect footerRect = new Rect(inRect.x, inRect.y + tableHeight, inRect.width, inRect.height - tableHeight);
+			Rect listingRect = new Rect(inRect.x, learningEnabledRect.yMax, inRect.width, inRect.height - tableRect.height - learningEnabledLabelRect.height - learningEnabledRect.height);
 			Listing_Standard listing = new Listing_Standard();
-			listing.Begin(footerRect);
+			listing.Begin(listingRect);
 
 			bool legacyMode = Settings.LegacyMode;
 			listing.CheckboxLabeled("LegacyMode".Translate().CapitalizeFirst(), ref legacyMode);
@@ -104,28 +124,43 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Traits)) {
+			if (KnowledgeUtility.IsLearningEnabledForAny()) {
+				if (KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Traits)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-				listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
-				Settings.TraitDiscoveryDifficulty = (int)listing.Slider(Settings.TraitDiscoveryDifficulty, 0, 10);
+					listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
+					Settings.TraitDiscoveryDifficulty = (int)listing.Slider(Settings.TraitDiscoveryDifficulty, 0, 10);
 #else
-				Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
+					Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
 #endif
 
-				if (Settings.TraitDiscoveryDifficulty > 0) {
-					bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
-					listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
-					Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+					if (Settings.TraitDiscoveryDifficulty > 0) {
+						bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
+						listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+						Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+
+						bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
+						listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
+						Settings.EnableUniqueTraitUnlockConditions = alwaysKnowGrowthMoments;
+					}
 				}
-			}
 
-			if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Backstory)) {
+				if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Backstory)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-				listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
-				Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
+					listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
+					Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
 #else
-				Settings.BackstoryDiscoveryDifficulty = (int)listing.SliderLabeled("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst(), Settings.BackstoryDiscoveryDifficulty, 0, 10);
+					Settings.BackstoryDiscoveryDifficulty = (int)listing.SliderLabeled("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst(), Settings.BackstoryDiscoveryDifficulty, 0, 10);
 #endif
+				}
+
+				if (!Settings.LegacyMode && KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Skills)) {
+#if V1_0 || V1_1 || V1_2 || V1_3
+					listing.Label("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst());
+					Settings.SkillsDiscoveryDifficulty = (int)listing.Slider(Settings.SkillsDiscoveryDifficulty, 0, 10);
+#else
+					Settings.SkillsDiscoveryDifficulty = (int)listing.SliderLabeled("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst(), Settings.SkillsDiscoveryDifficulty, 0, 10);
+#endif
+				}
 			}
 
 			listing.End();

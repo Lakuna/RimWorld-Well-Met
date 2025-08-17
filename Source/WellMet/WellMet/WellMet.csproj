@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>WellMet</AssemblyName>
-		<Version>3.2.1.0</Version>
+		<Version>3.3.0.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>
@@ -116,6 +116,7 @@
 		<Compile Include="Patches\PawnUtilityPatches\ShouldDisplayLordReportPatch.cs" />
 		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />
 		<Compile Include="Patches\RestraintsUtilityPatches\ShouldShowRestraintsInfoPatch.cs" />
+		<Compile Include="Patches\SkillUiPatches\DrawSkillPatch.cs" />
 		<Compile Include="Patches\SkillUiPatches\DrawSkillsOfPatch.cs" />
 		<Compile Include="Patches\SlaveRebellionUtilityPatches\GetAnySlaveRebellionExplanationPatch.cs" />
 		<Compile Include="Patches\SlaveRebellionUtilityPatches\GetSlaveRebellionMtbCalculationExplanationPatch.cs" />
