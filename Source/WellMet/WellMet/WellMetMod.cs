@@ -149,13 +149,17 @@ namespace Lakuna.WellMet {
 #endif
 
 					if (Settings.TraitDiscoveryDifficulty > 0) {
-						bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
-						listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
-						Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+						if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist)) {
+							bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
+							listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+							Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+						}
 
-						bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
-						listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
-						Settings.EnableUniqueTraitUnlockConditions = alwaysKnowGrowthMoments;
+						if (!Settings.LegacyMode) {
+							bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
+							listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
+							Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
+						}
 					}
 				}
 
