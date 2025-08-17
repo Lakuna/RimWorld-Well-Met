@@ -11,6 +11,8 @@ namespace Lakuna.WellMet {
 	public class WellMetMod : Mod {
 		private const float CheckboxSize = 24;
 
+		private const float ScrollViewMargin = 18; // Reduce the scroll view by this width so that the vertical scroll bar doesn't overflow the window horizontally.
+
 		private const float ExtraScrollHeight = 250;
 
 		internal static WellMetSettings Settings { get; private set; }
@@ -27,7 +29,7 @@ namespace Lakuna.WellMet {
 		public override void DoSettingsWindowContents(Rect inRect) {
 			base.DoSettingsWindowContents(inRect);
 
-			Rect scrollViewRect = new Rect(0, 0, inRect.width, this.totalSettingsHeight + ExtraScrollHeight);
+			Rect scrollViewRect = new Rect(0, 0, inRect.width - ScrollViewMargin, this.totalSettingsHeight + ExtraScrollHeight);
 			Widgets.BeginScrollView(inRect, ref this.settingsScrollPosition, scrollViewRect);
 
 			PawnType[] pawnTypes = Enum.GetValues(typeof(PawnType)).OfType<PawnType>().ToArray();
