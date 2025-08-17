@@ -1,5 +1,6 @@
 ﻿using Lakuna.WellMet.Utility;
 using System;
+using System.Text;
 using Verse;
 
 namespace Lakuna.WellMet {
@@ -180,7 +181,7 @@ namespace Lakuna.WellMet {
 		public override void ExposeData() {
 			base.ExposeData();
 			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
-			Scribe_Deep.Look(ref this.learningEnabled, nameof(this.learningEnabled));
+			MiscellaneousUtility.LookBoolArray(ref this.learningEnabled, InfoWidth, nameof(this.learningEnabled));
 			Scribe_Values.Look(ref this.traitDiscoveryDifficulty, nameof(this.traitDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.backstoryDiscoveryDifficulty, nameof(this.backstoryDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.skillsDiscoveryDifficulty, nameof(this.skillsDiscoveryDifficulty));

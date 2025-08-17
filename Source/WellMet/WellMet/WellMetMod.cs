@@ -11,12 +11,24 @@ namespace Lakuna.WellMet {
 	public class WellMetMod : Mod {
 		private const float CheckboxSize = 24;
 
+		private const float ExtraScrollHeight = 250;
+
 		internal static WellMetSettings Settings { get; private set; }
 
-		public WellMetMod(ModContentPack content) : base(content) => Settings = this.GetSettings<WellMetSettings>();
+		public WellMetMod(ModContentPack content) : base(content) {
+			Settings = this.GetSettings<WellMetSettings>();
+			this.settingsScrollPosition = Vector2.zero;
+		}
+
+		private Vector2 settingsScrollPosition;
+
+		private float totalSettingsHeight;
 
 		public override void DoSettingsWindowContents(Rect inRect) {
 			base.DoSettingsWindowContents(inRect);
+
+			Rect scrollViewRect = new Rect(0, 0, inRect.width, this.totalSettingsHeight + ExtraScrollHeight);
+			Widgets.BeginScrollView(inRect, ref this.settingsScrollPosition, scrollViewRect);
 
 			PawnType[] pawnTypes = Enum.GetValues(typeof(PawnType)).OfType<PawnType>().ToArray();
 			InformationCategory[] informationCategories = Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().ToArray();
@@ -164,6 +176,8 @@ namespace Lakuna.WellMet {
 			}
 
 			listing.End();
+			this.totalSettingsHeight = listingRect.y + listing.CurHeight;
+			Widgets.EndScrollView();
 		}
 
 		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst();
