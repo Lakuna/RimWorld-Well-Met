@@ -1,7 +1,4 @@
 ﻿using Lakuna.WellMet.Utility;
-#if !V1_0
-using RimWorld;
-#endif
 using System;
 using System.Linq;
 using UnityEngine;
@@ -13,14 +10,14 @@ namespace Lakuna.WellMet {
 
 		private const float ScrollViewMargin = 18; // Reduce the scroll view by this width so that the vertical scroll bar doesn't overflow the window horizontally.
 
-		private const float ExtraScrollHeight = 250;
+		private const float ExtraScrollHeight = 250; // Must be larger than the maximum height that can be added to the UI in one frame.
 
 		internal static WellMetSettings Settings { get; private set; }
 
 		public WellMetMod(ModContentPack content) : base(content) {
 			Settings = this.GetSettings<WellMetSettings>();
 			this.settingsScrollPosition = Vector2.zero;
-			this.totalSettingsHeight = 0;
+			this.totalSettingsHeight = 99999; // Arbitrarily large number.
 		}
 
 		private Vector2 settingsScrollPosition;
