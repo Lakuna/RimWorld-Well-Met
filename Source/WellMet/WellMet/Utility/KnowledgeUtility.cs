@@ -33,7 +33,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
-		private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction));
+		private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.Faction != null && pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction));
 
 		/// <summary>
 		/// Check whether the given faction is hostile to the player's faction.
