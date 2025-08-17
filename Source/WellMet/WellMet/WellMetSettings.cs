@@ -171,7 +171,7 @@ namespace Lakuna.WellMet {
 		}
 
 		private void InitLearningEnabled() {
-			this.learningEnabled = MiscellaneousUtility.EmptyArray<bool>();
+			this.learningEnabled = new bool[InfoWidth];
 			this.learningEnabled[(int)PawnType.Prisoner] = true;
 		}
 
