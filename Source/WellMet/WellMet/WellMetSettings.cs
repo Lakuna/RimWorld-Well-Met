@@ -175,6 +175,7 @@ namespace Lakuna.WellMet {
 
 		private void InitLearningEnabled() {
 			this.learningEnabled = new bool[InfoWidth];
+			this.learningEnabled[(int)PawnType.Controlled] = true;
 			this.learningEnabled[(int)PawnType.Prisoner] = true;
 		}
 
