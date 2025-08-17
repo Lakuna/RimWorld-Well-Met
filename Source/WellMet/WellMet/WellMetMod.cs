@@ -140,46 +140,44 @@ namespace Lakuna.WellMet {
 			}
 
 			if (pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type))) {
-				if (KnowledgeUtility.IsInformationKnownForAny(InformationCategory.Traits)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-					listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
-					Settings.TraitDiscoveryDifficulty = (int)listing.Slider(Settings.TraitDiscoveryDifficulty, 0, 10);
+				listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
+				Settings.TraitDiscoveryDifficulty = (int)listing.Slider(Settings.TraitDiscoveryDifficulty, 0, 10);
 #else
-					Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
+				Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
 #endif
 
-					if (Settings.TraitDiscoveryDifficulty > 0) {
-						if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist)) {
-							bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
-							listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
-							Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
-						}
+				if (Settings.TraitDiscoveryDifficulty > 0) {
+					if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist)) {
+						bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
+						listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+						Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+					}
 
-						if (!Settings.LegacyMode) {
-							bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
-							listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
-							Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
-						}
+					if (!Settings.LegacyMode) {
+						bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
+						listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
+						Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
 					}
 				}
+			}
 
-				if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type))) {
+			if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type))) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-					listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
-					Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
+				listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst());
+				Settings.BackstoryDiscoveryDifficulty = (int)listing.Slider(Settings.BackstoryDiscoveryDifficulty, 0, 10);
 #else
-					Settings.BackstoryDiscoveryDifficulty = (int)listing.SliderLabeled("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst(), Settings.BackstoryDiscoveryDifficulty, 0, 10);
+				Settings.BackstoryDiscoveryDifficulty = (int)listing.SliderLabeled("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryDiscoveryDifficulty).CapitalizeFirst(), Settings.BackstoryDiscoveryDifficulty, 0, 10);
 #endif
-				}
+			}
 
-				if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type))) {
+			if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, type))) {
 #if V1_0 || V1_1 || V1_2 || V1_3
-					listing.Label("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst());
-					Settings.SkillsDiscoveryDifficulty = (int)listing.Slider(Settings.SkillsDiscoveryDifficulty, 0, 10);
+				listing.Label("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst());
+				Settings.SkillsDiscoveryDifficulty = (int)listing.Slider(Settings.SkillsDiscoveryDifficulty, 0, 10);
 #else
-					Settings.SkillsDiscoveryDifficulty = (int)listing.SliderLabeled("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst(), Settings.SkillsDiscoveryDifficulty, 0, 10);
+				Settings.SkillsDiscoveryDifficulty = (int)listing.SliderLabeled("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst(), Settings.SkillsDiscoveryDifficulty, 0, 10);
 #endif
-				}
 			}
 
 			listing.End();
