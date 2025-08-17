@@ -20,6 +20,7 @@ namespace Lakuna.WellMet {
 		public WellMetMod(ModContentPack content) : base(content) {
 			Settings = this.GetSettings<WellMetSettings>();
 			this.settingsScrollPosition = Vector2.zero;
+			this.totalSettingsHeight = 0;
 		}
 
 		private Vector2 settingsScrollPosition;
@@ -38,8 +39,8 @@ namespace Lakuna.WellMet {
 			int rowCount = informationCategories.Length + 1; // Add one blank row for the column labels.
 			float labelHeight = Text.LineHeight;
 			float rowHeight = Math.Max(labelHeight, CheckboxSize);
-			Rect tableRect = new Rect(inRect.x, inRect.y, inRect.width, Settings.LegacyMode ? 0 : rowHeight * rowCount);
-			Rect learningEnabledLabelRect = new Rect(inRect.x, tableRect.yMax, inRect.width, Settings.LegacyMode ? 0 : labelHeight);
+			Rect tableRect = new Rect(scrollViewRect.x, scrollViewRect.y, scrollViewRect.width, Settings.LegacyMode ? 0 : rowHeight * rowCount);
+			Rect learningEnabledLabelRect = new Rect(scrollViewRect.x, tableRect.yMax, scrollViewRect.width, Settings.LegacyMode ? 0 : labelHeight);
 			Rect learningEnabledRect = new Rect(tableRect.x, learningEnabledLabelRect.yMax, tableRect.width, Settings.LegacyMode ? 0 : rowHeight); // Horizontally align the "learning enabled" rectangle with the table so that the column labels can be reused.
 
 			if (!Settings.LegacyMode) {
@@ -98,7 +99,7 @@ namespace Lakuna.WellMet {
 				}
 			}
 
-			Rect listingRect = new Rect(inRect.x, learningEnabledRect.yMax, inRect.width, inRect.height - tableRect.height - learningEnabledLabelRect.height - learningEnabledRect.height);
+			Rect listingRect = new Rect(scrollViewRect.x, learningEnabledRect.yMax, scrollViewRect.width, scrollViewRect.height - tableRect.height - learningEnabledLabelRect.height - learningEnabledRect.height);
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(listingRect);
 
