@@ -6,13 +6,13 @@
 	<TraitDiscoveryDifficulty>trait discovery difficulty ({0})</TraitDiscoveryDifficulty>
 	<BackstoryDiscoveryDifficulty>backstory discovery difficulty ({0})</BackstoryDiscoveryDifficulty>
 	<SkillsDiscoveryDifficulty>skills discovery difficulty ({0})</SkillsDiscoveryDifficulty>
-	<AlwaysKnowStartingColonists>always know starting colonists</AlwaysKnowStartingColonists>
+	<AlwaysKnowStartingColonists>always know more about starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
-	<HideFactionInformation>hide faction information</HideFactionInformation>
-	<NeverHideControls>never hide controls</NeverHideControls>
-	<HideAncientCorpses>hide ancient corpses</HideAncientCorpses>
+	<HideFactionInformation>apply information hiding to factions</HideFactionInformation>
+	<NeverHideControls>always show controls</NeverHideControls>
+	<HideAncientCorpses>always know less about ancient corpses</HideAncientCorpses>
 	<LegacyMode>legacy mode</LegacyMode>
 	<Unknown>unknown</Unknown>
 	<LearningEnabled>learning enabled</LearningEnabled>

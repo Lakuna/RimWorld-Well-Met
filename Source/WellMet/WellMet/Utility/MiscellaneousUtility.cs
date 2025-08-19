@@ -111,7 +111,7 @@ namespace Lakuna.WellMet.Utility {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		/// <summary>
-		/// Split up a long string into lines. Almost equivalent to `str.AddLineBreaksToLongString();`.
+		/// Split up a long string into lines. Almost equivalent to `str.AddLineBreaksToLongString`.
 		/// </summary>
 		/// <param name="str">The string.</param>
 		/// <returns>The split-up string.</returns>
@@ -140,7 +140,7 @@ namespace Lakuna.WellMet.Utility {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		/// <summary>
-		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks();`.
+		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
 		/// </summary>
 		/// <param name="str">The string.</param>
 		/// <returns>The compressed string.</returns>
@@ -253,5 +253,43 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="label">The name of the array in the save data.</param>
 		public static void LookBoolArray(ref bool[] arr, int elements, string label) => DataExposeUtility.LookBoolArray(ref arr, elements, label);
 #endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		/// <summary>
+		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the pawn is dead or downed.</returns>
+		public static bool DeadOrDowned(Pawn pawn) => pawn != null && (pawn.Dead || pawn.Downed);
+#else
+		/// <summary>
+		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the pawn is dead or downed.</returns>
+		public static bool DeadOrDowned(Pawn pawn) => pawn?.DeadOrDowned ?? false;
+#endif
+
+		/// <summary>
+		/// Check whether the given pawn is hostile to the player's faction.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
+		public static bool HostileToPlayer(Pawn pawn) => pawn != null
+			&& ((pawn.Faction == null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
+				: (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || DeadOrDowned(pawn) && HostileToPlayer(pawn.Faction))));
+
+		// private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction)));
+
+		/// <summary>
+		/// Check whether the given faction is hostile to the player's faction.
+		/// </summary>
+		/// <param name="faction">The faction.</param>
+		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
+		public static bool HostileToPlayer(Faction faction) =>
+			faction != null
+			&& faction != Faction.OfPlayerSilentFail
+			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+			&& faction.HostileTo(Faction.OfPlayerSilentFail);
 	}
 }

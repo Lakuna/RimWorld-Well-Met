@@ -29,28 +29,6 @@ namespace Lakuna.WellMet.Utility {
 		private const float HumanDailyNutrition = 1.6f;
 
 		/// <summary>
-		/// Check whether the given pawn is hostile to the player's faction.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
-		private static bool HostileToPlayer(Pawn pawn) => pawn != null
-			&& ((pawn.Faction == null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
-				: (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && pawn.HostileTo(Faction.OfPlayerSilentFail)));
-
-		// private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction)));
-
-		/// <summary>
-		/// Check whether the given faction is hostile to the player's faction.
-		/// </summary>
-		/// <param name="faction">The faction.</param>
-		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
-		private static bool HostileToPlayer(Faction faction) =>
-			faction != null
-			&& faction != Faction.OfPlayerSilentFail
-			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
-			&& faction.HostileTo(Faction.OfPlayerSilentFail);
-
-		/// <summary>
 		/// Get the type of the given pawn.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
@@ -61,7 +39,7 @@ namespace Lakuna.WellMet.Utility {
 			: MiscellaneousUtility.IsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: MiscellaneousUtility.IsAnimal(pawn) ? PawnType.WildAnimal
-			: HostileToPlayer(pawn) ? PawnType.Hostile
+			: MiscellaneousUtility.HostileToPlayer(pawn) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>
@@ -72,7 +50,7 @@ namespace Lakuna.WellMet.Utility {
 		public static PawnType TypeOf(Faction faction) =>
 			(faction == null) ? PawnType.Neutral
 			: (faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
-			: HostileToPlayer(faction) ? PawnType.Hostile
+			: MiscellaneousUtility.HostileToPlayer(faction) ? PawnType.Hostile
 			: PawnType.Neutral;
 
 		/// <summary>
