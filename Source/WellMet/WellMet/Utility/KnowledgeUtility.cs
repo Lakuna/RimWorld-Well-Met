@@ -128,6 +128,12 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsLearningEnabledForAll() => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(type));
 
 		/// <summary>
+		/// Determine whether any of the information category discovery difficulties are set to a positive number.
+		/// </summary>
+		/// <returns>Whether any of the information category discovery difficulties are set to a positive number.</returns>
+		public static bool IsAnyLearningDifficultyEnabled() => WellMetMod.Settings.SkillsDiscoveryDifficulty > 0 || WellMetMod.Settings.TraitDiscoveryDifficulty > 0 || WellMetMod.Settings.BackstoryDiscoveryDifficulty > 0;
+
+		/// <summary>
 		/// Get the trait definition of the wimp trait.
 		/// </summary>
 		/// <returns>The trait definition of the wimp trait.</returns>

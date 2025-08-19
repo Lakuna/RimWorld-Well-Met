@@ -100,50 +100,6 @@ namespace Lakuna.WellMet {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(listingRect);
 
-			bool legacyMode = Settings.LegacyMode;
-			listing.CheckboxLabeled("LegacyMode".Translate().CapitalizeFirst(), ref legacyMode);
-			Settings.LegacyMode = legacyMode;
-
-			if (!Settings.LegacyMode) {
-				bool hideFactionInformation = Settings.HideFactionInformation;
-				listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation);
-				Settings.HideFactionInformation = hideFactionInformation;
-			}
-
-			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
-				bool neverHideControls = Settings.NeverHideControls;
-				listing.CheckboxLabeled("NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls);
-				Settings.NeverHideControls = neverHideControls;
-			}
-
-			if (!Settings.LegacyMode) {
-				bool hideAncientCorpses = Settings.HideAncientCorpses;
-				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
-				Settings.HideAncientCorpses = hideAncientCorpses;
-			}
-
-			if (!KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Basic) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Traits) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Backstory)) {
-				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
-				listing.CheckboxLabeled("AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives);
-				Settings.AlwaysKnowMoreAboutColonistRelatives = alwaysKnowMoreAboutColonistRelatives;
-			}
-
-			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist)) {
-				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-				listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
-				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
-			}
-
-			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
-#if V1_0
-				listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
-#elif V1_1 || V1_2
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor));
-#else
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
-#endif
-			}
-
 			if (pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, type))) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 				listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst());
@@ -151,20 +107,6 @@ namespace Lakuna.WellMet {
 #else
 				Settings.TraitDiscoveryDifficulty = (int)listing.SliderLabeled("TraitDiscoveryDifficulty".Translate(Settings.TraitDiscoveryDifficulty).CapitalizeFirst(), Settings.TraitDiscoveryDifficulty, 0, 10);
 #endif
-
-				if (Settings.TraitDiscoveryDifficulty > 0) {
-					if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
-						bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
-						listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
-						Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
-					}
-
-					if (!Settings.LegacyMode) {
-						bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
-						listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
-						Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
-					}
-				}
 			}
 
 			if (!Settings.LegacyMode && pawnTypes.Any((type) => KnowledgeUtility.IsLearningEnabledFor(type) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, type))) {
@@ -182,6 +124,62 @@ namespace Lakuna.WellMet {
 				Settings.SkillsDiscoveryDifficulty = (int)listing.Slider(Settings.SkillsDiscoveryDifficulty, 0, 10);
 #else
 				Settings.SkillsDiscoveryDifficulty = (int)listing.SliderLabeled("SkillsDiscoveryDifficulty".Translate(Settings.SkillsDiscoveryDifficulty).CapitalizeFirst(), Settings.SkillsDiscoveryDifficulty, 0, 10);
+#endif
+			}
+
+			if (Settings.TraitDiscoveryDifficulty > 0 && !Settings.LegacyMode) {
+				bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
+				listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
+				Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
+			}
+
+			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist) && KnowledgeUtility.IsAnyLearningDifficultyEnabled()) {
+				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
+				listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
+				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+			}
+
+			if (!KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Basic) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Traits) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Backstory)) {
+				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
+				listing.CheckboxLabeled("AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives);
+				Settings.AlwaysKnowMoreAboutColonistRelatives = alwaysKnowMoreAboutColonistRelatives;
+			}
+
+			if (Settings.TraitDiscoveryDifficulty > 0 && KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
+				bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
+				listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
+				Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
+			}
+
+			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
+				bool neverHideControls = Settings.NeverHideControls;
+				listing.CheckboxLabeled("NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls);
+				Settings.NeverHideControls = neverHideControls;
+			}
+
+			if (!Settings.LegacyMode) {
+				bool hideAncientCorpses = Settings.HideAncientCorpses;
+				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
+				Settings.HideAncientCorpses = hideAncientCorpses;
+			}
+
+			if (!Settings.LegacyMode) {
+				bool hideFactionInformation = Settings.HideFactionInformation;
+				listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation);
+				Settings.HideFactionInformation = hideFactionInformation;
+			}
+
+			bool legacyMode = Settings.LegacyMode;
+			listing.CheckboxLabeled("LegacyMode".Translate().CapitalizeFirst(), ref legacyMode);
+			Settings.LegacyMode = legacyMode;
+
+			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
+#if V1_0
+				listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
+#elif V1_1 || V1_2
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor));
+#else
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
 #endif
 			}
 
