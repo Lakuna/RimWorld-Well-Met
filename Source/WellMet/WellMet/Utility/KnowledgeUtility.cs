@@ -46,7 +46,7 @@ namespace Lakuna.WellMet.Utility {
 				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), isControl, !pawn.Dead)
 				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && (category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits))
 			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn))
-			&& !(!WellMetMod.Settings.LegacyMode && category == InformationCategory.Backstory && IsLearningEnabledFor(pawn) && WellMetMod.Settings.BackstoryDiscoveryDifficulty * TicksPerQuadrum >= MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn)); // Backstory unlocked after one quadrum per difficulty.
+			&& !(category == InformationCategory.Backstory && IsLearningEnabledFor(InformationCategory.Backstory, pawn) && WellMetMod.Settings.BackstoryLearningDifficulty * TicksPerQuadrum >= MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn)); // Backstory unlocked after one quadrum per difficulty.
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -88,6 +88,13 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownForAll(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsInformationKnownFor(category, type));
 
 		/// <summary>
+		/// Determine whether any information category is known for the given pawn type.
+		/// </summary>
+		/// <param name="type">The pawn type.</param>
+		/// <returns>Whether any information category is known for the given pawn type.</returns>
+		public static bool IsAnyInformationKnownFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsInformationKnownFor(category, type));
+
+		/// <summary>
 		/// Determine whether all information categories are known for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
@@ -95,43 +102,78 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsAllInformationKnownFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) => IsInformationKnownFor(category, type));
 
 		/// <summary>
-		/// Determine whether or not learning is enabled for the given pawn. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
+		/// Determine whether or not learning is enabled for the given pawn and information category pair.
 		/// </summary>
+		/// <param name="category">The information category.</param>
 		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not learning is enabled for the given pawn.</returns>
-		public static bool IsLearningEnabledFor(Pawn pawn) => pawn != null && IsLearningEnabledFor(MiscellaneousUtility.TypeOf(pawn));
+		/// <returns>Whether or not learning is enabled for the given pawn and information category pair.</returns>
+		public static bool IsLearningEnabledFor(InformationCategory category, Pawn pawn) =>
+			IsInformationKnownFor(category, pawn)
+			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn))
+			&& !(WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
+			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn == null || MiscellaneousUtility.IsInGrowthMoment()));
 
 		/// <summary>
-		/// Determine whether or not learning is enabled for the given faction. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
+		/// Determine whether or not learning is enabled for the given faction and information category pair.
 		/// </summary>
+		/// <param name="category">The information category.</param>
 		/// <param name="faction">The faction.</param>
-		/// <returns>Whether or not learning is enabled for the given faction.</returns>
-		public static bool IsLearningEnabledFor(Faction faction) => faction != null && IsLearningEnabledFor(MiscellaneousUtility.TypeOf(faction));
+		/// <returns>Whether or not learning is enabled for the given faction and information category pair.</returns>
+		public static bool IsLearningEnabledFor(InformationCategory category, Faction faction) => IsInformationKnownFor(category, faction) && IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(faction));
 
 		/// <summary>
-		/// Determine whether or not learning is enabled for the given pawn type. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
+		/// Determine whether or not learning is enabled for the given pawn type and information category pair.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <param name="type">The pawn type.</param>
+		/// <returns>Whether or not learning is enabled for the given pawn type and information category pair.</returns>
+		public static bool IsLearningEnabledFor(InformationCategory category, PawnType type) {
+			if (!IsInformationKnownFor(category, type)) {
+				return false;
+			}
+
+			bool learningEnabled = WellMetMod.Settings.LearningEnabled[(int)type];
+			switch (category) {
+				case InformationCategory.Backstory:
+					return !WellMetMod.Settings.LegacyMode && WellMetMod.Settings.BackstoryLearningDifficulty > 0 && learningEnabled;
+				case InformationCategory.Skills:
+					return !WellMetMod.Settings.LegacyMode && WellMetMod.Settings.SkillsLearningDifficulty > 0 && learningEnabled;
+				case InformationCategory.Traits:
+					return WellMetMod.Settings.TraitsLearningDifficulty > 0 && learningEnabled;
+				default:
+					return false;
+			}
+		}
+
+		/// <summary>
+		/// Determine whether learning the given information category is enabled for any pawn type.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <returns>Whether learning the given information category is enabled for any pawn type.</returns>
+		public static bool IsLearningEnabledForAny(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(category, type));
+
+		/// <summary>
+		/// Determine whether learning the given information category is enabled for all pawn types.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <returns>Whether learning the given information category is enabled for all pawn types.</returns>
+		public static bool IsLearningEnabledForAll(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(category, type));
+
+		/// <summary>
+		/// Determine whether learning any information category is enabled for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
-		/// <returns>Whether or not learning is enabled for the given pawn type.</returns>
-		public static bool IsLearningEnabledFor(PawnType type) => WellMetMod.Settings.LearningEnabled[(int)type] || WellMetMod.Settings.LegacyMode;
+		/// <returns>Whether learning any information category is enabled for the given pawn type.</returns>
+		public static bool IsAnyLearningEnabledFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsLearningEnabledFor(category, type));
 
 		/// <summary>
-		/// Determine whether or not learning is enabled for any pawn type. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
+		/// Determine whether learning all applicable information categories is enabled for the given pawn type.
 		/// </summary>
-		/// <returns>Whether or not learning is enabled for any pawn type.</returns>
-		public static bool IsLearningEnabledForAny() => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(type));
-
-		/// <summary>
-		/// Determine whether or not learning is enabled for all pawn types. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
-		/// </summary>
-		/// <returns>Whether or not learning is enabled for all pawn types.</returns>
-		public static bool IsLearningEnabledForAll() => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(type));
-
-		/// <summary>
-		/// Determine whether any of the information category discovery difficulties are set to a positive number.
-		/// </summary>
-		/// <returns>Whether any of the information category discovery difficulties are set to a positive number.</returns>
-		public static bool IsAnyLearningDifficultyEnabled() => WellMetMod.Settings.SkillsDiscoveryDifficulty > 0 || WellMetMod.Settings.TraitDiscoveryDifficulty > 0 || WellMetMod.Settings.BackstoryDiscoveryDifficulty > 0;
+		/// <param name="type">The pawn type.</param>
+		/// <returns>Whether learning all applicable information categories is enabled for the given pawn type.</returns>
+		public static bool IsAllLearningEnabledFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>()
+			.Where((category) => category == InformationCategory.Backstory || category == InformationCategory.Skills || category == InformationCategory.Traits) // Filter to only information categories for which learning has been implemented.
+			.All((category) => IsLearningEnabledFor(category, type));
 
 		/// <summary>
 		/// Get the trait definition of the wimp trait.
@@ -160,28 +202,28 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="trait">The trait type.</param>
 		/// <returns>Whether the given trait type is known for the given pawn.</returns>
 		public static bool IsTraitKnown(Pawn pawn, TraitDef trait) {
-			// In vanilla RimWorld, `pawn == null` only during a growth moment. A better way to do this might be `Find.WindowStack.WindowOfType<Dialog_GrowthMomentChoices>() == null`.
-			if (pawn == null) {
-				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && (WellMetMod.Settings.AlwaysKnowGrowthMomentTraits || WellMetMod.Settings.TraitDiscoveryDifficulty <= 0);
+			// In vanilla RimWorld, `pawn == null` only during a growth moment.
+			if (pawn == null || MiscellaneousUtility.IsInGrowthMoment()) {
+				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && !IsLearningEnabledFor(InformationCategory.Traits, pawn);
 			}
 
 			if (!IsInformationKnownFor(InformationCategory.Traits, pawn)) {
 				return false;
 			}
 
-			if (trait == null || WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
+			if (trait == null || !IsLearningEnabledFor(InformationCategory.Traits, pawn)) {
 				return true;
 			}
 
 			// One trait per rarity (multiplicative inverse of commonality) per quadrum per difficulty.
-			bool defaultUnlocked = MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitDiscoveryDifficulty;
+			bool defaultUnlocked = MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitsLearningDifficulty;
 			return (!WellMetMod.Settings.EnableUniqueTraitUnlockConditions || WellMetMod.Settings.LegacyMode) ? defaultUnlocked
-				: trait == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.TraitDiscoveryDifficulty
-				: trait == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.TraitDiscoveryDifficulty
-				: trait == TraitDefOf.Brawler || trait.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.TraitDiscoveryDifficulty * 10
-				: trait == TraitDefOfWimp() || trait.defName == "Tough" || trait.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.TraitDiscoveryDifficulty * (HumanMaxHealth / 10)
-				: trait == TraitDefOf.BodyPurist || trait == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.TraitDiscoveryDifficulty
-				: trait.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.TraitDiscoveryDifficulty * HumanDailyNutrition * 10
+				: trait == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.TraitsLearningDifficulty
+				: trait == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.TraitsLearningDifficulty
+				: trait == TraitDefOf.Brawler || trait.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.TraitsLearningDifficulty * 10
+				: trait == TraitDefOfWimp() || trait.defName == "Tough" || trait.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.TraitsLearningDifficulty * (HumanMaxHealth / 10)
+				: trait == TraitDefOf.BodyPurist || trait == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.TraitsLearningDifficulty
+				: trait.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.TraitsLearningDifficulty * HumanDailyNutrition * 10
 				: defaultUnlocked;
 		}
 
@@ -226,13 +268,13 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (pawn == null || skill == null || WellMetMod.Settings.SkillsDiscoveryDifficulty <= 0 || WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
+			if (pawn == null || skill == null || !IsLearningEnabledFor(InformationCategory.Skills, pawn)) {
 				return true;
 			}
 
 			IOrderedEnumerable<SkillRecord> skills = pawn.skills.skills.OrderByDescending((record) => record.Level);
 			int order = skills.FirstIndexOf((record) => record.def == skill) + 1; // Learn the pawn's skills in order of their level (highest first).
-			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsDiscoveryDifficulty; // One skill per order per five days per difficulty.
+			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsLearningDifficulty; // One skill per order per five days per difficulty.
 		}
 	}
 }

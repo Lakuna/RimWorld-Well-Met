@@ -35,21 +35,21 @@ namespace Lakuna.WellMet {
 
 		private int traitDiscoveryDifficulty;
 
-		internal int TraitDiscoveryDifficulty {
+		internal int TraitsLearningDifficulty {
 			get => this.traitDiscoveryDifficulty;
 			set => this.traitDiscoveryDifficulty = value;
 		}
 
 		private int backstoryDiscoveryDifficulty;
 
-		internal int BackstoryDiscoveryDifficulty {
+		internal int BackstoryLearningDifficulty {
 			get => this.backstoryDiscoveryDifficulty;
 			set => this.backstoryDiscoveryDifficulty = value;
 		}
 
 		private int skillsDiscoveryDifficulty;
 
-		internal int SkillsDiscoveryDifficulty {
+		internal int SkillsLearningDifficulty {
 			get => this.skillsDiscoveryDifficulty;
 			set => this.skillsDiscoveryDifficulty = value;
 		}

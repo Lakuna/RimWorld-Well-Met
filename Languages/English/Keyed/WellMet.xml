@@ -3,7 +3,7 @@
 <LanguageData>
 	<!-- UI -->
 	<WellMet>Well Met</WellMet>
-	<TraitDiscoveryDifficulty>trait learning difficulty ({0})</TraitDiscoveryDifficulty>
+	<TraitDiscoveryDifficulty>traits learning difficulty ({0})</TraitDiscoveryDifficulty>
 	<BackstoryDiscoveryDifficulty>backstory learning difficulty ({0})</BackstoryDiscoveryDifficulty>
 	<SkillsDiscoveryDifficulty>skills learning difficulty ({0})</SkillsDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know more about starting colonists</AlwaysKnowStartingColonists>

@@ -372,5 +372,19 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.</returns>
 		public static float TimeAsColonistOrPrisoner(Pawn pawn) => (pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0) + (pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0);
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		/// <summary>
+		/// Determine whether or not a growth moment dialog is currently open.
+		/// </summary>
+		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
+		public static bool IsInGrowthMoment() => false;
+#else
+		/// <summary>
+		/// Determine whether or not a growth moment dialog is currently open.
+		/// </summary>
+		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
+		public static bool IsInGrowthMoment() => Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
+#endif
 	}
 }
