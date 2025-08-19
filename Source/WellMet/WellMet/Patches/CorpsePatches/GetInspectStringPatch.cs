@@ -32,7 +32,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 				yield return instruction;
 
 				if (PatchUtility.Calls(instruction, ToStringTicksToPeriodVagueMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, "")) {
 						yield return i;
 					}
 

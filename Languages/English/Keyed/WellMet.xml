@@ -3,9 +3,9 @@
 <LanguageData>
 	<!-- UI -->
 	<WellMet>Well Met</WellMet>
-	<TraitDiscoveryDifficulty>trait discovery difficulty ({0})</TraitDiscoveryDifficulty>
-	<BackstoryDiscoveryDifficulty>backstory discovery difficulty ({0})</BackstoryDiscoveryDifficulty>
-	<SkillsDiscoveryDifficulty>skills discovery difficulty ({0})</SkillsDiscoveryDifficulty>
+	<TraitDiscoveryDifficulty>trait learning difficulty ({0})</TraitDiscoveryDifficulty>
+	<BackstoryDiscoveryDifficulty>backstory learning difficulty ({0})</BackstoryDiscoveryDifficulty>
+	<SkillsDiscoveryDifficulty>skills learning difficulty ({0})</SkillsDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know more about starting colonists</AlwaysKnowStartingColonists>
 	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>

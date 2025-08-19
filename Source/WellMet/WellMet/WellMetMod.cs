@@ -108,23 +108,31 @@ namespace Lakuna.WellMet {
 				bool hideFactionInformation = Settings.HideFactionInformation;
 				listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation);
 				Settings.HideFactionInformation = hideFactionInformation;
+			}
 
+			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
 				bool neverHideControls = Settings.NeverHideControls;
 				listing.CheckboxLabeled("NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls);
 				Settings.NeverHideControls = neverHideControls;
+			}
 
+			if (!Settings.LegacyMode) {
 				bool hideAncientCorpses = Settings.HideAncientCorpses;
 				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
 				Settings.HideAncientCorpses = hideAncientCorpses;
+			}
 
+			if (!KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Basic) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Traits) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Backstory)) {
 				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
 				listing.CheckboxLabeled("AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives);
 				Settings.AlwaysKnowMoreAboutColonistRelatives = alwaysKnowMoreAboutColonistRelatives;
 			}
 
-			bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-			listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
-			Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist)) {
+				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
+				listing.CheckboxLabeled("AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists);
+				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
+			}
 
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist) && !Settings.AlwaysKnowStartingColonists && !Settings.NeverHideControls) {
 #if V1_0
