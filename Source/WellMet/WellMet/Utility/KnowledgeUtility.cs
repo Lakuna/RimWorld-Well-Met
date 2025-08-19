@@ -106,10 +106,11 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="pawn">The pawn.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether or not learning is enabled for the given pawn and information category pair.</returns>
-		public static bool IsLearningEnabledFor(InformationCategory category, Pawn pawn) =>
+		public static bool IsLearningEnabledFor(InformationCategory category, Pawn pawn, bool ignoreDifficulty = false) =>
 			IsInformationKnownFor(category, pawn)
-			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn))
+			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn), ignoreDifficulty)
 			&& !(WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
 			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn == null || MiscellaneousUtility.IsInGrowthMoment()));
 
@@ -118,16 +119,18 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="faction">The faction.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether or not learning is enabled for the given faction and information category pair.</returns>
-		public static bool IsLearningEnabledFor(InformationCategory category, Faction faction) => IsInformationKnownFor(category, faction) && IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(faction));
+		public static bool IsLearningEnabledFor(InformationCategory category, Faction faction, bool ignoreDifficulty = false) => IsInformationKnownFor(category, faction) && IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(faction), ignoreDifficulty);
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given pawn type and information category pair.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="type">The pawn type.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether or not learning is enabled for the given pawn type and information category pair.</returns>
-		public static bool IsLearningEnabledFor(InformationCategory category, PawnType type) {
+		public static bool IsLearningEnabledFor(InformationCategory category, PawnType type, bool ignoreDifficulty = false) {
 			if (!IsInformationKnownFor(category, type)) {
 				return false;
 			}
@@ -135,11 +138,11 @@ namespace Lakuna.WellMet.Utility {
 			bool learningEnabled = WellMetMod.Settings.LearningEnabled[(int)type];
 			switch (category) {
 				case InformationCategory.Backstory:
-					return !WellMetMod.Settings.LegacyMode && WellMetMod.Settings.BackstoryLearningDifficulty > 0 && learningEnabled;
+					return !WellMetMod.Settings.LegacyMode && (WellMetMod.Settings.BackstoryLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				case InformationCategory.Skills:
-					return !WellMetMod.Settings.LegacyMode && WellMetMod.Settings.SkillsLearningDifficulty > 0 && learningEnabled;
+					return !WellMetMod.Settings.LegacyMode && (WellMetMod.Settings.SkillsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				case InformationCategory.Traits:
-					return WellMetMod.Settings.TraitsLearningDifficulty > 0 && learningEnabled;
+					return (WellMetMod.Settings.TraitsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				default:
 					return false;
 			}
@@ -149,31 +152,35 @@ namespace Lakuna.WellMet.Utility {
 		/// Determine whether learning the given information category is enabled for any pawn type.
 		/// </summary>
 		/// <param name="category">The information category.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning the given information category is enabled for any pawn type.</returns>
-		public static bool IsLearningEnabledForAny(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(category, type));
+		public static bool IsLearningEnabledForAny(InformationCategory category, bool ignoreDifficulty = false) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning the given information category is enabled for all pawn types.
 		/// </summary>
 		/// <param name="category">The information category.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning the given information category is enabled for all pawn types.</returns>
-		public static bool IsLearningEnabledForAll(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(category, type));
+		public static bool IsLearningEnabledForAll(InformationCategory category, bool ignoreDifficulty = false) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning any information category is enabled for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning any information category is enabled for the given pawn type.</returns>
-		public static bool IsAnyLearningEnabledFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsLearningEnabledFor(category, type));
+		public static bool IsAnyLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning all applicable information categories is enabled for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning all applicable information categories is enabled for the given pawn type.</returns>
-		public static bool IsAllLearningEnabledFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>()
+		public static bool IsAllLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>()
 			.Where((category) => category == InformationCategory.Backstory || category == InformationCategory.Skills || category == InformationCategory.Traits) // Filter to only information categories for which learning has been implemented.
-			.All((category) => IsLearningEnabledFor(category, type));
+			.All((category) => IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Get the trait definition of the wimp trait.

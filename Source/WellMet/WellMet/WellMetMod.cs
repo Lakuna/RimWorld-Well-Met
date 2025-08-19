@@ -100,7 +100,7 @@ namespace Lakuna.WellMet {
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(listingRect);
 
-			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Traits)) {
+			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Traits, true)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 				listing.Label("TraitDiscoveryDifficulty".Translate(Settings.TraitsLearningDifficulty).CapitalizeFirst());
 				Settings.TraitsLearningDifficulty = (int)listing.Slider(Settings.TraitsLearningDifficulty, 0, 10);
@@ -109,7 +109,7 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Backstory)) {
+			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Backstory, true)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 				listing.Label("BackstoryDiscoveryDifficulty".Translate(Settings.BackstoryLearningDifficulty).CapitalizeFirst());
 				Settings.BackstoryLearningDifficulty = (int)listing.Slider(Settings.BackstoryLearningDifficulty, 0, 10);
@@ -118,7 +118,7 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Skills)) {
+			if (KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Skills, true)) {
 #if V1_0 || V1_1 || V1_2 || V1_3
 				listing.Label("SkillsDiscoveryDifficulty".Translate(Settings.SkillsLearningDifficulty).CapitalizeFirst());
 				Settings.SkillsLearningDifficulty = (int)listing.Slider(Settings.SkillsLearningDifficulty, 0, 10);
