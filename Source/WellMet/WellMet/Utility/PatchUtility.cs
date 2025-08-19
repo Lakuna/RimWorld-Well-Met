@@ -30,6 +30,18 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		internal static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction), typeof(bool) });
 
+#if V1_0 || V1_1 || V1_2 || V1_3
+		/// <summary>
+		/// `KnowledgeUtility.IsBackstoryKnown` given a `Backstory` as an argument.
+		/// </summary>
+		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsBackstoryKnown), new Type[] { typeof(Backstory), typeof(Pawn) });
+#else
+		/// <summary>
+		/// `KnowledgeUtility.IsBackstoryKnown` given a `BackstoryDef` as an argument.
+		/// </summary>
+		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsBackstoryKnown), new Type[] { typeof(BackstoryDef), typeof(Pawn) });
+#endif
+
 		/// <summary>
 		/// Determine whether the given instruction calls the given method. Only necessary for RimWorld 1.0, since the versions of Harmony for later RimWorld versions have their own built-in method for this.
 		/// </summary>
@@ -72,12 +84,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn.
 		/// </summary>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		internal static IEnumerable<CodeInstruction> AndPawnKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getPawnInstructions, bool isControl = false) {
-			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForPawnMethod, informationCategory, getPawnInstructions, isControl)) {
+		internal static IEnumerable<CodeInstruction> AndPawnKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, bool isControl = false) {
+			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -85,12 +97,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" faction.
 		/// </summary>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		internal static IEnumerable<CodeInstruction> AndFactionKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getFactionInstructions, bool isControl = false) {
-			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForFactionMethod, informationCategory, getFactionInstructions, isControl)) {
+		internal static IEnumerable<CodeInstruction> AndFactionKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, bool isControl = false) {
+			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -99,17 +111,17 @@ namespace Lakuna.WellMet.Utility {
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn or faction.
 		/// </summary>
 		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		private static IEnumerable<CodeInstruction> AndKnown(MethodInfo isInformationKnownForMethod, InformationCategory informationCategory, IEnumerable<CodeInstruction> getInstructions, bool isControl = false) {
+		private static IEnumerable<CodeInstruction> AndKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, bool isControl = false) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-			yield return LoadValue(informationCategory);
+			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
-				yield return new CodeInstruction(instruction);
+				yield return new CodeInstruction(instruction); // `pawn` or `faction`.
 			}
-			yield return LoadValue(isControl);
+			yield return LoadValue(isControl); // `isControl`.
 
 			// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 			yield return new CodeInstruction(OpCodes.Call, isInformationKnownForMethod); // Remove the arguments from the stack and add the return value.
@@ -121,12 +133,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" pawn.
 		/// </summary>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		internal static IEnumerable<CodeInstruction> OrPawnNotKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getPawnInstructions, bool isControl = false) {
-			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForPawnMethod, informationCategory, getPawnInstructions, isControl)) {
+		internal static IEnumerable<CodeInstruction> OrPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, bool isControl = false) {
+			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -134,12 +146,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" faction.
 		/// </summary>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		internal static IEnumerable<CodeInstruction> OrFactionNotKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getFactionInstructions, bool isControl = false) {
-			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForFactionMethod, informationCategory, getFactionInstructions, isControl)) {
+		internal static IEnumerable<CodeInstruction> OrFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, bool isControl = false) {
+			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -148,17 +160,17 @@ namespace Lakuna.WellMet.Utility {
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" pawn or faction.
 		/// </summary>
 		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
-		/// <param name="informationCategory">The information category.</param>
+		/// <param name="category">The information category.</param>
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		private static IEnumerable<CodeInstruction> OrNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory informationCategory, IEnumerable<CodeInstruction> getInstructions, bool isControl = false) {
+		private static IEnumerable<CodeInstruction> OrNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, bool isControl = false) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-			yield return LoadValue(informationCategory);
+			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
-				yield return new CodeInstruction(instruction);
+				yield return new CodeInstruction(instruction); // `pawn` or `faction`.
 			}
-			yield return LoadValue(isControl);
+			yield return LoadValue(isControl); // `isControl`.
 
 			// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 			yield return new CodeInstruction(OpCodes.Call, isInformationKnownForMethod); // Remove the arguments from the stack and add the return value.
@@ -172,16 +184,48 @@ namespace Lakuna.WellMet.Utility {
 		}
 
 		/// <summary>
-		/// Replace the value on top of the stack if the given information category isn't known for the "given" pawn.
+		/// Replace the backstory on top of the stack if it isn't known for the "given" pawn.
 		/// </summary>
-		/// <param name="informationCategory">The information category that must be known to skip the replacement.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool isControl = false) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, informationCategory, getPawnInstructions, generator, value, isControl)) {
+		internal static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null) {
+			// Load the arguments for `KnowledgeUtility.IsBackstoryKnown` onto the stack.
+			yield return new CodeInstruction(OpCodes.Dup); // `backstory`.
+			foreach (CodeInstruction instruction in getPawnInstructions) {
+				yield return new CodeInstruction(instruction); // `pawn`.
+			}
+
+			// Call `KnowledgeUtility.IsBackstoryKnown`, leaving the return value on top of the stack.
+			yield return new CodeInstruction(OpCodes.Call, IsBackstoryDefKnownMethod); // Remove the arguments from the stack and add the return value.
+
+			// If the value on top of the stack is `true` (the given information is known), don't replace the value.
+			Label dontReplaceLabel = generator.DefineLabel();
+			yield return new CodeInstruction(OpCodes.Brtrue_S, dontReplaceLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, leaving the value that might be replaced on top.
+
+			// This section is skipped unless the given information isn't known.
+			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
+			yield return LoadValue(value);
+
+			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
+			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
+			dontReplaceTarget.labels.Add(dontReplaceLabel);
+			yield return dontReplaceTarget;
+		}
+
+		/// <summary>
+		/// Replace the value on top of the stack if the given information category isn't known for the "given" pawn.
+		/// </summary>
+		/// <param name="category">The information category that must be known to skip the replacement.</param>
+		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
+		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <returns>The instructions that will perform the conditional replacement.</returns>
+		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool isControl = false) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -189,14 +233,14 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" faction.
 		/// </summary>
-		/// <param name="informationCategory">The information category that must be known to skip the replacement.</param>
+		/// <param name="category">The information category that must be known to skip the replacement.</param>
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" faction.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory informationCategory, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool isControl = false) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, informationCategory, getFactionInstructions, generator, value, isControl)) {
+		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool isControl = false) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, isControl)) {
 				yield return instruction;
 			}
 		}
@@ -205,19 +249,19 @@ namespace Lakuna.WellMet.Utility {
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" pawn or faction.
 		/// </summary>
 		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
-		/// <param name="informationCategory">The information category that must be known to skip the replacement.</param>
+		/// <param name="category">The information category that must be known to skip the replacement.</param>
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn or faction.</param>
 		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory informationCategory, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool isControl = false) {
+		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool isControl = false) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-			yield return LoadValue(informationCategory);
+			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
-				yield return new CodeInstruction(instruction);
+				yield return new CodeInstruction(instruction); // `pawn` or `faction`.
 			}
-			yield return LoadValue(isControl);
+			yield return LoadValue(isControl); // `isControl`.
 
 			// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 			yield return new CodeInstruction(OpCodes.Call, isInformationKnownForMethod); // Remove the arguments from the stack and add the return value.

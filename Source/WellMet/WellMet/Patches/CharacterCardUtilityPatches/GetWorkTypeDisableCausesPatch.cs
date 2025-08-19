@@ -10,10 +10,16 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "GetWorkTypeDisableCauses")]
 	internal static class GetWorkTypeDisableCausesPatch {
-#if !(V1_1 || V1_2 || V1_3)
+#if V1_1 || V1_2 || V1_3
+		private static readonly FieldInfo AdulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood));
+
+		private static readonly FieldInfo ChildhoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood));
+#else
+		private static readonly MethodInfo ChildhoodMethod = AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Childhood));
+
+		private static readonly MethodInfo AdulthoodMethod = AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood));
+
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Childhood)), InformationCategory.Backstory },
-			{ AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood)), InformationCategory.Backstory },
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
 		};
 #endif
@@ -26,10 +32,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-#if V1_1 || V1_2 || V1_3
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood)), InformationCategory.Backstory },
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood)), InformationCategory.Backstory },
-#else
+#if !(V1_1 || V1_2 || V1_3)
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced }
 #endif
 		};
@@ -41,7 +44,23 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-#if !(V1_1 || V1_2 || V1_3)
+#if V1_1 || V1_2 || V1_3
+				if (instruction.LoadsField(ChildhoodField) || instruction.LoadsField(AdulthoodField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+#else
+				if (instruction.Calls(ChildhoodMethod) || instruction.Calls(AdulthoodMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
 				bool flag = false;
 				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
 					if (instruction.Calls(row.Key)) {

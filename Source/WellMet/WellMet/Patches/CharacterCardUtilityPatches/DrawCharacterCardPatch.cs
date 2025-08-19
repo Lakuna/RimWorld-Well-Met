@@ -74,7 +74,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				if (instruction.Calls(GetBackstoryMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -195,7 +195,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
 

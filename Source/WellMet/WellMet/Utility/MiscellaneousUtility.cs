@@ -105,8 +105,18 @@ namespace Lakuna.WellMet.Utility {
 #if V1_0 || V1_1 || V1_2 || V1_3
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
 
+		/// <summary>
+		/// Get the pawn that is associated with the given skill record.
+		/// </summary>
+		/// <param name="skill">The skill record.</param>
+		/// <returns>The pawn that is associated with the given skill record.</returns>
 		public static Pawn PawnOfSkillRecord(SkillRecord skill) => PawnField.GetValue(skill) as Pawn;
 #else
+		/// <summary>
+		/// Get the pawn that is associated with the given skill record.
+		/// </summary>
+		/// <param name="skill">The skill record.</param>
+		/// <returns>The pawn that is associated with the given skill record.</returns>
 		public static Pawn PawnOfSkillRecord(SkillRecord skill) => skill?.Pawn;
 #endif
 
@@ -132,7 +142,7 @@ namespace Lakuna.WellMet.Utility {
 		}
 #else
 		/// <summary>
-		/// Split up a long string into lines. Equivalent to `str.AddLineBreaksToLongString();`.
+		/// Split up a long string into lines. Equivalent to `str.AddLineBreaksToLongString`.
 		/// </summary>
 		/// <param name="str">The string.</param>
 		/// <returns>The split-up string.</returns>
@@ -148,7 +158,7 @@ namespace Lakuna.WellMet.Utility {
 		public static string RemoveLineBreaks(string str) => new StringBuilder(str).Replace("\n", "").Replace("\r", "").ToString();
 #else
 		/// <summary>
-		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks();`.
+		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
 		/// </summary>
 		/// <param name="str">The string.</param>
 		/// <returns>The compressed string.</returns>

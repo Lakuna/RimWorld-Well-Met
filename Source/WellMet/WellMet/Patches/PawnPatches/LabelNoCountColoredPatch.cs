@@ -11,8 +11,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 	internal static class LabelNoCountColoredPatch {
 		private static readonly MethodInfo NameMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
 
-		private static readonly FieldInfo StoryField = AccessTools.Field(typeof(Pawn), nameof(Pawn.story));
-
 #if !(V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo LabelPrefixMethod = AccessTools.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 #endif
@@ -30,14 +28,6 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 				if (instruction.Calls(NameMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
-						yield return i;
-					}
-
-					continue;
-				}
-
-				if (instruction.LoadsField(StoryField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Backstory, getPawnInstructions, generator)) {
 						yield return i;
 					}
 

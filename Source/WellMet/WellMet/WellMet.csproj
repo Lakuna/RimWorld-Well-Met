@@ -112,6 +112,7 @@
 		<Compile Include="Patches\PawnPatches\LabelNoCountPatch.cs" />
 		<Compile Include="Patches\PawnPatches\LabelShortPatch.cs" />
 		<Compile Include="Patches\PawnPatches\MainDescPatch.cs" />
+		<Compile Include="Patches\PawnStoryTrackerPatches\TitleShortPatch.cs" />
 		<Compile Include="Patches\PawnUtilityPatches\ShouldDisplayJobReportPatch.cs" />
 		<Compile Include="Patches\PawnUtilityPatches\ShouldDisplayLordReportPatch.cs" />
 		<Compile Include="Patches\RelationsUtilityPatches\LabelWithBondInfoPatch.cs" />

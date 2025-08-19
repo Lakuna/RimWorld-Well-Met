@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -11,7 +12,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// The number of ticks per in-game hour.
 		/// </summary>
-		private const int TicksPerHour = 24;
+		private const int TicksPerHour = 2500;
 
 		/// <summary>
 		/// The number of ticks per in-game day.
@@ -34,6 +35,13 @@ namespace Lakuna.WellMet.Utility {
 		private const float HumanDailyNutrition = 1.6f;
 
 		/// <summary>
+		/// Determine whether or not the given information category represents unchanging information.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <returns>Whether or not the given information category represents unchanging information.</returns>
+		public static bool IsStatic(InformationCategory category) => category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits;
+
+		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>
@@ -44,9 +52,8 @@ namespace Lakuna.WellMet.Utility {
 			pawn == null
 			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
 				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), isControl, !pawn.Dead)
-				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && (category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits))
-			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn))
-			&& !(category == InformationCategory.Backstory && IsLearningEnabledFor(InformationCategory.Backstory, pawn) && WellMetMod.Settings.BackstoryLearningDifficulty * TicksPerQuadrum >= MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn)); // Backstory unlocked after one quadrum per difficulty.
+				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
+			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -113,7 +120,8 @@ namespace Lakuna.WellMet.Utility {
 			IsInformationKnownFor(category, pawn)
 			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn), ignoreDifficulty)
 			&& !(WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
-			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn == null || MiscellaneousUtility.IsInGrowthMoment()));
+			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn == null || MiscellaneousUtility.IsInGrowthMoment()))
+			&& !(IsStatic(category) && WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given faction and information category pair.
@@ -194,7 +202,14 @@ namespace Lakuna.WellMet.Utility {
 			TraitDefOf.Wimp;
 #endif
 
-#if !(V1_0 || V1_1)
+#if V1_0 || V1_1
+		/// <summary>
+		/// Determine whether the given trait is known.
+		/// </summary>
+		/// <param name="trait">The trait.</param>
+		/// <returns>Whether the given trait is known.</returns>
+		public static bool IsTraitKnown(Trait trait) => trait == null || IsTraitKnown(null, trait.def);
+#else
 		/// <summary>
 		/// Determine whether the given trait is known.
 		/// </summary>
@@ -283,6 +298,43 @@ namespace Lakuna.WellMet.Utility {
 			IOrderedEnumerable<SkillRecord> skills = pawn.skills.skills.OrderByDescending((record) => record.Level);
 			int order = skills.FirstIndexOf((record) => record.def == skill) + 1; // Learn the pawn's skills in order of their level (highest first).
 			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsLearningDifficulty; // One skill per order per five days per difficulty.
+		}
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		/// <summary>
+		/// Determine whether the given backstory is known for the given pawn.
+		/// </summary>
+		/// <param name="backstory">The backstory.</param>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given backstory is known for the given pawn.</returns>
+		public static bool IsBackstoryKnown(Backstory backstory, Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
+#else
+		/// <summary>
+		/// Determine whether the given backstory is known for the given pawn.
+		/// </summary>
+		/// <param name="backstory">The backstory.</param>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given backstory is known for the given pawn.</returns>
+		public static bool IsBackstoryKnown(BackstoryDef backstory, Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
+#endif
+
+		/// <summary>
+		/// Determine whether the given backstory is known for the given pawn.
+		/// </summary>
+		/// <param name="backstory">The backstory.</param>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given backstory is known for the given pawn.</returns>
+		public static bool IsBackstoryKnown(BackstorySlot backstory, Pawn pawn) {
+			if (!IsInformationKnownFor(InformationCategory.Backstory, pawn)) {
+				return false;
+			}
+
+			if (pawn == null || !IsLearningEnabledFor(InformationCategory.Backstory, pawn)) {
+				return true;
+			}
+
+			int order = backstory == BackstorySlot.Adulthood ? 1 : 2;
+			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * TicksPerQuadrum * WellMetMod.Settings.BackstoryLearningDifficulty; // Backstory unlocked after one slot per quadrum per difficulty (more recent slots first).
 		}
 	}
 }
