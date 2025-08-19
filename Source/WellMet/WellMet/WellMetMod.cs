@@ -153,7 +153,7 @@ namespace Lakuna.WellMet {
 #endif
 
 				if (Settings.TraitDiscoveryDifficulty > 0) {
-					if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist)) {
+					if (KnowledgeUtility.IsLearningEnabledFor(PawnType.Colonist) && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist)) {
 						bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
 						listing.CheckboxLabeled("AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments);
 						Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
