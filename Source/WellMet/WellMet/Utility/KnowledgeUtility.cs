@@ -9,12 +9,17 @@ namespace Lakuna.WellMet.Utility {
 	/// </summary>
 	public static class KnowledgeUtility {
 		/// <summary>
-		/// The number of in-game ticks per in-game day.
+		/// The number of ticks per in-game hour.
 		/// </summary>
-		private const int TicksPerDay = 24 * 2500;
+		private const int TicksPerHour = 24;
 
 		/// <summary>
-		/// The number of in-game ticks per in-game quadrum (in-game month/in-game season).
+		/// The number of ticks per in-game day.
+		/// </summary>
+		private const int TicksPerDay = 24 * TicksPerHour;
+
+		/// <summary>
+		/// The number of ticks per in-game quadrum (in-game month/in-game season).
 		/// </summary>
 		private const int TicksPerQuadrum = 15 * TicksPerDay;
 
@@ -29,81 +34,6 @@ namespace Lakuna.WellMet.Utility {
 		private const float HumanDailyNutrition = 1.6f;
 
 		/// <summary>
-		/// Get the type of the given pawn.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>The type of the pawn.</returns>
-		public static PawnType TypeOf(Pawn pawn) =>
-			(pawn == null) ? PawnType.Neutral
-			: (MiscellaneousUtility.IsFreeNonSlaveColonist(pawn) || MiscellaneousUtility.IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
-			: MiscellaneousUtility.IsPlayerControlled(pawn) ? PawnType.Controlled
-			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
-			: MiscellaneousUtility.IsAnimal(pawn) ? PawnType.WildAnimal
-			: MiscellaneousUtility.HostileToPlayer(pawn) ? PawnType.Hostile
-			: PawnType.Neutral;
-
-		/// <summary>
-		/// Get the type of the given faction.
-		/// </summary>
-		/// <param name="faction">The faction.</param>
-		/// <returns>The type of the faction.</returns>
-		public static PawnType TypeOf(Faction faction) =>
-			(faction == null) ? PawnType.Neutral
-			: (faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
-			: MiscellaneousUtility.HostileToPlayer(faction) ? PawnType.Hostile
-			: PawnType.Neutral;
-
-		/// <summary>
-		/// Determines whether the given pawn is one that can be controlled by the player.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether the pawn is player-controlled.</returns>
-		public static bool IsPlayerControlled(Pawn pawn) => pawn != null && IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
-
-		/// <summary>
-		/// Determines whether the given faction is one that can be controlled by the player.
-		/// </summary>
-		/// <param name="faction">The faction.</param>
-		/// <returns>Whether the faction is player-controlled.</returns>
-		public static bool IsPlayerControlled(Faction faction) => faction != null && IsPlayerControlled(TypeOf(faction));
-
-		/// <summary>
-		/// Determines whether the given pawn type is one that can be controlled by the player.
-		/// </summary>
-		/// <param name="type">The pawn type.</param>
-		/// <param name="isAlive">Whether the pawn is alive.</param>
-		/// <returns>Whether the pawn type is player-controlled.</returns>
-		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) => (type == PawnType.Colonist || type == PawnType.Controlled) && isAlive;
-
-		/// <summary>
-		/// Determine whether or not the given pawn is a starting colonist. This can only be true while selecting starting colonists.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the given pawn is a starting colonist.</returns>
-		private static bool IsStartingColonist(Pawn pawn) => pawn != null && (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
-
-		/// <summary>
-		/// Determine whether or not the given pawn is related to any colonist.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
-		private static bool IsRelativeOfColonist(Pawn pawn) => pawn?.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
-
-		/// <summary>
-		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
-		public static bool IsAncientCorpse(Pawn pawn) => pawn != null && pawn.Dead && IsAncientCorpse(pawn.Corpse);
-
-		/// <summary>
-		/// Determine whether or not the given corpse was dead when the player discovered it.
-		/// </summary>
-		/// <param name="corpse">The corpse.</param>
-		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
-		public static bool IsAncientCorpse(Corpse corpse) => corpse != null && corpse.timeOfDeath <= 0;
-
-		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>
@@ -112,11 +42,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, bool isControl = false) =>
 			pawn == null
-			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn)
-				|| IsInformationKnownFor(category, TypeOf(pawn), isControl, !pawn.Dead)
-				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && IsRelativeOfColonist(pawn) && (category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits))
-			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && IsAncientCorpse(pawn))
-			&& !(!WellMetMod.Settings.LegacyMode && category == InformationCategory.Backstory && WellMetMod.Settings.BackstoryDiscoveryDifficulty * TicksPerQuadrum > TimeAsColonistOrPrisoner(pawn) && IsLearningEnabledFor(pawn)); // Backstory unlocked after one quadrum per difficulty.
+			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
+				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), isControl, !pawn.Dead)
+				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && (category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits))
+			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn))
+			&& !(!WellMetMod.Settings.LegacyMode && category == InformationCategory.Backstory && WellMetMod.Settings.BackstoryDiscoveryDifficulty * TicksPerQuadrum > MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) && IsLearningEnabledFor(pawn)); // Backstory unlocked after one quadrum per difficulty.
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -128,7 +58,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, bool isControl = false) =>
 			faction == null
 			|| !WellMetMod.Settings.HideFactionInformation
-			|| IsInformationKnownFor(category, TypeOf(faction), isControl);
+			|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(faction), isControl);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given pawn type.
@@ -141,7 +71,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, bool isControl = false, bool isAlive = true) =>
 			WellMetMod.Settings.KnownInformation[(int)type, (int)category]
 			|| WellMetMod.Settings.LegacyMode
-			|| isControl && WellMetMod.Settings.NeverHideControls && IsPlayerControlled(type, isAlive);
+			|| isControl && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive);
 
 		/// <summary>
 		/// Determine whether the given information category is known for any pawn type.
@@ -155,14 +85,14 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not learning is enabled for the given pawn.</returns>
-		public static bool IsLearningEnabledFor(Pawn pawn) => pawn != null && IsLearningEnabledFor(TypeOf(pawn));
+		public static bool IsLearningEnabledFor(Pawn pawn) => pawn != null && IsLearningEnabledFor(MiscellaneousUtility.TypeOf(pawn));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given faction. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
 		/// </summary>
 		/// <param name="faction">The faction.</param>
 		/// <returns>Whether or not learning is enabled for the given faction.</returns>
-		public static bool IsLearningEnabledFor(Faction faction) => faction != null && IsLearningEnabledFor(TypeOf(faction));
+		public static bool IsLearningEnabledFor(Faction faction) => faction != null && IsLearningEnabledFor(MiscellaneousUtility.TypeOf(faction));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given pawn type. If learning is enabled, it may take time to learn a given piece of information; otherwise, information is always either known or not known.
@@ -176,13 +106,6 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <returns>Whether or not learning is enabled for any pawn type.</returns>
 		public static bool IsLearningEnabledForAny() => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(type));
-
-		/// <summary>
-		/// Determine the number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>The number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.</returns>
-		private static float TimeAsColonistOrPrisoner(Pawn pawn) => (pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0) + (pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0);
 
 		/// <summary>
 		/// Get the trait definition of the wimp trait.
@@ -220,12 +143,12 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (trait == null || WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
+			if (trait == null || WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
 				return true;
 			}
 
 			// One trait per rarity (multiplicative inverse of commonality) per quadrum per difficulty.
-			bool defaultUnlocked = TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitDiscoveryDifficulty;
+			bool defaultUnlocked = MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitDiscoveryDifficulty;
 			return (!WellMetMod.Settings.EnableUniqueTraitUnlockConditions || WellMetMod.Settings.LegacyMode) ? defaultUnlocked
 				: trait == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.TraitDiscoveryDifficulty
 				: trait == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.TraitDiscoveryDifficulty
@@ -277,13 +200,13 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (pawn == null || skill == null || WellMetMod.Settings.SkillsDiscoveryDifficulty <= 0 || WellMetMod.Settings.AlwaysKnowStartingColonists && IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
+			if (pawn == null || skill == null || WellMetMod.Settings.SkillsDiscoveryDifficulty <= 0 || WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn) || !IsLearningEnabledFor(pawn)) {
 				return true;
 			}
 
 			IOrderedEnumerable<SkillRecord> skills = pawn.skills.skills.OrderByDescending((record) => record.Level);
 			int order = skills.FirstIndexOf((record) => record.def == skill) + 1; // Learn the pawn's skills in order of their level (highest first).
-			return TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsDiscoveryDifficulty; // One skill per order per five days per difficulty.
+			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsDiscoveryDifficulty; // One skill per order per five days per difficulty.
 		}
 	}
 }

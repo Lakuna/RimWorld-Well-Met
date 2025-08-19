@@ -5,6 +5,7 @@ using HarmonyLib;
 #endif
 using RimWorld;
 using System;
+using System.Linq;
 #if V1_0 || V1_1 || V1_2 || V1_3
 using System.Reflection;
 #endif
@@ -43,11 +44,11 @@ namespace Lakuna.WellMet.Utility {
 #endif
 
 		/// <summary>
-		/// Equivalent to `Pawn.IsPlayerControlled` for all versions of RimWorld.
+		/// Equivalent to `Pawn.IsPlayerControlled` for all versions of RimWorld. For checking whether or not a pawn belongs to a player-controlled pawn type, use `MiscellaneousUtility.IsPlayerControlled` instead.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>`Pawn.IsPlayerControlled`.</returns>
-		public static bool IsPlayerControlled(Pawn pawn) => pawn != null
+		public static bool PawnIsPlayerControlled(Pawn pawn) => pawn != null
 #if V1_0 || V1_1 || V1_2 || V1_3
 			&& pawn.IsColonistPlayerControlled;
 #elif V1_4
@@ -279,8 +280,6 @@ namespace Lakuna.WellMet.Utility {
 			&& ((pawn.Faction == null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
 				: (pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || DeadOrDowned(pawn) && HostileToPlayer(pawn.Faction))));
 
-		// private static bool HostileToPlayer(Pawn pawn) => pawn != null && (pawn.Faction == null ? pawn.HostileTo(Faction.OfPlayerSilentFail) : (pawn.HostileTo(Faction.OfPlayerSilentFail) || HostileToPlayer(pawn.Faction)));
-
 		/// <summary>
 		/// Check whether the given faction is hostile to the player's faction.
 		/// </summary>
@@ -291,5 +290,87 @@ namespace Lakuna.WellMet.Utility {
 			&& faction != Faction.OfPlayerSilentFail
 			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
 			&& faction.HostileTo(Faction.OfPlayerSilentFail);
+
+		/// <summary>
+		/// Get the type of the given pawn.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>The type of the pawn.</returns>
+		public static PawnType TypeOf(Pawn pawn) =>
+			(pawn == null) ? PawnType.Neutral
+			: (IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
+			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
+			: IsAnimal(pawn) ? PawnType.WildAnimal
+			: HostileToPlayer(pawn) ? PawnType.Hostile
+			: PawnType.Neutral;
+
+		/// <summary>
+		/// Get the type of the given faction.
+		/// </summary>
+		/// <param name="faction">The faction.</param>
+		/// <returns>The type of the faction.</returns>
+		public static PawnType TypeOf(Faction faction) =>
+			(faction == null) ? PawnType.Neutral
+			: (faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+			: HostileToPlayer(faction) ? PawnType.Hostile
+			: PawnType.Neutral;
+
+		/// <summary>
+		/// Determines whether the given pawn is one that can be controlled by the player.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the pawn is player-controlled.</returns>
+		public static bool IsPlayerControlled(Pawn pawn) => pawn != null && IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
+
+		/// <summary>
+		/// Determines whether the given faction is one that can be controlled by the player.
+		/// </summary>
+		/// <param name="faction">The faction.</param>
+		/// <returns>Whether the faction is player-controlled.</returns>
+		public static bool IsPlayerControlled(Faction faction) => faction != null && IsPlayerControlled(TypeOf(faction));
+
+		/// <summary>
+		/// Determines whether the given pawn type is one that can be controlled by the player.
+		/// </summary>
+		/// <param name="type">The pawn type.</param>
+		/// <param name="isAlive">Whether the pawn is alive.</param>
+		/// <returns>Whether the pawn type is player-controlled.</returns>
+		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) => (type == PawnType.Colonist || type == PawnType.Controlled) && isAlive;
+
+		/// <summary>
+		/// Determine whether or not the given pawn is a starting colonist. This can only be true while selecting starting colonists.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the given pawn is a starting colonist.</returns>
+		public static bool IsStartingColonist(Pawn pawn) => pawn != null && (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
+
+		/// <summary>
+		/// Determine whether or not the given pawn is related to any colonist.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
+		public static bool IsRelativeOfColonist(Pawn pawn) => pawn?.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
+
+		/// <summary>
+		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
+		public static bool IsAncientCorpse(Pawn pawn) => pawn != null && pawn.Dead && IsAncientCorpse(pawn.Corpse);
+
+		/// <summary>
+		/// Determine whether or not the given corpse was dead when the player discovered it.
+		/// </summary>
+		/// <param name="corpse">The corpse.</param>
+		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
+		public static bool IsAncientCorpse(Corpse corpse) => corpse != null && corpse.timeOfDeath <= 0;
+
+		/// <summary>
+		/// Determine the number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>The number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.</returns>
+		public static float TimeAsColonistOrPrisoner(Pawn pawn) => (pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0) + (pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0);
 	}
 }
