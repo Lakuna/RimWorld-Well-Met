@@ -127,7 +127,7 @@ namespace Lakuna.WellMet {
 #endif
 			}
 
-			if (Settings.TraitsLearningDifficulty > 0 && !Settings.LegacyMode) {
+			if (!Settings.LegacyMode && KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Traits)) {
 				bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
 				listing.CheckboxLabeled("EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions);
 				Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
@@ -161,9 +161,7 @@ namespace Lakuna.WellMet {
 				bool hideAncientCorpses = Settings.HideAncientCorpses;
 				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
 				Settings.HideAncientCorpses = hideAncientCorpses;
-			}
 
-			if (!Settings.LegacyMode) {
 				bool hideFactionInformation = Settings.HideFactionInformation;
 				listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation);
 				Settings.HideFactionInformation = hideFactionInformation;

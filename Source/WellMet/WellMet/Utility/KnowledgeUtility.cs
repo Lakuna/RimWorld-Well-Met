@@ -71,7 +71,8 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, bool isControl = false, bool isAlive = true) =>
 			WellMetMod.Settings.KnownInformation[(int)type, (int)category]
 			|| WellMetMod.Settings.LegacyMode
-			|| isControl && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive);
+			|| isControl && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive)
+			|| category == InformationCategory.Traits && type == PawnType.Colonist && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && MiscellaneousUtility.IsInGrowthMoment();
 
 		/// <summary>
 		/// Determine whether the given information category is known for any pawn type.
@@ -142,7 +143,7 @@ namespace Lakuna.WellMet.Utility {
 				case InformationCategory.Skills:
 					return !WellMetMod.Settings.LegacyMode && (WellMetMod.Settings.SkillsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				case InformationCategory.Traits:
-					return (WellMetMod.Settings.TraitsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
+					return (WellMetMod.Settings.TraitsLearningDifficulty > 0 || ignoreDifficulty) && (WellMetMod.Settings.LegacyMode || learningEnabled);
 				default:
 					return false;
 			}
