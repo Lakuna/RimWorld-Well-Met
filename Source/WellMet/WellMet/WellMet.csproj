@@ -22,7 +22,7 @@
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
 		<AssemblyName>WellMet</AssemblyName>
-		<Version>3.3.1.0</Version>
+		<Version>3.3.3.0</Version>
 		<Company>$(Authors)</Company>
 		<Product>$(Title)</Product>
 		<Optimize>True</Optimize>

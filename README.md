@@ -2,7 +2,7 @@
 
 # Well Met
 
-A RimWorld mod that aims to increase mechanical difficulty via information hiding. Different categories of information can be configured to be hidden by default for different categories of pawn. Optionally, this information can be learned over time by imprisoning, enslaving, or recruiting the pawn.
+A RimWorld mod that aims to increase mechanical difficulty via information hiding. Different categories of information can be configured to be hidden by default for different categories of pawn. Optionally, this information can be learned over time by imprisoning, enslaving, or recruiting the pawn. Formerly known as "Well Met."
 
 ## Documentation
 

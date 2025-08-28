@@ -3,7 +3,7 @@
 <ModMetaData>
 	<name>Well Met</name>
 	<author>Lakuna</author>
-	<modVersion>3.3.1.0</modVersion>
+	<modVersion>3.3.3.0</modVersion>
 	<url>https://github.com/Lakuna/RimWorld-Well-Met</url>
 	<packageId>Lakuna.WellMet</packageId>
 	<supportedVersions>
@@ -15,7 +15,7 @@
 		<li>1.5</li>
 		<li>1.6</li>
 	</supportedVersions>
-	<description>Hides pawns' traits until you get to know them.</description>
+	<description>A mod that aims to increase mechanical difficulty via information hiding.</description>
 	<modDependenciesByVersion>
 		<v1.2>
 			<li>
