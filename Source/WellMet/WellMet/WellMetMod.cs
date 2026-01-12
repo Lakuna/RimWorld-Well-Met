@@ -186,6 +186,6 @@ namespace Lakuna.WellMet {
 			Widgets.EndScrollView();
 		}
 
-		public override string SettingsCategory() => "WellMet".Translate().CapitalizeFirst();
+		public override string SettingsCategory() => "BoundedRationality".Translate().CapitalizeFirst();
 	}
 }

@@ -1,8 +1,8 @@
 ![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2553173153?style=for-the-badge)
 
-# Well Met
+# Bounded Rationality
 
-A RimWorld mod that aims to increase mechanical difficulty via information hiding. Different categories of information can be configured to be hidden by default for different categories of pawn. Optionally, this information can be learned over time by imprisoning, enslaving, or recruiting the pawn. Formerly known as "Well Met."
+A RimWorld mod that aims to increase mechanical difficulty via information hiding (fog of war). Different categories of information can be configured to be hidden by default for different categories of pawn. Optionally, this information can be learned over time by imprisoning, enslaving, or recruiting the pawn. Formerly known as "Well Met."
 
 ## Documentation
 
@@ -63,6 +63,6 @@ Some traits have optional unique unlock conditions.
 - Bloodlust is unlocked if the pawn has killed at least $d$ pawns, where $d$ is the trait learning difficulty.
 - Pyromaniac is unlocked if the pawn has had at least $d$ mental breaks, where $d$ is the trait learning difficulty.
 - Brawler, trigger happy, and careful shooter are unlocked if the pawn has fired at least $10d$ shots, where $d$ is the trait learning difficulty.
-- Wimp, tough, and masochist are unlocked if the pawn has taken at least $10d$ damage, where $d$ is the trait learning difficulty.
-- Body purist and transhumanist are unlocked if the pawn has received at least $d$ operations, where $d$ is the trait learning difficulty (adult human pawns have $100$ health by default).
+- Wimp, tough, and masochist are unlocked if the pawn has taken at least $10d$ damage, where $d$ is the trait learning difficulty (adult human pawns have $100$ health by default).
+- Body purist and transhumanist are unlocked if the pawn has received at least $d$ operations, where $d$ is the trait learning difficulty.
 - Gourmand is unlocked if the pawn has eaten at least $16d$ nutrition, where $d$ is the trait learning difficulty (adult human pawns eat $1.6$ nutrition per day by default).

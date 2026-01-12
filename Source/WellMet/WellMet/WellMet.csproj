@@ -33,7 +33,7 @@
 		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
 		<RootNamespace>Lakuna.WellMet</RootNamespace>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Title>Well Met</Title>
+		<Title>Bounded Rationality</Title>
 		<Version>3.3.4.0</Version>
 		<WarningsAsErrors />
 	</PropertyGroup>
