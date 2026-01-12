@@ -18,6 +18,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo GenePreventsPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.GenePreventsPrisonBreaking));
 
+		private static readonly MethodInfo RecruitableMethod = AccessTools.PropertyGetter(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.Recruitable));
+
 		private static readonly FieldInfo ResistanceField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.resistance));
 
 		private static readonly FieldInfo MinField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.min));
@@ -28,11 +30,17 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 
-		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
+		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
 
 		private static readonly FieldInfo FinalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
+
+#pragma warning disable CS0649 // Need an address (non-constant) with a guaranteed value of `0` to replace `will`.
+		private static readonly float Zero;
+#pragma warning restore CS0649
+
+		private static readonly FieldInfo ZeroField = AccessTools.Field(typeof(DoPrisonerTabPatch), nameof(Zero));
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -50,17 +58,53 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				}
 
 				if (instruction.Calls(IsPrisonBreakingMethod) || instruction.Calls(GenePreventsPrisonBreakingMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, false)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Advanced, getPawnInstructions)) {
 						yield return i;
 					}
 
 					continue;
 				}
 
-				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField) || instruction.LoadsField(WillField)) {
+				if (instruction.Calls(RecruitableMethod)) {
+					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Advanced, getPawnInstructions)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, 0f)) {
 						yield return i;
 					}
+
+					continue;
+				}
+
+				// Will needs to be handled separately because it is loaded by address.
+				if (instruction.LoadsField(WillField, true)) {
+					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
+					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced); // `category`.
+					foreach (CodeInstruction instruction2 in getPawnInstructions) {
+						yield return new CodeInstruction(instruction2); // `pawn` or `faction`.
+					}
+					yield return new CodeInstruction(OpCodes.Ldc_I4_0); // `isControl`.
+
+					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
+					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.
+
+					// If the value on top of the stack is `true` (the given information is known), don't replace the value.
+					Label dontReplaceLabel = generator.DefineLabel();
+					yield return new CodeInstruction(OpCodes.Brtrue_S, dontReplaceLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, leaving the value that might be replaced on top.
+
+					// This section is skipped unless the given information isn't known.
+					yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
+					yield return new CodeInstruction(OpCodes.Ldsflda, ZeroField);
+
+					// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
+					CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
+					dontReplaceTarget.labels.Add(dontReplaceLabel);
+					yield return dontReplaceTarget;
 
 					continue;
 				}

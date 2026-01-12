@@ -19,7 +19,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 #if !V1_0
 		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
 
-		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Faction));
+		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 #endif
 
 #if V1_0 || V1_1 || V1_2
