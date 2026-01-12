@@ -16,6 +16,6 @@ namespace Lakuna.WellMet.Patches.ITabPawnGuestPatches {
 		[HarmonyPostfix]
 		private static void Postfix(ITab_Pawn_Guest __instance, ref bool __result) => __result = __result
 			&& (!(SelPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, true));
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, InformationTypeCategory.Control));
 	}
 }

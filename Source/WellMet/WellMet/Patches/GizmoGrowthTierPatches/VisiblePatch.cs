@@ -9,7 +9,7 @@ namespace Lakuna.WellMet.Patches.GizmoGrowthTierPatches {
 	internal static class VisiblePatch {
 		[HarmonyPostfix]
 		private static void Postfix(Pawn ___child, ref bool __result) => __result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___child, true);
+			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___child, InformationTypeCategory.Control);
 	}
 }
 #endif

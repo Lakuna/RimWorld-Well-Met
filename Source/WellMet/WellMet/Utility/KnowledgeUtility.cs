@@ -1,6 +1,5 @@
 ﻿using RimWorld;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -46,12 +45,12 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="pawn">The pawn.</param>
-		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <param name="typeCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
-		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, bool isControl = false) =>
+		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, InformationTypeCategory typeCategory = InformationTypeCategory.Default) =>
 			pawn == null
 			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
-				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), isControl, !pawn.Dead)
+				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), typeCategory, !pawn.Dead)
 				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
 			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
 
@@ -60,25 +59,28 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="faction">The faction.</param>
-		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
+		/// <param name="typeCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>Whether the given information category is known for the given faction.</returns>
-		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, bool isControl = false) =>
+		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, InformationTypeCategory typeCategory = InformationTypeCategory.Default) =>
 			faction == null
 			|| !WellMetMod.Settings.HideFactionInformation
-			|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(faction), isControl);
+			|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(faction), typeCategory);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given pawn type.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="type">The pawn type.</param>
-		/// <param name="isControl">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="typeCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the given information category is known for the given pawn type.</returns>
-		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, bool isControl = false, bool isAlive = true) =>
+		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, InformationTypeCategory typeCategory = InformationTypeCategory.Default, bool isAlive = true) =>
 			WellMetMod.Settings.KnownInformation[(int)type, (int)category]
 			|| WellMetMod.Settings.LegacyMode
-			|| isControl && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive)
+			|| typeCategory == InformationTypeCategory.Control && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive)
+			|| typeCategory == InformationTypeCategory.Letter && WellMetMod.Settings.NeverHideLetters
+			|| typeCategory == InformationTypeCategory.Message && WellMetMod.Settings.NeverHideMessages
+			|| typeCategory == InformationTypeCategory.TextMote && WellMetMod.Settings.NeverHideTextMotes
 			|| category == InformationCategory.Traits && type == PawnType.Colonist && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && MiscellaneousUtility.IsInGrowthMoment();
 
 		/// <summary>
@@ -108,6 +110,15 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="type">The pawn type.</param>
 		/// <returns>Whether all information categories are known for the given pawn type.</returns>
 		public static bool IsAllInformationKnownFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) => IsInformationKnownFor(category, type));
+
+		/// <summary>
+		/// Determine whether all information is known for all pawn types.
+		/// </summary>
+		/// <returns>Whether all information is known for all pawn types.</returns>
+		public static bool IsAllInformationKnownForAll() =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) =>
+				Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) =>
+					IsInformationKnownFor(category, type)));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given pawn and information category pair.

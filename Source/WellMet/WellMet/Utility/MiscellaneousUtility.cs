@@ -1,6 +1,6 @@
 ﻿#if V1_0
 using Harmony;
-#else
+#elif V1_1 || V1_2 || V1_3
 using HarmonyLib;
 #endif
 using RimWorld;

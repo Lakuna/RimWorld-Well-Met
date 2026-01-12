@@ -12,6 +12,9 @@
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
 	<HideFactionInformation>apply information hiding to factions</HideFactionInformation>
 	<NeverHideControls>always show controls</NeverHideControls>
+	<NeverHideLetters>always show letters</NeverHideLetters>
+	<NeverHideMessages>always show messages</NeverHideMessages>
+	<NeverHideTextMotes>always show text motes</NeverHideTextMotes>
 	<HideAncientCorpses>always know less about ancient corpses</HideAncientCorpses>
 	<LegacyMode>legacy mode</LegacyMode>
 	<Unknown>unknown</Unknown>

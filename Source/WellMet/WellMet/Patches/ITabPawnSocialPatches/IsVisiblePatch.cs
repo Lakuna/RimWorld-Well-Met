@@ -16,7 +16,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnSocialPatches {
 		[HarmonyPostfix]
 		private static void Postfix(ITab_Pawn_Social __instance, ref bool __result) => __result = __result
 			&& (!(SelPawnForSocialInfoMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, true) // "Romance" button.
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, true)); // "Assign role" button.
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, InformationTypeCategory.Control) // "Romance" button.
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, InformationTypeCategory.Control)); // "Assign role" button.
 	}
 }

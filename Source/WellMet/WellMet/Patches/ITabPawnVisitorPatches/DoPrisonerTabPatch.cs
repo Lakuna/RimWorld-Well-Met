@@ -84,11 +84,11 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				// Will needs to be handled separately because it is loaded by address.
 				if (instruction.LoadsField(WillField, true)) {
 					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-					yield return new CodeInstruction(OpCodes.Ldc_I4, (int)InformationCategory.Advanced); // `category`.
+					yield return PatchUtility.LoadValue(InformationCategory.Advanced); // `category`.
 					foreach (CodeInstruction instruction2 in getPawnInstructions) {
 						yield return new CodeInstruction(instruction2); // `pawn` or `faction`.
 					}
-					yield return new CodeInstruction(OpCodes.Ldc_I4_0); // `isControl`.
+					yield return PatchUtility.LoadValue(InformationTypeCategory.Default); // `typeCategory`.
 
 					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.

@@ -20,7 +20,7 @@ namespace Lakuna.WellMet.Patches.InspectTabBasePatches {
 			if (__instance is ITab_Pawn_Health healthTab) {
 				__result = __result
 					&& (!(PawnForHealthMethod.Invoke(healthTab, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, true));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, InformationTypeCategory.Control));
 				return;
 			}
 

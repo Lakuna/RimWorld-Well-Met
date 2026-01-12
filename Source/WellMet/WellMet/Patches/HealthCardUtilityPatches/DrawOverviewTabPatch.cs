@@ -22,7 +22,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 					yield return PatchUtility.LoadValue(InformationCategory.Health); // `informationCategory`
 					yield return new CodeInstruction(OpCodes.Ldarg_1); // `pawn`
-					yield return PatchUtility.LoadValue(false); // `isControl`
+					yield return PatchUtility.LoadValue(InformationTypeCategory.Default); // `typeCategory`
 
 					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.

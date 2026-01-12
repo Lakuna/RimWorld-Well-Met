@@ -157,21 +157,35 @@ namespace Lakuna.WellMet {
 				Settings.NeverHideControls = neverHideControls;
 			}
 
-			if (!Settings.LegacyMode) {
-				bool hideAncientCorpses = Settings.HideAncientCorpses;
-				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
-				Settings.HideAncientCorpses = hideAncientCorpses;
+			if (!KnowledgeUtility.IsAllInformationKnownForAll()) {
+				bool neverHideMessages = Settings.NeverHideMessages;
+				listing.CheckboxLabeled("NeverHideMessages".Translate().CapitalizeFirst(), ref neverHideMessages);
+				Settings.NeverHideMessages = neverHideMessages;
+
+				bool neverHideLetters = Settings.NeverHideLetters;
+				listing.CheckboxLabeled("NeverHideLetters".Translate().CapitalizeFirst(), ref neverHideLetters);
+				Settings.NeverHideLetters = neverHideLetters;
+
+				bool neverHideTextMotes = Settings.NeverHideTextMotes;
+				listing.CheckboxLabeled("NeverHideTextMotes".Translate().CapitalizeFirst(), ref neverHideTextMotes);
+				Settings.NeverHideTextMotes = neverHideTextMotes;
 
 				bool hideFactionInformation = Settings.HideFactionInformation;
 				listing.CheckboxLabeled("HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation);
 				Settings.HideFactionInformation = hideFactionInformation;
 			}
 
+			if (!Settings.LegacyMode) {
+				bool hideAncientCorpses = Settings.HideAncientCorpses;
+				listing.CheckboxLabeled("HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses);
+				Settings.HideAncientCorpses = hideAncientCorpses;
+			}
+
 			bool legacyMode = Settings.LegacyMode;
 			listing.CheckboxLabeled("LegacyMode".Translate().CapitalizeFirst(), ref legacyMode);
 			Settings.LegacyMode = legacyMode;
 
-			if (!Settings.AlwaysKnowStartingColonists && !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist, true)) {
+			if (!Settings.AlwaysKnowStartingColonists && !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist, InformationTypeCategory.Control)) {
 #if V1_0
 				listing.Label(MiscellaneousUtility.EndWithPeriod("WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
 #elif V1_1 || V1_2

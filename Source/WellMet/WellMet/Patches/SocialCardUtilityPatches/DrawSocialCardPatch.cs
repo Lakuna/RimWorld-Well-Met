@@ -16,8 +16,8 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawSocialCard))]
 	internal static class DrawSocialCardPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, true) // Role selection dropdown.
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, true); // Romance button.
+		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, InformationTypeCategory.Control) // Role selection dropdown.
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, InformationTypeCategory.Control); // Romance button.
 
 #if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo IdeoMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
@@ -30,7 +30,7 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 				yield return instruction;
 
 				if (instruction.Calls(IdeoMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, isControl: true)) { // Ideoligion contains role selection dropdown.
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, typeCategory: InformationTypeCategory.Control)) { // Ideoligion contains role selection dropdown.
 						yield return i;
 					}
 				}

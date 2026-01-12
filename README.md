@@ -52,8 +52,11 @@ In addition to the ability to enable or disable information categories for pawn/
 - "Always know more about colonist relatives" will cause certain categories of information (basic, traits, and backstory) to be known about pawns who are related to at least one colonist, regardless of what information would otherwise be known about them.
 - "Always know growth moment traits" will cause traits to always be visible in the "growth moment" window, regardless of whether or not they would otherwise be visible.
 - "Always show controls" will cause UI elements that are used to control pawns to always be shown for **colonist** and **player-controlled** pawns, regardless of any other setting.
-- "Always know less about ancient corpses" will cause ancient corpses (i.e. those that start on the map) to have all of their information hidden, regardless of what information would otherwise be known about them.
+- "Always show messages" will cause all messages (text that appears in the top-right corner of the screen) to be shown, even when they would reveal otherwise hidden information.
+- "Always show letters" will cause all letters to be shown, even when they would reveal otherwise hidden information.
+- "Always show text motes" will cause all text motes (short-lived text that appears where things occur) to be shown, even when they would reveal otherwise hidden information.
 - "Apply information hiding to factions" will cause factions to be hidden in the list of factions if basic information isn't known for the relevant pawn/faction type.
+- "Always know less about ancient corpses" will cause ancient corpses (i.e. those that start on the map) to have all of their information hidden, regardless of what information would otherwise be known about them.
 - "Legacy mode" reverts this mod's functionality to its pre-version 3 functionality: all information categories will be known for all pawn/faction types, learning will be enabled for all pawn/faction types, learning will be disabled for all information categories except for traits, and unique trait unlock conditions will be disabled.
 
 ### Unique Trait Unlock Conditions

@@ -1,6 +1,5 @@
 ﻿using Lakuna.WellMet.Utility;
 using System;
-using System.Text;
 using Verse;
 
 namespace Lakuna.WellMet {
@@ -19,6 +18,9 @@ namespace Lakuna.WellMet {
 			this.alwaysKnowGrowthMomentTraits = true;
 			this.hideFactionInformation = false;
 			this.neverHideControls = true;
+			this.neverHideTextMotes = false;
+			this.neverHideMessages = false;
+			this.neverHideLetters = false;
 			this.hideAncientCorpses = true;
 			this.legacyMode = false;
 			this.alwaysKnowMoreAboutColonistRelatives = true;
@@ -87,6 +89,27 @@ namespace Lakuna.WellMet {
 		internal bool NeverHideControls {
 			get => this.neverHideControls;
 			set => this.neverHideControls = value;
+		}
+
+		private bool neverHideTextMotes;
+
+		internal bool NeverHideTextMotes {
+			get => this.neverHideTextMotes;
+			set => this.neverHideTextMotes = value;
+		}
+
+		private bool neverHideMessages;
+
+		internal bool NeverHideMessages {
+			get => this.neverHideMessages;
+			set => this.neverHideMessages = value;
+		}
+
+		private bool neverHideLetters;
+
+		internal bool NeverHideLetters {
+			get => this.neverHideLetters;
+			set => this.neverHideLetters = value;
 		}
 
 		private bool hideAncientCorpses;
@@ -193,6 +216,9 @@ namespace Lakuna.WellMet {
 			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
 			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
 			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
+			Scribe_Values.Look(ref this.neverHideTextMotes, nameof(this.neverHideTextMotes));
+			Scribe_Values.Look(ref this.neverHideMessages, nameof(this.neverHideMessages));
+			Scribe_Values.Look(ref this.neverHideLetters, nameof(this.neverHideLetters));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
 			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
 			Scribe_Values.Look(ref this.enableUniqueTraitUnlockConditions, nameof(this.enableUniqueTraitUnlockConditions));
