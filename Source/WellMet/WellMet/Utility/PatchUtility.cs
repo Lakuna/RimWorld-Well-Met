@@ -50,7 +50,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given instruction calls the given method.</returns>
 		internal static bool Calls(CodeInstruction instruction, MethodInfo method) =>
 #if V1_0
-			(instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Calli || instruction.opcode == OpCodes.Callvirt || instruction.opcode == OpCodes.Tailcall) && instruction.operand == method;
+			(instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Callvirt) && instruction.operand == method;
 #else
 			instruction.Calls(method);
 #endif
@@ -63,7 +63,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given instruction loads the given field.</returns>
 		internal static bool LoadsField(CodeInstruction instruction, FieldInfo field) =>
 #if V1_0
-			(instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda || instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda) && instruction.operand == field;
+			(field.IsStatic ? (instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda) : (instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda)) && instruction.operand == field
 #else
 			instruction.LoadsField(field);
 #endif

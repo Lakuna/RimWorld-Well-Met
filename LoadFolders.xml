@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <loadFolders>
-	<!-- RimWorld v1.0 does not support loadFolders.xml. The following block is for reference. -->
+	<!-- RimWorld v1.0 does not support `LoadFolders.xml`. The following block is for reference. -->
 	<v1.0>
 		<li>/</li>
 		<li>1.0</li>
