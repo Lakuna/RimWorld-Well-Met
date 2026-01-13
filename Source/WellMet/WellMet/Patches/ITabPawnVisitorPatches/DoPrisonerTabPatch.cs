@@ -88,7 +88,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					foreach (CodeInstruction instruction2 in getPawnInstructions) {
 						yield return new CodeInstruction(instruction2); // `pawn` or `faction`.
 					}
-					yield return PatchUtility.LoadValue(InformationTypeCategory.Default); // `typeCategory`.
+					yield return PatchUtility.LoadValue(ControlCategory.Default); // `controlCategory`.
 
 					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.

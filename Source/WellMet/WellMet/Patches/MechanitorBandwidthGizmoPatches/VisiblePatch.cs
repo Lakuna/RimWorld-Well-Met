@@ -8,7 +8,7 @@ namespace Lakuna.WellMet.Patches.MechanitorBandwidthGizmoPatches {
 	internal static class VisiblePatch {
 		[HarmonyPostfix]
 		private static void Postfix(Pawn_MechanitorTracker ___tracker, ref bool __result) => __result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ___tracker.Pawn, InformationTypeCategory.Control);
+			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ___tracker.Pawn, ControlCategory.Control);
 	}
 }
 #endif

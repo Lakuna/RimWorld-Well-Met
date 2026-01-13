@@ -12,7 +12,7 @@ namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
 		[HarmonyPostfix]
 		private static void Postfix(MechanitorControlGroup ___controlGroup, ref bool __result) => __result = __result
 			&& (!(TrackerField.GetValue(___controlGroup) is Pawn_MechanitorTracker pawnMechanitorTracker)
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnMechanitorTracker.Pawn, InformationTypeCategory.Control));
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnMechanitorTracker.Pawn, ControlCategory.Control));
 	}
 }
 #endif

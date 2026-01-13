@@ -107,7 +107,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			ref bool showName
 #endif
 		) {
-			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, InformationTypeCategory.Control); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
+			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control); // Name must be shown for renaming, banishing, and starting colonist randomization to work. Guilt must be shown for the "execute colonist" button.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 			if (!basic) {
 				randomizeCallback = null;
@@ -117,7 +117,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 			return basic
 #if !V1_0
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, InformationTypeCategory.Control) // "Renounce title" button.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, ControlCategory.Control) // "Renounce title" button.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
 #endif
 #if !(V1_0 || V1_1 || V1_2)
@@ -139,7 +139,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 					yield return PatchUtility.LoadValue(InformationCategory.Basic); // `category`
 					yield return new CodeInstruction(OpCodes.Ldarg_1); // `pawn`
-					yield return PatchUtility.LoadValue(InformationTypeCategory.Default); // `typeCategory`
+					yield return PatchUtility.LoadValue(ControlCategory.Default); // `controlCategory`
 
 					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
 					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.
@@ -187,7 +187,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				if (PatchUtility.Calls(instruction, SpawnedMethod) || PatchUtility.Calls(instruction, IsColonistMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions, InformationTypeCategory.Control)) { // `Spawned` is used only for the "banish" button. `IsColonist` is used only for the "rename colonist" button.
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions, ControlCategory.Control)) { // `Spawned` is used only for the "banish" button. `IsColonist` is used only for the "rename colonist" button.
 						yield return i;
 					}
 
@@ -262,7 +262,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #if !V1_0
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (PatchUtility.LoadsField(instruction, row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, typeCategory: InformationTypeCategory.Control)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
+						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
 							yield return i;
 						}
 

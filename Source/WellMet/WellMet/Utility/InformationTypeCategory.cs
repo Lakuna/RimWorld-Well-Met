@@ -1,5 +1,5 @@
 ﻿namespace Lakuna.WellMet.Utility {
-	public enum InformationTypeCategory : int {
+	public enum ControlCategory : int {
 		Default,
 		Control,
 		TextMote,
