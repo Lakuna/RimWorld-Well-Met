@@ -136,39 +136,9 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #if V1_1 || V1_2 || V1_3 || V1_4
 				// Don't call `QuestUtility.GetExtraFactionsFromQuestPartsMethod`; just pop its arguments instead.
 				if (instruction.Calls(GetExtraFactionsFromQuestPartsMethod)) {
-					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-					yield return PatchUtility.LoadValue(InformationCategory.Basic); // `category`
-					yield return new CodeInstruction(OpCodes.Ldarg_1); // `pawn`
-					yield return PatchUtility.LoadValue(ControlCategory.Default); // `controlCategory`
-
-					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
-					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.
-
-					// If the value on top of the stack is `true` (the given information is known), don't skip the `QuestUtility.GetExtraFactionsFromQuestPartsMethod` call.
-					Label dontSkipLabel = generator.DefineLabel();
-					yield return new CodeInstruction(OpCodes.Brtrue_S, dontSkipLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, go to the call.
-
-					// Don't call `QuestUtility.GetExtraFactionsFromQuestPartsMethod`; just pop its arguments instead.
-					yield return new CodeInstruction(OpCodes.Pop); // `forQuest`
-					yield return new CodeInstruction(OpCodes.Pop); // `outExtraFactions`
-					yield return new CodeInstruction(OpCodes.Pop); // `pawn`
-
-					// If the value on top of the stack was `false` (the given information is not known), skip the `QuestUtility.GetExtraFactionsFromQuestPartsMethod` call.
-					Label doSkipLabel = generator.DefineLabel();
-					yield return new CodeInstruction(OpCodes.Br, doSkipLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, go to the call.
-
-					// Jump here when the given information is known, skipping the code that pops the arguments (thus not modifying the stack).
-					CodeInstruction dontSkipTarget = new CodeInstruction(OpCodes.Nop);
-					dontSkipTarget.labels.Add(dontSkipLabel);
-					yield return dontSkipTarget;
-
-					// Call `QuestUtility.GetExtraFactionsFromQuestPartsMethod`.
-					yield return instruction;
-
-					// Jump here when the given information is not known, skipping the code that calls the function.
-					CodeInstruction doSkipTarget = new CodeInstruction(OpCodes.Nop);
-					doSkipTarget.labels.Add(doSkipLabel);
-					yield return doSkipTarget;
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator)) {
+						yield return i;
+					}
 
 					// Skip the normal instruction (already returned above).
 					continue;

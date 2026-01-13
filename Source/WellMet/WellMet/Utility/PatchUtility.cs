@@ -184,13 +184,104 @@ namespace Lakuna.WellMet.Utility {
 		}
 
 		/// <summary>
+		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
+		/// </summary>
+		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
+		/// <param name="category">The information category.</param>
+		/// <param name="getInstructions">The instructions to execute to load the pawn onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <returns>The instructions that will perform the check.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		internal static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getInstructions, generator, value, byAddress, controlCategory)) {
+				yield return instruction;
+			}
+		}
+
+		/// <summary>
+		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
+		/// </summary>
+		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
+		/// <param name="category">The information category.</param>
+		/// <param name="getInstructions">The instructions to execute to load the faction onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <returns>The instructions that will perform the check.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		internal static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getInstructions, generator, value, byAddress, controlCategory)) {
+				yield return instruction;
+			}
+		}
+
+		/// <summary>
+		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
+		/// </summary>
+		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
+		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
+		/// <param name="category">The information category.</param>
+		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <returns>The instructions that will perform the check.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		internal static IEnumerable<CodeInstruction> SkipIfNotKnown(MethodInfo isInformationKnownForMethod, CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+			if (!(callInstruction.operand is MethodInfo methodInfo) || !Calls(callInstruction, methodInfo)) {
+				throw new ArgumentException("Attempted to skip a non-call instruction with `SkipIfNotKnown`.");
+			}
+
+			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
+			yield return LoadValue(category); // `category`
+			foreach (CodeInstruction instruction in getInstructions) {
+				yield return new CodeInstruction(instruction); // `pawn` or `faction`.
+			}
+			yield return LoadValue(controlCategory); // `controlCategory`
+
+			// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
+			yield return new CodeInstruction(OpCodes.Call, isInformationKnownForMethod); // Remove the arguments from the stack and add the return value.
+
+			// If the value on top of the stack is `false` (the given information is not known), skip `callInstruction` and execute the replacement instructions.
+			Label doSkipLabel = generator.DefineLabel();
+			yield return new CodeInstruction(OpCodes.Brfalse_S, doSkipLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, go to the replacement instructions.
+
+			// If the value on top of the stack was `true` (the given information is known), execute `callInstruction` and skip the replacement instructions.
+			yield return callInstruction;
+			Label dontSkipLabel = generator.DefineLabel();
+			yield return new CodeInstruction(OpCodes.Br_S, dontSkipLabel); // Skip the replacement instructions.
+
+			// If the value on top of the stack was `false` (the given information is not known), execute the replacement instructions (pop the arguments and return a dummy value if appropriate).
+			CodeInstruction doSkipTarget = new CodeInstruction(OpCodes.Nop);
+			doSkipTarget.labels.Add(doSkipLabel);
+			yield return doSkipTarget;
+			for (int i = 0; i < methodInfo.GetParameters().Length; i++) {
+				yield return new CodeInstruction(OpCodes.Pop);
+			}
+			if (methodInfo.ReturnType != typeof(void)) {
+				yield return LoadValue(value);
+			}
+
+			// Jump here after executing `callInstruction`, skipping the replacement instructions.
+			CodeInstruction dontSkipTarget = new CodeInstruction(OpCodes.Nop);
+			dontSkipTarget.labels.Add(dontSkipLabel);
+			yield return dontSkipTarget;
+		}
+
+		/// <summary>
 		/// Replace the backstory on top of the stack if it isn't known for the "given" pawn.
 		/// </summary>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null) {
+		internal static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false) {
 			// Load the arguments for `KnowledgeUtility.IsBackstoryKnown` onto the stack.
 			yield return new CodeInstruction(OpCodes.Dup); // `backstory`.
 			foreach (CodeInstruction instruction in getPawnInstructions) {
@@ -206,7 +297,7 @@ namespace Lakuna.WellMet.Utility {
 
 			// This section is skipped unless the given information isn't known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-			yield return LoadValue(value);
+			yield return LoadValue(value, byAddress);
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
 			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
@@ -221,10 +312,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -236,10 +328,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" faction.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -252,9 +345,10 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn or faction.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, ControlCategory controlCategory = ControlCategory.Default) {
+		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -271,7 +365,7 @@ namespace Lakuna.WellMet.Utility {
 
 			// This section is skipped unless the given information isn't known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-			yield return LoadValue(value);
+			yield return LoadValue(value, byAddress);
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
 			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
@@ -283,8 +377,9 @@ namespace Lakuna.WellMet.Utility {
 		/// Load the given value onto the stack.
 		/// </summary>
 		/// <param name="value">The value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <returns>The instruction that will load the given value onto the stack.</returns>
-		internal static CodeInstruction LoadValue(object value) {
+		internal static CodeInstruction LoadValue(object value, bool byAddress = false) {
 			if (value is int intValue) {
 				switch (intValue) {
 					case -1:
@@ -314,7 +409,9 @@ namespace Lakuna.WellMet.Utility {
 
 			return value == null ? new CodeInstruction(OpCodes.Ldnull)
 				: value is FieldInfo fieldInfo ? fieldInfo.IsStatic
-					? new CodeInstruction(OpCodes.Ldsfld, fieldInfo)
+					? (byAddress
+						? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
+						: new CodeInstruction(OpCodes.Ldsfld, fieldInfo))
 					: throw new ArgumentException("A non-static field was passed to " + nameof(LoadValue) + ".")
 				: value is ConstructorInfo constructorInfo ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
 				: value is long longValue ? new CodeInstruction(OpCodes.Ldc_I8, longValue)

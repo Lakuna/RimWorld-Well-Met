@@ -81,32 +81,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				// Will needs to be handled separately because it is loaded by address.
 				if (instruction.LoadsField(WillField, true)) {
-					// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
-					yield return PatchUtility.LoadValue(InformationCategory.Advanced); // `category`.
-					foreach (CodeInstruction instruction2 in getPawnInstructions) {
-						yield return new CodeInstruction(instruction2); // `pawn` or `faction`.
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, ZeroField, true)) {
+						yield return i;
 					}
-					yield return PatchUtility.LoadValue(ControlCategory.Default); // `controlCategory`.
-
-					// Call `KnowledgeUtility.IsInformationKnownFor`, leaving the return value on top of the stack.
-					yield return new CodeInstruction(OpCodes.Call, PatchUtility.IsInformationKnownForPawnMethod); // Remove the arguments from the stack and add the return value.
-
-					// If the value on top of the stack is `true` (the given information is known), don't replace the value.
-					Label dontReplaceLabel = generator.DefineLabel();
-					yield return new CodeInstruction(OpCodes.Brtrue_S, dontReplaceLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, leaving the value that might be replaced on top.
-
-					// This section is skipped unless the given information isn't known.
-					yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-					yield return new CodeInstruction(OpCodes.Ldsflda, ZeroField);
-
-					// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
-					CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
-					dontReplaceTarget.labels.Add(dontReplaceLabel);
-					yield return dontReplaceTarget;
-
-					continue;
 				}
 
 				if (instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod) || instruction.LoadsField(IdeoForConversionField) || instruction.LoadsField(FinalResistanceInteractionDataField)) {
