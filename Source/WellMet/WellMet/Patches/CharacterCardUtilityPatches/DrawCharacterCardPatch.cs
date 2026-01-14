@@ -92,12 +92,11 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if !V1_0
-		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
-#if !V1_1
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt)), InformationCategory.Basic }
+		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
 #endif
-		};
+
+#if !(V1_0 || V1_1)
+		private static readonly FieldInfo GuiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
 #endif
 
 		[HarmonyPrefix]
@@ -230,14 +229,22 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if !V1_0
-				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (PatchUtility.LoadsField(instruction, row.Key)) {
-						// Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
-							yield return i;
-						}
+				if (PatchUtility.LoadsField(instruction, RoyaltyField)) {
+					// Royalty is used only for the "renounce title" button.
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
+						yield return i;
+					}
 
-						break;
+					continue;
+				}
+#endif
+
+#if !(V1_0 || V1_1)
+
+				if (PatchUtility.LoadsField(instruction, GuiltField)) {
+					// Guilt is used only for the "execute colonist" button.
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
+						yield return i;
 					}
 				}
 #endif
