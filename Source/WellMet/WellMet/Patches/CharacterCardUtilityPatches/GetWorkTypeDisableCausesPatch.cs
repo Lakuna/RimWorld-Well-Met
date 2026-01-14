@@ -19,25 +19,22 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly MethodInfo AdulthoodMethod = AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood));
 
-		// TODO
-		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
-		};
+		private static readonly MethodInfo IdeoMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
 #endif
 
 #if !(V1_1 || V1_2 || V1_3 || V1_4)
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 #endif
 
-		// TODO
-		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
-			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits },
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty)), InformationCategory.Advanced },
+		private static readonly FieldInfo HealthField = AccessTools.Field(typeof(Pawn), nameof(Pawn.health));
+
+		private static readonly FieldInfo TraitsField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits));
+
+		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
+
 #if !(V1_1 || V1_2 || V1_3)
-			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced }
+		private static readonly FieldInfo GenesField = AccessTools.Field(typeof(Pawn), nameof(Pawn.genes));
 #endif
-		};
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -63,18 +60,11 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				bool flag = false;
-				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
-					if (instruction.Calls(row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
-							yield return i;
-						}
-
-						flag = true;
-						break;
+				if (instruction.Calls(IdeoMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
+						yield return i;
 					}
-				}
-				if (flag) {
+
 					continue;
 				}
 #endif
@@ -89,15 +79,37 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 #endif
 
-				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
-					if (instruction.LoadsField(row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
-							yield return i;
-						}
+				if (instruction.LoadsField(HealthField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator)) {
+						yield return i;
+					}
 
-						break;
+					continue;
+				}
+
+				if (instruction.LoadsField(TraitsField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (instruction.LoadsField(RoyaltyField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+#if !(V1_1 || V1_2 || V1_3)
+				if (instruction.LoadsField(GenesField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
+#endif
 			}
 		}
 	}

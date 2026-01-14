@@ -5,6 +5,7 @@ using HarmonyLib;
 #endif
 using Lakuna.WellMet.Utility;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -21,8 +22,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 		private static readonly MethodInfo GetTrainabilityMethod = AccessTools.Method(typeof(TrainableUtility), nameof(TrainableUtility.GetTrainability));
 #endif
 
-		// TODO
-		private static readonly MethodInfo ToStringPercentMethod = SymbolExtensions.GetMethodInfo((float f) => f.ToStringPercent()); // Used only for creature wildness in this method.
+		private static readonly MethodInfo ToStringPercentMethod = AccessTools.Method(typeof(GenText), nameof(GenText.ToStringPercent), new Type[] { typeof(float) }); // Used only for creature wildness in this method.
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {

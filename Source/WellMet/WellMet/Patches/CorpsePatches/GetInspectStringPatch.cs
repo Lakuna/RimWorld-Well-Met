@@ -15,13 +15,11 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 	internal static class GetInspectStringPatch {
 		private static readonly MethodInfo InnerPawnMethod = PatchUtility.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
 
-		// TODO
-		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
-			{ PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
+		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-			{ AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff)), InformationCategory.Health }
+		private static readonly MethodInfo GetFirstHediffMethod = AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff));
 #endif
-		};
 
 		private static readonly MethodInfo ToStringTicksToPeriodVagueMethod = AccessTools.Method(typeof(GenDate), nameof(GenDate.ToStringTicksToPeriodVague));
 
@@ -40,15 +38,21 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 					continue;
 				}
 
-				foreach (KeyValuePair<MethodInfo, InformationCategory> row in ObfuscatedMethods) {
-					if (PatchUtility.Calls(instruction, row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator)) {
-							yield return i;
-						}
+				if (PatchUtility.Calls(instruction, FactionMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
+						yield return i;
+					}
 
-						break;
+					continue;
+				}
+
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+				if (PatchUtility.Calls(instruction, GetFirstHediffMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator)) {
+						yield return i;
 					}
 				}
+#endif
 			}
 		}
 	}
