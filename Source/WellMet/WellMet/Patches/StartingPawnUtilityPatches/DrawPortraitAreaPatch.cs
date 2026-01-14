@@ -9,6 +9,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.DrawPortraitArea))]
 	internal static class DrawPortraitAreaPatch {
+		// TODO
 		private static readonly MethodInfo AnyMethod = SymbolExtensions.GetMethodInfo((List<ThingDefCount> list) => list.Any()); // Used only to check if the pawn has any possessions in this method.
 
 		[HarmonyTranspiler]

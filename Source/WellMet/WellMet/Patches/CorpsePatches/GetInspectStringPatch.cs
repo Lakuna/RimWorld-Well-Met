@@ -15,6 +15,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 	internal static class GetInspectStringPatch {
 		private static readonly MethodInfo InnerPawnMethod = PatchUtility.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
 
+		// TODO
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
 #if !(V1_0 || V1_1 || V1_2 || V1_3)

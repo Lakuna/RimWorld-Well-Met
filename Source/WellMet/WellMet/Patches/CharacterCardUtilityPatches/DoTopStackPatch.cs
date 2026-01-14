@@ -10,6 +10,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
 	internal static class DoTopStackPatch {
+		// TODO
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.genes)), InformationCategory.Advanced },
 			{ AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction)), InformationCategory.Basic }, // `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
@@ -18,6 +19,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.guest)), InformationCategory.Advanced } // `guest` is used only for unwaveringly loyal status in this method.
 		};
 
+		// TODO
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction)), InformationCategory.Basic },
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }

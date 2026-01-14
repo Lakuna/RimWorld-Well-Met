@@ -21,6 +21,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 		private static readonly MethodInfo GetTrainabilityMethod = AccessTools.Method(typeof(TrainableUtility), nameof(TrainableUtility.GetTrainability));
 #endif
 
+		// TODO
 		private static readonly MethodInfo ToStringPercentMethod = SymbolExtensions.GetMethodInfo((float f) => f.ToStringPercent()); // Used only for creature wildness in this method.
 
 		[HarmonyTranspiler]

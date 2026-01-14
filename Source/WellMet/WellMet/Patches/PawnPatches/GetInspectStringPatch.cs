@@ -24,6 +24,7 @@ using Verse.AI.Group;
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
 	internal static class GetInspectStringPatch {
+		// TODO
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.stances)), InformationCategory.Advanced },

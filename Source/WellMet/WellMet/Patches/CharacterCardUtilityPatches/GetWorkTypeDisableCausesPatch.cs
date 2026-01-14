@@ -19,6 +19,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly MethodInfo AdulthoodMethod = AccessTools.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.Adulthood));
 
+		// TODO
 		private static readonly Dictionary<MethodInfo, InformationCategory> ObfuscatedMethods = new Dictionary<MethodInfo, InformationCategory>() {
 			{ AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo)), InformationCategory.Ideoligion }
 		};
@@ -28,6 +29,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 #endif
 
+		// TODO
 		private static readonly Dictionary<FieldInfo, InformationCategory> ObfuscatedFields = new Dictionary<FieldInfo, InformationCategory>() {
 			{ AccessTools.Field(typeof(Pawn), nameof(Pawn.health)), InformationCategory.Health },
 			{ AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.traits)), InformationCategory.Traits },
