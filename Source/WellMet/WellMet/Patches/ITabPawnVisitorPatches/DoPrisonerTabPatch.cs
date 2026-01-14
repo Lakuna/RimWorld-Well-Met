@@ -36,12 +36,6 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo FinalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
 
-#pragma warning disable CS0649 // Need an address (non-constant) with a guaranteed value of `0` to replace `will`.
-		private static readonly float Zero;
-#pragma warning restore CS0649
-
-		private static readonly FieldInfo ZeroField = AccessTools.Field(typeof(DoPrisonerTabPatch), nameof(Zero));
-
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Callvirt, SelPawnMethod) };
@@ -82,7 +76,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				}
 
 				if (instruction.LoadsField(WillField, true)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, ZeroField, true)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, 0f, localAddress: true)) {
 						yield return i;
 					}
 				}

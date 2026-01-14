@@ -36,6 +36,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
 
 		private static readonly MethodInfo FilterTraitsMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(FilterTraits));
+
 		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
 			List<Trait> outValue = new List<Trait>();
 			foreach (Trait trait in traits) {
@@ -134,7 +135,6 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 			foreach (CodeInstruction instruction in instructions) {
 #if V1_1 || V1_2 || V1_3 || V1_4
-				// Don't call `QuestUtility.GetExtraFactionsFromQuestPartsMethod`; just pop its arguments instead.
 				if (instruction.Calls(GetExtraFactionsFromQuestPartsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
@@ -232,7 +232,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #if !V1_0
 				foreach (KeyValuePair<FieldInfo, InformationCategory> row in ObfuscatedFields) {
 					if (PatchUtility.LoadsField(instruction, row.Key)) {
-						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) { // Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
+						// Royalty is used only for the "renounce title" button; guilt is used only for the "execute colonist" button.
+						foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(row.Value, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 							yield return i;
 						}
 

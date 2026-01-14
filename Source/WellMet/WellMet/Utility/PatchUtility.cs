@@ -18,28 +18,50 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// `string.Empty`.
 		/// </summary>
-		private static readonly FieldInfo EmptyStringField = AccessTools.Field(typeof(string), nameof(string.Empty));
+		private static readonly FieldInfo EmptyStringField = AccessTools.Field(
+			typeof(string),
+			nameof(string.Empty));
+
+		/// <summary>
+		/// `KnowledgeUtility.IsInformationKnownFor` given a `Thing` as an argument.
+		/// </summary>
+		internal static readonly MethodInfo IsInformationKnownForThingMethod = AccessTools.Method(
+			typeof(KnowledgeUtility),
+			nameof(KnowledgeUtility.IsInformationKnownFor),
+			new Type[] { typeof(InformationCategory), typeof(Thing), typeof(ControlCategory) });
 
 		/// <summary>
 		/// `KnowledgeUtility.IsInformationKnownFor` given a `Pawn` as an argument.
 		/// </summary>
-		internal static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Pawn), typeof(ControlCategory) });
+		internal static readonly MethodInfo IsInformationKnownForPawnMethod = AccessTools.Method(
+			typeof(KnowledgeUtility),
+			nameof(KnowledgeUtility.IsInformationKnownFor),
+			new Type[] { typeof(InformationCategory), typeof(Pawn), typeof(ControlCategory) });
 
 		/// <summary>
 		/// `KnowledgeUtility.IsInformationKnownFor` given a `Faction` as an argument.
 		/// </summary>
-		internal static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsInformationKnownFor), new Type[] { typeof(InformationCategory), typeof(Faction), typeof(ControlCategory) });
+		internal static readonly MethodInfo IsInformationKnownForFactionMethod = AccessTools.Method(
+			typeof(KnowledgeUtility),
+			nameof(KnowledgeUtility.IsInformationKnownFor),
+			new Type[] { typeof(InformationCategory), typeof(Faction), typeof(ControlCategory) });
 
 #if V1_0 || V1_1 || V1_2 || V1_3
 		/// <summary>
 		/// `KnowledgeUtility.IsBackstoryKnown` given a `Backstory` as an argument.
 		/// </summary>
-		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsBackstoryKnown), new Type[] { typeof(Backstory), typeof(Pawn) });
+		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(
+			typeof(KnowledgeUtility),
+			nameof(KnowledgeUtility.IsBackstoryKnown),
+			new Type[] { typeof(Backstory), typeof(Pawn) });
 #else
 		/// <summary>
 		/// `KnowledgeUtility.IsBackstoryKnown` given a `BackstoryDef` as an argument.
 		/// </summary>
-		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.IsBackstoryKnown), new Type[] { typeof(BackstoryDef), typeof(Pawn) });
+		internal static readonly MethodInfo IsBackstoryDefKnownMethod = AccessTools.Method(
+			typeof(KnowledgeUtility),
+			nameof(KnowledgeUtility.IsBackstoryKnown),
+			new Type[] { typeof(BackstoryDef), typeof(Pawn) });
 #endif
 
 		/// <summary>
@@ -63,7 +85,10 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given instruction loads the given field.</returns>
 		internal static bool LoadsField(CodeInstruction instruction, FieldInfo field) =>
 #if V1_0
-			(field.IsStatic ? (instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda) : (instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda)) && instruction.operand == field;
+			(field.IsStatic
+				? (instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda)
+				: (instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda))
+			&& instruction.operand == field;
 #else
 			instruction.LoadsField(field);
 #endif
@@ -82,13 +107,34 @@ namespace Lakuna.WellMet.Utility {
 #endif
 
 		/// <summary>
+		/// AND the value on top of the stack with whether the given information category is known for the "given" thing.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <returns>The instructions that will perform the AND.</returns>
+		internal static IEnumerable<CodeInstruction> AndThingKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getThingInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory)) {
+				yield return instruction;
+			}
+		}
+
+		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		internal static IEnumerable<CodeInstruction> AndPawnKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		internal static IEnumerable<CodeInstruction> AndPawnKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory)) {
 				yield return instruction;
 			}
@@ -101,7 +147,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		internal static IEnumerable<CodeInstruction> AndFactionKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		internal static IEnumerable<CodeInstruction> AndFactionKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getFactionInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory)) {
 				yield return instruction;
 			}
@@ -115,7 +165,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
-		private static IEnumerable<CodeInstruction> AndKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		private static IEnumerable<CodeInstruction> AndKnown(
+			MethodInfo isInformationKnownForMethod,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -131,13 +186,34 @@ namespace Lakuna.WellMet.Utility {
 		}
 
 		/// <summary>
+		/// OR the value on top of the stack with whether the given information category is not known for the "given" thing.
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <returns>The instructions that will perform the OR.</returns>
+		internal static IEnumerable<CodeInstruction> OrThingNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getThingInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory)) {
+				yield return instruction;
+			}
+		}
+
+		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		internal static IEnumerable<CodeInstruction> OrPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		internal static IEnumerable<CodeInstruction> OrPawnNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory)) {
 				yield return instruction;
 			}
@@ -150,7 +226,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		internal static IEnumerable<CodeInstruction> OrFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		internal static IEnumerable<CodeInstruction> OrFactionNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getFactionInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory)) {
 				yield return instruction;
 			}
@@ -164,7 +244,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
-		private static IEnumerable<CodeInstruction> OrNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ControlCategory controlCategory = ControlCategory.Default) {
+		private static IEnumerable<CodeInstruction> OrNotKnown(
+			MethodInfo isInformationKnownForMethod,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getInstructions,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -188,15 +273,25 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
 		/// <param name="category">The information category.</param>
-		/// <param name="getInstructions">The instructions to execute to load the pawn onto the stack.</param>
+		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing or faction.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
-		internal static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getInstructions, generator, value, byAddress, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> SkipIfThingNotKnown(
+			CodeInstruction callInstruction,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getThingInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForThingMethod, callInstruction, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -206,15 +301,53 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
 		/// <param name="category">The information category.</param>
-		/// <param name="getInstructions">The instructions to execute to load the faction onto the stack.</param>
+		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
-		internal static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getInstructions, generator, value, byAddress, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(
+			CodeInstruction callInstruction,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory)) {
+				yield return instruction;
+			}
+		}
+
+		/// <summary>
+		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
+		/// </summary>
+		/// <param name="callInstruction">The call instruction to be called or skipped depending on knowledge.</param>
+		/// <param name="category">The information category.</param>
+		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <returns>The instructions that will perform the check.</returns>
+		/// <exception cref="ArgumentException"></exception>
+		internal static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(
+			CodeInstruction callInstruction,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getFactionInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -229,12 +362,23 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
-		internal static IEnumerable<CodeInstruction> SkipIfNotKnown(MethodInfo isInformationKnownForMethod, CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+		internal static IEnumerable<CodeInstruction> SkipIfNotKnown(
+			MethodInfo isInformationKnownForMethod,
+			CodeInstruction callInstruction,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			if (!(callInstruction.operand is MethodInfo methodInfo) || !Calls(callInstruction, methodInfo)) {
-				throw new ArgumentException("Attempted to skip a non-call instruction with `SkipIfNotKnown`.");
+				throw new ArgumentException("Attempted to skip a non-call instruction with `" + nameof(SkipIfNotKnown) + "`.");
 			}
 
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
@@ -264,7 +408,12 @@ namespace Lakuna.WellMet.Utility {
 				yield return new CodeInstruction(OpCodes.Pop);
 			}
 			if (methodInfo.ReturnType != typeof(void)) {
-				yield return LoadValue(value);
+				yield return LoadValue(value, byAddress);
+				if (localAddress) {
+					foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
+						yield return i;
+					}
+				}
 			}
 
 			// Jump here after executing `callInstruction`, skipping the replacement instructions.
@@ -280,8 +429,15 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false) {
+		internal static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false
+		) {
 			// Load the arguments for `KnowledgeUtility.IsBackstoryKnown` onto the stack.
 			yield return new CodeInstruction(OpCodes.Dup); // `backstory`.
 			foreach (CodeInstruction instruction in getPawnInstructions) {
@@ -298,11 +454,41 @@ namespace Lakuna.WellMet.Utility {
 			// This section is skipped unless the given information isn't known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
 			yield return LoadValue(value, byAddress);
+			if (localAddress) {
+				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
+					yield return i;
+				}
+			}
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
 			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
 			dontReplaceTarget.labels.Add(dontReplaceLabel);
 			yield return dontReplaceTarget;
+		}
+
+		/// <summary>
+		/// Replace the value on top of the stack if the given information category isn't known for the "given" thing.
+		/// </summary>
+		/// <param name="category">The information category that must be known to skip the replacement.</param>
+		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" thing.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <returns>The instructions that will perform the conditional replacement.</returns>
+		internal static IEnumerable<CodeInstruction> ReplaceIfThingNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getThingInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory)) {
+				yield return instruction;
+			}
 		}
 
 		/// <summary>
@@ -313,10 +499,19 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -329,10 +524,19 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" faction.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, controlCategory)) {
+		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getFactionInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
+			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory)) {
 				yield return instruction;
 			}
 		}
@@ -346,9 +550,19 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn or faction.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
-		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(
+			MethodInfo isInformationKnownForMethod,
+			InformationCategory category,
+			IEnumerable<CodeInstruction> getInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false,
+			ControlCategory controlCategory = ControlCategory.Default
+		) {
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -366,6 +580,11 @@ namespace Lakuna.WellMet.Utility {
 			// This section is skipped unless the given information isn't known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
 			yield return LoadValue(value, byAddress);
+			if (localAddress) {
+				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
+					yield return i;
+				}
+			}
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
 			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
@@ -425,6 +644,18 @@ namespace Lakuna.WellMet.Utility {
 					? new CodeInstruction(OpCodes.Ldsfld, EmptyStringField)
 					: new CodeInstruction(OpCodes.Ldstr, stringValue)
 				: new CodeInstruction(OpCodes.Ldc_I4, (int)value);
+		}
+
+		/// <summary>
+		/// Store the value on top of the stack locally then put its address on the stack in its place.
+		/// </summary>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value on top of the stack.</param>
+		/// <returns></returns>
+		internal static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object value) {
+			LocalBuilder tempLocal = generator.DeclareLocal(value.GetType());
+			yield return new CodeInstruction(OpCodes.Stloc, tempLocal);
+			yield return new CodeInstruction(OpCodes.Ldloca_S, tempLocal);
 		}
 	}
 }

@@ -41,6 +41,15 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsStatic(InformationCategory category) => category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits;
 
 		/// <summary>
+		/// Determine whether the given information category is known for the given thing (pawn).
+		/// </summary>
+		/// <param name="category">The information category.</param>
+		/// <param name="thing">The thing (pawn).</param>
+		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing (pawn).</param>
+		/// <returns>Whether the given information category is known for the given thing (pawn).</returns>
+		public static bool IsInformationKnownFor(InformationCategory category, Thing thing, ControlCategory controlCategory = ControlCategory.Default) => thing is Pawn pawn && IsInformationKnownFor(category, pawn, controlCategory);
+
+		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>

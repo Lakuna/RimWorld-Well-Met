@@ -1,8 +1,17 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-# C# files
-[*.cs]
+##### C# files #####
+[*.{cs,csx}]
+
+### CSharpier Options ###
+
+# Non-configurable behaviors
+charset = utf-8
+trim_trailing_whitespace = true
+
+# Configurable behaviors
+max_line_length = 100
 
 #### Core EditorConfig Options ####
 
@@ -12,14 +21,14 @@ indent_style = tab
 tab_width = 4
 
 # New line preferences
-end_of_line = crlf
-insert_final_newline = false
+end_of_line = lf
+insert_final_newline = true
 
 #### .NET Coding Conventions ####
 
 # Organize usings
 dotnet_separate_import_directive_groups = false
-dotnet_sort_system_directives_first = false
+dotnet_sort_system_directives_first = true
 file_header_template = unset
 
 # this. and Me. preferences
