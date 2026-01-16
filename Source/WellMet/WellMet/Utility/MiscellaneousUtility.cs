@@ -24,7 +24,8 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>`Pawn.IsFreeNonSlaveColonist`.</returns>
-		public static bool IsFreeNonSlaveColonist(Pawn pawn) => pawn != null
+		public static bool IsFreeNonSlaveColonist(Pawn pawn) =>
+			pawn != null
 #if V1_0 || V1_1 || V1_2
 			&& pawn.IsFreeColonist;
 #else
@@ -36,7 +37,8 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>`Pawn.IsAnimal`.</returns>
-		public static bool IsAnimal(Pawn pawn) => pawn != null
+		public static bool IsAnimal(Pawn pawn) =>
+			pawn != null
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			&& pawn.RaceProps.Animal;
 #else
@@ -48,7 +50,8 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>`Pawn.IsPlayerControlled`.</returns>
-		public static bool PawnIsPlayerControlled(Pawn pawn) => pawn != null
+		public static bool PawnIsPlayerControlled(Pawn pawn) =>
+			pawn != null
 #if V1_0 || V1_1 || V1_2 || V1_3
 			&& pawn.IsColonistPlayerControlled;
 #elif V1_4
@@ -149,20 +152,16 @@ namespace Lakuna.WellMet.Utility {
 		public static string AddLineBreaksToLongString(string str) => str.AddLineBreaksToLongString();
 #endif
 
+		/// <summary>
+		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
+		/// </summary>
+		/// <param name="str">The string.</param>
+		/// <returns>The compressed string.</returns>
+		public static string RemoveLineBreaks(string str) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-		/// <summary>
-		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
-		/// </summary>
-		/// <param name="str">The string.</param>
-		/// <returns>The compressed string.</returns>
-		public static string RemoveLineBreaks(string str) => new StringBuilder(str).Replace("\n", "").Replace("\r", "").ToString();
+			new StringBuilder(str).Replace("\n", "").Replace("\r", "").ToString();
 #else
-		/// <summary>
-		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
-		/// </summary>
-		/// <param name="str">The string.</param>
-		/// <returns>The compressed string.</returns>
-		public static string RemoveLineBreaks(string str) => str.RemoveLineBreaks();
+			str.RemoveLineBreaks();
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
@@ -262,23 +261,20 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="arr">The array to save.</param>
 		/// <param name="elements">The number of elements in the array.</param>
 		/// <param name="label">The name of the array in the save data.</param>
-		public static void LookBoolArray(ref bool[] arr, int elements, string label) => DataExposeUtility.LookBoolArray(ref arr, elements, label);
+		public static void LookBoolArray(ref bool[] arr, int elements, string label) =>
+			DataExposeUtility.LookBoolArray(ref arr, elements, label);
 #endif
 
+		/// <summary>
+		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether or not the pawn is dead or downed.</returns>
+		public static bool DeadOrDowned(Pawn pawn) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-		/// <summary>
-		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the pawn is dead or downed.</returns>
-		public static bool DeadOrDowned(Pawn pawn) => pawn != null && (pawn.Dead || pawn.Downed);
+			pawn != null && (pawn.Dead || pawn.Downed);
 #else
-		/// <summary>
-		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the pawn is dead or downed.</returns>
-		public static bool DeadOrDowned(Pawn pawn) => pawn?.DeadOrDowned ?? false;
+			pawn?.DeadOrDowned ?? false;
 #endif
 
 		/// <summary>
@@ -286,9 +282,14 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
-		public static bool HostileToPlayer(Pawn pawn) => pawn != null
-			&& ((pawn.Faction == null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
-				: (pawn.Faction != Faction.OfPlayerSilentFail && pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null && (pawn.HostileTo(Faction.OfPlayerSilentFail) || DeadOrDowned(pawn) && HostileToPlayer(pawn.Faction))));
+		public static bool HostileToPlayer(Pawn pawn) =>
+			pawn != null
+			&& ((pawn.Faction == null)
+				? pawn.HostileTo(Faction.OfPlayerSilentFail)
+				: (pawn.Faction != Faction.OfPlayerSilentFail
+					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+					&& (pawn.HostileTo(Faction.OfPlayerSilentFail)
+						|| DeadOrDowned(pawn) && HostileToPlayer(pawn.Faction))));
 
 		/// <summary>
 		/// Check whether the given faction is hostile to the player's faction.
@@ -308,7 +309,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>The type of the pawn.</returns>
 		public static PawnType TypeOf(Pawn pawn) =>
 			(pawn == null) ? PawnType.Neutral
-			: (IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
+			: ((IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail)
+				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
+				|| WellMetMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
 			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: IsAnimal(pawn) ? PawnType.WildAnimal
@@ -331,14 +334,18 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether the pawn is player-controlled.</returns>
-		public static bool IsPlayerControlled(Pawn pawn) => pawn != null && IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
+		public static bool IsPlayerControlled(Pawn pawn) =>
+			pawn != null
+			&& IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
 
 		/// <summary>
 		/// Determines whether the given faction is one that can be controlled by the player.
 		/// </summary>
 		/// <param name="faction">The faction.</param>
 		/// <returns>Whether the faction is player-controlled.</returns>
-		public static bool IsPlayerControlled(Faction faction) => faction != null && IsPlayerControlled(TypeOf(faction));
+		public static bool IsPlayerControlled(Faction faction) =>
+			faction != null
+			&& IsPlayerControlled(TypeOf(faction));
 
 		/// <summary>
 		/// Determines whether the given pawn type is one that can be controlled by the player.
@@ -346,42 +353,79 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="type">The pawn type.</param>
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the pawn type is player-controlled.</returns>
-		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) => (type == PawnType.Colonist || type == PawnType.Controlled) && isAlive;
+		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) =>
+			(type == PawnType.Colonist || type == PawnType.Controlled)
+			&& isAlive;
 
 		/// <summary>
 		/// Determine whether or not the given pawn is a starting colonist. This can only be true while selecting starting colonists.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is a starting colonist.</returns>
-		public static bool IsStartingColonist(Pawn pawn) => pawn != null && (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
+		public static bool IsStartingColonist(Pawn pawn) =>
+			pawn != null
+			&& (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
 
 		/// <summary>
 		/// Determine whether or not the given pawn is related to any colonist.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
-		public static bool IsRelativeOfColonist(Pawn pawn) => pawn?.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
+		public static bool IsRelativeOfColonist(Pawn pawn) =>
+			pawn?.relations?.RelatedPawns?.Any((other) =>
+				TypeOf(other) == PawnType.Colonist)
+			?? false;
 
 		/// <summary>
 		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
-		public static bool IsAncientCorpse(Pawn pawn) => pawn != null && pawn.Dead && IsAncientCorpse(pawn.Corpse);
+		public static bool IsAncientCorpse(Pawn pawn) =>
+			pawn != null
+			&& pawn.Dead
+			&& IsAncientCorpse(pawn.Corpse);
 
 		/// <summary>
 		/// Determine whether or not the given corpse was dead when the player discovered it.
 		/// </summary>
 		/// <param name="corpse">The corpse.</param>
 		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
-		public static bool IsAncientCorpse(Corpse corpse) => corpse != null && corpse.timeOfDeath <= 0;
+		public static bool IsAncientCorpse(Corpse corpse) =>
+			corpse != null
+			&& corpse.timeOfDeath <= 0;
+
+		/// <summary>
+		/// Determine the number of ticks that the given pawn has spent as a colonist or colony animal.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>The number of ticks that the given pawn has spent as a colonist or colony animal.</returns>
+		public static float TimeAsColonist(Pawn pawn) =>
+			pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0;
+
+		/// <summary>
+		/// Determine the number of ticks that the given pawn has spent as a prisoner.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>The number of ticks that the given pawn has spent as a prisoner.</returns>
+		public static float TimeAsPrisoner(Pawn pawn) =>
+			pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0;
 
 		/// <summary>
 		/// Determine the number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.</returns>
-		public static float TimeAsColonistOrPrisoner(Pawn pawn) => (pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0) + (pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0);
+		public static float TimeAsColonistOrPrisoner(Pawn pawn) =>
+			TimeAsColonist(pawn) + TimeAsPrisoner(pawn);
+
+		/// <summary>
+		/// Determine whether or not the given pawn is or has ever been a colonist.
+		/// </summary>
+		/// <param name="pawn">The pawn to check.</param>
+		/// <returns>Whether or not the given pawn is or has ever been a colonist.</returns>
+		public static bool WasColonist(Pawn pawn) =>
+			TimeAsColonist(pawn) > 0;
 
 #if V1_0 || V1_1 || V1_2 || V1_3
 		/// <summary>
@@ -394,7 +438,8 @@ namespace Lakuna.WellMet.Utility {
 		/// Determine whether or not a growth moment dialog is currently open.
 		/// </summary>
 		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
-		public static bool IsInGrowthMoment() => Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
+		public static bool IsInGrowthMoment() =>
+			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
 #endif
 	}
 }

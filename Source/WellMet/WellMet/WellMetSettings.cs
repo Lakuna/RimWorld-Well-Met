@@ -15,6 +15,7 @@ namespace Lakuna.WellMet {
 			this.backstoryDiscoveryDifficulty = 1;
 			this.skillsDiscoveryDifficulty = 1;
 			this.alwaysKnowStartingColonists = true;
+			this.rememberFormerColonists = true;
 			this.alwaysKnowGrowthMomentTraits = true;
 			this.hideFactionInformation = false;
 			this.neverHideControls = true;
@@ -61,6 +62,13 @@ namespace Lakuna.WellMet {
 		internal bool AlwaysKnowStartingColonists {
 			get => this.alwaysKnowStartingColonists;
 			set => this.alwaysKnowStartingColonists = value;
+		}
+
+		private bool rememberFormerColonists;
+
+		internal bool RememberFormerColonists {
+			get => this.rememberFormerColonists;
+			set => this.rememberFormerColonists = value;
 		}
 
 		private bool alwaysKnowMoreAboutColonistRelatives;
@@ -212,6 +220,7 @@ namespace Lakuna.WellMet {
 			Scribe_Values.Look(ref this.backstoryDiscoveryDifficulty, nameof(this.backstoryDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.skillsDiscoveryDifficulty, nameof(this.skillsDiscoveryDifficulty));
 			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
+			Scribe_Values.Look(ref this.rememberFormerColonists, nameof(this.rememberFormerColonists));
 			Scribe_Values.Look(ref this.alwaysKnowMoreAboutColonistRelatives, nameof(this.alwaysKnowMoreAboutColonistRelatives));
 			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
 			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));

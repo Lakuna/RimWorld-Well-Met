@@ -139,6 +139,12 @@ namespace Lakuna.WellMet {
 				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
 			}
 
+			if (!KnowledgeUtility.IsInformationSupersetOfAny(PawnType.Colonist) || KnowledgeUtility.IsAnyLearningEnabledForAny()) {
+				bool rememberFormerColonists = Settings.RememberFormerColonists;
+				listing.CheckboxLabeled("RememberFormerColonists".Translate().CapitalizeFirst(), ref rememberFormerColonists);
+				Settings.RememberFormerColonists = rememberFormerColonists;
+			}
+
 			if (!KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Basic) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Traits) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Backstory)) {
 				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
 				listing.CheckboxLabeled("AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives);

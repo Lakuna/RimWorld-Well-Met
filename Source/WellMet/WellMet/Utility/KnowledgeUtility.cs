@@ -38,7 +38,10 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <returns>Whether or not the given information category represents unchanging information.</returns>
-		public static bool IsStatic(InformationCategory category) => category == InformationCategory.Backstory || category == InformationCategory.Basic || category == InformationCategory.Traits;
+		public static bool IsStatic(InformationCategory category) =>
+			category == InformationCategory.Backstory
+			|| category == InformationCategory.Basic
+			|| category == InformationCategory.Traits;
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given thing (pawn).
@@ -47,7 +50,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="thing">The thing (pawn).</param>
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing (pawn).</param>
 		/// <returns>Whether the given information category is known for the given thing (pawn).</returns>
-		public static bool IsInformationKnownFor(InformationCategory category, Thing thing, ControlCategory controlCategory = ControlCategory.Default) => thing is Pawn pawn && IsInformationKnownFor(category, pawn, controlCategory);
+		public static bool IsInformationKnownFor(InformationCategory category, Thing thing, ControlCategory controlCategory = ControlCategory.Default) =>
+			thing is Pawn pawn
+			&& IsInformationKnownFor(category, pawn, controlCategory);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
@@ -61,7 +66,8 @@ namespace Lakuna.WellMet.Utility {
 			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
 				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), controlCategory, !pawn.Dead)
 				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
-			&& !(!WellMetMod.Settings.LegacyMode && WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
+			&& !(!WellMetMod.Settings.LegacyMode
+				&& WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -97,28 +103,36 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <returns>Whether the given information category is known for any pawn type.</returns>
-		public static bool IsInformationKnownForAny(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsInformationKnownFor(category, type));
+		public static bool IsInformationKnownForAny(InformationCategory category) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) =>
+				IsInformationKnownFor(category, type));
 
 		/// <summary>
 		/// Determine whether the given information category is known for all pawn types.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <returns>Whether the given information category is known for all pawn types.</returns>
-		public static bool IsInformationKnownForAll(InformationCategory category) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsInformationKnownFor(category, type));
+		public static bool IsInformationKnownForAll(InformationCategory category) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) =>
+				IsInformationKnownFor(category, type));
 
 		/// <summary>
 		/// Determine whether any information category is known for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
 		/// <returns>Whether any information category is known for the given pawn type.</returns>
-		public static bool IsAnyInformationKnownFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsInformationKnownFor(category, type));
+		public static bool IsAnyInformationKnownFor(PawnType type) =>
+			Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) =>
+				IsInformationKnownFor(category, type));
 
 		/// <summary>
 		/// Determine whether all information categories are known for the given pawn type.
 		/// </summary>
 		/// <param name="type">The pawn type.</param>
 		/// <returns>Whether all information categories are known for the given pawn type.</returns>
-		public static bool IsAllInformationKnownFor(PawnType type) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) => IsInformationKnownFor(category, type));
+		public static bool IsAllInformationKnownFor(PawnType type) =>
+			Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) =>
+				IsInformationKnownFor(category, type));
 
 		/// <summary>
 		/// Determine whether all information is known for all pawn types.
@@ -126,8 +140,26 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether all information is known for all pawn types.</returns>
 		public static bool IsAllInformationKnownForAll() =>
 			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) =>
-				Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) =>
-					IsInformationKnownFor(category, type)));
+				IsAllInformationKnownFor(type));
+
+		/// <summary>
+		/// Determine whether or not the information known about one pawn type contains all of the information known about another pawn type.
+		/// </summary>
+		/// <param name="superset">The pawn type to check as a superset of the other.</param>
+		/// <param name="subset">The pawn type to check as a subset of the other.</param>
+		/// <returns>Whether or not `superset` is a superset of `subset`.</returns>
+		public static bool IsInformationSupersetOf(PawnType superset, PawnType subset) =>
+			Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().All((category) =>
+				IsInformationKnownFor(category, superset) || !IsInformationKnownFor(category, subset));
+
+		/// <summary>
+		/// Determine whether or not the information known about one pawn type contains all of the information known about any other pawn type.
+		/// </summary>
+		/// <param name="superset">The pawn type to check as a superset of the other.</param>
+		/// <returns>Whether or not `superset` is a superset of every other pawn type.</returns>
+		public static bool IsInformationSupersetOfAny(PawnType superset) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((subset) =>
+				IsInformationSupersetOf(superset, subset));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given pawn and information category pair.
@@ -150,7 +182,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="faction">The faction.</param>
 		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether or not learning is enabled for the given faction and information category pair.</returns>
-		public static bool IsLearningEnabledFor(InformationCategory category, Faction faction, bool ignoreDifficulty = false) => IsInformationKnownFor(category, faction) && IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(faction), ignoreDifficulty);
+		public static bool IsLearningEnabledFor(InformationCategory category, Faction faction, bool ignoreDifficulty = false) =>
+			IsInformationKnownFor(category, faction)
+			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(faction), ignoreDifficulty);
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given pawn type and information category pair.
@@ -183,7 +217,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="category">The information category.</param>
 		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning the given information category is enabled for any pawn type.</returns>
-		public static bool IsLearningEnabledForAny(InformationCategory category, bool ignoreDifficulty = false) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => IsLearningEnabledFor(category, type, ignoreDifficulty));
+		public static bool IsLearningEnabledForAny(InformationCategory category, bool ignoreDifficulty = false) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) =>
+				IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning the given information category is enabled for all pawn types.
@@ -191,7 +227,9 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="category">The information category.</param>
 		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning the given information category is enabled for all pawn types.</returns>
-		public static bool IsLearningEnabledForAll(InformationCategory category, bool ignoreDifficulty = false) => Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) => IsLearningEnabledFor(category, type, ignoreDifficulty));
+		public static bool IsLearningEnabledForAll(InformationCategory category, bool ignoreDifficulty = false) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().All((type) =>
+				IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning any information category is enabled for the given pawn type.
@@ -199,7 +237,18 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="type">The pawn type.</param>
 		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning any information category is enabled for the given pawn type.</returns>
-		public static bool IsAnyLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) => IsLearningEnabledFor(category, type, ignoreDifficulty));
+		public static bool IsAnyLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) =>
+			Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>().Any((category) =>
+				IsLearningEnabledFor(category, type, ignoreDifficulty));
+
+		/// <summary>
+		/// Determine whether learning any information category is enabled for any pawn type.
+		/// </summary>
+		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
+		/// <returns>Whether learning the given information category is enabled for any pawn type.</returns>
+		public static bool IsAnyLearningEnabledForAny(bool ignoreDifficulty = false) =>
+			Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) =>
+				IsAnyLearningEnabledFor(type, ignoreDifficulty));
 
 		/// <summary>
 		/// Determine whether learning all applicable information categories is enabled for the given pawn type.
@@ -207,9 +256,12 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="type">The pawn type.</param>
 		/// <param name="ignoreDifficulty">Whether the set learning difficulty for the information category should be ignored.</param>
 		/// <returns>Whether learning all applicable information categories is enabled for the given pawn type.</returns>
-		public static bool IsAllLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) => Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>()
-			.Where((category) => category == InformationCategory.Backstory || category == InformationCategory.Skills || category == InformationCategory.Traits) // Filter to only information categories for which learning has been implemented.
-			.All((category) => IsLearningEnabledFor(category, type, ignoreDifficulty));
+		public static bool IsAllLearningEnabledFor(PawnType type, bool ignoreDifficulty = false) =>
+			Enum.GetValues(typeof(InformationCategory)).OfType<InformationCategory>()
+				.Where((category) => category == InformationCategory.Backstory
+					|| category == InformationCategory.Skills
+					|| category == InformationCategory.Traits) // Filter to only information categories for which learning has been implemented.
+				.All((category) => IsLearningEnabledFor(category, type, ignoreDifficulty));
 
 		/// <summary>
 		/// Get the trait definition of the wimp trait.
@@ -222,20 +274,17 @@ namespace Lakuna.WellMet.Utility {
 			TraitDefOf.Wimp;
 #endif
 
+		/// <summary>
+		/// Determine whether the given trait is known.
+		/// </summary>
+		/// <param name="trait">The trait.</param>
+		/// <returns>Whether the given trait is known.</returns>
+		public static bool IsTraitKnown(Trait trait) =>
+			trait == null
 #if V1_0 || V1_1
-		/// <summary>
-		/// Determine whether the given trait is known.
-		/// </summary>
-		/// <param name="trait">The trait.</param>
-		/// <returns>Whether the given trait is known.</returns>
-		public static bool IsTraitKnown(Trait trait) => trait == null || IsTraitKnown(null, trait.def);
+			|| IsTraitKnown(null, trait.def);
 #else
-		/// <summary>
-		/// Determine whether the given trait is known.
-		/// </summary>
-		/// <param name="trait">The trait.</param>
-		/// <returns>Whether the given trait is known.</returns>
-		public static bool IsTraitKnown(Trait trait) => trait == null || IsTraitKnown(trait.pawn, trait.def);
+			|| IsTraitKnown(trait.pawn, trait.def);
 #endif
 
 		/// <summary>
@@ -275,7 +324,9 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="thought">The thought.</param>
 		/// <returns>Whether the given thought is known.</returns>
-		public static bool IsThoughtKnown(Thought thought) => thought == null || IsThoughtKnown(thought.pawn, thought.def);
+		public static bool IsThoughtKnown(Thought thought) =>
+			thought == null
+			|| IsThoughtKnown(thought.pawn, thought.def);
 
 		/// <summary>
 		/// Determine whether the given thought type is known for the given pawn.
@@ -298,7 +349,9 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="skill">The skill.</param>
 		/// <returns>Whether the given skill is known.</returns>
-		public static bool IsSkillKnown(SkillRecord skill) => skill == null || IsSkillKnown(MiscellaneousUtility.PawnOfSkillRecord(skill), skill.def);
+		public static bool IsSkillKnown(SkillRecord skill) =>
+			skill == null
+			|| IsSkillKnown(MiscellaneousUtility.PawnOfSkillRecord(skill), skill.def);
 
 		/// <summary>
 		/// Determine whether the given skill type is known for the given pawn.
@@ -320,23 +373,19 @@ namespace Lakuna.WellMet.Utility {
 			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsLearningDifficulty; // One skill per order per five days per difficulty.
 		}
 
+		/// <summary>
+		/// Determine whether the given backstory is known for the given pawn.
+		/// </summary>
+		/// <param name="backstory">The backstory.</param>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given backstory is known for the given pawn.</returns>
+		public static bool IsBackstoryKnown(
 #if V1_0 || V1_1 || V1_2 || V1_3
-		/// <summary>
-		/// Determine whether the given backstory is known for the given pawn.
-		/// </summary>
-		/// <param name="backstory">The backstory.</param>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether the given backstory is known for the given pawn.</returns>
-		public static bool IsBackstoryKnown(Backstory backstory, Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
+			Backstory backstory,
 #else
-		/// <summary>
-		/// Determine whether the given backstory is known for the given pawn.
-		/// </summary>
-		/// <param name="backstory">The backstory.</param>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether the given backstory is known for the given pawn.</returns>
-		public static bool IsBackstoryKnown(BackstoryDef backstory, Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
+			BackstoryDef backstory,
 #endif
+			Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
 
 		/// <summary>
 		/// Determine whether the given backstory is known for the given pawn.

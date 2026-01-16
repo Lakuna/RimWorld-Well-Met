@@ -34,7 +34,7 @@
 		<RootNamespace>Lakuna.WellMet</RootNamespace>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<Title>Bounded Rationality</Title>
-		<Version>3.3.4.0</Version>
+		<Version>3.4.0.0</Version>
 		<WarningsAsErrors />
 	</PropertyGroup>
 	<Choose>

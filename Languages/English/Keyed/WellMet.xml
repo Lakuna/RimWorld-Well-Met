@@ -7,6 +7,7 @@
 	<BackstoryDiscoveryDifficulty>backstory learning difficulty ({0})</BackstoryDiscoveryDifficulty>
 	<SkillsDiscoveryDifficulty>skills learning difficulty ({0})</SkillsDiscoveryDifficulty>
 	<AlwaysKnowStartingColonists>always know more about starting colonists</AlwaysKnowStartingColonists>
+	<RememberFormerColonists>remember former colonists</RememberFormerColonists>
 	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
 	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
 	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
@@ -27,9 +28,9 @@
 	<WildAnimal>wild animal</WildAnimal>
 
 	<!-- Pawn type blurbs. -->
-	<ColonistBlurb>free, non-slave colonists</ColonistBlurb>
-	<ControlledBlurb>other player-controlled pawns</ControlledBlurb>
-	<PrisonerBlurb>colony prisoners</PrisonerBlurb>
+	<ColonistBlurb>colonists and tamed animals</ColonistBlurb>
+	<ControlledBlurb>slaves and temporary colonists</ControlledBlurb>
+	<PrisonerBlurb>prisoners</PrisonerBlurb>
 	<NeutralBlurb>other non-hostile pawns</NeutralBlurb>
 	<HostileBlurb>hostile pawns</HostileBlurb>
 	<WildAnimalBlurb>wild animals</WildAnimalBlurb>
@@ -44,13 +45,13 @@
 	<!-- Information category blurbs. -->
 	<GearBlurb>weapons, armor, and held items</GearBlurb>
 	<IdeoligionBlurb>ideology and role</IdeoligionBlurb>
-	<SocialBlurb>relationships</SocialBlurb>
-	<BasicBlurb>name, gender, age, and faction</BasicBlurb>
+	<SocialBlurb>relationships and interactions log</SocialBlurb>
+	<BasicBlurb>name, gender, age, faction, kind, and title</BasicBlurb>
 	<AdvancedBlurb>xenotype, log, royal title, favorite color, and more</AdvancedBlurb>
 	<BackstoryBlurb>childhood and adulthood</BackstoryBlurb>
 	<TraitsBlurb>traits</TraitsBlurb>
-	<AbilitiesBlurb>xenotype and species abilities, psycasts, and more</AbilitiesBlurb>
+	<AbilitiesBlurb>genetic abilities, psycasts, and mechanitor abilities</AbilitiesBlurb>
 	<SkillsBlurb>incapabilities, skills, and passions</SkillsBlurb>
-	<NeedsBlurb>needs, addictions, and mood</NeedsBlurb>
-	<HealthBlurb>health and injuries</HealthBlurb>
+	<NeedsBlurb>mental health and natural needs</NeedsBlurb>
+	<HealthBlurb>health, injuries, and addictions</HealthBlurb>
 </LanguageData>
