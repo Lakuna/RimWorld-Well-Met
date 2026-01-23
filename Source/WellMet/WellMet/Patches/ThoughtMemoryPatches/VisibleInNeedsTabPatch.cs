@@ -28,7 +28,7 @@ namespace Lakuna.WellMet.Patches.ThoughtMemoryPatches {
 #endif
 
 			if (__instance is Thought_MemoryRoyalTitle) {
-				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, __instance.pawn);
+				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, __instance.pawn);
 			}
 		}
 	}

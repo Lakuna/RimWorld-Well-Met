@@ -9,7 +9,7 @@ namespace Lakuna.WellMet.Patches.SlaveRebellionUtilityPatches {
 	internal static class GetAnySlaveRebellionExplanationPatch {
 		[HarmonyPostfix]
 		private static void Postfix(Pawn pawn, ref string __result) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn)) {
 				return;
 			}
 

@@ -11,6 +11,6 @@ namespace Lakuna.WellMet.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawAreaAllowed")]
 	internal static class DrawAreaAllowedPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, ControlCategory.Control); // Can be clicked to set allowed area.
+		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control); // Can be clicked to set allowed area.
 	}
 }

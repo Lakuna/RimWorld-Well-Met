@@ -41,17 +41,20 @@
 	<Ideoligion>ideoligion</Ideoligion>
 	<Social>social</Social>
 	<Needs>needs</Needs>
+	<Personal>personal</Personal>
+	<Meta>meta</Meta>
 
 	<!-- Information category blurbs. -->
 	<GearBlurb>weapons, armor, and held items</GearBlurb>
 	<IdeoligionBlurb>ideology and role</IdeoligionBlurb>
 	<SocialBlurb>relationships and interactions log</SocialBlurb>
-	<BasicBlurb>name, gender, age, faction, kind, and title</BasicBlurb>
-	<AdvancedBlurb>xenotype, log, royal title, favorite color, and more</AdvancedBlurb>
+	<BasicBlurb>name, gender, age, faction, and kind</BasicBlurb>
+	<PersonalBlurb>genes, favorite color, and title</PersonalBlurb>
 	<BackstoryBlurb>childhood and adulthood</BackstoryBlurb>
 	<TraitsBlurb>traits</TraitsBlurb>
 	<AbilitiesBlurb>genetic abilities, psycasts, and mechanitor abilities</AbilitiesBlurb>
 	<SkillsBlurb>incapabilities, skills, and passions</SkillsBlurb>
 	<NeedsBlurb>mental health and natural needs</NeedsBlurb>
 	<HealthBlurb>health, injuries, and addictions</HealthBlurb>
+	<MetaBlurb>combat log and gamified information</MetaBlurb>
 </LanguageData>

@@ -25,7 +25,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
+		private static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
@@ -62,7 +63,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				if (instruction.LoadsField(SourceGeneField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
 				}

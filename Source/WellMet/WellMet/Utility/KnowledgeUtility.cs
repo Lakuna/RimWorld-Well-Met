@@ -337,7 +337,7 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsThoughtKnown(Pawn pawn, ThoughtDef thought) =>
 			IsInformationKnownFor(InformationCategory.Needs, pawn)
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-				&& !(thought?.requiredGenes?.Count > 0 && !IsInformationKnownFor(InformationCategory.Advanced, pawn))
+				&& !(thought?.requiredGenes?.Count > 0 && !IsInformationKnownFor(InformationCategory.Personal, pawn))
 #endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& !(thought?.requiredHediffs?.Count > 0 && !IsInformationKnownFor(InformationCategory.Health, pawn))

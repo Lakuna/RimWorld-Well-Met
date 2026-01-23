@@ -55,7 +55,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 				if (instruction.LoadsField(SourceGeneField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -63,7 +63,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				}
 
 				if (instruction.Calls(SuppressedMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Advanced, getPawnInstructions)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Personal, getPawnInstructions)) {
 						yield return i;
 					}
 				}

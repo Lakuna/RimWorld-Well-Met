@@ -26,7 +26,7 @@ namespace Lakuna.WellMet.Patches.VerbMeleeAttackPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				// This text mote is thrown only when the attack is dodged.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Advanced, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
 					}
 

@@ -11,7 +11,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 	internal static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
 		private static void Postfix(Thought __instance, ref bool __result) {
-			bool advanced = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, __instance.pawn);
+			bool personal = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, __instance.pawn);
 			bool health = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.pawn);
 			bool social = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, __instance.pawn);
 #if !(V1_0 || V1_1 || V1_2)
@@ -25,7 +25,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 				&& (!(__instance.def.workerClass?.IsSubclassOf(typeof(ThoughtWorker_Precept_Social)) ?? false) || ideoligion && social)
 #endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || advanced)
+				&& ((__instance.def.requiredGenes?.Count ?? 0) == 0 || personal)
 #endif
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				&& ((__instance.def.requiredHediffs?.Count ?? 0) == 0 || health)
@@ -35,7 +35,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 
 #if !V1_0
 			if (__instance is Thought_DecreeUnmet) {
-				__result = __result && advanced;
+				__result = __result && personal;
 				return;
 			}
 #endif
@@ -63,7 +63,7 @@ namespace Lakuna.WellMet.Patches.ThoughtPatches {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			if (__instance is Thought_Situational_KillThirst || __instance is Thought_Situational_GeneticChemicalDependency) {
-				__result = __result && advanced;
+				__result = __result && personal;
 				return;
 			}
 #endif

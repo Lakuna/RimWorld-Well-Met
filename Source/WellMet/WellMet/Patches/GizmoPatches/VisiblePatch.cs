@@ -71,14 +71,14 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 			if (__instance is GeneGizmo_Resource geneGizmoResource) {
 				__result = __result
 					&& (!(ResourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneResource.pawn, ControlCategory.Control));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, geneResource.pawn, ControlCategory.Control));
 				return;
 			}
 
 			if (__instance is GeneGizmo_DeathrestCapacity geneGizmoDeathrestCapacity) {
 				__result = __result
 					&& (!(DeathrestGeneField.GetValue(geneGizmoDeathrestCapacity) is Gene_Deathrest geneDeathrest)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, geneDeathrest.pawn, ControlCategory.Control));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, geneDeathrest.pawn, ControlCategory.Control));
 			}
 #endif
 		}

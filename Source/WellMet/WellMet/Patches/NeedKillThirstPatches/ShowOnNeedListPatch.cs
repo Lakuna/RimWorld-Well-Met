@@ -9,7 +9,7 @@ namespace Lakuna.WellMet.Patches.NeedKillThirstPatches {
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
 		private static void Postfix(Pawn ___pawn, ref bool __result) => __result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, ___pawn);
+			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, ___pawn);
 	}
 }
 #endif

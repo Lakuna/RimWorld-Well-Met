@@ -19,7 +19,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnLogPatches {
 				return;
 			}
 
-			___showCombat = ___showCombat && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn);
+			___showCombat = ___showCombat && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 			___showSocial = ___showSocial && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
 		}
 	}

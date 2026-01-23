@@ -26,7 +26,7 @@ namespace Lakuna.WellMet.Patches.StunHandlerPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				// This text mote is thrown only when the damaged thing has adapted to being stunned.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfThingNotKnown(instruction, InformationCategory.Advanced, getThingInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfThingNotKnown(instruction, InformationCategory.Meta, getThingInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
 					}
 

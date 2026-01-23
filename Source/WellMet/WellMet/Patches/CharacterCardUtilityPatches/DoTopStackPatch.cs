@@ -29,7 +29,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 			creationMode = creationMode && basic;
 			return basic
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn)
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 		}
 
@@ -41,9 +41,17 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 				// `story` is used only for favorite color in this method.
+				if (instruction.LoadsField(GenesField) || instruction.LoadsField(RoyaltyField) || instruction.LoadsField(StoryField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
 				// `guest` is used only for unwaveringly loyal status in this method.
-				if (instruction.LoadsField(GenesField) || instruction.LoadsField(RoyaltyField) || instruction.LoadsField(StoryField) || instruction.LoadsField(GuestField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+				if (instruction.LoadsField(GuestField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 

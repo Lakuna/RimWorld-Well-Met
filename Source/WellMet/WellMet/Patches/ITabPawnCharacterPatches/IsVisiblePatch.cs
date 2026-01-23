@@ -17,7 +17,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnCharacterPatches {
 		private static void Postfix(ITab_Pawn_Character __instance, ref bool __result) => __result = __result
 			&& (!(PawnToShowInfoAboutMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 #if !V1_0
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, ControlCategory.Control) // Contains "renounce title" control.
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn, ControlCategory.Control) // Contains "renounce title" control.
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
 #endif
 #if !(V1_0 || V1_1 || V1_2)

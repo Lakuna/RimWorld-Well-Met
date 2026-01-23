@@ -117,7 +117,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 			return basic
 #if !V1_0
-				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, ControlCategory.Control) // "Renounce title" button.
+				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn, ControlCategory.Control) // "Renounce title" button.
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawn)
 #endif
 #if !(V1_0 || V1_1 || V1_2)
@@ -231,7 +231,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #if !V1_0
 				if (PatchUtility.LoadsField(instruction, RoyaltyField)) {
 					// Royalty is used only for the "renounce title" button.
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;
 					}
 

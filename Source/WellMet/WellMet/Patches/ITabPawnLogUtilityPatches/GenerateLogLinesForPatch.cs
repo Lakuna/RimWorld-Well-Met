@@ -12,7 +12,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnLogUtilityPatches {
 	internal static class GenerateLogLinesForPatch {
 		[HarmonyPrefix]
 		private static void Prefix(Pawn pawn, ref bool showCombat, ref bool showSocial) {
-			showCombat = showCombat && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn);
+			showCombat = showCombat && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 			showSocial = showSocial && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
 		}
 	}

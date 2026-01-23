@@ -24,9 +24,9 @@ namespace Lakuna.WellMet.Patches.HediffHeartAttackPatches {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
-				// This text mote contains gamified information about the success chance of the treatment, so it is categorized as "advanced" rather than "health."
+				// This text mote contains gamified information about the success chance of the treatment, so it is categorized as "meta" rather than "health."
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Advanced, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
 					}
 

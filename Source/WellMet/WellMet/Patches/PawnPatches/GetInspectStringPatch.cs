@@ -87,7 +87,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if V1_0
 				if (PatchUtility.Calls(instruction, InspectStringPartsFromCompsMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "")) {
 						yield return i;
 					}
 
@@ -95,7 +95,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				}
 #else
 				if (instruction.Calls(GetInspectStringMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -105,7 +105,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 				if (PatchUtility.Calls(instruction, GetLordMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -154,7 +154,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				}
 
 				if (PatchUtility.LoadsField(instruction, StancesField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -171,7 +171,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if V1_0 || V1_1 || V1_2 || V1_3
 				if (PatchUtility.LoadsField(instruction, CurJobField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -180,7 +180,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #else
 
 				if (PatchUtility.LoadsField(instruction, JobsField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 
@@ -217,8 +217,17 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 #if !V1_0
-				if (PatchUtility.LoadsField(instruction, RoyaltyField) || PatchUtility.LoadsField(instruction, GuestField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Advanced, getPawnInstructions, generator)) {
+				if (PatchUtility.LoadsField(instruction, RoyaltyField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				// `guest` is used here only for unwaveringly loyal.
+				if (PatchUtility.LoadsField(instruction, GuestField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
 

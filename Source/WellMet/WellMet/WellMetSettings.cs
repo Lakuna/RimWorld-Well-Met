@@ -162,7 +162,6 @@ namespace Lakuna.WellMet {
 			}
 #endif
 
-
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
@@ -173,7 +172,7 @@ namespace Lakuna.WellMet {
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
 			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Advanced] = true;
+			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Personal] = true;
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Needs] = true;

@@ -11,6 +11,6 @@ namespace Lakuna.WellMet.Patches.WidgetsPatches {
 	[HarmonyPatch(typeof(Widgets), nameof(Widgets.InfoCardButton), new Type[] { typeof(float), typeof(float), typeof(Thing) })]
 	internal static class InfoCardButtonThingPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Thing thing) => !(thing is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn, ControlCategory.Control);
+		private static bool Prefix(Thing thing) => !(thing is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn, ControlCategory.Control);
 	}
 }

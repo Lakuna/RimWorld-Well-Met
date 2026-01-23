@@ -14,6 +14,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnGearPatches {
 		private static readonly MethodInfo SelPawnForGearMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Gear), "SelPawnForGear");
 
 		[HarmonyPrefix]
-		private static bool Prefix(ITab_Pawn_Gear __instance) => !(SelPawnForGearMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn);
+		private static bool Prefix(ITab_Pawn_Gear __instance) =>
+			!(SelPawnForGearMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 	}
 }

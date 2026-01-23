@@ -27,8 +27,8 @@ namespace Lakuna.WellMet.Patches.InspectTabBasePatches {
 			if (__instance is ITab_Pawn_Log logTab) {
 				__result = __result
 					&& (!(SelPawnForCombatInfoMethod.Invoke(logTab, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn)
-					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn));
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn) // Social log
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn)); // Combat log
 			}
 		}
 	}

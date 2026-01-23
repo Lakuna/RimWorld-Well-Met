@@ -8,7 +8,8 @@ namespace Lakuna.WellMet.Patches.PawnUtilityPatches {
 	[HarmonyPatch(typeof(PawnUtility), nameof(PawnUtility.ShouldDisplayJobReport))]
 	internal static class ShouldDisplayJobReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(Pawn pawn, ref bool __result) => __result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Advanced, pawn);
+		private static void Postfix(Pawn pawn, ref bool __result) =>
+			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 	}
 }
 #endif
