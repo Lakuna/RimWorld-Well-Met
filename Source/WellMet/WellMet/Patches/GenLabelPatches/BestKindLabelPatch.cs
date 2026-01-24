@@ -25,7 +25,7 @@ namespace Lakuna.WellMet.Patches.GenLabelPatches {
 			}
 
 			// If this isn't done, NPC humans with basic information not known will show their kind (i.e. "mercenary gunner").
-			__result = "Unknown".Translate();
+			__result = "BR.Unknown".Translate();
 		}
 	}
 }

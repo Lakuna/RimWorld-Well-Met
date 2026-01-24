@@ -16,7 +16,7 @@ namespace Lakuna.WellMet.Patches.MentalStatePatches {
 				return;
 			}
 
-			__result = "Unknown".Translate();
+			__result = "BR.Unknown".Translate();
 		}
 	}
 }

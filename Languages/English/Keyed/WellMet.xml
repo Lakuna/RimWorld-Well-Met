@@ -1,60 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LanguageData>
-	<!-- UI -->
-	<BoundedRationality>Bounded Rationality</BoundedRationality>
-	<TraitDiscoveryDifficulty>traits learning difficulty ({0})</TraitDiscoveryDifficulty>
-	<BackstoryDiscoveryDifficulty>backstory learning difficulty ({0})</BackstoryDiscoveryDifficulty>
-	<SkillsDiscoveryDifficulty>skills learning difficulty ({0})</SkillsDiscoveryDifficulty>
-	<AlwaysKnowStartingColonists>always know more about starting colonists</AlwaysKnowStartingColonists>
-	<RememberFormerColonists>remember former colonists</RememberFormerColonists>
-	<AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</AlwaysKnowMoreAboutColonistRelatives>
-	<AlwaysKnowGrowthMomentTraits>always know growth moment traits</AlwaysKnowGrowthMomentTraits>
-	<WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</WarningDisabledBasicForStartingColonists>
-	<HideFactionInformation>apply information hiding to factions</HideFactionInformation>
-	<NeverHideControls>always show controls</NeverHideControls>
-	<NeverHideLetters>always show letters</NeverHideLetters>
-	<NeverHideMessages>always show messages</NeverHideMessages>
-	<NeverHideTextMotes>always show text motes</NeverHideTextMotes>
-	<HideAncientCorpses>always know less about ancient corpses</HideAncientCorpses>
-	<LegacyMode>legacy mode</LegacyMode>
-	<Unknown>unknown</Unknown>
-	<LearningEnabled>learning enabled</LearningEnabled>
-	<EnableUniqueTraitUnlockConditions>enable unique trait unlock conditions</EnableUniqueTraitUnlockConditions>
+	<!-- User interface. -->
+	<BR.BoundedRationality>Bounded Rationality</BR.BoundedRationality>
+	<BR.LearningEnabled>learning enabled</BR.LearningEnabled>
+	<BR.LearningEnabled.Desc>knowledge will be gained over time rather than right away</BR.LearningEnabled.Desc>
+	<BR.WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</BR.WarningDisabledBasicForStartingColonists>
+	<BR.Unknown>unknown</BR.Unknown>
+
+	<!-- Settings. -->
+	<BR.TraitDiscoveryDifficulty>trait discovery difficulty</BR.TraitDiscoveryDifficulty>
+	<BR.BackstoryDiscoveryDifficulty>backstory discovery difficulty</BR.BackstoryDiscoveryDifficulty>
+	<BR.SkillsDiscoveryDifficulty>skills discovery difficulty</BR.SkillsDiscoveryDifficulty>
+	<BR.AlwaysKnowStartingColonists>always know starting colonists</BR.AlwaysKnowStartingColonists>
+	<BR.RememberFormerColonists>always remember former colonists</BR.RememberFormerColonists>
+	<BR.AlwaysKnowGrowthMomentTraits>always know growth moment traits</BR.AlwaysKnowGrowthMomentTraits>
+	<BR.HideFactionInformation>apply information hiding to factions</BR.HideFactionInformation>
+	<BR.NeverHideControls>exempt controls from information hiding</BR.NeverHideControls>
+	<BR.NeverHideTextMotes>exempt text motes from information hiding</BR.NeverHideTextMotes>
+	<BR.NeverHideMessages>exempt messages from information hiding</BR.NeverHideMessages>
+	<BR.NeverHideLetters>exempt letters from information hiding</BR.NeverHideLetters>
+	<BR.HideAncientCorpses>always obfuscate ancient corpses</BR.HideAncientCorpses>
+	<BR.LegacyMode>legacy mode</BR.LegacyMode>
+	<BR.AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</BR.AlwaysKnowMoreAboutColonistRelatives>
+	<BR.EnableUniqueTraitUnlockConditions>enable unique trait unlock conditions</BR.EnableUniqueTraitUnlockConditions>
+
+	<!-- Setting descriptions. -->
+	<BR.TraitDiscoveryDifficulty.Desc>modify the time it takes to learn a pawn's traits</BR.TraitDiscoveryDifficulty.Desc>
+	<BR.BackstoryDiscoveryDifficulty.Desc>modify the time it takes to learn a pawn's backstory</BR.BackstoryDiscoveryDifficulty.Desc>
+	<BR.SkillsDiscoveryDifficulty.Desc>modify the time it takes to learn a pawn's skills</BR.SkillsDiscoveryDifficulty.Desc>
+	<BR.AlwaysKnowStartingColonists.Desc>always show all information when choosing starting colonists</BR.AlwaysKnowStartingColonists.Desc>
+	<BR.RememberFormerColonists.Desc>always treat former colonists as colonists for knowledge purposes</BR.RememberFormerColonists.Desc>
+	<BR.AlwaysKnowGrowthMomentTraits.Desc>always show the names of available traits during growth moments</BR.AlwaysKnowGrowthMomentTraits.Desc>
+	<BR.HideFactionInformation.Desc>hide unknown factions from the factions list</BR.HideFactionInformation.Desc>
+	<BR.NeverHideControls.Desc>never hide controls on controllable pawns, regardless of knowledge</BR.NeverHideControls.Desc>
+	<BR.NeverHideTextMotes.Desc>never hide in-world text pop-ups, regardless of knowledge</BR.NeverHideTextMotes.Desc>
+	<BR.NeverHideMessages.Desc>never hide top-left text pop-ups, regardless of knowledge</BR.NeverHideMessages.Desc>
+	<BR.NeverHideLetters.Desc>never hide letters, regardless of knowledge</BR.NeverHideLetters.Desc>
+	<BR.HideAncientCorpses.Desc>always hide all information about the corpses that start on the map</BR.HideAncientCorpses.Desc>
+	<BR.LegacyMode.Desc>revert to version 2 functionality</BR.LegacyMode.Desc>
+	<BR.AlwaysKnowMoreAboutColonistRelatives.Desc>automatically know additional information about pawns that are related to a colonist</BR.AlwaysKnowMoreAboutColonistRelatives.Desc>
+	<BR.EnableUniqueTraitUnlockConditions.Desc>enable thematically-fitting unlock conditions for traits that support them</BR.EnableUniqueTraitUnlockConditions.Desc>
 
 	<!-- Pawn types. -->
-	<Colonist>colonist</Colonist>
-	<Controlled>controlled</Controlled>
-	<WildAnimal>wild animal</WildAnimal>
+	<BR.Colonist>colonist</BR.Colonist>
+	<BR.Controlled>controlled</BR.Controlled>
+	<BR.Prisoner>prisoner</BR.Prisoner>
+	<BR.Neutral>neutral</BR.Neutral>
+	<BR.Hostile>hostile</BR.Hostile>
+	<BR.WildAnimal>wild animal</BR.WildAnimal>
 
-	<!-- Pawn type blurbs. -->
-	<ColonistBlurb>colonists and tamed animals</ColonistBlurb>
-	<ControlledBlurb>slaves and temporary colonists</ControlledBlurb>
-	<PrisonerBlurb>prisoners</PrisonerBlurb>
-	<NeutralBlurb>other non-hostile pawns</NeutralBlurb>
-	<HostileBlurb>hostile pawns</HostileBlurb>
-	<WildAnimalBlurb>wild animals</WildAnimalBlurb>
+	<!-- Pawn type descriptions. -->
+	<BR.Colonist.Desc>colonists and tamed animals</BR.Colonist.Desc>
+	<BR.Controlled.Desc>slaves and temporary colonists</BR.Controlled.Desc>
+	<BR.Prisoner.Desc>prisoners</BR.Prisoner.Desc>
+	<BR.Neutral.Desc>other non-hostile pawns</BR.Neutral.Desc>
+	<BR.Hostile.Desc>hostile pawns</BR.Hostile.Desc>
+	<BR.WildAnimal.Desc>wild animals</BR.WildAnimal.Desc>
 
 	<!-- Information categories. -->
-	<Basic>basic</Basic>
-	<Gear>gear</Gear>
-	<Ideoligion>ideoligion</Ideoligion>
-	<Social>social</Social>
-	<Needs>needs</Needs>
-	<Personal>personal</Personal>
-	<Meta>meta</Meta>
+	<BR.Basic>basic</BR.Basic>
+	<BR.Health>health</BR.Health>
+	<BR.Needs>needs</BR.Needs>
+	<BR.Gear>gear</BR.Gear>
+	<BR.Skills>skills</BR.Skills>
+	<BR.Traits>traits</BR.Traits>
+	<BR.Abilities>abilities</BR.Abilities>
+	<BR.Backstory>backstory</BR.Backstory>
+	<BR.Social>social</BR.Social>
+	<BR.Ideoligion>ideoligion</BR.Ideoligion>
+	<BR.Personal>personal</BR.Personal>
+	<BR.Meta>meta</BR.Meta>
 
-	<!-- Information category blurbs. -->
-	<GearBlurb>weapons, armor, and held items</GearBlurb>
-	<IdeoligionBlurb>ideology and role</IdeoligionBlurb>
-	<SocialBlurb>relationships and interactions log</SocialBlurb>
-	<BasicBlurb>name, gender, age, faction, and kind</BasicBlurb>
-	<PersonalBlurb>genes, favorite color, and title</PersonalBlurb>
-	<BackstoryBlurb>childhood and adulthood</BackstoryBlurb>
-	<TraitsBlurb>traits</TraitsBlurb>
-	<AbilitiesBlurb>genetic abilities, psycasts, and mechanitor abilities</AbilitiesBlurb>
-	<SkillsBlurb>incapabilities, skills, and passions</SkillsBlurb>
-	<NeedsBlurb>mental health and natural needs</NeedsBlurb>
-	<HealthBlurb>health, injuries, and addictions</HealthBlurb>
-	<MetaBlurb>combat log and gamified information</MetaBlurb>
+	<!-- Information category descriptions. -->
+	<BR.Basic.Desc>name, gender, age, faction, and kind</BR.Basic.Desc>
+	<BR.Health.Desc>health, injuries, and addictions</BR.Health.Desc>
+	<BR.Needs.Desc>mental health and natural needs</BR.Needs.Desc>
+	<BR.Gear.Desc>weapons, armor, and held items</BR.Gear.Desc>
+	<BR.Skills.Desc>incapabilities, skills, and passions</BR.Skills.Desc>
+	<BR.Traits.Desc>traits</BR.Traits.Desc>
+	<BR.Abilities.Desc>genetic abilities, psycasts, and mechanitor abilities</BR.Abilities.Desc>
+	<BR.Backstory.Desc>childhood and adulthood</BR.Backstory.Desc>
+	<BR.Social.Desc>relationships and interactions log</BR.Social.Desc>
+	<BR.Ideoligion.Desc>ideology and role</BR.Ideoligion.Desc>
+	<BR.Personal.Desc>genes, favorite color, and title</BR.Personal.Desc>
+	<BR.Meta.Desc>combat log and gamified information</BR.Meta.Desc>
 </LanguageData>

@@ -15,7 +15,7 @@ namespace Lakuna.WellMet.Patches.PawnAgeTrackerPatches {
 				return;
 			}
 
-			__result = MiscellaneousUtility.EndWithPeriod("Unknown".Translate().CapitalizeFirst());
+			__result = MiscellaneousUtility.EndWithPeriod("BR.Unknown".Translate().CapitalizeFirst());
 		}
 	}
 }

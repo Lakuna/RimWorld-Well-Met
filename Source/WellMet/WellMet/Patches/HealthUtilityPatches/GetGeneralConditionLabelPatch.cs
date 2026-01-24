@@ -15,7 +15,7 @@ namespace Lakuna.WellMet.Patches.HealthUtilityPatches {
 				return;
 			}
 
-			__result = "Unknown".Translate().CapitalizeFirst();
+			__result = "BR.Unknown".Translate().CapitalizeFirst();
 		}
 	}
 }

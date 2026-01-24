@@ -101,7 +101,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>The getter method.</returns>
 		internal static MethodInfo PropertyGetter(Type type, string name) =>
 #if V1_0
-			AccessTools.Method(type, "get_" + name);
+			AccessTools.Method(type, $"get_{name}");
 #else
 			AccessTools.PropertyGetter(type, name);
 #endif
@@ -378,7 +378,7 @@ namespace Lakuna.WellMet.Utility {
 			ControlCategory controlCategory = ControlCategory.Default
 		) {
 			if (!(callInstruction.operand is MethodInfo methodInfo) || !Calls(callInstruction, methodInfo)) {
-				throw new ArgumentException("Attempted to skip a non-call instruction with `" + nameof(SkipIfNotKnown) + "`.");
+				throw new ArgumentException($"Attempted to skip a non-call instruction with `{nameof(SkipIfNotKnown)}`.");
 			}
 
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
@@ -631,7 +631,7 @@ namespace Lakuna.WellMet.Utility {
 					? (byAddress
 						? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
 						: new CodeInstruction(OpCodes.Ldsfld, fieldInfo))
-					: throw new ArgumentException("A non-static field was passed to " + nameof(LoadValue) + ".")
+					: throw new ArgumentException($"A non-static field was passed to `{nameof(LoadValue)}`.")
 				: value is ConstructorInfo constructorInfo ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
 				: value is long longValue ? new CodeInstruction(OpCodes.Ldc_I8, longValue)
 				: value is byte byteValue ? new CodeInstruction(OpCodes.Ldc_I4_S, byteValue)

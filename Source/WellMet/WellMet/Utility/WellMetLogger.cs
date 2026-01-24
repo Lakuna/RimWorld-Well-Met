@@ -27,11 +27,11 @@ namespace Lakuna.WellMet.Utility {
 
 			Exception innerException = e;
 			while (innerException != null) {
-				output += "\n> " + innerException.Message;
+				output += $"\n> {innerException.Message}";
 				innerException = innerException.InnerException;
 			}
 
-			output += "\n\nStack trace:\n" + e.StackTrace + "\n\n";
+			output += $"\n\nStack trace:\n{e.StackTrace}\n\n";
 
 			if (category == WellMetLoggerCategory.Unrestricted) {
 				Log.Error(output);

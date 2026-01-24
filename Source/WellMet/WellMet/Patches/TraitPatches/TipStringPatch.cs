@@ -86,7 +86,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				return;
 			}
 
-			__result = MiscellaneousUtility.EndWithPeriod("Unknown".Translate().CapitalizeFirst());
+			__result = MiscellaneousUtility.EndWithPeriod("BR.Unknown".Translate().CapitalizeFirst());
 		}
 	}
 }

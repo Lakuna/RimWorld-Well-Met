@@ -174,7 +174,7 @@ namespace Lakuna.WellMet.Utility {
 		public static void LookBoolArray(ref bool[] arr, int elements, string label) {
 			if (Scribe.mode == LoadSaveMode.Saving && arr != null) {
 				if (arr.Length != elements) {
-					Log.ErrorOnce("Bool array length mismatch for " + label, 74135877);
+					Log.ErrorOnce($"Bool array length mismatch for {label}", 74135877);
 				}
 
 				elements = arr.Length;

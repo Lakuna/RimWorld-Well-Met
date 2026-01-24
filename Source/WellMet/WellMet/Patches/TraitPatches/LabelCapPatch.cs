@@ -13,7 +13,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				return;
 			}
 
-			__result = "Unknown".Translate().CapitalizeFirst();
+			__result = "BR.Unknown".Translate().CapitalizeFirst();
 		}
 	}
 }
