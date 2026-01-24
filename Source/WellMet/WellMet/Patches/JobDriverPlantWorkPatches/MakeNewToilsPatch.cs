@@ -20,12 +20,12 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
-		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		private static readonly MethodInfo InnerActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler));
+
+		private static IEnumerable<CodeInstruction> InnerActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
-				// This text mote is thrown only when plant harvesting fails.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
 					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
@@ -36,6 +36,33 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 				}
 
 				yield return instruction;
+			}
+		}
+
+		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler));
+
+		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions) {
+			foreach (CodeInstruction instruction in instructions) {
+				yield return instruction;
+
+				// Apply a transpiler to functions referenced via pointer.
+				if (instruction.opcode == OpCodes.Ldftn && instruction.operand is MethodInfo methodInfo && methodInfo.DeclaringType.DeclaringType == typeof(JobDriver_PlantWork)) {
+					_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: InnerActionDelegateTranspilerMethod);
+				}
+			}
+		}
+
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			foreach (CodeInstruction instruction in instructions) {
+				yield return instruction;
+
+				// Apply a transpiler to action delegates.
+				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(JobDriver_PlantWork)) {
+					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
+						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
+					}
+				}
 			}
 		}
 	}
