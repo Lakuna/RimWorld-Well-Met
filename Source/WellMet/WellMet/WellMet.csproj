@@ -3,7 +3,7 @@
 		<AnalysisLevel>latest-all</AnalysisLevel>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<AssemblyName>WellMet</AssemblyName>
+		<AssemblyName>BoundedRationality</AssemblyName>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<Authors>Travis Martin</Authors>
 		<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
@@ -101,7 +101,7 @@
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.6|AnyCPU'">
 			<ItemGroup>
 				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4633" />
-				<PackageReference Include="Lib.Harmony" Version="2.3.6" />
+				<PackageReference Include="Lib.Harmony" Version="2.4.1" />
 			</ItemGroup>
 			<PropertyGroup>
 				<TargetFramework>net472</TargetFramework>
