@@ -22,6 +22,7 @@ namespace Lakuna.WellMet {
 			this.neverHideTextMotes = false;
 			this.neverHideMessages = false;
 			this.neverHideLetters = false;
+			this.neverHideAlerts = false;
 			this.hideAncientCorpses = true;
 			this.legacyMode = false;
 			this.alwaysKnowMoreAboutColonistRelatives = true;
@@ -118,6 +119,13 @@ namespace Lakuna.WellMet {
 		internal bool NeverHideLetters {
 			get => this.neverHideLetters;
 			set => this.neverHideLetters = value;
+		}
+
+		private bool neverHideAlerts;
+
+		internal bool NeverHideAlerts {
+			get => this.neverHideAlerts;
+			set => this.neverHideAlerts = value;
 		}
 
 		private bool hideAncientCorpses;
@@ -227,6 +235,7 @@ namespace Lakuna.WellMet {
 			Scribe_Values.Look(ref this.neverHideTextMotes, nameof(this.neverHideTextMotes));
 			Scribe_Values.Look(ref this.neverHideMessages, nameof(this.neverHideMessages));
 			Scribe_Values.Look(ref this.neverHideLetters, nameof(this.neverHideLetters));
+			Scribe_Values.Look(ref this.neverHideAlerts, nameof(this.neverHideAlerts));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
 			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
 			Scribe_Values.Look(ref this.enableUniqueTraitUnlockConditions, nameof(this.enableUniqueTraitUnlockConditions));

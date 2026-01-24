@@ -179,6 +179,10 @@ namespace Lakuna.WellMet {
 				listing.CheckboxLabeled("BR.NeverHideTextMotes".Translate().CapitalizeFirst(), ref neverHideTextMotes, "BR.NeverHideTextMotes.Desc".Translate().CapitalizeFirst());
 				Settings.NeverHideTextMotes = neverHideTextMotes;
 
+				bool neverHideAlerts = Settings.NeverHideAlerts;
+				listing.CheckboxLabeled("BR.NeverHideAlerts".Translate().CapitalizeFirst(), ref neverHideLetters, "BR.NeverHideAlerts.Desc".Translate().CapitalizeFirst());
+				Settings.NeverHideAlerts = neverHideAlerts;
+
 				bool hideFactionInformation = Settings.HideFactionInformation;
 				listing.CheckboxLabeled("BR.HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation, "BR.HideFactionInformation.Desc".Translate().CapitalizeFirst());
 				Settings.HideFactionInformation = hideFactionInformation;

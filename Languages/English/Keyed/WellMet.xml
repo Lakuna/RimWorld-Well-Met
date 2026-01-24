@@ -20,6 +20,7 @@
 	<BR.NeverHideTextMotes>exempt text motes from information hiding</BR.NeverHideTextMotes>
 	<BR.NeverHideMessages>exempt messages from information hiding</BR.NeverHideMessages>
 	<BR.NeverHideLetters>exempt letters from information hiding</BR.NeverHideLetters>
+	<BR.NeverHideAlerts>exempt alerts from information hiding</BR.NeverHideAlerts>
 	<BR.HideAncientCorpses>always obfuscate ancient corpses</BR.HideAncientCorpses>
 	<BR.LegacyMode>legacy mode</BR.LegacyMode>
 	<BR.AlwaysKnowMoreAboutColonistRelatives>always know more about colonist relatives</BR.AlwaysKnowMoreAboutColonistRelatives>
@@ -37,6 +38,7 @@
 	<BR.NeverHideTextMotes.Desc>never hide in-world text pop-ups, regardless of knowledge</BR.NeverHideTextMotes.Desc>
 	<BR.NeverHideMessages.Desc>never hide top-left text pop-ups, regardless of knowledge</BR.NeverHideMessages.Desc>
 	<BR.NeverHideLetters.Desc>never hide letters, regardless of knowledge</BR.NeverHideLetters.Desc>
+	<BR.NeverHideAlerts.Desc>never hide alerts, regardless of knowledge</BR.NeverHideAlerts.Desc>
 	<BR.HideAncientCorpses.Desc>always hide all information about the corpses that start on the map</BR.HideAncientCorpses.Desc>
 	<BR.LegacyMode.Desc>revert to version 2 functionality</BR.LegacyMode.Desc>
 	<BR.AlwaysKnowMoreAboutColonistRelatives.Desc>automatically know additional information about pawns that are related to a colonist</BR.AlwaysKnowMoreAboutColonistRelatives.Desc>

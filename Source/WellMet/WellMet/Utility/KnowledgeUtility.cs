@@ -96,6 +96,7 @@ namespace Lakuna.WellMet.Utility {
 			|| controlCategory == ControlCategory.Letter && WellMetMod.Settings.NeverHideLetters
 			|| controlCategory == ControlCategory.Message && WellMetMod.Settings.NeverHideMessages
 			|| controlCategory == ControlCategory.TextMote && WellMetMod.Settings.NeverHideTextMotes
+			|| controlCategory == ControlCategory.Alert && WellMetMod.Settings.NeverHideAlerts
 			|| category == InformationCategory.Traits && type == PawnType.Colonist && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && MiscellaneousUtility.IsInGrowthMoment();
 
 		/// <summary>

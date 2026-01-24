@@ -4,6 +4,7 @@
 		Control,
 		TextMote,
 		Message,
-		Letter
+		Letter,
+		Alert
 	}
 }
