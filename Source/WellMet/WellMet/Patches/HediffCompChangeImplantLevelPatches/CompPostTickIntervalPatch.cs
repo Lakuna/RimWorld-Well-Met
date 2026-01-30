@@ -17,7 +17,7 @@ namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, MessageMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
 						yield return i;
 					}
 
