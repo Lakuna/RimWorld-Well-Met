@@ -60,7 +60,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				}
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
-				if (instruction.Calls(IsMutantMethod)) {
+				if (PatchUtility.Calls(instruction, IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
 					}
@@ -68,7 +68,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IsCreepJoinerMethod)) {
+				if (PatchUtility.Calls(instruction, IsCreepJoinerMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}

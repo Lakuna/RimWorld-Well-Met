@@ -94,7 +94,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 #else
-				if (instruction.Calls(GetInspectStringMethod)) {
+				if (PatchUtility.Calls(instruction, GetInspectStringMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -112,7 +112,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 #else
-				if (instruction.LoadsField(HideMainDescField)) {
+				if (PatchUtility.LoadsField(instruction, HideMainDescField)) {
 					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
@@ -120,7 +120,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IsMutantMethod)) {
+				if (PatchUtility.Calls(instruction, IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
 					}

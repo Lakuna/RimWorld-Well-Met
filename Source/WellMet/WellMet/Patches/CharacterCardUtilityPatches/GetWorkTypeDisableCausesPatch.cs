@@ -44,7 +44,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 #if V1_1 || V1_2 || V1_3
-				if (instruction.LoadsField(ChildhoodField) || instruction.LoadsField(AdulthoodField)) {
+				if (PatchUtility.LoadsField(instruction, ChildhoodField) || PatchUtility.LoadsField(instruction, AdulthoodField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -52,7 +52,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 #else
-				if (instruction.Calls(ChildhoodMethod) || instruction.Calls(AdulthoodMethod)) {
+				if (PatchUtility.Calls(instruction, ChildhoodMethod) || PatchUtility.Calls(instruction, AdulthoodMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -60,7 +60,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IdeoMethod)) {
+				if (PatchUtility.Calls(instruction, IdeoMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -70,7 +70,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if !(V1_1 || V1_2 || V1_3 || V1_4)
-				if (instruction.Calls(IsMutantMethod)) {
+				if (PatchUtility.Calls(instruction, IsMutantMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
 					}
@@ -79,7 +79,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 #endif
 
-				if (instruction.LoadsField(HealthField)) {
+				if (PatchUtility.LoadsField(instruction, HealthField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -87,7 +87,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(TraitsField)) {
+				if (PatchUtility.LoadsField(instruction, TraitsField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -95,7 +95,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(RoyaltyField)) {
+				if (PatchUtility.LoadsField(instruction, RoyaltyField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -104,7 +104,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 #if !(V1_1 || V1_2 || V1_3)
-				if (instruction.LoadsField(GenesField)) {
+				if (PatchUtility.LoadsField(instruction, GenesField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}

@@ -74,7 +74,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(GetBackstoryMethod)) {
+				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -82,7 +82,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(TitleField)) {
+				if (PatchUtility.LoadsField(instruction, TitleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -134,7 +134,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 			foreach (CodeInstruction instruction in instructions) {
 #if V1_1 || V1_2 || V1_3 || V1_4
-				if (instruction.Calls(GetExtraFactionsFromQuestPartsMethod)) {
+				if (PatchUtility.Calls(instruction, GetExtraFactionsFromQuestPartsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -198,7 +198,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if V1_1 || V1_2 || V1_3 || V1_4
-				if (instruction.Calls(FactionMethod)) {
+				if (PatchUtility.Calls(instruction, FactionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -206,7 +206,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(AbilitiesField)) {
+				if (PatchUtility.LoadsField(instruction, AbilitiesField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
 						yield return i;
 					}

@@ -41,7 +41,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 				// `story` is used only for favorite color in this method.
-				if (instruction.LoadsField(GenesField) || instruction.LoadsField(RoyaltyField) || instruction.LoadsField(StoryField)) {
+				if (PatchUtility.LoadsField(instruction, GenesField) || PatchUtility.LoadsField(instruction, RoyaltyField) || PatchUtility.LoadsField(instruction, StoryField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -50,7 +50,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				// `guest` is used only for unwaveringly loyal status in this method.
-				if (instruction.LoadsField(GuestField)) {
+				if (PatchUtility.LoadsField(instruction, GuestField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -59,7 +59,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				}
 
 				// `pawn.Faction == tmpExtraFaction.faction` will always be `true` since both sides will be `null`, causing extra factions to be skipped.
-				if (instruction.LoadsField(FactionField) || instruction.Calls(FactionMethod)) {
+				if (PatchUtility.LoadsField(instruction, FactionField) || PatchUtility.Calls(instruction, FactionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -67,7 +67,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IdeoMethod)) {
+				if (PatchUtility.Calls(instruction, IdeoMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;
 					}

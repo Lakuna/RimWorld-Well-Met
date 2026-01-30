@@ -29,7 +29,7 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(IdeoMethod)) {
+				if (PatchUtility.Calls(instruction, IdeoMethod)) {
 					// Ideoligion contains role selection dropdown.
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;

@@ -46,7 +46,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(GetBackstoryMethod)) {
+				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -54,7 +54,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(TitleField)) {
+				if (PatchUtility.LoadsField(instruction, TitleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -62,7 +62,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(SourceGeneField)) {
+				if (PatchUtility.LoadsField(instruction, SourceGeneField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -77,7 +77,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(AllAbilitiesForReadingMethod)) {
+				if (PatchUtility.Calls(instruction, AllAbilitiesForReadingMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
 						yield return i;
 					}
@@ -85,7 +85,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(TitleField)) {
+				if (PatchUtility.LoadsField(instruction, TitleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -102,7 +102,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(AllTraitsField)) {
+				if (PatchUtility.LoadsField(instruction, AllTraitsField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Traits, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -110,7 +110,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (instruction.Calls(CombinedDisabledWorkTagsMethod)) {
+				if (PatchUtility.Calls(instruction, CombinedDisabledWorkTagsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator)) {
 						yield return i;
 					}

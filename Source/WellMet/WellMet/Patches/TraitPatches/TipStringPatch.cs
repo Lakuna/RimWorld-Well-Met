@@ -37,7 +37,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(GetAffectedIssuesMethod)) {
+				if (PatchUtility.Calls(instruction, GetAffectedIssuesMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, IssueDefListConstructor)) {
 						yield return i;
 					}
@@ -45,7 +45,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 					continue;
 				}
 
-				if (instruction.Calls(GetAffectedMemesMethod)) {
+				if (PatchUtility.Calls(instruction, GetAffectedMemesMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, MemeDefListConstructor)) {
 						yield return i;
 					}
@@ -54,7 +54,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 				}
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-				if (instruction.LoadsField(SourceGeneField)) {
+				if (PatchUtility.LoadsField(instruction, SourceGeneField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -62,7 +62,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 					continue;
 				}
 
-				if (instruction.Calls(SuppressedMethod)) {
+				if (PatchUtility.Calls(instruction, SuppressedMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Personal, getPawnInstructions)) {
 						yield return i;
 					}

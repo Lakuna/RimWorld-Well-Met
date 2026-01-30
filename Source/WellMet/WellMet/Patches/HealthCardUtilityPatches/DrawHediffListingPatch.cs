@@ -35,7 +35,7 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 				}
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-				if (instruction.LoadsField(GenesField)) {
+				if (PatchUtility.LoadsField(instruction, GenesField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}

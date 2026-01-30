@@ -40,7 +40,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 					continue;
 				}
 #else
-				if (instruction.Calls(GetTrainabilityMethod)) {
+				if (PatchUtility.Calls(instruction, GetTrainabilityMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}

@@ -43,7 +43,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(InitiatePrisonBreakMtbDaysMethod)) {
+				if (PatchUtility.Calls(instruction, InitiatePrisonBreakMtbDaysMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, -1f)) {
 						yield return i;
 					}
@@ -51,7 +51,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.Calls(IsPrisonBreakingMethod) || instruction.Calls(GenePreventsPrisonBreakingMethod)) {
+				if (PatchUtility.Calls(instruction, IsPrisonBreakingMethod) || PatchUtility.Calls(instruction, GenePreventsPrisonBreakingMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Meta, getPawnInstructions)) {
 						yield return i;
 					}
@@ -59,7 +59,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.Calls(RecruitableMethod)) {
+				if (PatchUtility.Calls(instruction, RecruitableMethod)) {
 					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Meta, getPawnInstructions)) {
 						yield return i;
 					}
@@ -67,7 +67,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(ResistanceField) || instruction.LoadsField(MinField) || instruction.LoadsField(MaxField)) {
+				if (PatchUtility.LoadsField(instruction, ResistanceField) || PatchUtility.LoadsField(instruction, MinField) || PatchUtility.LoadsField(instruction, MaxField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f)) {
 						yield return i;
 					}
@@ -75,13 +75,13 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (instruction.LoadsField(WillField, true)) {
+				if (PatchUtility.LoadsField(instruction, WillField, true)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f, localAddress: true)) {
 						yield return i;
 					}
 				}
 
-				if (instruction.LoadsField(IdeoForConversionField)) {
+				if (PatchUtility.LoadsField(instruction, IdeoForConversionField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -90,7 +90,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				}
 
 				// Royalty is used here only for royal title resistance offset.
-				if (instruction.LoadsField(RoyaltyField) || instruction.Calls(FactionMethod) || instruction.LoadsField(FinalResistanceInteractionDataField)) {
+				if (PatchUtility.LoadsField(instruction, RoyaltyField) || PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.LoadsField(instruction, FinalResistanceInteractionDataField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}

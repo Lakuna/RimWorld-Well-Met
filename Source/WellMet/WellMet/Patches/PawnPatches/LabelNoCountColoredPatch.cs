@@ -26,7 +26,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (instruction.Calls(NameMethod)) {
+				if (PatchUtility.Calls(instruction, NameMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -35,7 +35,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 				}
 
 #if !(V1_1 || V1_2 || V1_3 || V1_4)
-				if (instruction.Calls(LabelPrefixMethod)) {
+				if (PatchUtility.Calls(instruction, LabelPrefixMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, "")) {
 						yield return i;
 					}
@@ -45,7 +45,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 #if !(V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
-				if (instruction.Calls(IsSubhumanMethod)) {
+				if (PatchUtility.Calls(instruction, IsSubhumanMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions)) {
 						yield return i;
 					}

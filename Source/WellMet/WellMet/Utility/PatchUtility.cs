@@ -82,15 +82,16 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="instruction">The instruction.</param>
 		/// <param name="field">The field.</param>
+		/// <param name="byAddress">Whether or not the field is loaded by address.</param>
 		/// <returns>Whether the given instruction loads the given field.</returns>
-		internal static bool LoadsField(CodeInstruction instruction, FieldInfo field) =>
+		internal static bool LoadsField(CodeInstruction instruction, FieldInfo field, bool byAddress = false) =>
 #if V1_0
 			(field.IsStatic
-				? (instruction.opcode == OpCodes.Ldsfld || instruction.opcode == OpCodes.Ldsflda)
-				: (instruction.opcode == OpCodes.Ldfld || instruction.opcode == OpCodes.Ldflda))
+				? (byAddress ? (instruction.opcode == OpCodes.Ldsflda) : (instruction.opcode == OpCodes.Ldsfld))
+				: (byAddress ? (instruction.opcode == OpCodes.Ldflda) : (instruction.opcode == OpCodes.Ldfld)))
 			&& instruction.operand == field;
 #else
-			instruction.LoadsField(field);
+			instruction.LoadsField(field, byAddress);
 #endif
 
 		/// <summary>

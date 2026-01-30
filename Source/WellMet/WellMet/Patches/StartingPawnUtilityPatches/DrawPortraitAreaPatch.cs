@@ -20,7 +20,7 @@ namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
 				yield return instruction;
 
 				// Used only to check if the pawn has any possessions in this method.
-				if (instruction.Calls(AnyMethod)) {
+				if (PatchUtility.Calls(instruction, AnyMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Gear, getPawnInstructions)) {
 						yield return i;
 					}
