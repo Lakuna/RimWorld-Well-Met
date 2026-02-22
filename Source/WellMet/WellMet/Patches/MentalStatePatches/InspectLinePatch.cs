@@ -3,7 +3,11 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
+using System;
+
 using Verse;
 using Verse.AI;
 
@@ -11,7 +15,13 @@ namespace Lakuna.WellMet.Patches.MentalStatePatches {
 	[HarmonyPatch(typeof(MentalState), nameof(MentalState.InspectLine), MethodType.Getter)]
 	internal static class InspectLinePatch {
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(MentalState __instance, ref string __result) {
+#pragma warning restore CA1707
+			if (__instance is null) {
+				throw new ArgumentNullException(nameof(__instance));
+			}
+
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.pawn)) {
 				return;
 			}

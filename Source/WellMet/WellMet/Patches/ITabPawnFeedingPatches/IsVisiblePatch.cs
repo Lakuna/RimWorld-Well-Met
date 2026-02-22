@@ -1,9 +1,13 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
 using System.Reflection;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnFeedingPatches {
@@ -12,7 +16,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnFeedingPatches {
 		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPostfix]
-		private static void Postfix(ITab_Pawn_Feeding __instance, ref bool __result) => __result = __result
+#pragma warning disable CA1707
+		private static void Postfix(ITab_Pawn_Feeding __instance, ref bool __result) =>
+#pragma warning restore CA1707
+			__result = __result
 			&& (!(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control));
 	}

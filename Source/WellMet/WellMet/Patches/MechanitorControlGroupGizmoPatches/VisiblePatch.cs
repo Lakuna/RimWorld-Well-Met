@@ -1,7 +1,10 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System.Reflection;
 
 namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
@@ -10,7 +13,10 @@ namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
 		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(MechanitorControlGroup), "tracker");
 
 		[HarmonyPostfix]
-		private static void Postfix(MechanitorControlGroup ___controlGroup, ref bool __result) => __result = __result
+#pragma warning disable CA1707
+		private static void Postfix(MechanitorControlGroup ___controlGroup, ref bool __result) =>
+#pragma warning restore CA1707
+			__result = __result
 			&& (!(TrackerField.GetValue(___controlGroup) is Pawn_MechanitorTracker pawnMechanitorTracker)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnMechanitorTracker.Pawn, ControlCategory.Control));
 	}

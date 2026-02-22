@@ -1,10 +1,13 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
@@ -14,6 +17,10 @@ namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldloc_1) };
 
 			foreach (CodeInstruction instruction in instructions) {

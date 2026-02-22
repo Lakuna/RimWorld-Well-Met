@@ -1,10 +1,15 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
@@ -35,6 +40,14 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(DoLeftSectionPatch), nameof(ActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
+			if (original is null) {
+				throw new ArgumentNullException(nameof(original));
+			}
+
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, pawnField) };
 
@@ -42,7 +55,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 				// If the pawn field isn't present, return unmodified instructions.
-				if (pawnField == null) {
+				if (pawnField is null) {
 					continue;
 				}
 
@@ -72,6 +85,10 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_2) };
 
 			foreach (CodeInstruction instruction in instructions) {

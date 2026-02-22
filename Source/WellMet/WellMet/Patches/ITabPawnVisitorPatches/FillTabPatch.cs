@@ -4,11 +4,15 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {

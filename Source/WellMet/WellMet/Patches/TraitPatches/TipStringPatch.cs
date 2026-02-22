@@ -3,13 +3,16 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
-#if !(V1_0 || V1_1)
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-#endif
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.TraitPatches {
@@ -32,6 +35,10 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
 
 			foreach (CodeInstruction instruction in instructions) {
@@ -73,11 +80,13 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 #endif
 
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Trait __instance,
 #if V1_0 || V1_1
 			Pawn pawn,
 #endif
 	ref string __result) {
+#pragma warning restore CA1707
 #if V1_0 || V1_1
 			if (KnowledgeUtility.IsTraitKnown(pawn, __instance.def)) {
 #else

@@ -3,9 +3,13 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System.Reflection;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnPrisonerPatches {
@@ -14,7 +18,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnPrisonerPatches {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPostfix]
-		private static void Postfix(ITab_Pawn_Prisoner __instance, ref bool __result) => __result = __result
+#pragma warning disable CA1707
+		private static void Postfix(ITab_Pawn_Prisoner __instance, ref bool __result) =>
+#pragma warning restore CA1707
+			__result = __result
 			&& (!(SelPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control));
 	}

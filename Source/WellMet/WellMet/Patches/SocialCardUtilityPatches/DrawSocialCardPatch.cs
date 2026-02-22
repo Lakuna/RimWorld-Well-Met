@@ -3,13 +3,16 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
-#if !V1_0
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-#endif
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
@@ -24,6 +27,10 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
 
 			foreach (CodeInstruction instruction in instructions) {

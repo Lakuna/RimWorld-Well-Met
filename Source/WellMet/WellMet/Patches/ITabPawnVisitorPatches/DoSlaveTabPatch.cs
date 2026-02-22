@@ -1,10 +1,15 @@
 ﻿#if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
@@ -28,6 +33,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Callvirt, SelPawnMethod) };
 
 			foreach (CodeInstruction instruction in instructions) {

@@ -3,13 +3,18 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
@@ -24,6 +29,10 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
 
 			foreach (CodeInstruction instruction in instructions) {

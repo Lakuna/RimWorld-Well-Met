@@ -3,9 +3,13 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.GenLabelPatches {
@@ -19,7 +23,9 @@ namespace Lakuna.WellMet.Patches.GenLabelPatches {
 		}
 
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Pawn pawn, ref string __result) {
+#pragma warning restore CA1707
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) || MiscellaneousUtility.IsAnimal(pawn)) { // Animals should still show their kind since it's their species.
 				return;
 			}

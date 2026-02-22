@@ -3,13 +3,18 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using UnityEngine;
+
 using Verse;
 using Verse.AI;
 
@@ -31,10 +36,22 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(TryTrainPatch), nameof(ActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
+			if (original is null) {
+				throw new ArgumentNullException(nameof(original));
+			}
+
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
+			if (generator is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			// If the toil or trainee index field isn't present, return unmodified instructions.
 			FieldInfo toilField = original.DeclaringType.GetField("toil");
 			FieldInfo traineeIndField = original.DeclaringType.GetField("traineeInd");
-			if (toilField == null || traineeIndField == null) {
+			if (toilField is null || traineeIndField is null) {
 				foreach (CodeInstruction instruction in instructions) {
 					yield return instruction;
 				}
@@ -73,7 +90,11 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 		}
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 

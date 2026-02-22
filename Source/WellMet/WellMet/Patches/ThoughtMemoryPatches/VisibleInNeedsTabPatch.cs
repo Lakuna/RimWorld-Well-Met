@@ -1,13 +1,17 @@
 ﻿#if !V1_0
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
 
 namespace Lakuna.WellMet.Patches.ThoughtMemoryPatches {
 	[HarmonyPatch(typeof(Thought_Memory), nameof(Thought_Memory.VisibleInNeedsTab), MethodType.Getter)]
 	internal static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Thought_Memory __instance, ref bool __result) {
+#pragma warning restore CA1707
 #if !(V1_1 || V1_2)
 			if (__instance is Thought_RelicAtRitual
 				|| __instance is Thought_TameVeneratedAnimalDied

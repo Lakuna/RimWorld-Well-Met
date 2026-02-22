@@ -3,13 +3,18 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using UnityEngine;
+
 using Verse;
 using Verse.AI;
 
@@ -23,6 +28,10 @@ namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
 		private static readonly MethodInfo InnerActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> InnerActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
@@ -42,6 +51,10 @@ namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
@@ -54,6 +67,10 @@ namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 

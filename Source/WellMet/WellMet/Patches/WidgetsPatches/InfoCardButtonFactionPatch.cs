@@ -1,8 +1,12 @@
 ﻿#if !V1_0
 using HarmonyLib;
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.WidgetsPatches {

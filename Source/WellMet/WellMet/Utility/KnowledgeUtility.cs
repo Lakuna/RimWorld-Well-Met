@@ -1,6 +1,8 @@
 ﻿using RimWorld;
+
 using System;
 using System.Linq;
+
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
@@ -62,7 +64,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, ControlCategory controlCategory = ControlCategory.Default) =>
-			pawn == null
+			pawn is null
 			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
 				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), controlCategory, !pawn.Dead)
 				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
@@ -77,7 +79,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
 		/// <returns>Whether the given information category is known for the given faction.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, ControlCategory controlCategory = ControlCategory.Default) =>
-			faction == null
+			faction is null
 			|| !WellMetMod.Settings.HideFactionInformation
 			|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(faction), controlCategory);
 
@@ -173,7 +175,7 @@ namespace Lakuna.WellMet.Utility {
 			IsInformationKnownFor(category, pawn)
 			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn), ignoreDifficulty)
 			&& !(WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
-			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn == null || MiscellaneousUtility.IsInGrowthMoment()))
+			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn is null || MiscellaneousUtility.IsInGrowthMoment()))
 			&& !(IsStatic(category) && WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn));
 
 		/// <summary>
@@ -281,7 +283,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="trait">The trait.</param>
 		/// <returns>Whether the given trait is known.</returns>
 		public static bool IsTraitKnown(Trait trait) =>
-			trait == null
+			trait is null
 #if V1_0 || V1_1
 			|| IsTraitKnown(null, trait.def);
 #else
@@ -295,8 +297,8 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="trait">The trait type.</param>
 		/// <returns>Whether the given trait type is known for the given pawn.</returns>
 		public static bool IsTraitKnown(Pawn pawn, TraitDef trait) {
-			// In vanilla RimWorld, `pawn == null` only during a growth moment.
-			if (pawn == null || MiscellaneousUtility.IsInGrowthMoment()) {
+			// In vanilla RimWorld, `pawn is null` only during a growth moment.
+			if (pawn is null || MiscellaneousUtility.IsInGrowthMoment()) {
 				return IsInformationKnownFor(InformationCategory.Traits, PawnType.Colonist) && !IsLearningEnabledFor(InformationCategory.Traits, pawn);
 			}
 
@@ -304,7 +306,7 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (trait == null || !IsLearningEnabledFor(InformationCategory.Traits, pawn)) {
+			if (trait is null || !IsLearningEnabledFor(InformationCategory.Traits, pawn)) {
 				return true;
 			}
 
@@ -326,7 +328,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="thought">The thought.</param>
 		/// <returns>Whether the given thought is known.</returns>
 		public static bool IsThoughtKnown(Thought thought) =>
-			thought == null
+			thought is null
 			|| IsThoughtKnown(thought.pawn, thought.def);
 
 		/// <summary>
@@ -351,7 +353,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="skill">The skill.</param>
 		/// <returns>Whether the given skill is known.</returns>
 		public static bool IsSkillKnown(SkillRecord skill) =>
-			skill == null
+			skill is null
 			|| IsSkillKnown(MiscellaneousUtility.PawnOfSkillRecord(skill), skill.def);
 
 		/// <summary>
@@ -365,7 +367,7 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (pawn == null || skill == null || !IsLearningEnabledFor(InformationCategory.Skills, pawn)) {
+			if (pawn is null || skill is null || !IsLearningEnabledFor(InformationCategory.Skills, pawn)) {
 				return true;
 			}
 
@@ -386,7 +388,7 @@ namespace Lakuna.WellMet.Utility {
 #else
 			BackstoryDef backstory,
 #endif
-			Pawn pawn) => backstory == null || IsBackstoryKnown(backstory.slot, pawn);
+			Pawn pawn) => backstory is null || IsBackstoryKnown(backstory.slot, pawn);
 
 		/// <summary>
 		/// Determine whether the given backstory is known for the given pawn.
@@ -399,7 +401,7 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			if (pawn == null || !IsLearningEnabledFor(InformationCategory.Backstory, pawn)) {
+			if (pawn is null || !IsLearningEnabledFor(InformationCategory.Backstory, pawn)) {
 				return true;
 			}
 

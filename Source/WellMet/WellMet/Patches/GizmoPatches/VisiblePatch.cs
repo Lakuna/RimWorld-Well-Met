@@ -3,9 +3,13 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System.Reflection;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.GizmoPatches {
@@ -26,7 +30,9 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 #endif
 
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Gizmo __instance, ref bool __result) {
+#pragma warning restore CA1707
 			if (__instance is Command_VerbTarget commandVerbTarget) {
 				__result = __result
 					&& (!commandVerbTarget.verb.CasterIsPawn
@@ -54,14 +60,14 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 #elif V1_2 || V1_3 || V1_4
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
-					&& (commandPsycast.Ability.pawn == null
+					&& (commandPsycast.Ability.pawn is null
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Ability.pawn, ControlCategory.Control));
 				return;
 			}
 #else
 			if (__instance is Command_Psycast commandPsycast) {
 				__result = __result
-					&& (commandPsycast.Pawn == null
+					&& (commandPsycast.Pawn is null
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, commandPsycast.Pawn, ControlCategory.Control));
 				return;
 			}

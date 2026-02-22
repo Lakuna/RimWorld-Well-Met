@@ -1,17 +1,8 @@
-﻿#if V1_0
-using Harmony;
-#elif V1_1 || V1_2 || V1_3
-using HarmonyLib;
-#endif
-using RimWorld;
+﻿using RimWorld;
+
 using System;
 using System.Linq;
-#if V1_0 || V1_1 || V1_2 || V1_3
-using System.Reflection;
-#endif
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-using System.Text;
-#endif
+
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
@@ -214,19 +205,19 @@ namespace Lakuna.WellMet.Utility {
 			} else if (Scribe.mode == LoadSaveMode.LoadingVars) {
 				string value = null;
 				Scribe_Values.Look(ref value, label + "Deflate");
-				if (value == null) {
+				if (value is null) {
 					Scribe_Values.Look(ref value, label);
-					arr2 = value == null ? null : Convert.FromBase64String(RemoveLineBreaks(value));
+					arr2 = value is null ? null : Convert.FromBase64String(RemoveLineBreaks(value));
 				} else {
 					arr2 = CompressUtility.Decompress(Convert.FromBase64String(RemoveLineBreaks(value)));
 				}
 			}
 
 			// Equivalent to `DataExposeUtility.BitsToBytes(ref arr, elements, arr2, numBytes);`.
-			if (Scribe.mode != LoadSaveMode.LoadingVars || arr2 == null || arr2.Length == 0) {
+			if (Scribe.mode != LoadSaveMode.LoadingVars || arr2 is null || arr2.Length == 0) {
 				return;
 			}
-			if (arr == null) {
+			if (arr is null) {
 				arr = new bool[elements];
 			}
 			if (arr2.Length != numBytes) {
@@ -284,7 +275,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
 		public static bool HostileToPlayer(Pawn pawn) =>
 			pawn != null
-			&& ((pawn.Faction == null)
+			&& ((pawn.Faction is null)
 				? pawn.HostileTo(Faction.OfPlayerSilentFail)
 				: (pawn.Faction != Faction.OfPlayerSilentFail
 					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
@@ -308,7 +299,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The type of the pawn.</returns>
 		public static PawnType TypeOf(Pawn pawn) =>
-			(pawn == null) ? PawnType.Neutral
+			(pawn is null) ? PawnType.Neutral
 			: ((IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail)
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
 				|| WellMetMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
@@ -324,7 +315,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="faction">The faction.</param>
 		/// <returns>The type of the faction.</returns>
 		public static PawnType TypeOf(Faction faction) =>
-			(faction == null) ? PawnType.Neutral
+			(faction is null) ? PawnType.Neutral
 			: (faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: HostileToPlayer(faction) ? PawnType.Hostile
 			: PawnType.Neutral;

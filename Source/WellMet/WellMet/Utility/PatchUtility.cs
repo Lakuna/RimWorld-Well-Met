@@ -3,11 +3,14 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Utility {
@@ -172,6 +175,10 @@ namespace Lakuna.WellMet.Utility {
 			IEnumerable<CodeInstruction> getInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
 		) {
+			if (getInstructions is null) {
+				throw new ArgumentNullException(nameof(getInstructions));
+			}
+
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -251,6 +258,10 @@ namespace Lakuna.WellMet.Utility {
 			IEnumerable<CodeInstruction> getInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
 		) {
+			if (getInstructions is null) {
+				throw new ArgumentNullException(nameof(getInstructions));
+			}
+
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -378,6 +389,18 @@ namespace Lakuna.WellMet.Utility {
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
 		) {
+			if (callInstruction is null) {
+				throw new ArgumentNullException(nameof(callInstruction));
+			}
+
+			if (getInstructions is null) {
+				throw new ArgumentNullException(nameof(getInstructions));
+			}
+
+			if (generator is null) {
+				throw new ArgumentNullException(nameof(generator));
+			}
+
 			if (!(callInstruction.operand is MethodInfo methodInfo) || !Calls(callInstruction, methodInfo)) {
 				throw new ArgumentException($"Attempted to skip a non-call instruction with `{nameof(SkipIfNotKnown)}`.");
 			}
@@ -439,6 +462,14 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false
 		) {
+			if (getPawnInstructions is null) {
+				throw new ArgumentNullException(nameof(getPawnInstructions));
+			}
+
+			if (generator is null) {
+				throw new ArgumentNullException(nameof(generator));
+			}
+
 			// Load the arguments for `KnowledgeUtility.IsBackstoryKnown` onto the stack.
 			yield return new CodeInstruction(OpCodes.Dup); // `backstory`.
 			foreach (CodeInstruction instruction in getPawnInstructions) {
@@ -564,6 +595,14 @@ namespace Lakuna.WellMet.Utility {
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
 		) {
+			if (getInstructions is null) {
+				throw new ArgumentNullException(nameof(getInstructions));
+			}
+
+			if (generator is null) {
+				throw new ArgumentNullException(nameof(generator));
+			}
+
 			// Load the arguments for `KnowledgeUtility.IsInformationKnownFor` onto the stack.
 			yield return LoadValue(category); // `category`.
 			foreach (CodeInstruction instruction in getInstructions) {
@@ -627,7 +666,7 @@ namespace Lakuna.WellMet.Utility {
 				}
 			}
 
-			return value == null ? new CodeInstruction(OpCodes.Ldnull)
+			return value is null ? new CodeInstruction(OpCodes.Ldnull)
 				: value is FieldInfo fieldInfo ? fieldInfo.IsStatic
 					? (byAddress
 						? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
@@ -654,7 +693,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value on top of the stack.</param>
 		/// <returns></returns>
 		internal static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object value) {
-			LocalBuilder tempLocal = generator.DeclareLocal(value.GetType());
+			if (generator is null) {
+				throw new ArgumentNullException(nameof(generator));
+			}
+
+			LocalBuilder tempLocal = generator.DeclareLocal(value is null ? typeof(object) : value.GetType());
 			yield return new CodeInstruction(OpCodes.Stloc, tempLocal);
 			yield return new CodeInstruction(OpCodes.Ldloca_S, tempLocal);
 		}

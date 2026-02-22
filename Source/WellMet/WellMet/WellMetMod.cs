@@ -1,7 +1,10 @@
 ﻿using Lakuna.WellMet.Utility;
+
 using System;
 using System.Linq;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.WellMet {
@@ -12,7 +15,9 @@ namespace Lakuna.WellMet {
 
 		private const float ExtraScrollHeight = 250; // Must be larger than the maximum height that can be added to the UI in one frame.
 
-		internal static WellMetSettings Settings { get; private set; }
+		internal static WellMetSettings Settings {
+			get; private set;
+		}
 
 		public WellMetMod(ModContentPack content) : base(content) {
 			Settings = this.GetSettings<WellMetSettings>();

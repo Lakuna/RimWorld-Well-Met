@@ -3,9 +3,13 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System.Reflection;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.ITabPawnCharacterPatches {
@@ -14,7 +18,10 @@ namespace Lakuna.WellMet.Patches.ITabPawnCharacterPatches {
 		private static readonly MethodInfo PawnToShowInfoAboutMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Character), "PawnToShowInfoAbout");
 
 		[HarmonyPostfix]
-		private static void Postfix(ITab_Pawn_Character __instance, ref bool __result) => __result = __result
+#pragma warning disable CA1707
+		private static void Postfix(ITab_Pawn_Character __instance, ref bool __result) =>
+#pragma warning restore CA1707
+			__result = __result
 			&& (!(PawnToShowInfoAboutMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 #if !V1_0
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn, ControlCategory.Control) // Contains "renounce title" control.

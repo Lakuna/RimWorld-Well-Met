@@ -1,9 +1,13 @@
 ﻿using Lakuna.WellMet.Utility;
+
 using System;
+
 using Verse;
 
 namespace Lakuna.WellMet {
+#pragma warning disable CA1708
 	public class WellMetSettings : ModSettings {
+#pragma warning restore CA1708
 		private static readonly int InfoWidth = Enum.GetValues(typeof(PawnType)).Length;
 
 		private static readonly int InfoHeight = Enum.GetValues(typeof(InformationCategory)).Length;
@@ -35,7 +39,9 @@ namespace Lakuna.WellMet {
 
 		private bool[] learningEnabled;
 
+#pragma warning disable CA1819
 		internal bool[] LearningEnabled => this.learningEnabled;
+#pragma warning restore CA1819
 
 		private int traitDiscoveryDifficulty;
 
@@ -153,7 +159,7 @@ namespace Lakuna.WellMet {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 			Map map = new Map();
 			map.info.Size = new IntVec3(InfoWidth, 0, InfoHeight);
-			if (this.knownInformation == null) {
+			if (this.knownInformation is null) {
 				this.knownInformation = new BoolGrid(map);
 			} else {
 				this.knownInformation.ClearAndResizeTo(map);
@@ -163,7 +169,7 @@ namespace Lakuna.WellMet {
 			map.Dispose();
 #endif
 #else
-			if (this.knownInformation == null) {
+			if (this.knownInformation is null) {
 				this.knownInformation = new BoolGrid(InfoWidth, InfoHeight);
 			} else {
 				this.knownInformation.ClearAndResizeTo(InfoWidth, InfoHeight);

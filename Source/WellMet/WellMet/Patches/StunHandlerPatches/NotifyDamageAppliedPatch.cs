@@ -3,13 +3,18 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using UnityEngine;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.StunHandlerPatches {
@@ -21,6 +26,10 @@ namespace Lakuna.WellMet.Patches.StunHandlerPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getThingInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, ParentField) };
 
 			foreach (CodeInstruction instruction in instructions) {

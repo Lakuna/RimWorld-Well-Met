@@ -3,15 +3,20 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.NeedPatches {
 	[HarmonyPatch(typeof(Need), nameof(Need.ShowOnNeedList), MethodType.Getter)]
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Need __instance, Pawn ___pawn, ref bool __result) {
+#pragma warning restore CA1707
 			if (__instance is Need_Chemical) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, ___pawn);
 				return;

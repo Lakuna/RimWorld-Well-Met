@@ -3,8 +3,11 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using System;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.WidgetsPatches {

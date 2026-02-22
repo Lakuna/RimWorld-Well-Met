@@ -3,10 +3,14 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.PawnPatches {
@@ -23,7 +27,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 		[HarmonyPrefix]
+#pragma warning disable CA1707
 		private static void Prefix(Pawn __instance,
+#pragma warning restore CA1707
 #if V1_0
 			ref bool writeAge
 #else
@@ -46,6 +52,10 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
 
 			foreach (CodeInstruction instruction in instructions) {

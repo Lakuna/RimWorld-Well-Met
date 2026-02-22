@@ -3,14 +3,24 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
+using System;
 
 namespace Lakuna.WellMet.Patches.ThoughtPatches {
 	[HarmonyPatch(typeof(Thought), nameof(Thought.VisibleInNeedsTab), MethodType.Getter)]
 	internal static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
+#pragma warning disable CA1707
 		private static void Postfix(Thought __instance, ref bool __result) {
+#pragma warning restore CA1707
+			if (__instance is null) {
+				throw new ArgumentNullException(nameof(__instance));
+			}
+
 			bool personal = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, __instance.pawn);
 			bool health = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.pawn);
 			bool social = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, __instance.pawn);

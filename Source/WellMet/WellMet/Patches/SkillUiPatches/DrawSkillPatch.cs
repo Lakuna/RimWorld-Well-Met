@@ -3,9 +3,13 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
+
 using RimWorld;
+
 using System;
+
 using UnityEngine;
 
 namespace Lakuna.WellMet.Patches.SkillUiPatches {

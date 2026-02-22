@@ -3,23 +3,19 @@ using Harmony;
 #else
 using HarmonyLib;
 #endif
+
 using Lakuna.WellMet.Utility;
-#if !V1_0
+
 using RimWorld;
-#endif
-#if V1_1 || V1_2 || V1_3 || V1_4
+
 using System;
-#endif
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+
 using Verse;
-#if V1_0 || V1_1 || V1_2 || V1_3
 using Verse.AI;
-#endif
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using Verse.AI.Group;
-#endif
 
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
@@ -80,6 +76,10 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
 
 			foreach (CodeInstruction instruction in instructions) {
