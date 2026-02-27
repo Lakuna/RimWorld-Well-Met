@@ -13,7 +13,7 @@ namespace Lakuna.WellMet {
 
 		private const float ScrollViewMargin = 18; // Reduce the scroll view by this width so that the vertical scroll bar doesn't overflow the window horizontally.
 
-		private const float ExtraScrollHeight = 250; // Must be larger than the maximum height that can be added to the UI in one frame.
+		private const float ExtraScrollHeight = 300; // Must be larger than the maximum height that can be added to the UI in one frame.
 
 		internal static WellMetSettings Settings {
 			get; private set;
@@ -113,7 +113,7 @@ namespace Lakuna.WellMet {
 				listing.Label($"{"BR.TraitDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.TraitsLearningDifficulty})");
 				Settings.TraitsLearningDifficulty = (int)listing.Slider(Settings.TraitsLearningDifficulty, 0, 10);
 #else
-				Settings.TraitsLearningDifficulty = (int)listing.SliderLabeled($"{"BR.TraitDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.TraitsLearningDifficulty})", Settings.TraitsLearningDifficulty, 0, 10, tooltip: "BR.TraitDiscoveryDifficulty.Desc".Translate().CapitalizeFirst());
+				Settings.TraitsLearningDifficulty = (int)listing.SliderLabeled($"{"BR.TraitDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.TraitsLearningDifficulty})", Settings.TraitsLearningDifficulty, 0, 10, tooltip: MiscellaneousUtility.EndWithPeriod("BR.TraitDiscoveryDifficulty.Desc".Translate().CapitalizeFirst()));
 #endif
 			}
 
@@ -122,7 +122,7 @@ namespace Lakuna.WellMet {
 				listing.Label($"{"BR.BackstoryDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.BackstoryLearningDifficulty})");
 				Settings.BackstoryLearningDifficulty = (int)listing.Slider(Settings.BackstoryLearningDifficulty, 0, 10);
 #else
-				Settings.BackstoryLearningDifficulty = (int)listing.SliderLabeled($"{"BR.BackstoryDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.BackstoryLearningDifficulty})", Settings.BackstoryLearningDifficulty, 0, 10, tooltip: "BR.BackstoryDiscoveryDifficulty.Desc".Translate().CapitalizeFirst());
+				Settings.BackstoryLearningDifficulty = (int)listing.SliderLabeled($"{"BR.BackstoryDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.BackstoryLearningDifficulty})", Settings.BackstoryLearningDifficulty, 0, 10, tooltip: MiscellaneousUtility.EndWithPeriod("BR.BackstoryDiscoveryDifficulty.Desc".Translate().CapitalizeFirst()));
 #endif
 			}
 
@@ -131,85 +131,85 @@ namespace Lakuna.WellMet {
 				listing.Label($"{"BR.SkillsDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.SkillsLearningDifficulty})");
 				Settings.SkillsLearningDifficulty = (int)listing.Slider(Settings.SkillsLearningDifficulty, 0, 10);
 #else
-				Settings.SkillsLearningDifficulty = (int)listing.SliderLabeled($"{"BR.SkillsDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.SkillsLearningDifficulty})", Settings.SkillsLearningDifficulty, 0, 10, tooltip: "BR.SkillsDiscoveryDifficulty.Desc".Translate().CapitalizeFirst());
+				Settings.SkillsLearningDifficulty = (int)listing.SliderLabeled($"{"BR.SkillsDiscoveryDifficulty".Translate().CapitalizeFirst()} ({Settings.SkillsLearningDifficulty})", Settings.SkillsLearningDifficulty, 0, 10, tooltip: MiscellaneousUtility.EndWithPeriod("BR.SkillsDiscoveryDifficulty.Desc".Translate().CapitalizeFirst()));
 #endif
 			}
 
 			if (!Settings.LegacyMode && KnowledgeUtility.IsLearningEnabledForAny(InformationCategory.Traits)) {
 				bool enableUniqueTraitUnlockConditions = Settings.EnableUniqueTraitUnlockConditions;
-				listing.CheckboxLabeled("BR.EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions, "BR.EnableUniqueTraitUnlockConditions.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.EnableUniqueTraitUnlockConditions".Translate().CapitalizeFirst(), ref enableUniqueTraitUnlockConditions, MiscellaneousUtility.EndWithPeriod("BR.EnableUniqueTraitUnlockConditions.Desc".Translate().CapitalizeFirst()));
 				Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
 			}
 
 			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || KnowledgeUtility.IsAnyLearningEnabledFor(PawnType.Colonist)) {
 				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
-				listing.CheckboxLabeled("BR.AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists, "BR.AlwaysKnowStartingColonists.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists, MiscellaneousUtility.EndWithPeriod("BR.AlwaysKnowStartingColonists.Desc".Translate().CapitalizeFirst()));
 				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
 			}
 
 			if (!KnowledgeUtility.IsInformationSupersetOfAny(PawnType.Colonist) || KnowledgeUtility.IsAnyLearningEnabledForAny()) {
 				bool rememberFormerColonists = Settings.RememberFormerColonists;
-				listing.CheckboxLabeled("BR.RememberFormerColonists".Translate().CapitalizeFirst(), ref rememberFormerColonists, "BR.RememberFormerColonists.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.RememberFormerColonists".Translate().CapitalizeFirst(), ref rememberFormerColonists, MiscellaneousUtility.EndWithPeriod("BR.RememberFormerColonists.Desc".Translate().CapitalizeFirst()));
 				Settings.RememberFormerColonists = rememberFormerColonists;
 			}
 
 			if (!KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Basic) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Traits) || !KnowledgeUtility.IsInformationKnownForAll(InformationCategory.Backstory)) {
 				bool alwaysKnowMoreAboutColonistRelatives = Settings.AlwaysKnowMoreAboutColonistRelatives;
-				listing.CheckboxLabeled("BR.AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives, "BR.AlwaysKnowMoreAboutColonistRelatives.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.AlwaysKnowMoreAboutColonistRelatives".Translate().CapitalizeFirst(), ref alwaysKnowMoreAboutColonistRelatives, MiscellaneousUtility.EndWithPeriod("BR.AlwaysKnowMoreAboutColonistRelatives.Desc".Translate().CapitalizeFirst()));
 				Settings.AlwaysKnowMoreAboutColonistRelatives = alwaysKnowMoreAboutColonistRelatives;
 			}
 
 			if (KnowledgeUtility.IsLearningEnabledFor(InformationCategory.Traits, PawnType.Colonist)) {
 				bool alwaysKnowGrowthMoments = Settings.AlwaysKnowGrowthMomentTraits;
-				listing.CheckboxLabeled("BR.AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments, "BR.AlwaysKnowGrowthMomentTraits.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.AlwaysKnowGrowthMomentTraits".Translate().CapitalizeFirst(), ref alwaysKnowGrowthMoments, MiscellaneousUtility.EndWithPeriod("BR.AlwaysKnowGrowthMomentTraits.Desc".Translate().CapitalizeFirst()));
 				Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
 			}
 
 			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
 				bool neverHideControls = Settings.NeverHideControls;
-				listing.CheckboxLabeled("BR.NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls, "BR.NeverHideControls.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls, MiscellaneousUtility.EndWithPeriod("BR.NeverHideControls.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideControls = neverHideControls;
 			}
 
 			if (!KnowledgeUtility.IsAllInformationKnownForAll()) {
 				bool neverHideMessages = Settings.NeverHideMessages;
-				listing.CheckboxLabeled("BR.NeverHideMessages".Translate().CapitalizeFirst(), ref neverHideMessages, "BR.NeverHideMessages.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.NeverHideMessages".Translate().CapitalizeFirst(), ref neverHideMessages, MiscellaneousUtility.EndWithPeriod("BR.NeverHideMessages.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideMessages = neverHideMessages;
 
 				bool neverHideLetters = Settings.NeverHideLetters;
-				listing.CheckboxLabeled("BR.NeverHideLetters".Translate().CapitalizeFirst(), ref neverHideLetters, "BR.NeverHideLetters.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.NeverHideLetters".Translate().CapitalizeFirst(), ref neverHideLetters, MiscellaneousUtility.EndWithPeriod("BR.NeverHideLetters.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideLetters = neverHideLetters;
 
 				bool neverHideTextMotes = Settings.NeverHideTextMotes;
-				listing.CheckboxLabeled("BR.NeverHideTextMotes".Translate().CapitalizeFirst(), ref neverHideTextMotes, "BR.NeverHideTextMotes.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.NeverHideTextMotes".Translate().CapitalizeFirst(), ref neverHideTextMotes, MiscellaneousUtility.EndWithPeriod("BR.NeverHideTextMotes.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideTextMotes = neverHideTextMotes;
 
 				bool neverHideAlerts = Settings.NeverHideAlerts;
-				listing.CheckboxLabeled("BR.NeverHideAlerts".Translate().CapitalizeFirst(), ref neverHideLetters, "BR.NeverHideAlerts.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.NeverHideAlerts".Translate().CapitalizeFirst(), ref neverHideLetters, MiscellaneousUtility.EndWithPeriod("BR.NeverHideAlerts.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideAlerts = neverHideAlerts;
 
 				bool hideFactionInformation = Settings.HideFactionInformation;
-				listing.CheckboxLabeled("BR.HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation, "BR.HideFactionInformation.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.HideFactionInformation".Translate().CapitalizeFirst(), ref hideFactionInformation, MiscellaneousUtility.EndWithPeriod("BR.HideFactionInformation.Desc".Translate().CapitalizeFirst()));
 				Settings.HideFactionInformation = hideFactionInformation;
 			}
 
 			if (!Settings.LegacyMode) {
 				bool hideAncientCorpses = Settings.HideAncientCorpses;
-				listing.CheckboxLabeled("BR.HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses, "BR.HideAncientCorpses.Desc".Translate().CapitalizeFirst());
+				listing.CheckboxLabeled("BR.HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses, MiscellaneousUtility.EndWithPeriod("BR.HideAncientCorpses.Desc".Translate().CapitalizeFirst()));
 				Settings.HideAncientCorpses = hideAncientCorpses;
 			}
 
 			bool legacyMode = Settings.LegacyMode;
-			listing.CheckboxLabeled("BR.LegacyMode".Translate().CapitalizeFirst(), ref legacyMode, "BR.LegacyMode.Desc".Translate().CapitalizeFirst());
+			listing.CheckboxLabeled("BR.LegacyMode".Translate().CapitalizeFirst(), ref legacyMode, MiscellaneousUtility.EndWithPeriod("BR.LegacyMode.Desc".Translate().CapitalizeFirst()));
 			Settings.LegacyMode = legacyMode;
 
 			if (!Settings.AlwaysKnowStartingColonists && !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist, ControlCategory.Control)) {
 #if V1_0
-				listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()), tipSignal: "BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst());
+				listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
 #elif V1_1 || V1_2
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor), tipSignal: "BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst());
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
 #else
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor), tipSignal: "BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst());
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
 #endif
 			}
 
