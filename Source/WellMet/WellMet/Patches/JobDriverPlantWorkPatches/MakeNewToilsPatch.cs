@@ -21,18 +21,19 @@ using Verse.AI;
 namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 	[HarmonyPatch(typeof(JobDriver_PlantWork), "MakeNewToils")]
 	internal static class MakeNewToilsPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn));
+		private static readonly FieldInfo ActorField = AccessTools.Field(typeof(Toil), nameof(Toil.actor));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
 		private static readonly MethodInfo InnerActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler));
 
-		private static IEnumerable<CodeInstruction> InnerActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		private static IEnumerable<CodeInstruction> InnerActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			FieldInfo cutField = original.DeclaringType.GetField("cut");
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, cutField), new CodeInstruction(OpCodes.Ldfld, ActorField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
