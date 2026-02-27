@@ -193,6 +193,12 @@ namespace Lakuna.WellMet {
 				Settings.HideFactionInformation = hideFactionInformation;
 			}
 
+			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, PawnType.Colonist)) {
+				bool preventForcedSpeed = Settings.PreventForcedSpeed;
+				listing.CheckboxLabeled("BR.PreventForcedSpeed".Translate().CapitalizeFirst(), ref preventForcedSpeed, MiscellaneousUtility.EndWithPeriod("BR.PreventForcedSpeed.Desc".Translate().CapitalizeFirst()));
+				Settings.PreventForcedSpeed = preventForcedSpeed;
+			}
+
 			if (!Settings.LegacyMode) {
 				bool hideAncientCorpses = Settings.HideAncientCorpses;
 				listing.CheckboxLabeled("BR.HideAncientCorpses".Translate().CapitalizeFirst(), ref hideAncientCorpses, MiscellaneousUtility.EndWithPeriod("BR.HideAncientCorpses.Desc".Translate().CapitalizeFirst()));
