@@ -80,13 +80,15 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 #endif
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Trait __instance,
+		private static void Postfix(
 #if V1_0 || V1_1
 			Pawn pawn,
 #endif
-	ref string __result) {
+#pragma warning disable CA1707
+			Trait __instance,
+			ref string __result
 #pragma warning restore CA1707
+		) {
 #if V1_0 || V1_1
 			if (KnowledgeUtility.IsTraitKnown(pawn, __instance.def)) {
 #else

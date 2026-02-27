@@ -13,11 +13,9 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
-	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]
-	internal static class CompPostTickIntervalPatch {
-		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
-
+namespace Lakuna.WellMet.Patches.HediffDeathRefusalPatches {
+	[HarmonyPatch(typeof(Hediff_DeathRefusal), "Use")]
+	internal static class UsePatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
@@ -28,7 +26,7 @@ namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, ParentField), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, MessageMethod)) {

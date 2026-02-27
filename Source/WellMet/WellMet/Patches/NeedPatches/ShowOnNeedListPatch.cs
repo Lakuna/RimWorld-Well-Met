@@ -15,7 +15,7 @@ namespace Lakuna.WellMet.Patches.NeedPatches {
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Need __instance, Pawn ___pawn, ref bool __result) {
+		private static void Postfix(Need __instance, ref bool __result, Pawn ___pawn) {
 #pragma warning restore CA1707
 			if (__instance is Need_Chemical) {
 				__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, ___pawn);

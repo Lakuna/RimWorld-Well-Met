@@ -12,7 +12,7 @@ namespace Lakuna.WellMet.Patches.MechanitorBandwidthGizmoPatches {
 	internal static class VisiblePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn_MechanitorTracker ___tracker, ref bool __result) =>
+		private static void Postfix(ref bool __result, Pawn_MechanitorTracker ___tracker) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, ___tracker?.Pawn ?? throw new ArgumentNullException(nameof(___tracker)), ControlCategory.Control);

@@ -14,8 +14,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using Verse;
-using Verse.AI;
-using Verse.AI.Group;
 
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]

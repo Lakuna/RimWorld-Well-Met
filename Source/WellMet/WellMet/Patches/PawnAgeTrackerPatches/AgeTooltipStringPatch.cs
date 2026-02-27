@@ -13,7 +13,7 @@ namespace Lakuna.WellMet.Patches.PawnAgeTrackerPatches {
 	internal static class AgeTooltipStringPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn ___pawn, ref string __result) {
+		private static void Postfix(ref string __result, Pawn ___pawn) {
 #pragma warning restore CA1707
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, ___pawn)) {
 				return;

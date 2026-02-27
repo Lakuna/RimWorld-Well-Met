@@ -15,9 +15,9 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompDisappearsPatches {
-	[HarmonyPatch(typeof(HediffComp_Disappears), nameof(HediffComp_Disappears.CompPostPostRemoved))]
-	internal static class CompPostPostRemovedPatch {
+namespace Lakuna.WellMet.Patches.HediffCompDiscoverablePatches {
+	[HarmonyPatch(typeof(HediffComp_Discoverable), "CheckDiscovered")]
+	internal static class CheckDiscoveredPatch {
 		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

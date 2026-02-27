@@ -6,6 +6,8 @@ using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
+using RimWorld;
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,12 +15,12 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
-	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]
-	internal static class CompPostTickIntervalPatch {
-		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
+namespace Lakuna.WellMet.Patches.JobDriverResurrectPatches {
+	[HarmonyPatch(typeof(JobDriver_Resurrect), "Resurrect")]
+	internal static class ResurrectPatch {
+		private static readonly MethodInfo CorpseMethod = AccessTools.PropertyGetter(typeof(JobDriver_Resurrect), "Corpse");
 
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
+		private static readonly MethodInfo InnerPawnMethod = AccessTools.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
@@ -28,7 +30,7 @@ namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, ParentField), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Call, CorpseMethod), new CodeInstruction(OpCodes.Call, InnerPawnMethod) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, MessageMethod)) {

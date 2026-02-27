@@ -12,13 +12,12 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using Verse;
+using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
-	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]
-	internal static class CompPostTickIntervalPatch {
-		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
-
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
+namespace Lakuna.WellMet.Patches.MentalStateMurderousRagePatches {
+	[HarmonyPatch(typeof(MentalState_MurderousRage), nameof(MentalState_MurderousRage.MentalStateTick))]
+	internal static class MentalStateTickPatch {
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
@@ -28,11 +27,11 @@ namespace Lakuna.WellMet.Patches.HediffCompChangeImplantLevelPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, ParentField), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, MessageMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Needs, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
 						yield return i;
 					}
 

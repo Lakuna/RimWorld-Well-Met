@@ -13,9 +13,9 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.BloodRainUtilityPatches {
-	[HarmonyPatch(typeof(BloodRainUtility), nameof(BloodRainUtility.TryTriggerBerserkShort))]
-	internal static class TryTriggerBerserkShortPatch {
+namespace Lakuna.WellMet.Patches.HediffGiverHeatPatches {
+	[HarmonyPatch(typeof(HediffGiver_Heat), nameof(HediffGiver_Heat.OnIntervalPassed))]
+	internal static class OnIntervalPassedPatch {
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));
 
 		[HarmonyTranspiler]
@@ -30,7 +30,7 @@ namespace Lakuna.WellMet.Patches.BloodRainUtilityPatches {
 				yield return instruction;
 
 				if (PatchUtility.Calls(instruction, MessageShowAllowedMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Message)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
 				}

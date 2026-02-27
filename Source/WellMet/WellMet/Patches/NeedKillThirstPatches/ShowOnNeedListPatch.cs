@@ -12,7 +12,7 @@ namespace Lakuna.WellMet.Patches.NeedKillThirstPatches {
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn ___pawn, ref bool __result) =>
+		private static void Postfix(ref bool __result, Pawn ___pawn) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, ___pawn);

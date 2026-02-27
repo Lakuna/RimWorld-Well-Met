@@ -15,9 +15,9 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompDisappearsPatches {
-	[HarmonyPatch(typeof(HediffComp_Disappears), nameof(HediffComp_Disappears.CompPostPostRemoved))]
-	internal static class CompPostPostRemovedPatch {
+namespace Lakuna.WellMet.Patches.HediffCompMessageAfterTicksPatches {
+	[HarmonyPatch(typeof(HediffComp_MessageAfterTicks), nameof(HediffComp_MessageAfterTicks.CompPostTick))]
+	internal static class CompPostTickPatch {
 		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
@@ -33,7 +33,7 @@ namespace Lakuna.WellMet.Patches.HediffCompDisappearsPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Used for a message and a letter.
+				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;

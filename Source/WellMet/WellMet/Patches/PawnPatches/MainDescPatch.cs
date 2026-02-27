@@ -27,17 +27,18 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 #endif
 
 		[HarmonyPrefix]
-#pragma warning disable CA1707
-		private static void Prefix(Pawn __instance,
-#pragma warning restore CA1707
+		private static void Prefix(
 #if V1_0
 			ref bool writeAge
 #else
 #if !(V1_1 || V1_2 || V1_3)
 			ref bool writeGender,
 #endif
-			ref bool writeFaction
+			ref bool writeFaction,
 #endif
+#pragma warning disable CA1707
+			Pawn __instance
+#pragma warning restore CA1707
 			) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);
 #if V1_0
