@@ -7,6 +7,7 @@
 	<BR.LearningEnabled.Desc>knowledge will be gained over time rather than right away</BR.LearningEnabled.Desc>
 	<BR.WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</BR.WarningDisabledBasicForStartingColonists>
 	<BR.Unknown>unknown</BR.Unknown>
+	<BR.ToggleInformationAboutFor>toggle information about {0} for {1}</BR.ToggleInformationAboutFor>
 
 	<!-- Settings. -->
 	<BR.TraitDiscoveryDifficulty>trait discovery difficulty</BR.TraitDiscoveryDifficulty>

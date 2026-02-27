@@ -83,7 +83,7 @@ namespace Lakuna.WellMet {
 
 						// Draw checkbox tooltips.
 						if (Mouse.IsOver(checkboxRect)) {
-							TooltipHandler.TipRegion(checkboxRect, $"{$"BR.{pawnTypes[j]}".Translate().CapitalizeFirst()}: {$"BR.{informationCategories[i]}".Translate()}");
+							TooltipHandler.TipRegion(checkboxRect, MiscellaneousUtility.EndWithPeriod("BR.ToggleInformationAboutFor".Translate($"BR.{informationCategories[i]}.Desc".Translate(), $"BR.{pawnTypes[j]}.Desc".Translate()).CapitalizeFirst()));
 						}
 					}
 				}
