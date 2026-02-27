@@ -87,7 +87,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if V1_0
 				if (PatchUtility.Calls(instruction, InspectStringPartsFromCompsMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 

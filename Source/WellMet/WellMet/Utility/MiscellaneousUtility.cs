@@ -150,7 +150,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>The compressed string.</returns>
 		public static string RemoveLineBreaks(string str) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-			new StringBuilder(str).Replace("\n", "").Replace("\r", "").ToString();
+			new StringBuilder(str).Replace("\n", string.Empty).Replace("\r", string.Empty).ToString();
 #else
 			str.RemoveLineBreaks();
 #endif

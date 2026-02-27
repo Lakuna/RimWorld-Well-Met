@@ -154,7 +154,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 				if (PatchUtility.Calls(instruction, ToStringFullMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 

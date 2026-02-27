@@ -47,7 +47,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 				if (PatchUtility.Calls(instruction, LabelPrefixMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 

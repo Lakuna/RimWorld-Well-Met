@@ -41,7 +41,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
 				if (PatchUtility.Calls(instruction, LabelCapMethod) || PatchUtility.Calls(instruction, GetWildnessExplanationMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 
@@ -58,7 +58,7 @@ namespace Lakuna.WellMet.Patches.TrainingCardUtilityPatches {
 #endif
 
 				if (PatchUtility.Calls(instruction, ToStringPercentMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 				}
