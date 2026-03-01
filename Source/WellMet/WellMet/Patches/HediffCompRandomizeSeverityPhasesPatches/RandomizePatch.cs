@@ -39,6 +39,8 @@ namespace Lakuna.WellMet.Patches.HediffCompRandomizeSeverityPhasesPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

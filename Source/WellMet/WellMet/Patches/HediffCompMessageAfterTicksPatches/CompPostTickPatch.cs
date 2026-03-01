@@ -38,6 +38,8 @@ namespace Lakuna.WellMet.Patches.HediffCompMessageAfterTicksPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

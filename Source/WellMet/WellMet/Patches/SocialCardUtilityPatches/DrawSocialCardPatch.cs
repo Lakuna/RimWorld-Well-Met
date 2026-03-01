@@ -41,6 +41,8 @@ namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

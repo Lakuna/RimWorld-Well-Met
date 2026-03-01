@@ -33,6 +33,8 @@ namespace Lakuna.WellMet.Patches.BloodRainUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

@@ -117,6 +117,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 #endif
 			}

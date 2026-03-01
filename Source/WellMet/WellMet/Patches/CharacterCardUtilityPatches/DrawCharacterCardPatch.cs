@@ -65,16 +65,20 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(ActionDelegateTranspiler));
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
+			// If the pawn field isn't present, return unmodified instructions.
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");
+			if (pawnField is null) {
+				foreach (CodeInstruction instruction in instructions) {
+					yield return instruction;
+				}
+
+				yield break;
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, pawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
-
-				// If the pawn field isn't present, return unmodified instructions.
-				if (pawnField is null) {
-					continue;
-				}
 
 				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
@@ -88,6 +92,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}
@@ -252,6 +258,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;
 					}
+
+					continue;
 				}
 #endif
 			}

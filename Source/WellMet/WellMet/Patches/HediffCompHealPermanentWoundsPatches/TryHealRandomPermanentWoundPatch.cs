@@ -35,6 +35,8 @@ namespace Lakuna.WellMet.Patches.HediffCompHealPermanentWoundsPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

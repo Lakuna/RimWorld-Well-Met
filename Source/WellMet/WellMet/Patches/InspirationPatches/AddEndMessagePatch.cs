@@ -35,6 +35,8 @@ namespace Lakuna.WellMet.Patches.InspirationPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

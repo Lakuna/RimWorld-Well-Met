@@ -37,6 +37,8 @@ namespace Lakuna.WellMet.Patches.MentalStateSocialFightingPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Social, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

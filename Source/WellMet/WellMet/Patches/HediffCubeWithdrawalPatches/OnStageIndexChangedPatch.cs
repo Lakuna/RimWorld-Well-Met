@@ -37,6 +37,8 @@ namespace Lakuna.WellMet.Patches.HediffCubeWithdrawalPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

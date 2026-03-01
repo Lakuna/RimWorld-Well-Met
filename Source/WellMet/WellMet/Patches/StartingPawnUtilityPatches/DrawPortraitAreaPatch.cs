@@ -31,6 +31,8 @@ namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Gear, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

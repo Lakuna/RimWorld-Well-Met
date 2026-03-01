@@ -103,6 +103,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

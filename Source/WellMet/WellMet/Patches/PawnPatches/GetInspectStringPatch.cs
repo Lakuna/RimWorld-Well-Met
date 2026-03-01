@@ -236,6 +236,8 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 #endif
 			}

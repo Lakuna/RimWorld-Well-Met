@@ -33,6 +33,8 @@ namespace Lakuna.WellMet.Patches.RelationsUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Social, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

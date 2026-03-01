@@ -73,6 +73,8 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Personal, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 #endif
 			}

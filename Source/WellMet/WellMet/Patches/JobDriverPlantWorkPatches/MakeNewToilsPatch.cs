@@ -32,7 +32,16 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
+			// If the cut field isn't present, return unmodified instructions.
 			FieldInfo cutField = original.DeclaringType.GetField("cut");
+			if (cutField is null) {
+				foreach (CodeInstruction instruction in instructions) {
+					yield return instruction;
+				}
+
+				yield break;
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, cutField), new CodeInstruction(OpCodes.Ldfld, ActorField) };
 
 			foreach (CodeInstruction instruction in instructions) {

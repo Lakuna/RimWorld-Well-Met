@@ -33,6 +33,8 @@ namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Needs, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

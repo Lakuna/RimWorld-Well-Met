@@ -48,16 +48,20 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 				throw new ArgumentNullException(nameof(original));
 			}
 
+			// If the pawn field isn't present, return unmodified instructions.
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");
+			if (pawnField is null) {
+				foreach (CodeInstruction instruction in instructions) {
+					yield return instruction;
+				}
+
+				yield break;
+			}
+
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, pawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
-
-				// If the pawn field isn't present, return unmodified instructions.
-				if (pawnField is null) {
-					continue;
-				}
 
 				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
@@ -79,6 +83,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}
@@ -131,6 +137,8 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

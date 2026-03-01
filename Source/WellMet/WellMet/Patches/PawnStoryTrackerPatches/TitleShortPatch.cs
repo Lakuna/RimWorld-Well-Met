@@ -53,6 +53,8 @@ namespace Lakuna.WellMet.Patches.PawnStoryTrackerPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

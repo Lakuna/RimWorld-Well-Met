@@ -48,6 +48,8 @@ namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator)) {
 						yield return i;
 					}
+
+					continue;
 				}
 #endif
 			}

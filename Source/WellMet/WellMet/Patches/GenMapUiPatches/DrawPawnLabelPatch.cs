@@ -39,6 +39,8 @@ namespace Lakuna.WellMet.Patches.GenMapUiPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, 1f)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

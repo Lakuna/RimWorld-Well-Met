@@ -37,6 +37,8 @@ namespace Lakuna.WellMet.Patches.MentalStateTargetedInsultingSpreePatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}

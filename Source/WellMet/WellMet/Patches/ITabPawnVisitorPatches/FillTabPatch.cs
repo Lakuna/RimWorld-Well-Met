@@ -160,6 +160,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
+
+					continue;
 				}
 			}
 		}
