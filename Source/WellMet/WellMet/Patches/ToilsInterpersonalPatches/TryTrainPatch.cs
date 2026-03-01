@@ -103,6 +103,8 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
+
+					continue;
 				}
 			}
 		}

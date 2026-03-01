@@ -61,6 +61,7 @@ namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
 				// Apply a transpiler to functions referenced via pointer.
 				if (instruction.opcode == OpCodes.Ldftn && instruction.operand is MethodInfo methodInfo && methodInfo.DeclaringType == typeof(JobDriver_CarryGenepackToContainer)) {
 					_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: InnerActionDelegateTranspilerMethod);
+					continue;
 				}
 			}
 		}
@@ -79,6 +80,8 @@ namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
 					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
+
+					continue;
 				}
 			}
 		}

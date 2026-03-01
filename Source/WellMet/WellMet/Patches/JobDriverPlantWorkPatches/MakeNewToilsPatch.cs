@@ -71,6 +71,7 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 				// Apply a transpiler to functions referenced via pointer.
 				if (instruction.opcode == OpCodes.Ldftn && instruction.operand is MethodInfo methodInfo && methodInfo.DeclaringType.DeclaringType == typeof(JobDriver_PlantWork)) {
 					_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: InnerActionDelegateTranspilerMethod);
+					continue;
 				}
 			}
 		}
@@ -89,6 +90,8 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
+
+					continue;
 				}
 			}
 		}
