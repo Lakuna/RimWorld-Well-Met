@@ -5,13 +5,80 @@ using Lakuna.WellMet.Utility;
 
 using RimWorld;
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+
 using Verse;
 
 namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawPawnCertainty))]
 	internal static class DrawPawnCertaintyPatch {
+		private static readonly MethodInfo CertaintyChangePerDayMethod = AccessTools.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.CertaintyChangePerDay));
+
+		private static readonly MethodInfo CertaintyMethod = AccessTools.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));
+
+		private static readonly MethodInfo GetStatValueMethod = SymbolExtensions.GetMethodInfo((Pawn pawn) => pawn.GetStatValue(StatDefOf.CertaintyLossFactor, true, -1));
+
+		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
+
+		private static readonly MethodInfo FilterTraitsMethod = AccessTools.Method(typeof(DrawPawnCertaintyPatch), nameof(FilterTraits));
+
+		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
+			List<Trait> outValue = new List<Trait>();
+			foreach (Trait trait in traits) {
+				if (!KnowledgeUtility.IsTraitKnown(pawn, trait.def)) {
+					continue;
+				}
+
+				outValue.Add(trait);
+			}
+
+			return outValue;
+		}
+
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
+
+		[HarmonyTranspiler]
+		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+			if (instructions is null) {
+				throw new ArgumentNullException(nameof(instructions));
+			}
+
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+
+			foreach (CodeInstruction instruction in instructions) {
+				yield return instruction;
+
+				if (PatchUtility.Calls(instruction, CertaintyChangePerDayMethod) || PatchUtility.Calls(instruction, CertaintyMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				// `GetStatValue` is called only to get the pawn's certainty loss factor.
+				if (PatchUtility.Calls(instruction, GetStatValueMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 1f)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.LoadsField(instruction, AllTraitsField)) {
+					foreach (CodeInstruction i in getPawnInstructions) {
+						yield return new CodeInstruction(i);
+					}
+
+					yield return new CodeInstruction(OpCodes.Call, FilterTraitsMethod);
+					continue;
+				}
+			}
+		}
 	}
 }
 #endif

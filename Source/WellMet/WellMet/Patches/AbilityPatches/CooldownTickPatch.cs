@@ -18,6 +18,8 @@ using Verse;
 namespace Lakuna.WellMet.Patches.AbilityPatches {
 	[HarmonyPatch(typeof(Ability), "CooldownTick")]
 	internal static class CooldownTickPatch {
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Ability), nameof(Ability.pawn));
+
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
@@ -28,14 +30,14 @@ namespace Lakuna.WellMet.Patches.AbilityPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
 				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Abilities, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
 
@@ -43,7 +45,7 @@ namespace Lakuna.WellMet.Patches.AbilityPatches {
 				}
 
 				if (PatchUtility.Calls(instruction, MessageShowAllowedMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Message)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Abilities, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
 

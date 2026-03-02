@@ -10,7 +10,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <summary>
 		/// The prefix that is placed before all logged messages from this mod.
 		/// </summary>
-		private const string Prefix = "Well Met encountered an exception: ";
+		private const string Prefix = "Bounded Rationality encountered an exception: ";
 
 		/// <summary>
 		/// Write information about an exception to the log.
@@ -24,7 +24,7 @@ namespace Lakuna.WellMet.Utility {
 				throw new ArgumentNullException(nameof(e));
 			}
 
-			string output = Prefix + description + "\n";
+			string output = $"{Prefix}{description}\n";
 
 			Exception innerException = e;
 			while (innerException != null) {

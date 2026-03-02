@@ -76,7 +76,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>The string.</returns>
 		public static string EndWithPeriod(string s) =>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-			s + ".";
+			$"{s}.";
 #else
 			s.EndWithPeriod();
 #endif
@@ -89,7 +89,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>The tagged string.</returns>
 		public static TaggedString EndWithPeriod(TaggedString s) =>
 #if V1_1 || V1_2 || V1_3 || V1_4
-			s + ".";
+			$"{s}.";
 #else
 			s.EndWithPeriod();
 #endif
@@ -104,14 +104,16 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="skill">The skill record.</param>
 		/// <returns>The pawn that is associated with the given skill record.</returns>
-		public static Pawn PawnOfSkillRecord(SkillRecord skill) => PawnField.GetValue(skill) as Pawn;
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
+			PawnField.GetValue(skill) as Pawn;
 #else
 		/// <summary>
 		/// Get the pawn that is associated with the given skill record.
 		/// </summary>
 		/// <param name="skill">The skill record.</param>
 		/// <returns>The pawn that is associated with the given skill record.</returns>
-		public static Pawn PawnOfSkillRecord(SkillRecord skill) => skill?.Pawn;
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
+			skill?.Pawn;
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
@@ -197,14 +199,14 @@ namespace Lakuna.WellMet.Utility {
 				byte[] array = CompressUtility.Compress(arr2);
 				if (array.Length < arr2.Length) {
 					string value = AddLineBreaksToLongString(Convert.ToBase64String(array));
-					Scribe_Values.Look(ref value, label + "Deflate");
+					Scribe_Values.Look(ref value, $"{label}Deflate");
 				} else {
 					string value = AddLineBreaksToLongString(Convert.ToBase64String(arr2));
 					Scribe_Values.Look(ref value, label);
 				}
 			} else if (Scribe.mode == LoadSaveMode.LoadingVars) {
 				string value = null;
-				Scribe_Values.Look(ref value, label + "Deflate");
+				Scribe_Values.Look(ref value, $"{label}Deflate");
 				if (value is null) {
 					Scribe_Values.Look(ref value, label);
 					arr2 = value is null ? null : Convert.FromBase64String(RemoveLineBreaks(value));
@@ -363,9 +365,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
 		public static bool IsRelativeOfColonist(Pawn pawn) =>
-			pawn?.relations?.RelatedPawns?.Any((other) =>
-				TypeOf(other) == PawnType.Colonist)
-			?? false;
+			pawn?.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
 
 		/// <summary>
 		/// Determine whether or not the given pawn's corpse was dead when the player discovered it.
@@ -418,18 +418,14 @@ namespace Lakuna.WellMet.Utility {
 		public static bool WasColonist(Pawn pawn) =>
 			TimeAsColonist(pawn) > 0;
 
-#if V1_0 || V1_1 || V1_2 || V1_3
-		/// <summary>
-		/// Determine whether or not a growth moment dialog is currently open.
-		/// </summary>
-		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
-		public static bool IsInGrowthMoment() => false;
-#else
 		/// <summary>
 		/// Determine whether or not a growth moment dialog is currently open.
 		/// </summary>
 		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
 		public static bool IsInGrowthMoment() =>
+#if V1_0 || V1_1 || V1_2 || V1_3
+			false;
+#else
 			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
 #endif
 	}
