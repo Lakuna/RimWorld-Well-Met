@@ -18,7 +18,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.HediffCompMessageAfterTicksPatches {
 	[HarmonyPatch(typeof(HediffComp_MessageAfterTicks), nameof(HediffComp_MessageAfterTicks.CompPostTick))]
 	internal static class CompPostTickPatch {
-		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 

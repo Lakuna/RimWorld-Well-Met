@@ -15,7 +15,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
 	internal static class DoLeftSectionPatch {
-		private static readonly MethodInfo AllAbilitiesForReadingMethod = AccessTools.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
+		private static readonly MethodInfo AllAbilitiesForReadingMethod = PatchUtility.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
 
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
 
@@ -27,7 +27,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 
 		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
 
-		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
+		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
 
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) =>

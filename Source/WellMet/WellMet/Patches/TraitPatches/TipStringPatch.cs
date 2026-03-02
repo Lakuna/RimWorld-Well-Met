@@ -30,7 +30,7 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static readonly FieldInfo SourceGeneField = AccessTools.Field(typeof(Trait), nameof(Trait.sourceGene));
 
-		private static readonly MethodInfo SuppressedMethod = AccessTools.PropertyGetter(typeof(Trait), nameof(Trait.Suppressed));
+		private static readonly MethodInfo SuppressedMethod = PatchUtility.PropertyGetter(typeof(Trait), nameof(Trait.Suppressed));
 #endif
 
 		[HarmonyTranspiler]

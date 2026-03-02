@@ -13,7 +13,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnFeedingPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Feeding), nameof(ITab_Pawn_Feeding.IsVisible), MethodType.Getter)]
 	internal static class IsVisiblePatch {
-		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707

@@ -18,7 +18,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.HediffCompGrowthModePatches {
 	[HarmonyPatch(typeof(HediffComp_GrowthMode), "ChangeGrowthMode")]
 	internal static class ChangeGrowthModePatch {
-		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 

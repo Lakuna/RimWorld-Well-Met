@@ -29,7 +29,7 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 
 		private static readonly MethodInfo GetTargetMethod = AccessTools.Method(typeof(Job), nameof(Job.GetTarget));
 
-		private static readonly MethodInfo ThingMethod = AccessTools.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Thing));
+		private static readonly MethodInfo ThingMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Thing));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 

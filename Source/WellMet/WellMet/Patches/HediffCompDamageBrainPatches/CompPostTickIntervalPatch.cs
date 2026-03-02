@@ -16,7 +16,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.HediffCompDamageBrainPatches {
 	[HarmonyPatch(typeof(HediffComp_DamageBrain), nameof(HediffComp_DamageBrain.CompPostTickInterval))]
 	internal static class CompPostTickIntervalPatch {
-		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 

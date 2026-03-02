@@ -15,9 +15,9 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoSlaveTab")]
 	internal static class DoSlaveTabPatch {
-		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
-		private static readonly MethodInfo CurLevelMethod = AccessTools.PropertyGetter(typeof(Need), nameof(Need.CurLevel));
+		private static readonly MethodInfo CurLevelMethod = PatchUtility.PropertyGetter(typeof(Need), nameof(Need.CurLevel));
 
 		private static readonly MethodInfo GetStatValueMethod = AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue));
 
@@ -27,9 +27,9 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo InitiateSlaveRebellionMtbDaysMethod = AccessTools.Method(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.InitiateSlaveRebellionMtbDays));
 
-		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
-		private static readonly MethodInfo SlaveFactionMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.SlaveFaction));
+		private static readonly MethodInfo SlaveFactionMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.SlaveFaction));
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {

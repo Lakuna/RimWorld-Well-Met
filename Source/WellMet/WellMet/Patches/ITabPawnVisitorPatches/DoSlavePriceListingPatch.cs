@@ -13,7 +13,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoSlavePriceListing")]
 	internal static class DoSlavePriceListingPatch {
-		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPrefix]
 #pragma warning disable CA1707

@@ -19,11 +19,11 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		private static readonly MethodInfo NameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
-		private static readonly MethodInfo LabelPrefixMethod = AccessTools.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
+		private static readonly MethodInfo LabelPrefixMethod = PatchUtility.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 #endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5)
-		private static readonly MethodInfo IsSubhumanMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
+		private static readonly MethodInfo IsSubhumanMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsSubhuman));
 #endif
 
 		[HarmonyTranspiler]

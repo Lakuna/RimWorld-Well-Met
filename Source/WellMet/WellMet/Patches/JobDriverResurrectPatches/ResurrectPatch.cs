@@ -18,9 +18,9 @@ using Verse;
 namespace Lakuna.WellMet.Patches.JobDriverResurrectPatches {
 	[HarmonyPatch(typeof(JobDriver_Resurrect), "Resurrect")]
 	internal static class ResurrectPatch {
-		private static readonly MethodInfo CorpseMethod = AccessTools.PropertyGetter(typeof(JobDriver_Resurrect), "Corpse");
+		private static readonly MethodInfo CorpseMethod = PatchUtility.PropertyGetter(typeof(JobDriver_Resurrect), "Corpse");
 
-		private static readonly MethodInfo InnerPawnMethod = AccessTools.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
+		private static readonly MethodInfo InnerPawnMethod = PatchUtility.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 

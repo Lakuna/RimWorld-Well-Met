@@ -21,9 +21,9 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
-		private static readonly MethodInfo IsMutantMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
+		private static readonly MethodInfo IsMutantMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsMutant));
 
-		private static readonly MethodInfo IsCreepJoinerMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
+		private static readonly MethodInfo IsCreepJoinerMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsCreepJoiner));
 #endif
 
 		[HarmonyPrefix]

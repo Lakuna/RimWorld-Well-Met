@@ -16,7 +16,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.HediffCompMessageBasePatches {
 	[HarmonyPatch(typeof(HediffComp_MessageBase), "Message")]
 	internal static class MessagePatch {
-		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 

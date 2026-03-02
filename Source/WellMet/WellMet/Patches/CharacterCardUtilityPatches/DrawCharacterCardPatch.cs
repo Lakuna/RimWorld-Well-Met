@@ -30,7 +30,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #if V1_0
 		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.CombinedDisabledWorkTags));
 #else
-		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
+		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
 #endif
 
 		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
@@ -54,7 +54,7 @@ namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if V1_1 || V1_2 || V1_3 || V1_4
-		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly MethodInfo GetExtraFactionsFromQuestPartsMethod = AccessTools.Method(typeof(QuestUtility), nameof(QuestUtility.GetExtraFactionsFromQuestParts));
 

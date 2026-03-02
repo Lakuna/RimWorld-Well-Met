@@ -15,7 +15,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoPrisonerTab")]
 	internal static class DoPrisonerTabPatch {
-		private static readonly MethodInfo SelPawnMethod = AccessTools.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		private static readonly MethodInfo InitiatePrisonBreakMtbDaysMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.InitiatePrisonBreakMtbDays));
 
@@ -23,7 +23,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo GenePreventsPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.GenePreventsPrisonBreaking));
 
-		private static readonly MethodInfo RecruitableMethod = AccessTools.PropertyGetter(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.Recruitable));
+		private static readonly MethodInfo RecruitableMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.Recruitable));
 
 		private static readonly FieldInfo ResistanceField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.resistance));
 
@@ -35,7 +35,7 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 
-		private static readonly MethodInfo FactionMethod = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
 

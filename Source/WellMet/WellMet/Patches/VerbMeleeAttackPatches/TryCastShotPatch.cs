@@ -20,7 +20,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.VerbMeleeAttackPatches {
 	[HarmonyPatch(typeof(Verb_MeleeAttack), "TryCastShot")]
 	internal static class TryCastShotPatch {
-		private static readonly MethodInfo CasterPawnMethod = AccessTools.PropertyGetter(typeof(Verb), nameof(Verb.CasterPawn));
+		private static readonly MethodInfo CasterPawnMethod = PatchUtility.PropertyGetter(typeof(Verb), nameof(Verb.CasterPawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 

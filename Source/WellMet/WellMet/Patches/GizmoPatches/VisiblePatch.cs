@@ -24,7 +24,7 @@ namespace Lakuna.WellMet.Patches.GizmoPatches {
 #else
 		private static readonly FieldInfo ResourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
 
-		private static readonly MethodInfo PawnOwnerMethod = AccessTools.PropertyGetter(typeof(CompShield), "PawnOwner");
+		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(CompShield), "PawnOwner");
 
 		private static readonly FieldInfo DeathrestGeneField = AccessTools.Field(typeof(GeneGizmo_DeathrestCapacity), "gene");
 #endif

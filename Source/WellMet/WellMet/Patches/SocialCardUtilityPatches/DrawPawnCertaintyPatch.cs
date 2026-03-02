@@ -15,9 +15,9 @@ using Verse;
 namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawPawnCertainty))]
 	internal static class DrawPawnCertaintyPatch {
-		private static readonly MethodInfo CertaintyChangePerDayMethod = AccessTools.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.CertaintyChangePerDay));
+		private static readonly MethodInfo CertaintyChangePerDayMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.CertaintyChangePerDay));
 
-		private static readonly MethodInfo CertaintyMethod = AccessTools.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));
+		private static readonly MethodInfo CertaintyMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));
 
 		private static readonly MethodInfo GetStatValueMethod = SymbolExtensions.GetMethodInfo((Pawn pawn) => pawn.GetStatValue(StatDefOf.CertaintyLossFactor, true, -1));
 

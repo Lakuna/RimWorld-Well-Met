@@ -18,7 +18,7 @@ using Verse;
 namespace Lakuna.WellMet.Patches.HediffCompDiscoverablePatches {
 	[HarmonyPatch(typeof(HediffComp_Discoverable), "CheckDiscovered")]
 	internal static class CheckDiscoveredPatch {
-		private static readonly MethodInfo PawnMethod = AccessTools.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
