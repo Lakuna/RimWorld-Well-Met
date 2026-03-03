@@ -1,11 +1,11 @@
-﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+using System.Reflection;
+
 using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System.Reflection;
 
 namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
 	[HarmonyPatch(typeof(MechanitorControlGroupGizmo), nameof(MechanitorControlGroupGizmo.Visible), MethodType.Getter)]

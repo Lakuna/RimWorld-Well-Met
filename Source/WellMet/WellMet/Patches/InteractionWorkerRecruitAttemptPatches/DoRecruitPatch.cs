@@ -27,6 +27,8 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
 	internal static class DoRecruitPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
+		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
+
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
@@ -38,7 +40,17 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				// This text mote is thrown only when the tame attempt succeeds.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+						yield return i;
+					}
+
+					// Skip the normal instruction (already returned above).
+					continue;
+				}
+
+				// This message is sent only when the tame attempt succeeds.
+				if (PatchUtility.Calls(instruction, MessageMethod)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
 						yield return i;
 					}
 

@@ -1,12 +1,12 @@
-﻿#if !(V1_0 || V1_1 || V1_2 || V1_3)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+using System;
+using System.Reflection;
+
 using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System;
-using System.Reflection;
 
 using Verse;
 

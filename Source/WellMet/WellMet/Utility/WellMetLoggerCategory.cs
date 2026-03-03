@@ -1,4 +1,4 @@
-﻿namespace Lakuna.WellMet.Utility {
+namespace Lakuna.WellMet.Utility {
 	/// <summary>
 	/// Message categories for logging.
 	/// </summary>

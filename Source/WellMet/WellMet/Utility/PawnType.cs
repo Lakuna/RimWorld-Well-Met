@@ -1,4 +1,4 @@
-﻿namespace Lakuna.WellMet.Utility {
+namespace Lakuna.WellMet.Utility {
 	/// <summary>
 	/// Categories of pawn (or faction) that can have their visibility configured in the mod settings.
 	/// </summary>

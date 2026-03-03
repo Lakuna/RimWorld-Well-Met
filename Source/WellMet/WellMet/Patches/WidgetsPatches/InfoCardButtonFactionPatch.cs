@@ -1,11 +1,11 @@
-﻿#if !V1_0
+#if !V1_0
+using System;
+
 using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System;
 
 using Verse;
 

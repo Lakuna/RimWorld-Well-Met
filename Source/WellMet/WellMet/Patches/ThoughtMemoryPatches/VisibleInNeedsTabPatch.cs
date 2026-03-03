@@ -1,4 +1,4 @@
-﻿#if !V1_0
+#if !V1_0
 using HarmonyLib;
 
 using Lakuna.WellMet.Utility;

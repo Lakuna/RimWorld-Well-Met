@@ -1,14 +1,14 @@
-﻿#if !V1_0
+#if !V1_0
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+
 using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 
 using Verse;
 

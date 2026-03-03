@@ -1,4 +1,4 @@
-﻿namespace Lakuna.WellMet.Utility {
+namespace Lakuna.WellMet.Utility {
 	public enum ControlCategory : int {
 		Default,
 		Control,
