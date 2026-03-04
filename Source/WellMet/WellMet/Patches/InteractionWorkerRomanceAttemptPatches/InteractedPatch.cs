@@ -42,5 +42,17 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRomanceAttemptPatches {
 				yield return instruction;
 			}
 		}
+
+		[HarmonyPostfix]
+		private static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, initiator) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, recipient)) {
+				return;
+			}
+
+			letterText = null;
+			letterLabel = null;
+			letterDef = null;
+			lookTargets = null;
+		}
 	}
 }

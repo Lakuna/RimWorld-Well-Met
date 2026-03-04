@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
+using Verse;
+
 namespace Lakuna.WellMet.Patches.InteractionWorkerConvertIdeoAttemptPatches {
 	[HarmonyPatch(typeof(InteractionWorker_ConvertIdeoAttempt), nameof(InteractionWorker_ConvertIdeoAttempt.Interacted))]
 	internal static class InteractedPatch {
@@ -38,6 +40,18 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerConvertIdeoAttemptPatches {
 					continue;
 				}
 			}
+		}
+
+		[HarmonyPostfix]
+		private static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
+			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, initiator) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, recipient)) {
+				return;
+			}
+
+			letterText = null;
+			letterLabel = null;
+			letterDef = null;
+			lookTargets = null;
 		}
 	}
 }
