@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+
 #if V1_0
 using Harmony;
 #else
@@ -8,11 +13,6 @@ using Lakuna.WellMet.Utility;
 
 using RimWorld;
 using RimWorld.Planet;
-
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 
 using Verse;
 using Verse.AI;

@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+
 #if V1_0
 using Harmony;
 #else
@@ -7,11 +12,6 @@ using HarmonyLib;
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
 	[HarmonyPatch(typeof(HealthCardUtility), "DrawOverviewTab")]

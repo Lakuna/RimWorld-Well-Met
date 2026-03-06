@@ -1,3 +1,5 @@
+using System.Reflection;
+
 #if V1_0
 using Harmony;
 #else
@@ -7,8 +9,6 @@ using HarmonyLib;
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System.Reflection;
 
 using Verse;
 

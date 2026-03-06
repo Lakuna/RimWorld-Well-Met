@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 #if V1_0
 using Harmony;
 #else
@@ -7,8 +9,6 @@ using HarmonyLib;
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System.Collections.Generic;
 
 using Verse;
 

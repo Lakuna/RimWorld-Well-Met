@@ -1,3 +1,5 @@
+using System;
+
 #if V1_0
 using Harmony;
 #else
@@ -7,8 +9,6 @@ using HarmonyLib;
 using Lakuna.WellMet.Utility;
 
 using RimWorld;
-
-using System;
 
 namespace Lakuna.WellMet.Patches.ThoughtMemorySocialPatches {
 	[HarmonyPatch(typeof(Thought_MemorySocial), nameof(Thought_MemorySocial.VisibleInNeedsTab), MethodType.Getter)]
