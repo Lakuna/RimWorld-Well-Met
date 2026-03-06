@@ -41,6 +41,8 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo FinalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
 
+		private static readonly MethodInfo IsGuiltyMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuiltTracker), nameof(Pawn_GuiltTracker.IsGuilty));
+
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
@@ -101,6 +103,14 @@ namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
 				// Royalty is used here only for royal title resistance offset.
 				if (PatchUtility.LoadsField(instruction, RoyaltyField) || PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.LoadsField(instruction, FinalResistanceInteractionDataField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.Calls(instruction, IsGuiltyMethod)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}
 

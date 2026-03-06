@@ -121,11 +121,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getThingInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => AndKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory);
 
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn.
@@ -138,11 +134,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getPawnInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => AndKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory);
 
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" faction.
@@ -155,11 +147,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getFactionInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in AndKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => AndKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory);
 
 		/// <summary>
 		/// AND the value on top of the stack with whether the given information category is known for the "given" pawn or faction.
@@ -204,11 +192,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getThingInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => OrNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, controlCategory);
 
 		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" pawn.
@@ -221,11 +205,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getPawnInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => OrNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, controlCategory);
 
 		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" faction.
@@ -238,11 +218,7 @@ namespace Lakuna.WellMet.Utility {
 			InformationCategory category,
 			IEnumerable<CodeInstruction> getFactionInstructions,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in OrNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => OrNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, controlCategory);
 
 		/// <summary>
 		/// OR the value on top of the stack with whether the given information category is not known for the "given" pawn or faction.
@@ -302,11 +278,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForThingMethod, callInstruction, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => SkipIfNotKnown(IsInformationKnownForThingMethod, callInstruction, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
@@ -330,11 +302,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
@@ -358,11 +326,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Skip the method call on top of the stack if the given information category isn't known, removing its arguments from the stack and optionally adding a replacement return value to the stack. This function includes the passed `callInstruction` in its returned instructions, so the original instance should not be returned again.
@@ -428,6 +392,9 @@ namespace Lakuna.WellMet.Utility {
 			CodeInstruction doSkipTarget = new CodeInstruction(OpCodes.Nop);
 			doSkipTarget.labels.Add(doSkipLabel);
 			yield return doSkipTarget;
+			if (!methodInfo.IsStatic) {
+				yield return new CodeInstruction(OpCodes.Pop); // `this` isn't included in the return value of `GetParameters`.
+			}
 			for (int i = 0; i < methodInfo.GetParameters().Length; i++) {
 				yield return new CodeInstruction(OpCodes.Pop);
 			}
@@ -517,11 +484,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => ReplaceIfNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" pawn.
@@ -542,11 +505,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" faction.
@@ -567,11 +526,7 @@ namespace Lakuna.WellMet.Utility {
 			bool byAddress = false,
 			bool localAddress = false,
 			ControlCategory controlCategory = ControlCategory.Default
-		) {
-			foreach (CodeInstruction instruction in ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory)) {
-				yield return instruction;
-			}
-		}
+		) => ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" pawn or faction.
@@ -672,6 +627,11 @@ namespace Lakuna.WellMet.Utility {
 						? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
 						: new CodeInstruction(OpCodes.Ldsfld, fieldInfo))
 					: throw new ArgumentException($"A non-static field was passed to `{nameof(LoadValue)}`.")
+				: value is MethodInfo methodInfo ? methodInfo.IsStatic
+					? methodInfo.GetParameters().Length == 0
+						? new CodeInstruction(OpCodes.Call, methodInfo)
+						: throw new ArgumentException($"A method with parameters was passed to `{nameof(LoadValue)}`.")
+					: throw new ArgumentException($"A non-static method was passed to `{nameof(LoadValue)}`.")
 				: value is ConstructorInfo constructorInfo ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
 				: value is long longValue ? new CodeInstruction(OpCodes.Ldc_I8, longValue)
 				: value is byte byteValue ? new CodeInstruction(OpCodes.Ldc_I4_S, byteValue)

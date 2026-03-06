@@ -34,7 +34,7 @@ namespace Lakuna.WellMet.Patches.MentalStateBingingDrugPatches {
 				yield return instruction;
 
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Letter)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Message)) {
 						yield return i;
 					}
 

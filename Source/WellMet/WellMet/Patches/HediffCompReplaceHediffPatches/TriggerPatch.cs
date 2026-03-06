@@ -35,8 +35,9 @@ namespace Lakuna.WellMet.Patches.HediffCompReplaceHediffPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
+				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Message)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
 

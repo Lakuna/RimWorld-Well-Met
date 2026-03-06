@@ -15,10 +15,10 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
-	[HarmonyPatch(typeof(Hediff_Pregnant), "NotifyPlayerOfTrimesterPassing")]
-	internal static class NotifyPlayerOfTrimesterPassingPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
+namespace Lakuna.WellMet.Patches.PawnAgeTrackerPatches {
+	[HarmonyPatch(typeof(Pawn_AgeTracker), "BirthdayBiological")]
+	internal static class BirthdayBiologicalPatch {
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_AgeTracker), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
@@ -33,7 +33,6 @@ namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;

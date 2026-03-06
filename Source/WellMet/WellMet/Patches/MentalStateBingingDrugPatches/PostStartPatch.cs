@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-using Verse;
+using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
-	[HarmonyPatch(typeof(Hediff_Pregnant), "NotifyPlayerOfTrimesterPassing")]
-	internal static class NotifyPlayerOfTrimesterPassingPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
+namespace Lakuna.WellMet.Patches.MentalStateBingingDrugPatches {
+	[HarmonyPatch(typeof(MentalState_BingingDrug), nameof(MentalState_BingingDrug.PostStart))]
+	internal static class PostStartPatch {
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
@@ -33,9 +33,8 @@ namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
-					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
+					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Needs, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}
 

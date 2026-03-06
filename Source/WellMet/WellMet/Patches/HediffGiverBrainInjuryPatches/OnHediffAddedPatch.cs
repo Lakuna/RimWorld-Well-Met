@@ -15,13 +15,9 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnHealthTrackerPatches {
-	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.NotifyPlayerOfKilled))]
-	internal static class NotifyPlayerOfKilledPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
-
-		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
-
+namespace Lakuna.WellMet.Patches.HediffGiverBrainInjuryPatches {
+	[HarmonyPatch(typeof(HediffGiver_BrainInjury), nameof(HediffGiver_BrainInjury.OnHediffAdded))]
+	internal static class OnHediffAddedPatch {
 		private static readonly MethodInfo ReceiveLetterMethod = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(LookTargets), typeof(Faction), typeof(Quest), typeof(List<ThingDef>), typeof(string), typeof(int), typeof(bool) });
 
 		[HarmonyTranspiler]
@@ -30,18 +26,9 @@ namespace Lakuna.WellMet.Patches.PawnHealthTrackerPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
 
 			foreach (CodeInstruction instruction in instructions) {
-				if (PatchUtility.Calls(instruction, MessageMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
-						yield return i;
-					}
-
-					// Skip the normal instruction (already returned above).
-					continue;
-				}
-
 				if (PatchUtility.Calls(instruction, ReceiveLetterMethod)) {
 					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.Letter)) {
 						yield return i;

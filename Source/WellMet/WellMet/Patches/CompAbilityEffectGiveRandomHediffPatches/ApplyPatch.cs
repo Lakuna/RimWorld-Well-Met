@@ -15,12 +15,12 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
-	[HarmonyPatch(typeof(Hediff_Pregnant), "NotifyPlayerOfTrimesterPassing")]
-	internal static class NotifyPlayerOfTrimesterPassingPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
+namespace Lakuna.WellMet.Patches.CompAbilityEffectGiveRandomHediffPatches {
+	[HarmonyPatch(typeof(CompAbilityEffect_GiveRandomHediff), nameof(CompAbilityEffect_GiveRandomHediff.Apply))]
+	internal static class ApplyPatch {
+		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));
 
-		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
+		private static readonly MethodInfo SendLetterMethod = PatchUtility.PropertyGetter(typeof(CompAbilityEffect), "SendLetter");
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
@@ -28,13 +28,12 @@ namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarga_S, 1), new CodeInstruction(OpCodes.Call, PawnMethod) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Used for both a message and a letter.
-				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
+				if (PatchUtility.Calls(instruction, SendLetterMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
 					}

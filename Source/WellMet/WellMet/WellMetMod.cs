@@ -185,7 +185,7 @@ namespace Lakuna.WellMet {
 				Settings.NeverHideTextMotes = neverHideTextMotes;
 
 				bool neverHideAlerts = Settings.NeverHideAlerts;
-				listing.CheckboxLabeled("BR.NeverHideAlerts".Translate().CapitalizeFirst(), ref neverHideLetters, MiscellaneousUtility.EndWithPeriod("BR.NeverHideAlerts.Desc".Translate().CapitalizeFirst()));
+				listing.CheckboxLabeled("BR.NeverHideAlerts".Translate().CapitalizeFirst(), ref neverHideAlerts, MiscellaneousUtility.EndWithPeriod("BR.NeverHideAlerts.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideAlerts = neverHideAlerts;
 
 				bool hideFactionInformation = Settings.HideFactionInformation;

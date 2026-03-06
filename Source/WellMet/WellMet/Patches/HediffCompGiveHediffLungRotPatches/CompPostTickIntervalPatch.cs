@@ -15,9 +15,11 @@ using System.Reflection.Emit;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
-	[HarmonyPatch(typeof(Hediff_Pregnant), "NotifyPlayerOfTrimesterPassing")]
-	internal static class NotifyPlayerOfTrimesterPassingPatch {
+namespace Lakuna.WellMet.Patches.HediffCompGiveHediffLungRotPatches {
+	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTickInterval))]
+	internal static class CompPostTickIntervalPatch {
+		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
+
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
@@ -28,12 +30,11 @@ namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, ParentField), new CodeInstruction(OpCodes.Ldfld, PawnField) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				// Used for both a message and a letter.
 				if (PatchUtility.Calls(instruction, ShouldSendNotificationAboutMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Health, getPawnInstructions, ControlCategory.Letter)) {
 						yield return i;
