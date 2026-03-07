@@ -11,7 +11,9 @@ using HarmonyLib;
 
 using Lakuna.WellMet.Utility;
 
+#if !V1_0
 using RimWorld;
+#endif
 
 using Verse;
 #if V1_0

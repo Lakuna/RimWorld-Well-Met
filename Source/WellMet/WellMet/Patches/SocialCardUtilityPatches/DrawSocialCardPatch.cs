@@ -1,7 +1,9 @@
+#if !V1_0
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+#endif
 
 #if V1_0
 using Harmony;
