@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 using System.Reflection;
 using System.Text;
 #endif
 
 #if V1_0
 using Harmony;
-#elif V1_1
+#elif V1_1 || V1_2
 using HarmonyLib;
 #endif
 
@@ -313,7 +313,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		public static PawnType TypeOf(Pawn pawn) =>
 			(pawn is null) ? PawnType.Neutral
 			: ((IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail)
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 				&& pawn.Faction == Faction.OfPlayerSilentFail
 #else
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail

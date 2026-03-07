@@ -16,7 +16,7 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnHealthTrackerPatches {
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.HealthTick))]
 #else
 	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.HealthTickInterval))]

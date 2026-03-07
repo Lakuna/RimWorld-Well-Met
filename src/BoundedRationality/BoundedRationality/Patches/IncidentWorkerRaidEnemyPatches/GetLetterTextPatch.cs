@@ -24,7 +24,7 @@ namespace Lakuna.BoundedRationality.Patches.IncidentWorkerRaidEnemyPatches {
 
 		private static readonly MethodInfo FindMethod = AccessTools.Method(typeof(List<Pawn>), nameof(List<Pawn>.Find));
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly FieldInfo RaidAgeRestrictionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.raidAgeRestriction));
 #endif
 
@@ -57,7 +57,7 @@ namespace Lakuna.BoundedRationality.Patches.IncidentWorkerRaidEnemyPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 				if (PatchUtility.LoadsField(instruction, RaidAgeRestrictionField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfFactionNotKnown(InformationCategory.Meta, getFactionInstructions, generator)) {
 						yield return i;

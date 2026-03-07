@@ -16,7 +16,7 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompHealPermanentWoundsPatches {
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), "TryHealRandomPermanentWound")]
 #else
 	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), nameof(HediffComp_HealPermanentWounds.TryHealRandomPermanentWound))]

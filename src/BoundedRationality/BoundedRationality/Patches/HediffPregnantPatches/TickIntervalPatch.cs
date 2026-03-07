@@ -16,7 +16,7 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffPregnantPatches {
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.Tick))]
 #else
 	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.TickInterval))]

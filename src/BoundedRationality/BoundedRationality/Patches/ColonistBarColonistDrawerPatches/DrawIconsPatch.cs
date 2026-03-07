@@ -38,7 +38,7 @@ namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 
 		private static readonly MethodInfo InspiredMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Inspired));
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo IdeoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
 #endif
 
@@ -94,7 +94,7 @@ namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 					continue;
 				}
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 				if (PatchUtility.Calls(instruction, IdeoMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;

@@ -11,12 +11,12 @@ using HarmonyLib;
 
 using Lakuna.BoundedRationality.Utility;
 
-#if !(V1_0 || V1_1)
+#if !(V1_0 || V1_1 || V1_2)
 using RimWorld;
 #endif
 
 using Verse;
-#if V1_0 || V1_1
+#if V1_0 || V1_1 || V1_2
 using Verse.AI;
 using Verse.AI.Group;
 #endif
