@@ -1,12 +1,14 @@
 using System;
 using System.Linq;
-#if V1_0
+#if V1_0 || V1_1
 using System.Reflection;
 using System.Text;
 #endif
 
 #if V1_0
 using Harmony;
+#elif V1_1
+using HarmonyLib;
 #endif
 
 using RimWorld;
@@ -311,7 +313,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		public static PawnType TypeOf(Pawn pawn) =>
 			(pawn is null) ? PawnType.Neutral
 			: ((IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail)
-#if V1_0
+#if V1_0 || V1_1
 				&& pawn.Faction == Faction.OfPlayerSilentFail
 #else
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail

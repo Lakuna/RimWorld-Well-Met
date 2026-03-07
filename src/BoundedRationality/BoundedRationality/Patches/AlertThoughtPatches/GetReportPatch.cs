@@ -35,6 +35,12 @@ namespace Lakuna.BoundedRationality.Patches.AlertThoughtPatches {
 				pawn.needs.mood.thoughts.GetAllMoodThoughts(thoughts);
 				return thoughts.Where((thought) => thought.def == thoughtDef).Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
 			}).ToList();
+#elif V1_1
+			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => {
+				List<Thought> thoughts = new List<Thought>();
+				pawn.needs.mood.thoughts.GetAllMoodThoughts(thoughts);
+				return thoughts.Where((thought) => thought.def == thoughtDef).Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
+			}).ToList();
 #else
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => {
 				List<Thought> thoughts = new List<Thought>();

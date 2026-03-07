@@ -32,7 +32,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 
 			InformationCategory category =
 				(__instance is Alert_MajorOrExtremeBreakRisk
-#if !V1_0
+#if !(V1_0 || V1_1)
 				|| __instance is Alert_MeatHunger
 #endif
 				)
@@ -41,7 +41,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 					|| __instance is Alert_ColonistNeedsRescuing
 					|| __instance is Alert_LifeThreateningHediff
 					|| __instance is Alert_ImmobileCaravan
-#if !V1_0
+#if !(V1_0 || V1_1)
 					|| __instance is Alert_GhoulHypothermia
 					|| __instance is Alert_LowOxygen
 #endif

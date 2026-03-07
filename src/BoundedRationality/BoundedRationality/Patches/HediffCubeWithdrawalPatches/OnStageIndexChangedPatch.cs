@@ -1,4 +1,4 @@
-#if !V1_0
+#if !(V1_0 || V1_1)
 using System;
 using System.Collections.Generic;
 using System.Reflection;

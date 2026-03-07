@@ -225,6 +225,8 @@ namespace Lakuna.BoundedRationality {
 			if (isAllInformationKnownForAll && !isAnyLearningEnabledForAny && (!Settings.HideAncientCorpses || Settings.LegacyMode)) {
 #if V1_0
 				listing.Label(MiscellaneousUtility.EndWithPeriod("BR.NoteModHasNoEffect".Translate().CapitalizeFirst()));
+#elif V1_1
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.NoteModHasNoEffect".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor));
 #else
 				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.NoteModHasNoEffect".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
 #endif

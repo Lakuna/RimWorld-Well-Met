@@ -11,7 +11,11 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompDamageBrainPatches {
+#if V1_1
+	[HarmonyPatch(typeof(HediffComp_DamageBrain), nameof(HediffComp_DamageBrain.CompPostTick))]
+#else
 	[HarmonyPatch(typeof(HediffComp_DamageBrain), nameof(HediffComp_DamageBrain.CompPostTickInterval))]
+#endif
 	internal static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 

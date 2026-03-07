@@ -11,7 +11,11 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompChangeImplantLevelPatches {
+#if V1_1
+	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTick))]
+#else
 	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]
+#endif
 	internal static class CompPostTickIntervalPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 

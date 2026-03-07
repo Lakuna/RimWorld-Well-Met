@@ -10,7 +10,9 @@ using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
+#if V1_0
 using Verse;
+#endif
 
 namespace Lakuna.BoundedRationality.Patches.AlertBrawlerHasRangedWeaponPatches {
 	[HarmonyPatch(typeof(Alert_BrawlerHasRangedWeapon), nameof(Alert_BrawlerHasRangedWeapon.GetReport))]
