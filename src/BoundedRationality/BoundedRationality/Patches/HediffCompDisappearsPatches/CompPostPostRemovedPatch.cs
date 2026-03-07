@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-#if V1_0
-using Harmony;
-#else
 using HarmonyLib;
-#endif
 
 using Lakuna.BoundedRationality.Utility;
 

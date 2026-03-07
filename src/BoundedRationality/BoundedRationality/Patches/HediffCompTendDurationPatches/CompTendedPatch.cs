@@ -1,3 +1,4 @@
+#if !(V1_0 || V1_1 || V1_2)
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -47,3 +48,4 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompTendDurationPatches {
 		}
 	}
 }
+#endif

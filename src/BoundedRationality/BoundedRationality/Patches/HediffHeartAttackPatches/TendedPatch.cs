@@ -1,13 +1,10 @@
+#if !(V1_0 || V1_1 || V1_2)
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-#if V1_0
-using Harmony;
-#else
 using HarmonyLib;
-#endif
 
 using Lakuna.BoundedRationality.Utility;
 
@@ -48,3 +45,4 @@ namespace Lakuna.BoundedRationality.Patches.HediffHeartAttackPatches {
 		}
 	}
 }
+#endif
