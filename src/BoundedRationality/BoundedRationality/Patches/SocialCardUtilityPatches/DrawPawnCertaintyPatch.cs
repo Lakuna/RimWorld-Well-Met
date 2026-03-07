@@ -56,8 +56,16 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, CertaintyChangePerDayMethod) || PatchUtility.Calls(instruction, CertaintyMethod)) {
+				if (PatchUtility.Calls(instruction, CertaintyChangePerDayMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				if (PatchUtility.Calls(instruction, CertaintyMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 1f)) {
 						yield return i;
 					}
 
