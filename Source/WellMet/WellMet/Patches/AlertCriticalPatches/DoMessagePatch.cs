@@ -1,11 +1,8 @@
+#if !V1_0
 using System.Collections.Generic;
 using System.Linq;
 
-#if V1_0
-using Harmony;
-#else
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -57,3 +54,4 @@ namespace Lakuna.WellMet.Patches.AlertCriticalPatches {
 		}
 	}
 }
+#endif

@@ -18,12 +18,21 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
+#if V1_0
+	[HarmonyPatch(
+		typeof(InteractionWorker_RecruitAttempt),
+		nameof(InteractionWorker_RecruitAttempt.DoRecruit),
+		new Type[] { typeof(Pawn), typeof(Pawn), typeof(float), typeof(string), typeof(string), typeof(bool), typeof(bool) },
+		new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal }
+	)]
+#else
 	[HarmonyPatch(
 		typeof(InteractionWorker_RecruitAttempt),
 		nameof(InteractionWorker_RecruitAttempt.DoRecruit),
 		new Type[] { typeof(Pawn), typeof(Pawn), typeof(string), typeof(string), typeof(bool), typeof(bool) },
 		new ArgumentType[] { ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Out, ArgumentType.Normal, ArgumentType.Normal }
 	)]
+#endif
 	internal static class DoRecruitPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 

@@ -95,13 +95,7 @@ namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
 
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(JobDriver_PlantWork)) {
-					foreach (MethodInfo methodInfo in
-#if V1_0
-						constructorInfo.DeclaringType.GetMethods()
-#else
-						constructorInfo.DeclaringType.GetDeclaredMethods()
-#endif
-					) {
+					foreach (MethodInfo methodInfo in AccessTools.GetDeclaredMethods(constructorInfo.DeclaringType)) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
 

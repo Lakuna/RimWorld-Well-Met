@@ -58,7 +58,16 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
 		}
 
 		[HarmonyPostfix]
-		private static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
+		private static void Postfix(
+			Pawn initiator,
+			Pawn recipient,
+			ref string letterText,
+			ref string letterLabel,
+			ref LetterDef letterDef
+#if !V1_0
+			, ref LookTargets lookTargets
+#endif
+		) {
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, initiator) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, recipient)) {
 				return;
 			}
@@ -66,7 +75,9 @@ namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
 			letterText = null;
 			letterLabel = null;
 			letterDef = null;
+#if !V1_0
 			lookTargets = null;
+#endif
 		}
 	}
 }
