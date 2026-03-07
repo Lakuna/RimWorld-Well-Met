@@ -13,7 +13,11 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompMessageAboveSeverityPatches {
+#if V1_5
+	[HarmonyPatch(typeof(HediffComp_MessageAboveSeverity), nameof(HediffComp_MessageAboveSeverity.CompPostTick))]
+#else
 	[HarmonyPatch(typeof(HediffComp_MessageAboveSeverity), nameof(HediffComp_MessageAboveSeverity.CompPostTickInterval))]
+#endif
 	internal static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 

@@ -34,7 +34,10 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 					|| __instance is Alert_LifeThreateningHediff
 					|| __instance is Alert_ImmobileCaravan
 					|| __instance is Alert_GhoulHypothermia
-					|| __instance is Alert_LowOxygen)
+#if !V1_5
+					|| __instance is Alert_LowOxygen
+#endif
+					)
 						? InformationCategory.Health
 						: InformationCategory.Basic;
 			if (pawns.All((pawn) => !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn))) {

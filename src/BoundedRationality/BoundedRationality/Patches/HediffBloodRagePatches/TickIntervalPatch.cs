@@ -11,7 +11,11 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffBloodRagePatches {
+#if V1_5
+	[HarmonyPatch(typeof(Hediff_BloodRage), nameof(Hediff_BloodRage.Tick))]
+#else
 	[HarmonyPatch(typeof(Hediff_BloodRage), nameof(Hediff_BloodRage.TickInterval))]
+#endif
 	internal static class TickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 

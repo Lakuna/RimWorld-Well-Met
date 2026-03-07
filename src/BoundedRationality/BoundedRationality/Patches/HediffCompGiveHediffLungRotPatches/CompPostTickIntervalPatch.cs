@@ -13,7 +13,7 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompGiveHediffLungRotPatches {
-#if V1_4
+#if V1_4 || V1_5
 	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTick))]
 #else
 	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTickInterval))]

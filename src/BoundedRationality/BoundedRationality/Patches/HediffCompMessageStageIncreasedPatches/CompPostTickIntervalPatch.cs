@@ -11,7 +11,11 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompMessageStageIncreasedPatches {
+#if V1_5
+	[HarmonyPatch(typeof(HediffComp_MessageStageIncreased), nameof(HediffComp_MessageStageIncreased.CompPostTick))]
+#else
 	[HarmonyPatch(typeof(HediffComp_MessageStageIncreased), nameof(HediffComp_MessageStageIncreased.CompPostTickInterval))]
+#endif
 	internal static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
