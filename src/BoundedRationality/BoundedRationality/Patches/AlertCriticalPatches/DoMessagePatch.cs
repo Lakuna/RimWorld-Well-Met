@@ -1,4 +1,4 @@
-#if !(V1_0 || V1_1 || V1_2)
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,32 +20,21 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 				return;
 			}
 
-			List<Pawn> pawns =
-#if V1_0
-				__instance.GetReport().culprits.Select((target) => target.Thing as Pawn).Where((pawn) => !(pawn is null)).ToList();
-#else
-				__instance.GetReport().culpritsPawns;
-#endif
+			List<Pawn> pawns = __instance.GetReport().culpritsPawns;
 			if (pawns.NullOrEmpty()) {
 				return;
 			}
 
 			InformationCategory category =
 				(__instance is Alert_MajorOrExtremeBreakRisk
-#if !(V1_0 || V1_1)
-				|| __instance is Alert_MeatHunger
-#endif
-				)
+				|| __instance is Alert_MeatHunger)
 					? InformationCategory.Needs
 					: (__instance is Alert_Hypothermia
 					|| __instance is Alert_ColonistNeedsRescuing
 					|| __instance is Alert_LifeThreateningHediff
 					|| __instance is Alert_ImmobileCaravan
-#if !(V1_0 || V1_1)
 					|| __instance is Alert_GhoulHypothermia
-					|| __instance is Alert_LowOxygen
-#endif
-					)
+					|| __instance is Alert_LowOxygen)
 						? InformationCategory.Health
 						: InformationCategory.Basic;
 			if (pawns.All((pawn) => !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn))) {

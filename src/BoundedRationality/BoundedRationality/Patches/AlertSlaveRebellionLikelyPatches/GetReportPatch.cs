@@ -10,7 +10,13 @@ namespace Lakuna.BoundedRationality.Patches.AlertSlaveRebellionLikelyPatches {
 	internal static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
-			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, __result.culpritTarget?.Pawn, ControlCategory.Alert)) {
+			if (
+#if V1_3
+				KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, __result.culpritTarget?.Thing, ControlCategory.Alert)
+#else
+				KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, __result.culpritTarget?.Pawn, ControlCategory.Alert)
+#endif
+			) {
 				return;
 			}
 

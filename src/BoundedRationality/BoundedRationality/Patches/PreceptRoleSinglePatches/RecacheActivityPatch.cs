@@ -17,9 +17,15 @@ namespace Lakuna.BoundedRationality.Patches.PreceptRoleSinglePatches {
 	internal static class RecacheActivityPatch {
 		private static readonly MethodInfo OfPlayerSilentFailMethod = PatchUtility.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayerSilentFail));
 
+#if V1_3
+		private static readonly MethodInfo ReceiveLetterMethod = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(string) });
+
+		private static readonly MethodInfo ReceiveLetterMethod2 = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(LookTargets), typeof(Faction), typeof(Quest), typeof(List<ThingDef>), typeof(string) });
+#else
 		private static readonly MethodInfo ReceiveLetterMethod = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(string), typeof(int), typeof(bool) });
 
 		private static readonly MethodInfo ReceiveLetterMethod2 = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(TaggedString), typeof(TaggedString), typeof(LetterDef), typeof(LookTargets), typeof(Faction), typeof(Quest), typeof(List<ThingDef>), typeof(string), typeof(int), typeof(bool) });
+#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {

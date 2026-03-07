@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 using System.Reflection;
 using System.Text;
 #endif
 
 #if V1_0
 using Harmony;
-#elif V1_1 || V1_2
+#elif V1_1 || V1_2 || V1_3
 using HarmonyLib;
 #endif
 

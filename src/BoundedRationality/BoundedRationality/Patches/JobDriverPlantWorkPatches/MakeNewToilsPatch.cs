@@ -25,7 +25,7 @@ namespace Lakuna.BoundedRationality.Patches.JobDriverPlantWorkPatches {
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 		private static readonly HarmonyMethod InnerActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler)));
 #else
 		private static readonly MethodInfo InnerActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler));
@@ -62,7 +62,7 @@ namespace Lakuna.BoundedRationality.Patches.JobDriverPlantWorkPatches {
 			}
 		}
 
-#if V1_0 || V1_1 || V1_2
+#if V1_0 || V1_1 || V1_2 || V1_3
 		private static readonly HarmonyMethod ActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler)));
 #else
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler));

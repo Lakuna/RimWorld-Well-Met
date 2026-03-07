@@ -11,7 +11,7 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompChangeImplantLevelPatches {
-#if V1_1 || V1_2
+#if V1_1 || V1_2 || V1_3
 	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTick))]
 #else
 	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]

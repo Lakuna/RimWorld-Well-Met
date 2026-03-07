@@ -19,7 +19,11 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 
 		private static readonly MethodInfo CertaintyMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));
 
+#if V1_3
+		private static readonly MethodInfo GetStatValueMethod = SymbolExtensions.GetMethodInfo((Pawn pawn) => pawn.GetStatValue(StatDefOf.CertaintyLossFactor, true));
+#else
 		private static readonly MethodInfo GetStatValueMethod = SymbolExtensions.GetMethodInfo((Pawn pawn) => pawn.GetStatValue(StatDefOf.CertaintyLossFactor, true, -1));
+#endif
 
 		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
 
