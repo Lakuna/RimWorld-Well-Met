@@ -50,18 +50,19 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="thing">The thing (pawn).</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing (pawn).</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>Whether the given information category is known for the given thing (pawn).</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Thing thing, ControlCategory controlCategory = ControlCategory.Default) =>
 			thing is null
-			|| thing is Pawn pawn && IsInformationKnownFor(category, pawn, controlCategory);
+			|| thing is Pawn pawn && IsInformationKnownFor(category, pawn, controlCategory)
+			|| thing is Corpse corpse && IsInformationKnownFor(category, corpse.InnerPawn, controlCategory);
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given pawn.
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="pawn">The pawn.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, ControlCategory controlCategory = ControlCategory.Default) =>
 			pawn is null
@@ -76,7 +77,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="faction">The faction.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>Whether the given information category is known for the given faction.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, ControlCategory controlCategory = ControlCategory.Default) =>
 			faction is null
@@ -88,7 +89,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="type">The pawn type.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the given information category is known for the given pawn type.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, ControlCategory controlCategory = ControlCategory.Default, bool isAlive = true) =>

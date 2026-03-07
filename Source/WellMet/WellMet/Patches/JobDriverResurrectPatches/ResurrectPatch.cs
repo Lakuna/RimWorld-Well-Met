@@ -20,8 +20,6 @@ namespace Lakuna.WellMet.Patches.JobDriverResurrectPatches {
 	internal static class ResurrectPatch {
 		private static readonly MethodInfo CorpseMethod = PatchUtility.PropertyGetter(typeof(JobDriver_Resurrect), "Corpse");
 
-		private static readonly MethodInfo InnerPawnMethod = PatchUtility.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
-
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]
@@ -30,11 +28,11 @@ namespace Lakuna.WellMet.Patches.JobDriverResurrectPatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Call, CorpseMethod), new CodeInstruction(OpCodes.Call, InnerPawnMethod) };
+			CodeInstruction[] getThingInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Call, CorpseMethod) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				if (PatchUtility.Calls(instruction, MessageMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.Message)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfThingNotKnown(instruction, InformationCategory.Health, getThingInstructions, generator, controlCategory: ControlCategory.Message)) {
 						yield return i;
 					}
 

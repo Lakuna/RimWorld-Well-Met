@@ -141,13 +141,15 @@ namespace Lakuna.WellMet {
 				Settings.EnableUniqueTraitUnlockConditions = enableUniqueTraitUnlockConditions;
 			}
 
-			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || KnowledgeUtility.IsAnyLearningEnabledFor(PawnType.Colonist)) {
+			bool isAllInformationKnownForColonists = KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist);
+			if (!isAllInformationKnownForColonists || KnowledgeUtility.IsAnyLearningEnabledFor(PawnType.Colonist)) {
 				bool alwaysKnowStartingColonists = Settings.AlwaysKnowStartingColonists;
 				listing.CheckboxLabeled("BR.AlwaysKnowStartingColonists".Translate().CapitalizeFirst(), ref alwaysKnowStartingColonists, MiscellaneousUtility.EndWithPeriod("BR.AlwaysKnowStartingColonists.Desc".Translate().CapitalizeFirst()));
 				Settings.AlwaysKnowStartingColonists = alwaysKnowStartingColonists;
 			}
 
-			if (!KnowledgeUtility.IsInformationSupersetOfAny(PawnType.Colonist) || KnowledgeUtility.IsAnyLearningEnabledForAny()) {
+			bool isAnyLearningEnabledForAny = KnowledgeUtility.IsAnyLearningEnabledForAny();
+			if (!KnowledgeUtility.IsInformationSupersetOfAny(PawnType.Colonist) || isAnyLearningEnabledForAny) {
 				bool rememberFormerColonists = Settings.RememberFormerColonists;
 				listing.CheckboxLabeled("BR.RememberFormerColonists".Translate().CapitalizeFirst(), ref rememberFormerColonists, MiscellaneousUtility.EndWithPeriod("BR.RememberFormerColonists.Desc".Translate().CapitalizeFirst()));
 				Settings.RememberFormerColonists = rememberFormerColonists;
@@ -165,13 +167,14 @@ namespace Lakuna.WellMet {
 				Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
 			}
 
-			if (!KnowledgeUtility.IsAllInformationKnownFor(PawnType.Colonist) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
+			if (!isAllInformationKnownForColonists || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
 				bool neverHideControls = Settings.NeverHideControls;
 				listing.CheckboxLabeled("BR.NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls, MiscellaneousUtility.EndWithPeriod("BR.NeverHideControls.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideControls = neverHideControls;
 			}
 
-			if (!KnowledgeUtility.IsAllInformationKnownForAll()) {
+			bool isAllInformationKnownForAll = KnowledgeUtility.IsAllInformationKnownForAll();
+			if (!isAllInformationKnownForAll) {
 				bool neverHideMessages = Settings.NeverHideMessages;
 				listing.CheckboxLabeled("BR.NeverHideMessages".Translate().CapitalizeFirst(), ref neverHideMessages, MiscellaneousUtility.EndWithPeriod("BR.NeverHideMessages.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideMessages = neverHideMessages;
@@ -211,12 +214,16 @@ namespace Lakuna.WellMet {
 
 			if (!Settings.AlwaysKnowStartingColonists && !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, PawnType.Colonist, ControlCategory.Control)) {
 #if V1_0
-				listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
+				listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()));
 #elif V1_1 || V1_2
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Resolve().Colorize(ColoredText.WarningColor));
 #else
-				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor), tipSignal: MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists.Desc".Translate().CapitalizeFirst()));
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.WarningDisabledBasicForStartingColonists".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
 #endif
+			}
+
+			if (isAllInformationKnownForAll && !isAnyLearningEnabledForAny && (!Settings.HideAncientCorpses || Settings.LegacyMode)) {
+				_ = listing.Label(MiscellaneousUtility.EndWithPeriod("BR.NoteModHasNoEffect".Translate().CapitalizeFirst()).Colorize(ColoredText.WarningColor));
 			}
 
 			listing.End();

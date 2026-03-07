@@ -24,7 +24,7 @@ namespace Lakuna.WellMet.Patches.AlertCriticalPatches {
 			}
 
 			List<Pawn> pawns = __instance.GetReport().culpritsPawns;
-			if (pawns.Count < 1) {
+			if (pawns.NullOrEmpty()) {
 				return;
 			}
 

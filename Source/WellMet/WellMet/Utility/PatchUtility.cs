@@ -115,7 +115,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
 		internal static IEnumerable<CodeInstruction> AndThingKnown(
 			InformationCategory category,
@@ -128,7 +128,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
 		internal static IEnumerable<CodeInstruction> AndPawnKnown(
 			InformationCategory category,
@@ -141,7 +141,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
 		internal static IEnumerable<CodeInstruction> AndFactionKnown(
 			InformationCategory category,
@@ -155,7 +155,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
 		/// <param name="category">The information category.</param>
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the AND.</returns>
 		private static IEnumerable<CodeInstruction> AndKnown(
 			MethodInfo isInformationKnownForMethod,
@@ -186,7 +186,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getThingInstructions">The instructions to execute to load the thing onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
 		internal static IEnumerable<CodeInstruction> OrThingNotKnown(
 			InformationCategory category,
@@ -199,7 +199,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
 		internal static IEnumerable<CodeInstruction> OrPawnNotKnown(
 			InformationCategory category,
@@ -212,7 +212,7 @@ namespace Lakuna.WellMet.Utility {
 		/// </summary>
 		/// <param name="category">The information category.</param>
 		/// <param name="getFactionInstructions">The instructions to execute to load the faction onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
 		internal static IEnumerable<CodeInstruction> OrFactionNotKnown(
 			InformationCategory category,
@@ -226,7 +226,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="isInformationKnownForMethod">The method to call to check knowledge.</param>
 		/// <param name="category">The information category.</param>
 		/// <param name="getInstructions">The instructions to execute to load the pawn or faction onto the stack.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the OR.</returns>
 		private static IEnumerable<CodeInstruction> OrNotKnown(
 			MethodInfo isInformationKnownForMethod,
@@ -266,7 +266,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
 		internal static IEnumerable<CodeInstruction> SkipIfThingNotKnown(
@@ -290,7 +290,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
 		internal static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(
@@ -314,7 +314,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
 		internal static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(
@@ -339,7 +339,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the return value with if the call is skipped and the call would have returned a value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
 		internal static IEnumerable<CodeInstruction> SkipIfNotKnown(
@@ -474,7 +474,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" thing.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the thing.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
 		internal static IEnumerable<CodeInstruction> ReplaceIfThingNotKnown(
 			InformationCategory category,
@@ -495,7 +495,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
 		internal static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(
 			InformationCategory category,
@@ -516,7 +516,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" faction.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
 		internal static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(
 			InformationCategory category,
@@ -538,7 +538,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="value">The value to replace the top of the stack with if the information category isn't known for the "given" pawn or faction.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
-		/// <param name="controlCategory">Whether the obscured information is or contains an element that the player would use to control the pawn or faction.</param>
+		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
 		private static IEnumerable<CodeInstruction> ReplaceIfNotKnown(
 			MethodInfo isInformationKnownForMethod,

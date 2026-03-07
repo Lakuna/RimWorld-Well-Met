@@ -18,8 +18,6 @@ using Verse;
 namespace Lakuna.WellMet.Patches.CorpsePatches {
 	[HarmonyPatch(typeof(Corpse), nameof(Corpse.GetInspectString))]
 	internal static class GetInspectStringPatch {
-		private static readonly MethodInfo InnerPawnMethod = PatchUtility.PropertyGetter(typeof(Corpse), nameof(Corpse.InnerPawn));
-
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
@@ -34,13 +32,13 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 				throw new ArgumentNullException(nameof(instructions));
 			}
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Call, InnerPawnMethod) };
+			CodeInstruction[] getThingInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
 				if (PatchUtility.Calls(instruction, ToStringTicksToPeriodVagueMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, string.Empty)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Basic, getThingInstructions, generator, string.Empty)) {
 						yield return i;
 					}
 
@@ -48,7 +46,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 				}
 
 				if (PatchUtility.Calls(instruction, FactionMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Basic, getThingInstructions, generator)) {
 						yield return i;
 					}
 
@@ -57,7 +55,7 @@ namespace Lakuna.WellMet.Patches.CorpsePatches {
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 				if (PatchUtility.Calls(instruction, GetFirstHediffMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Health, getThingInstructions, generator)) {
 						yield return i;
 					}
 
