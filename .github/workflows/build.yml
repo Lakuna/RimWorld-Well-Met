@@ -42,7 +42,6 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v8
         with:
-          merge-multiple: true
           path: .
       - name: List Files
         run: ls -R
