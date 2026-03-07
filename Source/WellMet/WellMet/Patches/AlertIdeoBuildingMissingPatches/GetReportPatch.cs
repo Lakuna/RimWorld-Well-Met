@@ -1,8 +1,5 @@
-#if V1_0
-using Harmony;
-#else
+#if !V1_0
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -15,3 +12,4 @@ namespace Lakuna.WellMet.Patches.AlertIdeoBuildingMissingPatches {
 		private static void Postfix(ref AlertReport __result) => __result = __result.active && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, PawnType.Colonist, ControlCategory.Alert);
 	}
 }
+#endif

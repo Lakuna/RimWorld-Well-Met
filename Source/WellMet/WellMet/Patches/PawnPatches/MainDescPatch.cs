@@ -29,7 +29,7 @@ namespace Lakuna.WellMet.Patches.PawnPatches {
 		[HarmonyPrefix]
 		private static void Prefix(
 #if V1_0
-			ref bool writeAge
+			ref bool writeAge,
 #else
 #if !(V1_1 || V1_2 || V1_3)
 			ref bool writeGender,

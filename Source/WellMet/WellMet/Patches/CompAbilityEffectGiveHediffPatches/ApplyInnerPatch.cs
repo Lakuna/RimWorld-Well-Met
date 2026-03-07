@@ -1,13 +1,10 @@
+#if !V1_0
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-#if V1_0
-using Harmony;
-#else
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -46,3 +43,4 @@ namespace Lakuna.WellMet.Patches.CompAbilityEffectGiveHediffPatches {
 		}
 	}
 }
+#endif

@@ -38,7 +38,9 @@ namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
 
 		private static readonly MethodInfo InspiredMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Inspired));
 
+#if !V1_0
 		private static readonly MethodInfo IdeoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
+#endif
 
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
@@ -92,6 +94,7 @@ namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
 					continue;
 				}
 
+#if !V1_0
 				if (PatchUtility.Calls(instruction, IdeoMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;
@@ -99,6 +102,7 @@ namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
 
 					continue;
 				}
+#endif
 			}
 		}
 	}

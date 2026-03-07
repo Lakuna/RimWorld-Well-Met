@@ -18,7 +18,11 @@ using Verse;
 namespace Lakuna.WellMet.Patches.PawnTrainingTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_TrainingTracker), nameof(Pawn_TrainingTracker.TrainingTrackerTickRare))]
 	internal static class TrainingTrackerTickRarePatch {
+#if V1_0
+		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_TrainingTracker), "pawn");
+#else
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_TrainingTracker), nameof(Pawn_TrainingTracker.pawn));
+#endif
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 

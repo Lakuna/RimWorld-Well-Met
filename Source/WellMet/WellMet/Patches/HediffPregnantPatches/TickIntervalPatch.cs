@@ -16,7 +16,11 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.HediffPregnantPatches {
+#if V1_0
+	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.Tick))]
+#else
 	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.TickInterval))]
+#endif
 	internal static class TickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 

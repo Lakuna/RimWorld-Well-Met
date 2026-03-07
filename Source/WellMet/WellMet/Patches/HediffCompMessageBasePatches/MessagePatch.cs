@@ -1,8 +1,5 @@
-#if V1_0
-using Harmony;
-#else
+#if !V1_0
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -15,3 +12,4 @@ namespace Lakuna.WellMet.Patches.HediffCompMessageBasePatches {
 		private static bool Prefix(HediffComp_MessageBase __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.Pawn, ControlCategory.Message);
 	}
 }
+#endif

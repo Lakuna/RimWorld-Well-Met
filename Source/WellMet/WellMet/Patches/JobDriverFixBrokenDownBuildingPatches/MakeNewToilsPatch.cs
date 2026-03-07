@@ -25,7 +25,11 @@ namespace Lakuna.WellMet.Patches.JobDriverFixBrokenDownBuildingPatches {
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
+#if V1_0
+		private static readonly HarmonyMethod InnerActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler)));
+#else
 		private static readonly MethodInfo InnerActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(InnerActionDelegateTranspiler));
+#endif
 
 		private static IEnumerable<CodeInstruction> InnerActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
@@ -48,7 +52,11 @@ namespace Lakuna.WellMet.Patches.JobDriverFixBrokenDownBuildingPatches {
 			}
 		}
 
+#if V1_0
+		private static readonly HarmonyMethod ActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler)));
+#else
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(MakeNewToilsPatch), nameof(ActionDelegateTranspiler));
+#endif
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions is null) {
@@ -77,7 +85,13 @@ namespace Lakuna.WellMet.Patches.JobDriverFixBrokenDownBuildingPatches {
 
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(JobDriver_FixBrokenDownBuilding)) {
-					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
+					foreach (MethodInfo methodInfo in
+#if V1_0
+						constructorInfo.DeclaringType.GetMethods()
+#else
+						constructorInfo.DeclaringType.GetDeclaredMethods()
+#endif
+					) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
 

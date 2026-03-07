@@ -1,8 +1,5 @@
-#if V1_0
-using Harmony;
-#else
+#if !V1_0
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -16,3 +13,4 @@ namespace Lakuna.WellMet.Patches.HediffCompLetterOnDeathPatches {
 			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.parent.pawn, ControlCategory.Letter);
 	}
 }
+#endif

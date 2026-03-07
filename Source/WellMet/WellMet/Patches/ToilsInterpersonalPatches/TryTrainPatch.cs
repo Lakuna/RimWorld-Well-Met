@@ -33,7 +33,11 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
+#if V1_0
+		private static readonly HarmonyMethod ActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(TryTrainPatch), nameof(ActionDelegateTranspiler)));
+#else
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(TryTrainPatch), nameof(ActionDelegateTranspiler));
+#endif
 
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
 			if (original is null) {
@@ -100,7 +104,13 @@ namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
 
 				// Apply a transpiler to action delegates.
 				if (instruction.opcode == OpCodes.Newobj && instruction.operand is ConstructorInfo constructorInfo && constructorInfo.DeclaringType.DeclaringType == typeof(Toils_Interpersonal)) {
-					foreach (MethodInfo methodInfo in constructorInfo.DeclaringType.GetDeclaredMethods()) {
+					foreach (MethodInfo methodInfo in
+#if V1_0
+						constructorInfo.DeclaringType.GetMethods()
+#else
+						constructorInfo.DeclaringType.GetDeclaredMethods()
+#endif
+					) {
 						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: ActionDelegateTranspilerMethod);
 					}
 

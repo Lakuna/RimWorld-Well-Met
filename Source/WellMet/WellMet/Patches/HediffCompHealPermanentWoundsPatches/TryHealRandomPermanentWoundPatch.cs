@@ -16,7 +16,11 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.HediffCompHealPermanentWoundsPatches {
+#if V1_0
+	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), "TryHealRandomPermanentWound")]
+#else
 	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), nameof(HediffComp_HealPermanentWounds.TryHealRandomPermanentWound))]
+#endif
 	internal static class TryHealRandomPermanentWoundPatch {
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 

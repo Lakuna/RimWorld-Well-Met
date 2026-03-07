@@ -91,11 +91,13 @@ namespace Lakuna.WellMet.Patches.TraitPatches {
 			ref string __result
 #pragma warning restore CA1707
 		) {
+			if (
 #if V1_0 || V1_1
-			if (KnowledgeUtility.IsTraitKnown(pawn, __instance.def)) {
+				KnowledgeUtility.IsTraitKnown(pawn, __instance.def)
 #else
-			if (KnowledgeUtility.IsTraitKnown(__instance)) {
+				KnowledgeUtility.IsTraitKnown(__instance)
 #endif
+			) {
 				return;
 			}
 

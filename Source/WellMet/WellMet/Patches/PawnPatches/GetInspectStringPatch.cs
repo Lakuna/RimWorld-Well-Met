@@ -14,6 +14,10 @@ using Lakuna.WellMet.Utility;
 using RimWorld;
 
 using Verse;
+#if V1_0
+using Verse.AI;
+using Verse.AI.Group;
+#endif
 
 namespace Lakuna.WellMet.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]

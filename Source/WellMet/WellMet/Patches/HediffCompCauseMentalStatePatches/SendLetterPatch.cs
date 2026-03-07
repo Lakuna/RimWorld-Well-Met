@@ -1,8 +1,5 @@
-#if V1_0
-using Harmony;
-#else
+#if !V1_0
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -15,3 +12,4 @@ namespace Lakuna.WellMet.Patches.HediffCompCauseMentalStatePatches {
 		private static bool Prefix(HediffComp_CauseMentalState __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.Pawn, ControlCategory.Letter);
 	}
 }
+#endif

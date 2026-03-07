@@ -12,6 +12,8 @@ using Lakuna.WellMet.Utility;
 
 using RimWorld;
 
+using Verse;
+
 namespace Lakuna.WellMet.Patches.AlertThoughtPatches {
 	[HarmonyPatch(typeof(Alert_Thought), nameof(Alert_Thought.GetReport))]
 	internal static class GetReportPatch {
@@ -23,11 +25,23 @@ namespace Lakuna.WellMet.Patches.AlertThoughtPatches {
 				return;
 			}
 
+#if V1_0
+			__result.culprits = __result.culprits?.Where((target) => {
+				if (!(target.Thing is Pawn pawn)) {
+					return false;
+				}
+
+				List<Thought> thoughts = new List<Thought>();
+				pawn.needs.mood.thoughts.GetAllMoodThoughts(thoughts);
+				return thoughts.Where((thought) => thought.def == thoughtDef).Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
+			}).ToList();
+#else
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => {
 				List<Thought> thoughts = new List<Thought>();
 				pawn.needs.mood.thoughts.GetMoodThoughtsFor(thoughtDef, thoughts);
 				return thoughts.Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
 			}).ToList();
+#endif
 			__result.active = __result.AnyCulpritValid;
 		}
 	}

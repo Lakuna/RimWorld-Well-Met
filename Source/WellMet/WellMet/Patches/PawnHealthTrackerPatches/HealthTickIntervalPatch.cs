@@ -16,7 +16,11 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.WellMet.Patches.PawnHealthTrackerPatches {
+#if V1_0
+	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.HealthTick))]
+#else
 	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.HealthTickInterval))]
+#endif
 	internal static class HealthTickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
 

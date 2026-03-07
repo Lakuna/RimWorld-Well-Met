@@ -1,8 +1,5 @@
-#if V1_0
-using Harmony;
-#else
+#if !V1_0
 using HarmonyLib;
-#endif
 
 using Lakuna.WellMet.Utility;
 
@@ -22,3 +19,4 @@ namespace Lakuna.WellMet.Patches.AlertSlaveRebellionLikelyPatches {
 		}
 	}
 }
+#endif
