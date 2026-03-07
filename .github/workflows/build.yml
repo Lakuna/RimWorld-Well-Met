@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+  push:
+
+jobs:
+  build:
+    name: Build
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check-Out Repository
+        uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+      - name: .NET Build
+        run: dotnet build -c {{ matrix.configuration }}
+    strategy:
+      matrix:
+        configuration: [v1.0, v1.1, v1.2, v1.3, v1.4, v1.5, v1.6]
