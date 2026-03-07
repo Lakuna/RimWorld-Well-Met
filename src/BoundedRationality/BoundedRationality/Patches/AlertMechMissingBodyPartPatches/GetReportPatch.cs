@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertMechMissingBodyPartPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertMechMissingBodyPartPatches {
 	[HarmonyPatch(typeof(Alert_MechMissingBodyPart), nameof(Alert_MechMissingBodyPart.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

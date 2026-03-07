@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertStarvationAnimalsPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertStarvationAnimalsPatches {
 	[HarmonyPatch(typeof(Alert_StarvationAnimals), nameof(Alert_StarvationAnimals.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

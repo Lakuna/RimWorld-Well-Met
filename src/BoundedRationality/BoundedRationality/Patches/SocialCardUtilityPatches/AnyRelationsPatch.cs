@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.SocialCardUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.AnyRelations))]
 	internal static class AnyRelationsPatch {
 		[HarmonyPostfix]

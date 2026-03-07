@@ -9,14 +9,14 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalStateHandlerPatches {
+namespace Lakuna.BoundedRationality.Patches.MentalStateHandlerPatches {
 	[HarmonyPatch(typeof(MentalStateHandler), nameof(MentalStateHandler.TryStartMentalState))]
 	internal static class TryStartMentalStatePatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalStateHandler), "pawn");

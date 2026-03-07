@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InteractionWorkerRecruitAttemptPatches {
+namespace Lakuna.BoundedRationality.Patches.InteractionWorkerRecruitAttemptPatches {
 #if V1_0
 	[HarmonyPatch(
 		typeof(InteractionWorker_RecruitAttempt),

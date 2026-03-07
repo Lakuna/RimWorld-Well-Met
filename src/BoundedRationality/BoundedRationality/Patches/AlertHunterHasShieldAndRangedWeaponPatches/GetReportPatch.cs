@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertHunterHasShieldAndRangedWeaponPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertHunterHasShieldAndRangedWeaponPatches {
 	[HarmonyPatch(typeof(Alert_HunterHasShieldAndRangedWeapon), nameof(Alert_HunterHasShieldAndRangedWeapon.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

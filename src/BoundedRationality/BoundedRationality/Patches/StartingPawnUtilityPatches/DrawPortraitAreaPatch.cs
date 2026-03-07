@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.StartingPawnUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.DrawPortraitArea))]
 	internal static class DrawPortraitAreaPatch {
 		private static readonly MethodInfo AnyMethod = SymbolExtensions.GetMethodInfo((List<ThingDefCount> list) => list.Any());

@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffGiverBrainInjuryPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffGiverBrainInjuryPatches {
 	[HarmonyPatch(typeof(HediffGiver_BrainInjury), nameof(HediffGiver_BrainInjury.OnHediffAdded))]
 	internal static class OnHediffAddedPatch {
 #if V1_0

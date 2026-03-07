@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.PawnStoryTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnStoryTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.TitleShort), MethodType.Getter)]
 	internal static class TitleShortPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_StoryTracker), "pawn");

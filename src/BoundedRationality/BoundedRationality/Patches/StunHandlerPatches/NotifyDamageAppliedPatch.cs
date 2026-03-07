@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.StunHandlerPatches {
+namespace Lakuna.BoundedRationality.Patches.StunHandlerPatches {
 	[HarmonyPatch(typeof(StunHandler), nameof(StunHandler.Notify_DamageApplied))]
 	internal static class NotifyDamageAppliedPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(StunHandler), nameof(StunHandler.parent));

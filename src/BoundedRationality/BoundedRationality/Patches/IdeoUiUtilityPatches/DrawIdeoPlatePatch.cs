@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.IdeoUiUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.IdeoUiUtilityPatches {
 	[HarmonyPatch(typeof(IdeoUIUtility), nameof(IdeoUIUtility.DrawIdeoPlate))]
 	internal static class DrawIdeoPlatePatch {
 		private static readonly MethodInfo CertaintyMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));

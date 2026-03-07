@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertLowDeathrestPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertLowDeathrestPatches {
 	[HarmonyPatch(typeof(Alert_LowDeathrest), nameof(Alert_LowDeathrest.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

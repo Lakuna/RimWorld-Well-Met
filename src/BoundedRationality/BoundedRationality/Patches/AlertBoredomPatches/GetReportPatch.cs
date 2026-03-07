@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertBoredomPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertBoredomPatches {
 	[HarmonyPatch(typeof(Alert_Boredom), nameof(Alert_Boredom.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

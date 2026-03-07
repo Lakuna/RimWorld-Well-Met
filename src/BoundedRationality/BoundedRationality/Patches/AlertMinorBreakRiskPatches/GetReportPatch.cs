@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertMinorBreakRiskPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertMinorBreakRiskPatches {
 	[HarmonyPatch(typeof(Alert_MinorBreakRisk), nameof(Alert_MinorBreakRisk.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

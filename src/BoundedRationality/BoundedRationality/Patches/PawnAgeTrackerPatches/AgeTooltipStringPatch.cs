@@ -4,11 +4,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnAgeTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnAgeTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.AgeTooltipString), MethodType.Getter)]
 	internal static class AgeTooltipStringPatch {
 		[HarmonyPostfix]

@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CharacterCardUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
 	internal static class DoLeftSectionPatch {
 		private static readonly MethodInfo AllAbilitiesForReadingMethod = PatchUtility.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));

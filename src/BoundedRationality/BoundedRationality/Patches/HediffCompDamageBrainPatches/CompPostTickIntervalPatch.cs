@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompDamageBrainPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompDamageBrainPatches {
 	[HarmonyPatch(typeof(HediffComp_DamageBrain), nameof(HediffComp_DamageBrain.CompPostTickInterval))]
 	internal static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

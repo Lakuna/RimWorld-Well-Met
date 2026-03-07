@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.IncidentWorkerPsychicRitualSiegePatches {
+namespace Lakuna.BoundedRationality.Patches.IncidentWorkerPsychicRitualSiegePatches {
 	[HarmonyPatch(typeof(IncidentWorker_PsychicRitualSiege), "GetLetterText")]
 	internal static class GetLetterTextPatch {
 		private static readonly FieldInfo FactionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.faction));

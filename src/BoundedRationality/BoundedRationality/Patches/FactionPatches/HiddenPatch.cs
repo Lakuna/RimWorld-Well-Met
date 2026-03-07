@@ -1,11 +1,11 @@
 #if !(V1_0 || V1_1)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.FactionPatches {
+namespace Lakuna.BoundedRationality.Patches.FactionPatches {
 	[HarmonyPatch(typeof(Faction), nameof(Faction.Hidden), MethodType.Getter)]
 	internal static class HiddenPatch {
 		[HarmonyPostfix]

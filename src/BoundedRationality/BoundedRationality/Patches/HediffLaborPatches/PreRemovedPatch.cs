@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffLaborPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffLaborPatches {
 	[HarmonyPatch(typeof(Hediff_Labor), nameof(Hediff_Labor.PreRemoved))]
 	internal static class PreRemovedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

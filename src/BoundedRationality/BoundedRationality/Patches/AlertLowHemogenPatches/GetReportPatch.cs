@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertLowHemogenPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertLowHemogenPatches {
 	[HarmonyPatch(typeof(Alert_LowHemogen), nameof(Alert_LowHemogen.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

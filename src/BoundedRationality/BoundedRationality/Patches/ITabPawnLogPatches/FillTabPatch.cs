@@ -6,13 +6,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnLogPatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnLogPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Log), "FillTab")]
 	internal static class FillTabPatch {
 		private static readonly MethodInfo SelPawnForCombatInfoMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Log), "SelPawnForCombatInfo");

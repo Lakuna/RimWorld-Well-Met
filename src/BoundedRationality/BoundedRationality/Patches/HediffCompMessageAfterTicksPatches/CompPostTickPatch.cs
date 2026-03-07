@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompMessageAfterTicksPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompMessageAfterTicksPatches {
 	[HarmonyPatch(typeof(HediffComp_MessageAfterTicks), nameof(HediffComp_MessageAfterTicks.CompPostTick))]
 	internal static class CompPostTickPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

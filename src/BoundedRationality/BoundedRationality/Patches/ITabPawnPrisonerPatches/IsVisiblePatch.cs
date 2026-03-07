@@ -6,13 +6,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnPrisonerPatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnPrisonerPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Prisoner), nameof(ITab_Pawn_Prisoner.IsVisible), MethodType.Getter)]
 	internal static class IsVisiblePatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");

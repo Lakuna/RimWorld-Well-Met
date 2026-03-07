@@ -4,11 +4,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HealthUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.HealthUtilityPatches {
 	[HarmonyPatch(typeof(HealthUtility), nameof(HealthUtility.GetGeneralConditionLabel))]
 	internal static class GetGeneralConditionLabelPatch {
 		[HarmonyPostfix]

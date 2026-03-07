@@ -4,14 +4,14 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TimeSlowerPatches {
+namespace Lakuna.BoundedRationality.Patches.TimeSlowerPatches {
 	[HarmonyPatch(typeof(TimeSlower), nameof(TimeSlower.SignalForceNormalSpeedShort))]
 	internal static class SignalForceNormalSpeedShortPatch {
 		[HarmonyPrefix]
-		private static bool Prefix() => !WellMetMod.Settings.PreventForcedSpeed || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, PawnType.Colonist);
+		private static bool Prefix() => !BoundedRationalityMod.Settings.PreventForcedSpeed || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, PawnType.Colonist);
 	}
 }

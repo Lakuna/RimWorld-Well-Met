@@ -1,11 +1,11 @@
 #if !(V1_0 || V1_1)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TooltipUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.TooltipUtilityPatches {
 	[HarmonyPatch(typeof(TooltipUtility), nameof(TooltipUtility.ShotCalculationTipString))]
 	internal static class ShotCalculationTipStringPatch {
 		[HarmonyPostfix]

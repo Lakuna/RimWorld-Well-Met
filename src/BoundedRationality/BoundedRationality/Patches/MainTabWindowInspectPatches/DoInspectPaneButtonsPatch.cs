@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.MainTabWindowInspectPatches {
+namespace Lakuna.BoundedRationality.Patches.MainTabWindowInspectPatches {
 	[HarmonyPatch(typeof(MainTabWindow_Inspect), nameof(MainTabWindow_Inspect.DoInspectPaneButtons))]
 	internal static class DoInspectPaneButtonsPatch {
 		private static readonly MethodInfo SelectorMethod = PatchUtility.PropertyGetter(typeof(Find), nameof(Find.Selector));

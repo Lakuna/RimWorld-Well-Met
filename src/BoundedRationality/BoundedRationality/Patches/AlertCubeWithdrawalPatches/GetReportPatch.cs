@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertCubeWithdrawalPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertCubeWithdrawalPatches {
 	[HarmonyPatch(typeof(Alert_CubeWithdrawal), nameof(Alert_CubeWithdrawal.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

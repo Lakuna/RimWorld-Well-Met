@@ -1,11 +1,11 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompLetterOnDeathPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompLetterOnDeathPatches {
 	[HarmonyPatch(typeof(HediffComp_LetterOnDeath), "ShouldSendLetter", MethodType.Getter)]
 	internal static class ShouldSendLetterPatch {
 		[HarmonyPostfix]

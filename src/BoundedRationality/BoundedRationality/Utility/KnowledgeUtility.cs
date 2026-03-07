@@ -5,7 +5,7 @@ using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Utility {
+namespace Lakuna.BoundedRationality.Utility {
 	/// <summary>
 	/// A static utility class that contains static utility methods for checking whether information should be known.
 	/// </summary>
@@ -66,11 +66,11 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given information category is known for the given pawn.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Pawn pawn, ControlCategory controlCategory = ControlCategory.Default) =>
 			pawn is null
-			|| (WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
+			|| (BoundedRationalityMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn)
 				|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(pawn), controlCategory, !pawn.Dead)
-				|| WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
-			&& !(!WellMetMod.Settings.LegacyMode
-				&& WellMetMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
+				|| BoundedRationalityMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn) && IsStatic(category))
+			&& !(!BoundedRationalityMod.Settings.LegacyMode
+				&& BoundedRationalityMod.Settings.HideAncientCorpses && MiscellaneousUtility.IsAncientCorpse(pawn));
 
 		/// <summary>
 		/// Determine whether the given information category is known for the given faction.
@@ -81,7 +81,7 @@ namespace Lakuna.WellMet.Utility {
 		/// <returns>Whether the given information category is known for the given faction.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, Faction faction, ControlCategory controlCategory = ControlCategory.Default) =>
 			faction is null
-			|| !WellMetMod.Settings.HideFactionInformation
+			|| !BoundedRationalityMod.Settings.HideFactionInformation
 			|| IsInformationKnownFor(category, MiscellaneousUtility.TypeOf(faction), controlCategory);
 
 		/// <summary>
@@ -93,14 +93,14 @@ namespace Lakuna.WellMet.Utility {
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the given information category is known for the given pawn type.</returns>
 		public static bool IsInformationKnownFor(InformationCategory category, PawnType type, ControlCategory controlCategory = ControlCategory.Default, bool isAlive = true) =>
-			WellMetMod.Settings.KnownInformation[(int)type, (int)category]
-			|| WellMetMod.Settings.LegacyMode
-			|| controlCategory == ControlCategory.Control && WellMetMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive)
-			|| controlCategory == ControlCategory.Letter && WellMetMod.Settings.NeverHideLetters
-			|| controlCategory == ControlCategory.Message && WellMetMod.Settings.NeverHideMessages
-			|| controlCategory == ControlCategory.TextMote && WellMetMod.Settings.NeverHideTextMotes
-			|| controlCategory == ControlCategory.Alert && WellMetMod.Settings.NeverHideAlerts
-			|| category == InformationCategory.Traits && type == PawnType.Colonist && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && MiscellaneousUtility.IsInGrowthMoment();
+			BoundedRationalityMod.Settings.KnownInformation[(int)type, (int)category]
+			|| BoundedRationalityMod.Settings.LegacyMode
+			|| controlCategory == ControlCategory.Control && BoundedRationalityMod.Settings.NeverHideControls && MiscellaneousUtility.IsPlayerControlled(type, isAlive)
+			|| controlCategory == ControlCategory.Letter && BoundedRationalityMod.Settings.NeverHideLetters
+			|| controlCategory == ControlCategory.Message && BoundedRationalityMod.Settings.NeverHideMessages
+			|| controlCategory == ControlCategory.TextMote && BoundedRationalityMod.Settings.NeverHideTextMotes
+			|| controlCategory == ControlCategory.Alert && BoundedRationalityMod.Settings.NeverHideAlerts
+			|| category == InformationCategory.Traits && type == PawnType.Colonist && BoundedRationalityMod.Settings.AlwaysKnowGrowthMomentTraits && MiscellaneousUtility.IsInGrowthMoment();
 
 		/// <summary>
 		/// Determine whether the given information category is known for any pawn type.
@@ -175,9 +175,9 @@ namespace Lakuna.WellMet.Utility {
 		public static bool IsLearningEnabledFor(InformationCategory category, Pawn pawn, bool ignoreDifficulty = false) =>
 			IsInformationKnownFor(category, pawn)
 			&& IsLearningEnabledFor(category, MiscellaneousUtility.TypeOf(pawn), ignoreDifficulty)
-			&& !(WellMetMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
-			&& !(category == InformationCategory.Traits && WellMetMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn is null || MiscellaneousUtility.IsInGrowthMoment()))
-			&& !(IsStatic(category) && WellMetMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn));
+			&& !(BoundedRationalityMod.Settings.AlwaysKnowStartingColonists && MiscellaneousUtility.IsStartingColonist(pawn))
+			&& !(category == InformationCategory.Traits && BoundedRationalityMod.Settings.AlwaysKnowGrowthMomentTraits && (pawn is null || MiscellaneousUtility.IsInGrowthMoment()))
+			&& !(IsStatic(category) && BoundedRationalityMod.Settings.AlwaysKnowMoreAboutColonistRelatives && MiscellaneousUtility.IsRelativeOfColonist(pawn));
 
 		/// <summary>
 		/// Determine whether or not learning is enabled for the given faction and information category pair.
@@ -202,14 +202,14 @@ namespace Lakuna.WellMet.Utility {
 				return false;
 			}
 
-			bool learningEnabled = WellMetMod.Settings.LearningEnabled[(int)type];
+			bool learningEnabled = BoundedRationalityMod.Settings.LearningEnabled[(int)type];
 			switch (category) {
 				case InformationCategory.Backstory:
-					return !WellMetMod.Settings.LegacyMode && (WellMetMod.Settings.BackstoryLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
+					return !BoundedRationalityMod.Settings.LegacyMode && (BoundedRationalityMod.Settings.BackstoryLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				case InformationCategory.Skills:
-					return !WellMetMod.Settings.LegacyMode && (WellMetMod.Settings.SkillsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
+					return !BoundedRationalityMod.Settings.LegacyMode && (BoundedRationalityMod.Settings.SkillsLearningDifficulty > 0 || ignoreDifficulty) && learningEnabled;
 				case InformationCategory.Traits:
-					return (WellMetMod.Settings.TraitsLearningDifficulty > 0 || ignoreDifficulty) && (WellMetMod.Settings.LegacyMode || learningEnabled);
+					return (BoundedRationalityMod.Settings.TraitsLearningDifficulty > 0 || ignoreDifficulty) && (BoundedRationalityMod.Settings.LegacyMode || learningEnabled);
 				default:
 					return false;
 			}
@@ -312,14 +312,14 @@ namespace Lakuna.WellMet.Utility {
 			}
 
 			// One trait per rarity (multiplicative inverse of commonality) per quadrum per difficulty.
-			bool defaultUnlocked = MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * WellMetMod.Settings.TraitsLearningDifficulty;
-			return (!WellMetMod.Settings.EnableUniqueTraitUnlockConditions || WellMetMod.Settings.LegacyMode) ? defaultUnlocked
-				: trait == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= WellMetMod.Settings.TraitsLearningDifficulty
-				: trait == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= WellMetMod.Settings.TraitsLearningDifficulty
-				: trait == TraitDefOf.Brawler || trait.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= WellMetMod.Settings.TraitsLearningDifficulty * 10
-				: trait == TraitDefOfWimp() || trait.defName == "Tough" || trait.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= WellMetMod.Settings.TraitsLearningDifficulty * (HumanMaxHealth / 10)
-				: trait == TraitDefOf.BodyPurist || trait == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= WellMetMod.Settings.TraitsLearningDifficulty
-				: trait.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= WellMetMod.Settings.TraitsLearningDifficulty * HumanDailyNutrition * 10
+			bool defaultUnlocked = MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > 1 / trait.GetGenderSpecificCommonality(pawn.gender) * TicksPerQuadrum * BoundedRationalityMod.Settings.TraitsLearningDifficulty;
+			return (!BoundedRationalityMod.Settings.EnableUniqueTraitUnlockConditions || BoundedRationalityMod.Settings.LegacyMode) ? defaultUnlocked
+				: trait == TraitDefOf.Bloodlust ? pawn.records.GetValue(RecordDefOf.Kills) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty
+				: trait == TraitDefOf.Pyromaniac ? pawn.records.GetValue(RecordDefOf.TimesInMentalState) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty
+				: trait == TraitDefOf.Brawler || trait.defName == "ShootingAccuracy" ? pawn.records.GetValue(RecordDefOf.ShotsFired) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty * 10
+				: trait == TraitDefOfWimp() || trait.defName == "Tough" || trait.defName == "Masochist" ? pawn.records.GetValue(RecordDefOf.DamageTaken) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty * (HumanMaxHealth / 10)
+				: trait == TraitDefOf.BodyPurist || trait == TraitDefOf.Transhumanist ? pawn.records.GetValue(RecordDefOf.OperationsReceived) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty
+				: trait.defName == "Gourmand" ? pawn.records.GetValue(RecordDefOf.NutritionEaten) >= BoundedRationalityMod.Settings.TraitsLearningDifficulty * HumanDailyNutrition * 10
 				: defaultUnlocked;
 		}
 
@@ -374,7 +374,7 @@ namespace Lakuna.WellMet.Utility {
 
 			IOrderedEnumerable<SkillRecord> skills = pawn.skills.skills.OrderByDescending((record) => record.Level);
 			int order = skills.FirstIndexOf((record) => record.def == skill) + 1; // Learn the pawn's skills in order of their level (highest first).
-			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * WellMetMod.Settings.SkillsLearningDifficulty; // One skill per order per five days per difficulty.
+			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * 5 * TicksPerDay * BoundedRationalityMod.Settings.SkillsLearningDifficulty; // One skill per order per five days per difficulty.
 		}
 
 		/// <summary>
@@ -407,7 +407,7 @@ namespace Lakuna.WellMet.Utility {
 			}
 
 			int order = backstory == BackstorySlot.Adulthood ? 1 : 2;
-			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * TicksPerQuadrum * WellMetMod.Settings.BackstoryLearningDifficulty; // Backstory unlocked after one slot per quadrum per difficulty (more recent slots first).
+			return MiscellaneousUtility.TimeAsColonistOrPrisoner(pawn) > order * TicksPerQuadrum * BoundedRationalityMod.Settings.BackstoryLearningDifficulty; // Backstory unlocked after one slot per quadrum per difficulty (more recent slots first).
 		}
 	}
 }

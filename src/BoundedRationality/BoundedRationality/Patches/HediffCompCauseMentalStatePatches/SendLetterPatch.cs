@@ -1,11 +1,11 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompCauseMentalStatePatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompCauseMentalStatePatches {
 	[HarmonyPatch(typeof(HediffComp_CauseMentalState), "SendLetter")]
 	internal static class SendLetterPatch {
 		[HarmonyPrefix]

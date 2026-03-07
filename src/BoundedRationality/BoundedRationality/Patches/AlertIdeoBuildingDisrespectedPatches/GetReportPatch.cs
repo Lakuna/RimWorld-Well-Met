@@ -1,11 +1,11 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertIdeoBuildingDisrespectedPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertIdeoBuildingDisrespectedPatches {
 	[HarmonyPatch(typeof(Alert_IdeoBuildingDisrespected), nameof(Alert_IdeoBuildingDisrespected.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

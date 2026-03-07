@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.RelationsUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.RelationsUtilityPatches {
 	[HarmonyPatch(typeof(RelationsUtility), nameof(RelationsUtility.LabelWithBondInfo))]
 	internal static class LabelWithBondInfoPatch {
 		private static readonly MethodInfo DirectRelationExistsMethod = AccessTools.Method(typeof(Pawn_RelationsTracker), nameof(Pawn_RelationsTracker.DirectRelationExists));

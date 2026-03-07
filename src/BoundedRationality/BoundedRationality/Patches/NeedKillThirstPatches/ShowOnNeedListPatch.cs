@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.NeedKillThirstPatches {
+namespace Lakuna.BoundedRationality.Patches.NeedKillThirstPatches {
 	[HarmonyPatch(typeof(Need_KillThirst), nameof(Need_KillThirst.ShowOnNeedList), MethodType.Getter)]
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]

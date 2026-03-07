@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.VerbMeleeAttackPatches {
+namespace Lakuna.BoundedRationality.Patches.VerbMeleeAttackPatches {
 	[HarmonyPatch(typeof(Verb_MeleeAttack), "TryCastShot")]
 	internal static class TryCastShotPatch {
 		private static readonly MethodInfo CasterPawnMethod = PatchUtility.PropertyGetter(typeof(Verb), nameof(Verb.CasterPawn));

@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompGrowthModePatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompGrowthModePatches {
 	[HarmonyPatch(typeof(HediffComp_GrowthMode), "ChangeGrowthMode")]
 	internal static class ChangeGrowthModePatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

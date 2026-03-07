@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -18,7 +18,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.JobDriverFixBrokenDownBuildingPatches {
+namespace Lakuna.BoundedRationality.Patches.JobDriverFixBrokenDownBuildingPatches {
 	[HarmonyPatch(typeof(JobDriver_FixBrokenDownBuilding), "MakeNewToils")]
 	internal static class MakeNewToilsPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn));

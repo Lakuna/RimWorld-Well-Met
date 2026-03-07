@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertHypothermiaPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertHypothermiaPatches {
 	[HarmonyPatch(typeof(Alert_Hypothermia), nameof(Alert_Hypothermia.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CompAbilityEffectGiveHediffPatches {
+namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectGiveHediffPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_GiveHediff), "ApplyInner")]
 	internal static class ApplyInnerPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

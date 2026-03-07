@@ -13,7 +13,7 @@ using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Utility {
+namespace Lakuna.BoundedRationality.Utility {
 	/// <summary>
 	/// A static utility class that contains static utility methods for performing common patching operations.
 	/// </summary>

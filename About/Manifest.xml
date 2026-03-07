@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <Manifest>
-	<identifier>WellMet</identifier>
+	<identifier>BoundedRationality</identifier>
 	<version>4.0.0.0</version>
 	<dependencies>
 		<li>Harmony</li>
@@ -10,6 +10,6 @@
 		<li>Harmony</li>
 	</loadAfter>
 	<showCrossPromotions>true</showCrossPromotions>
-	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Well-Met/master/About/Manifest.xml</manifestUri>
-	<downloadUri>https://github.com/Lakuna/RimWorld-Well-Met/releases/latest</downloadUri>
+	<manifestUri>https://raw.githubusercontent.com/Lakuna/RimWorld-Bounded-Rationality/master/About/Manifest.xml</manifestUri>
+	<downloadUri>https://github.com/Lakuna/RimWorld-Bounded-Rationality/releases/latest</downloadUri>
 </Manifest>

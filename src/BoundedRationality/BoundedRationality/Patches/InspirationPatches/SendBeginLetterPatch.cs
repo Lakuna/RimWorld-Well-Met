@@ -4,11 +4,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.InspirationPatches {
+namespace Lakuna.BoundedRationality.Patches.InspirationPatches {
 	[HarmonyPatch(typeof(Inspiration), "SendBeginLetter")]
 	internal static class SendBeginLetterPatch {
 		[HarmonyPrefix]

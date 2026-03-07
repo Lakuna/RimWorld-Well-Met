@@ -6,13 +6,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnCharacterPatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnCharacterPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Character), nameof(ITab_Pawn_Character.IsVisible), MethodType.Getter)]
 	internal static class IsVisiblePatch {
 		private static readonly MethodInfo PawnToShowInfoAboutMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Character), "PawnToShowInfoAbout");

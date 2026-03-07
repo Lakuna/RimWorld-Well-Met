@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.SkillRecordPatches {
+namespace Lakuna.BoundedRationality.Patches.SkillRecordPatches {
 	[HarmonyPatch(typeof(SkillRecord), nameof(SkillRecord.Learn))]
 	internal static class LearnPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");

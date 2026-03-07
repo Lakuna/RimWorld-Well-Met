@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CompAbilityEffectTrainRandomSkillPatches {
+namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectTrainRandomSkillPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_TrainRandomSkill), nameof(CompAbilityEffect_TrainRandomSkill.Apply))]
 	internal static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));

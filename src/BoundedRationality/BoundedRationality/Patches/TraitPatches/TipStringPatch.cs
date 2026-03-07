@@ -11,13 +11,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TraitPatches {
+namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
 	internal static class TipStringPatch {
 #if !(V1_0 || V1_1 || V1_2)

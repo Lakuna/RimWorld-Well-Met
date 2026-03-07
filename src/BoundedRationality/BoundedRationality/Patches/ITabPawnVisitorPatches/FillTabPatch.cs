@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnVisitorPatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "FillTab")]
 	internal static class FillTabPatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");

@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InteractionWorkerMarriageProposalPatches {
+namespace Lakuna.BoundedRationality.Patches.InteractionWorkerMarriageProposalPatches {
 	[HarmonyPatch(typeof(InteractionWorker_MarriageProposal), nameof(InteractionWorker_MarriageProposal.Interacted))]
 	internal static class InteractedPatch {
 		[HarmonyPostfix]

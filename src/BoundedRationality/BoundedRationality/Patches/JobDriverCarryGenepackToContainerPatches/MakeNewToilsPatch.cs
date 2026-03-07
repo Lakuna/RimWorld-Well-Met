@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -15,7 +15,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.JobDriverCarryGenepackToContainerPatches {
+namespace Lakuna.BoundedRationality.Patches.JobDriverCarryGenepackToContainerPatches {
 	[HarmonyPatch(typeof(JobDriver_CarryGenepackToContainer), "MakeNewToils")]
 	internal static class MakeNewToilsPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn));

@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.RestraintsUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.RestraintsUtilityPatches {
 	[HarmonyPatch(typeof(RestraintsUtility), nameof(RestraintsUtility.ShouldShowRestraintsInfo))]
 	internal static class ShouldShowRestraintsInfoPatch {
 		[HarmonyPostfix]

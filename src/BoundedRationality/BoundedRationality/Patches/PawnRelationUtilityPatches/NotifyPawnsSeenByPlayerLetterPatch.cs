@@ -6,13 +6,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnRelationUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnRelationUtilityPatches {
 	[HarmonyPatch(typeof(PawnRelationUtility), nameof(PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter))]
 	internal static class NotifyPawnsSeenByPlayerLetterPatch {
 		[HarmonyPrefix]

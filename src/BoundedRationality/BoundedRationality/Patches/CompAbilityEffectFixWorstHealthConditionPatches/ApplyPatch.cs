@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CompAbilityEffectFixWorstHealthConditionPatches {
+namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectFixWorstHealthConditionPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_FixWorstHealthCondition), nameof(CompAbilityEffect_FixWorstHealthCondition.Apply))]
 	internal static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));

@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1 || V1_2)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.SlaveRebellionUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.SlaveRebellionUtilityPatches {
 	[HarmonyPatch(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.GetSlaveRebellionMtbCalculationExplanation))]
 	internal static class GetSlaveRebellionMtbCalculationExplanationPatch {
 		[HarmonyPostfix]

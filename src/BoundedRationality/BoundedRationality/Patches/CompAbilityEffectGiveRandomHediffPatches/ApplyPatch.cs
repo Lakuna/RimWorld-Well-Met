@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CompAbilityEffectGiveRandomHediffPatches {
+namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectGiveRandomHediffPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_GiveRandomHediff), nameof(CompAbilityEffect_GiveRandomHediff.Apply))]
 	internal static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));

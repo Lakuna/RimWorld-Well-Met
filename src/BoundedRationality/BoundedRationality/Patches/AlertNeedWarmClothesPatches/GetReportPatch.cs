@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertNeedWarmClothesPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertNeedWarmClothesPatches {
 	[HarmonyPatch(typeof(Alert_NeedWarmClothes), nameof(Alert_NeedWarmClothes.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

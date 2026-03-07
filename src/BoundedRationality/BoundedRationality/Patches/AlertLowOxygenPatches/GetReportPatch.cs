@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertLowOxygenPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertLowOxygenPatches {
 	[HarmonyPatch(typeof(Alert_LowOxygen), nameof(Alert_LowOxygen.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

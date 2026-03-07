@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.PawnApparelTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnApparelTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_ApparelTracker), "TakeWearoutDamageForDay")]
 	internal static class TakeWearoutDamageForDayPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_ApparelTracker), nameof(Pawn_ApparelTracker.pawn));

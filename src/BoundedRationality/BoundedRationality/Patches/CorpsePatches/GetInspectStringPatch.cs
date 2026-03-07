@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CorpsePatches {
+namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 	[HarmonyPatch(typeof(Corpse), nameof(Corpse.GetInspectString))]
 	internal static class GetInspectStringPatch {
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));

@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffDeathRefusalPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffDeathRefusalPatches {
 	[HarmonyPatch(typeof(Hediff_DeathRefusal), nameof(Hediff_DeathRefusal.Notify_PawnDied))]
 	internal static class NotifyPawnDiedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

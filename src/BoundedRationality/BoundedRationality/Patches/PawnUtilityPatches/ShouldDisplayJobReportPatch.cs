@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnUtilityPatches {
 	[HarmonyPatch(typeof(PawnUtility), nameof(PawnUtility.ShouldDisplayJobReport))]
 	internal static class ShouldDisplayJobReportPatch {
 		[HarmonyPostfix]

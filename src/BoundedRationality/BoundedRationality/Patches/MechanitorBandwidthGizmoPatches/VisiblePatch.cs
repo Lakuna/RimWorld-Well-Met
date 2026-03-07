@@ -3,11 +3,11 @@ using System;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.MechanitorBandwidthGizmoPatches {
+namespace Lakuna.BoundedRationality.Patches.MechanitorBandwidthGizmoPatches {
 	[HarmonyPatch(typeof(MechanitorBandwidthGizmo), nameof(MechanitorBandwidthGizmo.Visible), MethodType.Getter)]
 	internal static class VisiblePatch {
 		[HarmonyPostfix]

@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.HealthCardUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 	[HarmonyPatch(typeof(HealthCardUtility), "DrawOverviewTab")]
 	internal static class DrawOverviewTabPatch {
 		private static readonly MethodInfo DrawLeftRowMethod = AccessTools.Method(typeof(HealthCardUtility), "DrawLeftRow");

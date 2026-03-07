@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffHeartAttackPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffHeartAttackPatches {
 	[HarmonyPatch(typeof(Hediff_HeartAttack), nameof(Hediff_HeartAttack.Tended))]
 	internal static class TendedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

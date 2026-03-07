@@ -5,15 +5,15 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.PageConfigureStartingPawnsPatches {
+namespace Lakuna.BoundedRationality.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "DrawSkillSummaries")]
 	internal static class DrawSkillSummariesPatch {
 		[HarmonyPrefix]
-		private static bool Prefix() => WellMetMod.Settings.AlwaysKnowStartingColonists || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
+		private static bool Prefix() => BoundedRationalityMod.Settings.AlwaysKnowStartingColonists || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
 	}
 }
 #endif

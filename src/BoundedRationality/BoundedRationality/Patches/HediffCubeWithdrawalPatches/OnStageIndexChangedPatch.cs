@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCubeWithdrawalPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCubeWithdrawalPatches {
 	[HarmonyPatch(typeof(Hediff_CubeWithdrawal), "OnStageIndexChanged")]
 	internal static class OnStageIndexChangedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

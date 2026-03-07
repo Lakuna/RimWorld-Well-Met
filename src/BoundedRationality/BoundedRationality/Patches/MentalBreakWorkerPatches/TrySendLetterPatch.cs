@@ -4,12 +4,12 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalBreakWorkerPatches {
+namespace Lakuna.BoundedRationality.Patches.MentalBreakWorkerPatches {
 	[HarmonyPatch(typeof(MentalBreakWorker), "TrySendLetter")]
 	internal static class TrySendLetterPatch {
 		[HarmonyPrefix]

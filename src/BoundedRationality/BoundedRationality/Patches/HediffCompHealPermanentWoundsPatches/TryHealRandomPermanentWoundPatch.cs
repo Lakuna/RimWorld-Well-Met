@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompHealPermanentWoundsPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompHealPermanentWoundsPatches {
 #if V1_0
 	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), "TryHealRandomPermanentWound")]
 #else

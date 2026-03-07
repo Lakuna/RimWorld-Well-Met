@@ -6,12 +6,12 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalStatePatches {
+namespace Lakuna.BoundedRationality.Patches.MentalStatePatches {
 	[HarmonyPatch(typeof(MentalState), nameof(MentalState.InspectLine), MethodType.Getter)]
 	internal static class InspectLinePatch {
 		[HarmonyPostfix]

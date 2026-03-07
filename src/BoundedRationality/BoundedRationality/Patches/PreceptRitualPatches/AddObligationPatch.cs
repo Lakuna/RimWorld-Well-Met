@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PreceptRitualPatches {
+namespace Lakuna.BoundedRationality.Patches.PreceptRitualPatches {
 	[HarmonyPatch(typeof(Precept_Ritual), nameof(Precept_Ritual.AddObligation))]
 	internal static class AddObligationPatch {
 		private static readonly MethodInfo OfPlayerSilentFailMethod = PatchUtility.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayerSilentFail));

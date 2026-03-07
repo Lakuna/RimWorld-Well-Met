@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompRandomizeSeverityPhasesPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompRandomizeSeverityPhasesPatches {
 	[HarmonyPatch(typeof(HediffComp_RandomizeSeverityPhases), nameof(HediffComp_RandomizeSeverityPhases.Randomize))]
 	internal static class RandomizePatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));

@@ -9,12 +9,12 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalStateMurderousRagePatches {
+namespace Lakuna.BoundedRationality.Patches.MentalStateMurderousRagePatches {
 	[HarmonyPatch(typeof(MentalState_MurderousRage), nameof(MentalState_MurderousRage.MentalStateTick))]
 	internal static class MentalStateTickPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));

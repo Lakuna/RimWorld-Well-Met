@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnTrainingTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnTrainingTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_TrainingTracker), nameof(Pawn_TrainingTracker.TrainingTrackerTickRare))]
 	internal static class TrainingTrackerTickRarePatch {
 #if V1_0

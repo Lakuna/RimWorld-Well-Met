@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertPsychicBondedSeparatedPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertPsychicBondedSeparatedPatches {
 	[HarmonyPatch(typeof(Alert_PsychicBondedSeparated), nameof(Alert_PsychicBondedSeparated.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

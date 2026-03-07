@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalStateTargetedInsultingSpreePatches {
+namespace Lakuna.BoundedRationality.Patches.MentalStateTargetedInsultingSpreePatches {
 	[HarmonyPatch(typeof(MentalState_TargetedInsultingSpree), nameof(MentalState_TargetedInsultingSpree.PostEnd))]
 	internal static class PostEndPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));

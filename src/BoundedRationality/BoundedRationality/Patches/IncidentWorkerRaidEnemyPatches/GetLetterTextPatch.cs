@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.IncidentWorkerRaidEnemyPatches {
+namespace Lakuna.BoundedRationality.Patches.IncidentWorkerRaidEnemyPatches {
 	[HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "GetLetterText")]
 	internal static class GetLetterTextPatch {
 		private static readonly FieldInfo FactionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.faction));

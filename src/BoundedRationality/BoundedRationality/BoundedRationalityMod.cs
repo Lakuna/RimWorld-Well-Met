@@ -1,26 +1,26 @@
 using System;
 using System.Linq;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet {
-	public class WellMetMod : Mod {
+namespace Lakuna.BoundedRationality {
+	public class BoundedRationalityMod : Mod {
 		private const float CheckboxSize = 24;
 
 		private const float ScrollViewMargin = 18; // Reduce the scroll view by this width so that the vertical scroll bar doesn't overflow the window horizontally.
 
 		private const float ExtraScrollHeight = 300; // Must be larger than the maximum height that can be added to the UI in one frame.
 
-		internal static WellMetSettings Settings {
+		internal static BoundedRationalitySettings Settings {
 			get; private set;
 		}
 
-		public WellMetMod(ModContentPack content) : base(content) {
-			Settings = this.GetSettings<WellMetSettings>();
+		public BoundedRationalityMod(ModContentPack content) : base(content) {
+			Settings = this.GetSettings<BoundedRationalitySettings>();
 			this.settingsScrollPosition = Vector2.zero;
 			this.totalSettingsHeight = 99999; // Arbitrarily large number.
 		}

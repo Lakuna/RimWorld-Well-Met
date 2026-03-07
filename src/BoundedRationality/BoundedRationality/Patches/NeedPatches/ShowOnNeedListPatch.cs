@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.NeedPatches {
+namespace Lakuna.BoundedRationality.Patches.NeedPatches {
 	[HarmonyPatch(typeof(Need), nameof(Need.ShowOnNeedList), MethodType.Getter)]
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]

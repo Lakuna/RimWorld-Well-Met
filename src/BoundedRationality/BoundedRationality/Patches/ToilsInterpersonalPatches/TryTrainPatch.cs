@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -18,7 +18,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.ToilsInterpersonalPatches {
+namespace Lakuna.BoundedRationality.Patches.ToilsInterpersonalPatches {
 	[HarmonyPatch(typeof(Toils_Interpersonal), nameof(Toils_Interpersonal.TryTrain))]
 	internal static class TryTrainPatch {
 		private static readonly FieldInfo ActorField = AccessTools.Field(typeof(Toil), nameof(Toil.actor));

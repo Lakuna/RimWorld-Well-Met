@@ -4,11 +4,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertNeedJoySourcesPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertNeedJoySourcesPatches {
 	[HarmonyPatch(typeof(Alert_NeedJoySources), nameof(Alert_NeedJoySources.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

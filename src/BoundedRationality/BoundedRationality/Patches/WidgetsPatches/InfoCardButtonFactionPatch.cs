@@ -3,13 +3,13 @@ using System;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.WidgetsPatches {
+namespace Lakuna.BoundedRationality.Patches.WidgetsPatches {
 	[HarmonyPatch(typeof(Widgets), nameof(Widgets.InfoCardButton), new Type[] { typeof(float), typeof(float), typeof(Faction) })]
 	internal static class InfoCardButtonFactionPatch {
 		[HarmonyPrefix]

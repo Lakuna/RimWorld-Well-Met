@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.FactionPatches {
+namespace Lakuna.BoundedRationality.Patches.FactionPatches {
 	[HarmonyPatch(typeof(Faction), nameof(Faction.TryAffectGoodwillWith))]
 	internal static class TryAffectGoodwillWithPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

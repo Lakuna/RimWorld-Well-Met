@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompReplaceHediffPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompReplaceHediffPatches {
 	[HarmonyPatch(typeof(HediffComp_ReplaceHediff), nameof(HediffComp_ReplaceHediff.Trigger))]
 	internal static class TriggerPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));

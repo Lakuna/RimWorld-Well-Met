@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertColonistLeftUnburiedPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertColonistLeftUnburiedPatches {
 	[HarmonyPatch(typeof(Alert_ColonistLeftUnburied), nameof(Alert_ColonistLeftUnburied.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
+namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer), nameof(ColonistBarColonistDrawer.DrawColonist))]
 	internal static class DrawColonistPatch {
 		private static readonly FieldInfo MoodField = AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.mood));

@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InteractionCardUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.InteractionCardUtilityPatches {
 	[HarmonyPatch(typeof(InteractionCardUtility), nameof(InteractionCardUtility.DrawInteractionsLog))]
 	internal static class DrawInteractionsLogPatch {
 		[HarmonyPrefix]

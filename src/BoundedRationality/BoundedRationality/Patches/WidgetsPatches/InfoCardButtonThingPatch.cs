@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.WidgetsPatches {
+namespace Lakuna.BoundedRationality.Patches.WidgetsPatches {
 	[HarmonyPatch(typeof(Widgets), nameof(Widgets.InfoCardButton), new Type[] { typeof(float), typeof(float), typeof(Thing) })]
 	internal static class InfoCardButtonThingPatch {
 		[HarmonyPrefix]

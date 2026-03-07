@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 using RimWorld.Planet;
@@ -17,7 +17,7 @@ using RimWorld.Planet;
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.ColonistBarColonistDrawerPatches {
+namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer), "DrawIcons")]
 	internal static class DrawIconsPatch {
 		private static readonly MethodInfo CurJobMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CurJob));

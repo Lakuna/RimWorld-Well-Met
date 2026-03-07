@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnRelationsTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnRelationsTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_RelationsTracker), "AffectBondedAnimalsOnMyDeath")]
 	internal static class AffectBondedAnimalsOnMyDeathPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_RelationsTracker), "pawn");

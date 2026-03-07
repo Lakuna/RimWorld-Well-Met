@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1 || V1_2)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.IdeoUiUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.IdeoUiUtilityPatches {
 	[HarmonyPatch(typeof(IdeoUIUtility), nameof(IdeoUIUtility.DrawExtraThoughtInfoFromIdeo))]
 	internal static class DrawExtraThoughtInfoFromIdeoPatch {
 		[HarmonyPrefix]

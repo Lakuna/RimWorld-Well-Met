@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertGhoulHypothermiaPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertGhoulHypothermiaPatches {
 	[HarmonyPatch(typeof(Alert_GhoulHypothermia), nameof(Alert_GhoulHypothermia.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

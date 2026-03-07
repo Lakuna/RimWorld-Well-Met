@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffDeathRefusalPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffDeathRefusalPatches {
 	[HarmonyPatch(typeof(Hediff_DeathRefusal), "Use")]
 	internal static class UsePatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

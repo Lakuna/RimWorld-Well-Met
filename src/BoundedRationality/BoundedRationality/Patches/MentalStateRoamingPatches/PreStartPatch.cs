@@ -6,12 +6,12 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.MentalStateRoamingPatches {
+namespace Lakuna.BoundedRationality.Patches.MentalStateRoamingPatches {
 	[HarmonyPatch(typeof(MentalState_Roaming), nameof(MentalState_Roaming.PreStart))]
 	internal static class PreStartPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));

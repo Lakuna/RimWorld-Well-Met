@@ -1,18 +1,18 @@
 using System;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet {
+namespace Lakuna.BoundedRationality {
 #pragma warning disable CA1708
-	public class WellMetSettings : ModSettings {
+	public class BoundedRationalitySettings : ModSettings {
 #pragma warning restore CA1708
 		private static readonly int InfoWidth = Enum.GetValues(typeof(PawnType)).Length;
 
 		private static readonly int InfoHeight = Enum.GetValues(typeof(InformationCategory)).Length;
 
-		public WellMetSettings() {
+		public BoundedRationalitySettings() {
 			this.InitKnown();
 			this.InitLearningEnabled();
 			this.traitDiscoveryDifficulty = 1;

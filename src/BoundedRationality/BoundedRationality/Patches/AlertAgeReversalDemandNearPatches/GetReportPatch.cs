@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertAgeReversalDemandNearPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertAgeReversalDemandNearPatches {
 	[HarmonyPatch(typeof(Alert_AgeReversalDemandNear), nameof(Alert_AgeReversalDemandNear.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

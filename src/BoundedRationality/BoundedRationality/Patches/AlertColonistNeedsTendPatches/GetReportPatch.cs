@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertColonistNeedsTendPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertColonistNeedsTendPatches {
 	[HarmonyPatch(typeof(Alert_ColonistNeedsTend), nameof(Alert_ColonistNeedsTend.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

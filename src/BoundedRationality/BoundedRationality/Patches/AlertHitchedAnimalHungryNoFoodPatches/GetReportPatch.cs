@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertHitchedAnimalHungryNoFoodPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertHitchedAnimalHungryNoFoodPatches {
 	[HarmonyPatch(typeof(Alert_HitchedAnimalHungryNoFood), nameof(Alert_HitchedAnimalHungryNoFood.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PsycastPatches {
+namespace Lakuna.BoundedRationality.Patches.PsycastPatches {
 	[HarmonyPatch(typeof(Psycast), "ApplyEffects")]
 	internal static class ApplyEffectsPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));

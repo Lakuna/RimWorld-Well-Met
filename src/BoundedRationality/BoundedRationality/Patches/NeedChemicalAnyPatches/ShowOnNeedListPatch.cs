@@ -1,13 +1,13 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.NeedChemicalAnyPatches {
+namespace Lakuna.BoundedRationality.Patches.NeedChemicalAnyPatches {
 	[HarmonyPatch(typeof(Need_Chemical_Any), nameof(Need_Chemical_Any.ShowOnNeedList), MethodType.Getter)]
 	internal static class ShowOnNeedListPatch {
 		[HarmonyPostfix]

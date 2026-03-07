@@ -3,11 +3,11 @@ using System.Linq;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertHeatstrokePatches {
+namespace Lakuna.BoundedRationality.Patches.AlertHeatstrokePatches {
 	[HarmonyPatch(typeof(Alert_Heatstroke), nameof(Alert_Heatstroke.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

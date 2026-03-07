@@ -1,11 +1,11 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertSlaveRebellionLikelyPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertSlaveRebellionLikelyPatches {
 	[HarmonyPatch(typeof(Alert_SlaveRebellionLikely), nameof(Alert_SlaveRebellionLikely.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

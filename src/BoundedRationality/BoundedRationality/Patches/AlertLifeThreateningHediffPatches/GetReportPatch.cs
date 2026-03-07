@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertLifeThreateningHediffPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertLifeThreateningHediffPatches {
 	[HarmonyPatch(typeof(Alert_LifeThreateningHediff), nameof(Alert_LifeThreateningHediff.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

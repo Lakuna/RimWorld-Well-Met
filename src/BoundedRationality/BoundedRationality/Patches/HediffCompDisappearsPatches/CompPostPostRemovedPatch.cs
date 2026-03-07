@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompDisappearsPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompDisappearsPatches {
 	[HarmonyPatch(typeof(HediffComp_Disappears), nameof(HediffComp_Disappears.CompPostPostRemoved))]
 	internal static class CompPostPostRemovedPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

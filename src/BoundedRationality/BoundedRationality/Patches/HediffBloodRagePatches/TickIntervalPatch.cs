@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffBloodRagePatches {
+namespace Lakuna.BoundedRationality.Patches.HediffBloodRagePatches {
 	[HarmonyPatch(typeof(Hediff_BloodRage), nameof(Hediff_BloodRage.TickInterval))]
 	internal static class TickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

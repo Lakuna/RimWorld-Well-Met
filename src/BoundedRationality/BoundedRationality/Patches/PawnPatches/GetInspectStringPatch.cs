@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 #if !V1_0
 using RimWorld;
@@ -21,7 +21,7 @@ using Verse.AI;
 using Verse.AI.Group;
 #endif
 
-namespace Lakuna.WellMet.Patches.PawnPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
 	internal static class GetInspectStringPatch {
 		private static readonly FieldInfo HealthField = AccessTools.Field(typeof(Pawn), nameof(Pawn.health));

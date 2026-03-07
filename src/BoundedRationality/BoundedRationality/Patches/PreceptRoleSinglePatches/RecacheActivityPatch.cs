@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PreceptRoleSinglePatches {
+namespace Lakuna.BoundedRationality.Patches.PreceptRoleSinglePatches {
 	[HarmonyPatch(typeof(Precept_RoleSingle), nameof(Precept_RoleSingle.RecacheActivity))]
 	internal static class RecacheActivityPatch {
 		private static readonly MethodInfo OfPlayerSilentFailMethod = PatchUtility.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayerSilentFail));

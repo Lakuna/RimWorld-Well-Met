@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.SlaveRebellionUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.SlaveRebellionUtilityPatches {
 	[HarmonyPatch(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.IncrementSuppression))]
 	internal static class IncrementSuppressionPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

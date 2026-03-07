@@ -13,7 +13,7 @@ using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Utility {
+namespace Lakuna.BoundedRationality.Utility {
 	/// <summary>
 	/// Miscellaneous utility methods.
 	/// </summary>
@@ -316,7 +316,7 @@ namespace Lakuna.WellMet.Utility {
 #else
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
 #endif
-				|| WellMetMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
+				|| BoundedRationalityMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
 			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: IsAnimal(pawn) ? PawnType.WildAnimal

@@ -9,7 +9,7 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -18,7 +18,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 
-namespace Lakuna.WellMet.Patches.JobDriverPlantWorkPatches {
+namespace Lakuna.BoundedRationality.Patches.JobDriverPlantWorkPatches {
 	[HarmonyPatch(typeof(JobDriver_PlantWork), "MakeNewToils")]
 	internal static class MakeNewToilsPatch {
 		private static readonly FieldInfo ActorField = AccessTools.Field(typeof(Toil), nameof(Toil.actor));

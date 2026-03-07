@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.ThoughtSituationalSocialPatches {
+namespace Lakuna.BoundedRationality.Patches.ThoughtSituationalSocialPatches {
 	[HarmonyPatch(typeof(Thought_SituationalSocial), nameof(Thought_SituationalSocial.VisibleInNeedsTab), MethodType.Getter)]
 	internal static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]

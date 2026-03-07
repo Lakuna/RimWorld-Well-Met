@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.SkillUiPatches {
+namespace Lakuna.BoundedRationality.Patches.SkillUiPatches {
 	[HarmonyPatch(typeof(SkillUI), nameof(SkillUI.DrawSkillsOf))]
 	internal static class DrawSkillsOfPatch {
 		[HarmonyPrefix]

@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.AbilityPatches {
+namespace Lakuna.BoundedRationality.Patches.AbilityPatches {
 	[HarmonyPatch(typeof(Ability), "CooldownTick")]
 	internal static class CooldownTickPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Ability), nameof(Ability.pawn));

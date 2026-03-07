@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.PawnIdeoTrackerPatches {
+namespace Lakuna.BoundedRationality.Patches.PawnIdeoTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.IdeoConversionAttempt))]
 	internal static class IdeoConversionAttemptPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_IdeoTracker), "pawn");

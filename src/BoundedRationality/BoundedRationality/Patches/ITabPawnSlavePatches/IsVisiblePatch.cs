@@ -4,13 +4,13 @@ using System.Reflection;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnSlavePatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnSlavePatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Slave), nameof(ITab_Pawn_Slave.IsVisible), MethodType.Getter)]
 	internal static class IsVisiblePatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");

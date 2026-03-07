@@ -1,13 +1,13 @@
 #if !(V1_0 || V1_1)
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.TraitPatches {
+namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.LabelCap), MethodType.Getter)]
 	internal static class LabelCapPatch {
 		[HarmonyPostfix]

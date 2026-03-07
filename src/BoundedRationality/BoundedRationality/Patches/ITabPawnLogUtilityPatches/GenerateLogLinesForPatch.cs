@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.ITabPawnLogUtilityPatches {
+namespace Lakuna.BoundedRationality.Patches.ITabPawnLogUtilityPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Log_Utility), nameof(ITab_Pawn_Log_Utility.GenerateLogLinesFor))]
 	internal static class GenerateLogLinesForPatch {
 		[HarmonyPrefix]

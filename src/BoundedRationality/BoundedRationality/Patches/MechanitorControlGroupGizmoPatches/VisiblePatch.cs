@@ -3,11 +3,11 @@ using System.Reflection;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.MechanitorControlGroupGizmoPatches {
+namespace Lakuna.BoundedRationality.Patches.MechanitorControlGroupGizmoPatches {
 	[HarmonyPatch(typeof(MechanitorControlGroupGizmo), nameof(MechanitorControlGroupGizmo.Visible), MethodType.Getter)]
 	internal static class VisiblePatch {
 		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(MechanitorControlGroup), "tracker");

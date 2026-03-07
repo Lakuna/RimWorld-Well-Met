@@ -4,13 +4,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InteractionWorkerBreakupPatches {
+namespace Lakuna.BoundedRationality.Patches.InteractionWorkerBreakupPatches {
 	[HarmonyPatch(typeof(InteractionWorker_Breakup), nameof(InteractionWorker_Breakup.Interacted))]
 	internal static class InteractedPatch {
 		[HarmonyPostfix]

@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.JobDriverResurrectPatches {
+namespace Lakuna.BoundedRationality.Patches.JobDriverResurrectPatches {
 	[HarmonyPatch(typeof(JobDriver_Resurrect), "Resurrect")]
 	internal static class ResurrectPatch {
 		private static readonly MethodInfo CorpseMethod = PatchUtility.PropertyGetter(typeof(JobDriver_Resurrect), "Corpse");

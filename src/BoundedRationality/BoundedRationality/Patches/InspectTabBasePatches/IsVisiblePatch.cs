@@ -6,13 +6,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.InspectTabBasePatches {
+namespace Lakuna.BoundedRationality.Patches.InspectTabBasePatches {
 	[HarmonyPatch(typeof(InspectTabBase), nameof(InspectTabBase.IsVisible), MethodType.Getter)]
 	internal static class IsVisiblePatch {
 		private static readonly MethodInfo PawnForHealthMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Health), "PawnForHealth");

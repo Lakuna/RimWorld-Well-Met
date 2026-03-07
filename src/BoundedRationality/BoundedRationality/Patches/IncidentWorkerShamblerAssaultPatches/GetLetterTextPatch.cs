@@ -6,13 +6,13 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.IncidentWorkerShamblerAssaultPatches {
+namespace Lakuna.BoundedRationality.Patches.IncidentWorkerShamblerAssaultPatches {
 	[HarmonyPatch(typeof(IncidentWorker_ShamblerAssault), "GetLetterText")]
 	internal static class GetLetterTextPatch {
 		private static readonly FieldInfo FactionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.faction));

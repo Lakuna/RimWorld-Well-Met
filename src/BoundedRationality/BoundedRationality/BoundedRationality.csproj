@@ -14,12 +14,12 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<IsPublishable>false</IsPublishable>
 		<Optimize>true</Optimize>
-		<PackageId>Lakuna.WellMet</PackageId>
+		<PackageId>Lakuna.BoundedRationality</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2553173153</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Well-Met.git</RepositoryUrl>
-		<RootNamespace>Lakuna.WellMet</RootNamespace>
+		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Bounded-Rationality.git</RepositoryUrl>
+		<RootNamespace>Lakuna.BoundedRationality</RootNamespace>
 		<Title>Bounded Rationality</Title>
 	</PropertyGroup>
 	<Choose>

@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
@@ -14,7 +14,7 @@ using UnityEngine;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.CompAbilityEffectCoagulatePatches {
+namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectCoagulatePatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_Coagulate), nameof(CompAbilityEffect_Coagulate.Apply))]
 	internal static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));

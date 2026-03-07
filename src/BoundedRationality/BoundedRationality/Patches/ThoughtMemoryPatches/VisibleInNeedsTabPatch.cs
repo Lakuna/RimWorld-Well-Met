@@ -1,11 +1,11 @@
 #if !V1_0
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.ThoughtMemoryPatches {
+namespace Lakuna.BoundedRationality.Patches.ThoughtMemoryPatches {
 	[HarmonyPatch(typeof(Thought_Memory), nameof(Thought_Memory.VisibleInNeedsTab), MethodType.Getter)]
 	internal static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]

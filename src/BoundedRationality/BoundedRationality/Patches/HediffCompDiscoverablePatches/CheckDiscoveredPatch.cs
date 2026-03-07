@@ -9,13 +9,13 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompDiscoverablePatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompDiscoverablePatches {
 	[HarmonyPatch(typeof(HediffComp_Discoverable), "CheckDiscovered")]
 	internal static class CheckDiscoveredPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

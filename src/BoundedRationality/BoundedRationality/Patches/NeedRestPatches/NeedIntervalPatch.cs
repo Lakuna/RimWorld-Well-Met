@@ -9,11 +9,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.NeedRestPatches {
+namespace Lakuna.BoundedRationality.Patches.NeedRestPatches {
 	[HarmonyPatch(typeof(Need_Rest), nameof(Need_Rest.NeedInterval))]
 	internal static class NeedIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Need), "pawn");

@@ -6,11 +6,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using RimWorld;
 
-namespace Lakuna.WellMet.Patches.AlertAwaitingMedicalOperationPatches {
+namespace Lakuna.BoundedRationality.Patches.AlertAwaitingMedicalOperationPatches {
 	[HarmonyPatch(typeof(Alert_AwaitingMedicalOperation), nameof(Alert_AwaitingMedicalOperation.GetReport))]
 	internal static class GetReportPatch {
 		[HarmonyPostfix]

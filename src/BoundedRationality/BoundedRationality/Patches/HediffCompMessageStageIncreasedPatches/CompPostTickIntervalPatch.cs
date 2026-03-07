@@ -6,11 +6,11 @@ using System.Reflection.Emit;
 
 using HarmonyLib;
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffCompMessageStageIncreasedPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffCompMessageStageIncreasedPatches {
 	[HarmonyPatch(typeof(HediffComp_MessageStageIncreased), nameof(HediffComp_MessageStageIncreased.CompPostTickInterval))]
 	internal static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));

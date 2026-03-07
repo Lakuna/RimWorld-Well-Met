@@ -4,11 +4,11 @@ using Harmony;
 using HarmonyLib;
 #endif
 
-using Lakuna.WellMet.Utility;
+using Lakuna.BoundedRationality.Utility;
 
 using Verse;
 
-namespace Lakuna.WellMet.Patches.HediffGiverPatches {
+namespace Lakuna.BoundedRationality.Patches.HediffGiverPatches {
 	[HarmonyPatch(typeof(HediffGiver), "SendLetter")]
 	internal static class SendLetterPatch {
 		[HarmonyPrefix]
