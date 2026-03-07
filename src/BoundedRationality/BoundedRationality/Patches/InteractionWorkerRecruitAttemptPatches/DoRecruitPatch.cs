@@ -18,7 +18,7 @@ using UnityEngine;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InteractionWorkerRecruitAttemptPatches {
-#if V1_0
+#if V1_0 || V1_1
 	[HarmonyPatch(
 		typeof(InteractionWorker_RecruitAttempt),
 		nameof(InteractionWorker_RecruitAttempt.DoRecruit),

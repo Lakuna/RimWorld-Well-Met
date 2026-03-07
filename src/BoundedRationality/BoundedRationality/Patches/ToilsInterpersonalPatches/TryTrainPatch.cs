@@ -62,6 +62,7 @@ namespace Lakuna.BoundedRationality.Patches.ToilsInterpersonalPatches {
 
 				yield break;
 			}
+
 			LocalBuilder localTargetInfo = generator.DeclareLocal(typeof(LocalTargetInfo));
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] {
 				new CodeInstruction(OpCodes.Ldarg_0),
