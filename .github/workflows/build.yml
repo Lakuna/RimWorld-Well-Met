@@ -29,3 +29,19 @@ jobs:
     strategy:
       matrix:
         configuration: ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6"]
+  
+  combine:
+    name: Combine
+    needs: build
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+      - name: List Files
+        run: ls -R
