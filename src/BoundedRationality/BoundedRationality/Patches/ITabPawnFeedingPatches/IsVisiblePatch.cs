@@ -20,7 +20,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnFeedingPatches {
 		private static void Postfix(ITab_Pawn_Feeding __instance, ref bool __result) =>
 #pragma warning restore CA1707
 			__result = __result
-			&& (!(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)
+			&& (!(SelPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control));
 	}
 }

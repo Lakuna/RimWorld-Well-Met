@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 #pragma warning disable CA1707
 		private static bool Prefix(ITab_Pawn_Visitor __instance) =>
 #pragma warning restore CA1707
-			!(SelPawnMethod.Invoke(__instance, Array.Empty<object>()) is Pawn pawn)
+			!(SelPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 	}
 }

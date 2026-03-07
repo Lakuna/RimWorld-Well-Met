@@ -33,7 +33,7 @@ namespace Lakuna.BoundedRationality.Patches.CompHasGatherableBodyResourcePatches
 			foreach (CodeInstruction instruction in instructions) {
 				// This text mote is thrown only when the gathering fails.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
 					}
 

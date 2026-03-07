@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnUtilityPatches {
 #pragma warning disable CA1707
 		private static void Postfix(Pawn pawn, ref bool __result) =>
 #pragma warning restore CA1707
-			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
+			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 	}
 }
 #endif

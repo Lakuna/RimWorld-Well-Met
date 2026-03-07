@@ -33,7 +33,7 @@ namespace Lakuna.BoundedRationality.Patches.DamageWorkerAddInjuryPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				// This text mote is thrown only when a headshot occurs.
 				if (PatchUtility.Calls(instruction, ThrowTextMethod)) {
-					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Meta, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
+					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Health, getPawnInstructions, generator, controlCategory: ControlCategory.TextMote)) {
 						yield return i;
 					}
 
