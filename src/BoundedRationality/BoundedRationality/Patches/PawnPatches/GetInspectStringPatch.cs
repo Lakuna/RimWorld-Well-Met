@@ -18,6 +18,8 @@ using RimWorld;
 using Verse;
 #if V1_0 || V1_1 || V1_2 || V1_3
 using Verse.AI;
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using Verse.AI.Group;
 #endif
 

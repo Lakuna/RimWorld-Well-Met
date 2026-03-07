@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 #if V1_0 || V1_1 || V1_2 || V1_3
 using System.Reflection;
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using System.Text;
 #endif
 

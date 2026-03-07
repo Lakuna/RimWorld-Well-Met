@@ -33,7 +33,7 @@ namespace Lakuna.BoundedRationality.Patches.ToilsInterpersonalPatches {
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
-#if V1_0 || V1_1 || V1_2 || V1_3
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		private static readonly HarmonyMethod ActionDelegateTranspilerMethod = new HarmonyMethod(AccessTools.Method(typeof(TryTrainPatch), nameof(ActionDelegateTranspiler)));
 #else
 		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(TryTrainPatch), nameof(ActionDelegateTranspiler));

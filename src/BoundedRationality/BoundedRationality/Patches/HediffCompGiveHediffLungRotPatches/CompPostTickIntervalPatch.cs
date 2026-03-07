@@ -13,7 +13,11 @@ using RimWorld;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompGiveHediffLungRotPatches {
+#if V1_4
+	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTick))]
+#else
 	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTickInterval))]
+#endif
 	internal static class CompPostTickIntervalPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 
