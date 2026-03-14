@@ -321,6 +321,9 @@ namespace Lakuna.BoundedRationality.Utility {
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
 #endif
 				|| BoundedRationalityMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
+#if !(V1_0 || V1_1 || V1_2)
+			: pawn.IsSlaveOfColony ? PawnType.Slave
+#endif
 			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: IsAnimal(pawn) ? PawnType.WildAnimal
@@ -363,7 +366,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the pawn type is player-controlled.</returns>
 		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) =>
-			(type == PawnType.Colonist || type == PawnType.Controlled)
+			(type == PawnType.Colonist || type == PawnType.Controlled || type == PawnType.Slave)
 			&& isAlive;
 
 		/// <summary>

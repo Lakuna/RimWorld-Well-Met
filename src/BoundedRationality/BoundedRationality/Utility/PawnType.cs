@@ -9,9 +9,14 @@ namespace Lakuna.BoundedRationality.Utility {
 		Colonist,
 
 		/// <summary>
-		/// A pawn that is not a member of the player's faction but is controllable by the player, such as slaves and temporary workers.
+		/// A pawn that is not a member nor a slave of the player's faction but is controllable by the player, such as temporary workers.
 		/// </summary>
 		Controlled,
+
+		/// <summary>
+		/// A slave of the player's faction.
+		/// </summary>
+		Slave,
 
 		/// <summary>
 		/// A prisoner of the player's faction.

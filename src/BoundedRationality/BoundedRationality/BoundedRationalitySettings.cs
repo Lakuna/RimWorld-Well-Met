@@ -202,6 +202,13 @@ namespace Lakuna.BoundedRationality {
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Skills] = true;
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Traits] = true;
 			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Abilities] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Traits] = true;
+			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Abilities] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
 			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
@@ -227,7 +234,7 @@ namespace Lakuna.BoundedRationality {
 
 		private void InitLearningEnabled() {
 			this.learningEnabled = new bool[InfoWidth];
-			this.learningEnabled[(int)PawnType.Controlled] = true;
+			this.learningEnabled[(int)PawnType.Slave] = true;
 			this.learningEnabled[(int)PawnType.Prisoner] = true;
 		}
 

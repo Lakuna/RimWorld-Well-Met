@@ -167,7 +167,7 @@ namespace Lakuna.BoundedRationality {
 				Settings.AlwaysKnowGrowthMomentTraits = alwaysKnowGrowthMoments;
 			}
 
-			if (!isAllInformationKnownForColonists || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled)) {
+			if (!isAllInformationKnownForColonists || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Controlled) || !KnowledgeUtility.IsAllInformationKnownFor(PawnType.Slave)) {
 				bool neverHideControls = Settings.NeverHideControls;
 				listing.CheckboxLabeled("BR.NeverHideControls".Translate().CapitalizeFirst(), ref neverHideControls, MiscellaneousUtility.EndWithPeriod("BR.NeverHideControls.Desc".Translate().CapitalizeFirst()));
 				Settings.NeverHideControls = neverHideControls;
