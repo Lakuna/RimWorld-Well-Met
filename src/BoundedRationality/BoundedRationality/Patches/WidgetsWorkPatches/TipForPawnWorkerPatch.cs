@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.WidgetsWorkPatches {
 				return;
 			}
 
-			__result = "BR.Unknown".Translate();
+			__result = MiscellaneousUtility.EndWithPeriod("BR.Unknown".Translate().CapitalizeFirst());
 		}
 	}
 }

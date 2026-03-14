@@ -404,11 +404,8 @@ namespace Lakuna.BoundedRationality.Utility {
 				yield return new CodeInstruction(OpCodes.Pop);
 			}
 			if (methodInfo.ReturnType != typeof(void)) {
-				yield return LoadValue(value, byAddress);
-				if (localAddress) {
-					foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
-						yield return i;
-					}
+				foreach (CodeInstruction i in LoadValue(value, generator, byAddress, localAddress)) {
+					yield return i;
 				}
 			}
 
@@ -457,11 +454,8 @@ namespace Lakuna.BoundedRationality.Utility {
 
 			// This section is skipped unless the given information isn't known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-			yield return LoadValue(value, byAddress);
-			if (localAddress) {
-				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
-					yield return i;
-				}
+			foreach (CodeInstruction i in LoadValue(value, generator, byAddress, localAddress)) {
+				yield return i;
 			}
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
@@ -505,11 +499,8 @@ namespace Lakuna.BoundedRationality.Utility {
 
 			// This section is skipped if all skills for the work type are known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-			yield return LoadValue(value, byAddress);
-			if (localAddress) {
-				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
-					yield return i;
-				}
+			foreach (CodeInstruction i in LoadValue(value, generator, byAddress, localAddress)) {
+				yield return i;
 			}
 
 			// Jump here when all skills for the work type are known, skipping the code that replaces the original value (thus not modifying the stack).
@@ -627,11 +618,8 @@ namespace Lakuna.BoundedRationality.Utility {
 
 			// This section is skipped if the given information is known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
-			yield return LoadValue(value, byAddress);
-			if (localAddress) {
-				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
-					yield return i;
-				}
+			foreach (CodeInstruction i in LoadValue(value, generator, byAddress, localAddress)) {
+				yield return i;
 			}
 
 			// Jump here when the given information is known, skipping the code that replaces the original value (thus not modifying the stack).
@@ -641,71 +629,12 @@ namespace Lakuna.BoundedRationality.Utility {
 		}
 
 		/// <summary>
-		/// Load the given value onto the stack.
-		/// </summary>
-		/// <param name="value">The value.</param>
-		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
-		/// <returns>The instruction that will load the given value onto the stack.</returns>
-		internal static CodeInstruction LoadValue(object value, bool byAddress = false) {
-			if (value is int intValue) {
-				switch (intValue) {
-					case -1:
-						return new CodeInstruction(OpCodes.Ldc_I4_M1);
-					case 0:
-						return new CodeInstruction(OpCodes.Ldc_I4_0);
-					case 1:
-						return new CodeInstruction(OpCodes.Ldc_I4_1);
-					case 2:
-						return new CodeInstruction(OpCodes.Ldc_I4_2);
-					case 3:
-						return new CodeInstruction(OpCodes.Ldc_I4_3);
-					case 4:
-						return new CodeInstruction(OpCodes.Ldc_I4_4);
-					case 5:
-						return new CodeInstruction(OpCodes.Ldc_I4_5);
-					case 6:
-						return new CodeInstruction(OpCodes.Ldc_I4_6);
-					case 7:
-						return new CodeInstruction(OpCodes.Ldc_I4_7);
-					case 8:
-						return new CodeInstruction(OpCodes.Ldc_I4_8);
-					default:
-						return new CodeInstruction(OpCodes.Ldc_I4, intValue);
-				}
-			}
-
-			return value is null ? new CodeInstruction(OpCodes.Ldnull)
-				: value is FieldInfo fieldInfo ? fieldInfo.IsStatic
-					? (byAddress
-						? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
-						: new CodeInstruction(OpCodes.Ldsfld, fieldInfo))
-					: throw new ArgumentException($"A non-static field was passed to `{nameof(LoadValue)}`.")
-				: value is MethodInfo methodInfo ? methodInfo.IsStatic
-					? methodInfo.GetParameters().Length == 0
-						? new CodeInstruction(OpCodes.Call, methodInfo)
-						: throw new ArgumentException($"A method with parameters was passed to `{nameof(LoadValue)}`.")
-					: throw new ArgumentException($"A non-static method was passed to `{nameof(LoadValue)}`.")
-				: value is ConstructorInfo constructorInfo ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
-				: value is long longValue ? new CodeInstruction(OpCodes.Ldc_I8, longValue)
-				: value is byte byteValue ? new CodeInstruction(OpCodes.Ldc_I4_S, byteValue)
-				: value is bool boolValue ? boolValue
-					? new CodeInstruction(OpCodes.Ldc_I4_1)
-					: new CodeInstruction(OpCodes.Ldc_I4_0)
-				: value is double doubleValue ? new CodeInstruction(OpCodes.Ldc_R8, doubleValue)
-				: value is float floatValue ? new CodeInstruction(OpCodes.Ldc_R4, floatValue)
-				: value is string stringValue ? stringValue.NullOrEmpty()
-					? new CodeInstruction(OpCodes.Ldsfld, EmptyStringField)
-					: new CodeInstruction(OpCodes.Ldstr, stringValue)
-				: new CodeInstruction(OpCodes.Ldc_I4, (int)value);
-		}
-
-		/// <summary>
 		/// Store the value on top of the stack locally then put its address on the stack in its place.
 		/// </summary>
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value on top of the stack.</param>
 		/// <returns></returns>
-		internal static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object value) {
+		private static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object value) {
 			if (generator is null) {
 				throw new ArgumentNullException(nameof(generator));
 			}
@@ -713,6 +642,75 @@ namespace Lakuna.BoundedRationality.Utility {
 			LocalBuilder tempLocal = generator.DeclareLocal(value is null ? typeof(object) : value.GetType());
 			yield return new CodeInstruction(OpCodes.Stloc, tempLocal);
 			yield return new CodeInstruction(OpCodes.Ldloca_S, tempLocal);
+		}
+
+		/// <summary>
+		/// Load the given value onto the stack.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <returns>The instruction that will load the given value onto the stack.</returns>
+		internal static CodeInstruction LoadValue(object value, bool byAddress = false) =>
+			value is bool boolValue ? LoadValue(boolValue ? 1 : 0, byAddress)
+			: value is byte byteValue ? LoadValue(unchecked((int)byteValue), byAddress)
+			: value is sbyte sbyteValue ? new CodeInstruction(OpCodes.Ldc_I4_S, sbyteValue)
+			: value is char charValue ? LoadValue(unchecked((int)charValue), byAddress)
+			: value is double doubleValue ? new CodeInstruction(OpCodes.Ldc_R8, doubleValue)
+			: value is float floatValue ? new CodeInstruction(OpCodes.Ldc_R4, floatValue)
+			: value is int intValue
+				? intValue == -1 ? new CodeInstruction(OpCodes.Ldc_I4_M1)
+				: intValue == 0 ? new CodeInstruction(OpCodes.Ldc_I4_0)
+				: intValue == 1 ? new CodeInstruction(OpCodes.Ldc_I4_1)
+				: intValue == 2 ? new CodeInstruction(OpCodes.Ldc_I4_2)
+				: intValue == 3 ? new CodeInstruction(OpCodes.Ldc_I4_3)
+				: intValue == 4 ? new CodeInstruction(OpCodes.Ldc_I4_4)
+				: intValue == 5 ? new CodeInstruction(OpCodes.Ldc_I4_5)
+				: intValue == 6 ? new CodeInstruction(OpCodes.Ldc_I4_6)
+				: intValue == 7 ? new CodeInstruction(OpCodes.Ldc_I4_7)
+				: intValue == 8 ? new CodeInstruction(OpCodes.Ldc_I4_8)
+				: new CodeInstruction(OpCodes.Ldc_I4, intValue)
+			: value is uint uintValue ? LoadValue(unchecked((int)uintValue), byAddress)
+			: value is long longValue ? new CodeInstruction(OpCodes.Ldc_I8, longValue)
+			: value is ulong ulongValue ? LoadValue(unchecked((long)ulongValue), byAddress)
+			: value is short shortValue ? LoadValue(unchecked((int)shortValue), byAddress)
+			: value is short ushortValue ? LoadValue(unchecked((int)ushortValue), byAddress)
+			: value is null ? new CodeInstruction(OpCodes.Ldnull)
+			: value is string stringValue
+				? stringValue.NullOrEmpty() ? new CodeInstruction(OpCodes.Ldsfld, EmptyStringField)
+				: new CodeInstruction(OpCodes.Ldstr, stringValue)
+			: value is ConstructorInfo constructorInfo
+				? constructorInfo.GetParameters().Length == 0 ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
+				: throw new ArgumentException($"A constructor {constructorInfo.DeclaringType.FullName}.{constructorInfo.Name} with parameters was passed to `{nameof(LoadValue)}`.")
+			: value is FieldInfo fieldInfo
+				? fieldInfo.IsStatic
+					? byAddress ? new CodeInstruction(OpCodes.Ldsflda, fieldInfo)
+					: new CodeInstruction(OpCodes.Ldsfld, fieldInfo)
+				: throw new ArgumentException($"A non-static field {fieldInfo.DeclaringType.FullName}.{fieldInfo.Name} was passed to `{nameof(LoadValue)}`.")
+			: value is MethodInfo methodInfo
+				? methodInfo.IsStatic
+					? methodInfo.GetParameters().Length == 0 ? new CodeInstruction(OpCodes.Call, methodInfo)
+					: throw new ArgumentException($"A method {methodInfo.DeclaringType.FullName}.{methodInfo.Name} with parameters was passed to `{nameof(LoadValue)}`.")
+				: throw new ArgumentException($"A non-static method {methodInfo.DeclaringType.FullName}.{methodInfo.Name} was passed to `{nameof(LoadValue)}`.")
+			: value is Enum enumValue ? LoadValue(Convert.ChangeType(enumValue, enumValue.GetType().GetEnumUnderlyingType()), byAddress)
+			: throw new ArgumentException($"An invalid value type {value.GetType().FullName} was passed to {nameof(LoadValue)}.");
+
+		/// <summary>
+		/// Load the given value onto the stack.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
+		/// <returns>The instructions that will load the given value onto the stack.</returns>
+		internal static IEnumerable<CodeInstruction> LoadValue(object value, ILGenerator generator, bool byAddress = false, bool localAddress = false) {
+			yield return LoadValue(value, byAddress);
+			if (!localAddress) {
+				yield break;
+			}
+
+			foreach (CodeInstruction instruction in GetLocalAddress(generator, value)) {
+				yield return instruction;
+			}
 		}
 	}
 }
