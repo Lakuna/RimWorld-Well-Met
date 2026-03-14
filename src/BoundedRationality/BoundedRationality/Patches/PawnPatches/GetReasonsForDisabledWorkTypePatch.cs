@@ -53,6 +53,14 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 		private static readonly MethodInfo IsWorkTypeDisabledByAgeMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.IsWorkTypeDisabledByAge));
 #endif
 
+#if V1_3
+		private static readonly Backstory DefaultBackstory = BackstoryDatabase.allBackstories.Values.ToList().Find((def) => !def.DisabledWorkTypes.Any());
+#else
+		private static readonly BackstoryDef DefaultBackstory = DefDatabase<BackstoryDef>.AllDefsListForReading.Find((def) => !def.DisabledWorkTypes.Any());
+#endif
+
+		private static readonly FieldInfo DefaultBackstoryField = AccessTools.Field(typeof(GetReasonsForDisabledWorkTypePatch), nameof(DefaultBackstory));
+
 		[HarmonyTranspiler]
 		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
@@ -63,20 +71,13 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 				throw new ArgumentNullException(nameof(generator));
 			}
 
-			// Find a backstory with no disabled work types.
-#if V1_3
-			Backstory defaultBackstory = BackstoryDatabase.allBackstories.Values.ToList().Find((def) => !def.DisabledWorkTypes.Any());
-#else
-			BackstoryDef defaultBackstory = DefDatabase<BackstoryDef>.AllDefsListForReading.Find((def) => !def.DisabledWorkTypes.Any());
-#endif
-
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
 			CodeInstruction[] getWorkTypeInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
 
 			foreach (CodeInstruction instruction in instructions) {
 				// Replace unknown backstories with a backstory that doesn't have any disabled work types before getting the disabled work types. This is done this way so that it can utilize the existing `PatchUtility.ReplaceBackstoryIfNotKnown` method.
 				if (PatchUtility.Calls(instruction, DisabledWorkTypesMethod)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator, defaultBackstory)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator, DefaultBackstoryField)) {
 						yield return i;
 					}
 				}
