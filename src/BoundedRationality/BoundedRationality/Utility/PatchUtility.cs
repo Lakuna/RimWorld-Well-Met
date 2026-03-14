@@ -68,6 +68,11 @@ namespace Lakuna.BoundedRationality.Utility {
 #endif
 
 		/// <summary>
+		/// `KnowledgeUtility.AreAllSkillsForWorkTypeKnown`.
+		/// </summary>
+		internal static readonly MethodInfo AreAllSkillsForWorkTypeKnownMethod = AccessTools.Method(typeof(KnowledgeUtility), nameof(KnowledgeUtility.AreAllSkillsForWorkTypeKnown));
+
+		/// <summary>
 		/// Determine whether the given instruction calls the given method. Only necessary for RimWorld 1.0, since the versions of Harmony for later RimWorld versions have their own built-in method for this.
 		/// </summary>
 		/// <param name="instruction">The instruction.</param>
@@ -466,6 +471,54 @@ namespace Lakuna.BoundedRationality.Utility {
 		}
 
 		/// <summary>
+		/// Replace the value on top of the stack if any skill isn't known for the given work type for the given pawn.
+		/// </summary>
+		/// <param name="getPawnInstructions">The instructions to execute to load the pawn onto the stack.</param>
+		/// <param name="getWorkTypeInstructions">The instructions to execute to load the work type onto the stack.</param>
+		/// <param name="generator">The code generator.</param>
+		/// <param name="value">The value to replace the top of the stack with if any skill isn't known for the given work type for the given pawn.</param>
+		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
+		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
+		/// <returns>The instructions that will perform the conditional replacement.</returns>
+		internal static IEnumerable<CodeInstruction> ReplaceIfAnySkillsForWorkTypeNotKnown(
+			IEnumerable<CodeInstruction> getPawnInstructions,
+			IEnumerable<CodeInstruction> getWorkTypeInstructions,
+			ILGenerator generator,
+			object value = null,
+			bool byAddress = false,
+			bool localAddress = false
+		) {
+			// Load the arguments for `KnowledgeUtility.AreAllSkillsForWorkTypeKnown` onto the stack.
+			foreach (CodeInstruction instruction in getPawnInstructions) {
+				yield return new CodeInstruction(instruction); // `pawn`.
+			}
+			foreach (CodeInstruction instruction in getWorkTypeInstructions) {
+				yield return new CodeInstruction(instruction); // `workType`.
+			}
+
+			// Call `KnowledgeUtility.AreAllSkillsForWorkTypeKnown`, leaving the return value on top of the stack.
+			yield return new CodeInstruction(OpCodes.Call, AreAllSkillsForWorkTypeKnownMethod); // Remove the arguments from the stack and add the return value.
+
+			// If the value on top of the stack is `true` (all skills for the work type are known), don't replace the value.
+			Label dontReplaceLabel = generator.DefineLabel();
+			yield return new CodeInstruction(OpCodes.Brtrue_S, dontReplaceLabel); // Remove the return value of `KnowledgeUtility.AreAllSkillsForWorkTypeKnown` from the stack, leaving the value that might be replaced on top.
+
+			// This section is skipped if all skills for the work type are known.
+			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
+			yield return LoadValue(value, byAddress);
+			if (localAddress) {
+				foreach (CodeInstruction i in GetLocalAddress(generator, value)) {
+					yield return i;
+				}
+			}
+
+			// Jump here when all skills for the work type are known, skipping the code that replaces the original value (thus not modifying the stack).
+			CodeInstruction dontReplaceTarget = new CodeInstruction(OpCodes.Nop);
+			dontReplaceTarget.labels.Add(dontReplaceLabel);
+			yield return dontReplaceTarget;
+		}
+
+		/// <summary>
 		/// Replace the value on top of the stack if the given information category isn't known for the "given" thing.
 		/// </summary>
 		/// <param name="category">The information category that must be known to skip the replacement.</param>
@@ -572,7 +625,7 @@ namespace Lakuna.BoundedRationality.Utility {
 			Label dontReplaceLabel = generator.DefineLabel();
 			yield return new CodeInstruction(OpCodes.Brtrue_S, dontReplaceLabel); // Remove the return value of `KnowledgeUtility.IsInformationKnownFor` from the stack, leaving the value that might be replaced on top.
 
-			// This section is skipped unless the given information isn't known.
+			// This section is skipped if the given information is known.
 			yield return new CodeInstruction(OpCodes.Pop); // Remove the value that is being replaced from the stack.
 			yield return LoadValue(value, byAddress);
 			if (localAddress) {

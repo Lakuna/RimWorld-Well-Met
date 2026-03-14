@@ -378,6 +378,14 @@ namespace Lakuna.BoundedRationality.Utility {
 		}
 
 		/// <summary>
+		/// Determine whether all of the relevant skill types for the given work type are known for the given pawn.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <param name="workType">The work type.</param>
+		/// <returns>Whether all of the relevant skill types for the given work type are known for the given pawn.</returns>
+		public static bool AreAllSkillsForWorkTypeKnown(Pawn pawn, WorkTypeDef workType) => workType.relevantSkills.All((skill) => IsSkillKnown(pawn, skill));
+
+		/// <summary>
 		/// Determine whether the given backstory is known for the given pawn.
 		/// </summary>
 		/// <param name="backstory">The backstory.</param>
