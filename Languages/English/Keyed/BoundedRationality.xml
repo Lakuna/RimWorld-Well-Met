@@ -51,6 +51,7 @@
 	<!-- Pawn types. -->
 	<BR.Colonist>colonist</BR.Colonist>
 	<BR.Controlled>controlled</BR.Controlled>
+	<BR.Slave>slave</BR.Slave>
 	<BR.Prisoner>prisoner</BR.Prisoner>
 	<BR.Neutral>neutral</BR.Neutral>
 	<BR.Hostile>hostile</BR.Hostile>
@@ -58,7 +59,8 @@
 
 	<!-- Pawn type descriptions. -->
 	<BR.Colonist.Desc>colonists and tamed animals</BR.Colonist.Desc>
-	<BR.Controlled.Desc>slaves and temporary colonists</BR.Controlled.Desc>
+	<BR.Controlled.Desc>temporary colonists</BR.Controlled.Desc>
+	<BR.Slave.Desc>slaves</BR.Slave.Desc>
 	<BR.Prisoner.Desc>prisoners</BR.Prisoner.Desc>
 	<BR.Neutral.Desc>other non-hostile pawns</BR.Neutral.Desc>
 	<BR.Hostile.Desc>hostile pawns</BR.Hostile.Desc>
