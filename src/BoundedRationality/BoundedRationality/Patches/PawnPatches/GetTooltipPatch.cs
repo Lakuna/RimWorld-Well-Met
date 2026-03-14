@@ -32,7 +32,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 				yield return instruction;
 
 				if (PatchUtility.LoadsField(instruction, GenderField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, (int)Gender.None)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, Gender.None)) {
 						yield return i;
 					}
 
