@@ -691,7 +691,7 @@ namespace Lakuna.BoundedRationality.Utility {
 					? methodInfo.GetParameters().Length == 0 ? new CodeInstruction(OpCodes.Call, methodInfo)
 					: throw new ArgumentException($"A method {methodInfo.DeclaringType.FullName}.{methodInfo.Name} with parameters was passed to `{nameof(LoadValue)}`.")
 				: throw new ArgumentException($"A non-static method {methodInfo.DeclaringType.FullName}.{methodInfo.Name} was passed to `{nameof(LoadValue)}`.")
-			: value is Enum enumValue ? LoadValue(Convert.ChangeType(enumValue, enumValue.GetType().GetEnumUnderlyingType()), byAddress)
+			: value is Enum enumValue ? LoadValue(Convert.ChangeType(enumValue, MiscellaneousUtility.GetEnumUnderlyingType(enumValue)), byAddress)
 			: throw new ArgumentException($"An invalid value type {value.GetType().FullName} was passed to {nameof(LoadValue)}.");
 
 		/// <summary>

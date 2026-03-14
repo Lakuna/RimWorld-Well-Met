@@ -447,5 +447,34 @@ namespace Lakuna.BoundedRationality.Utility {
 #else
 			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
 #endif
+
+		/// <summary>
+		/// Equivalent to `enumType.GetEnumUnderlyingType` for all runtimes.
+		/// </summary>
+		/// <param name="enumType">The enumeration type.</param>
+		/// <returns>The enumeration underlying type.</returns>
+#if V1_0
+		public static Type GetEnumUnderlyingType(Type enumType) {
+			if (!enumType.IsEnum) {
+				throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
+			}
+
+			FieldInfo[] fields = enumType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			if (fields == null || fields.Length != 1) {
+				throw new ArgumentException("The Enum type should contain one and only one instance field.", nameof(enumType));
+			}
+
+			return fields[0].FieldType;
+		}
+#else
+		public static Type GetEnumUnderlyingType(Type enumType) => enumType.GetEnumUnderlyingType();
+#endif
+
+		/// <summary>
+		/// Get the underlying type for the given enumeration.
+		/// </summary>
+		/// <param name="value">The enumeration.</param>
+		/// <returns>The underlying type.</returns>
+		public static Type GetEnumUnderlyingType(Enum value) => GetEnumUnderlyingType(value.GetType());
 	}
 }
