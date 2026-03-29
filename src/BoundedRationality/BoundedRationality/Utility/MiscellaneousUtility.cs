@@ -107,7 +107,6 @@ namespace Lakuna.BoundedRationality.Utility {
 #endif
 #endif
 
-
 #if V1_0 || V1_1 || V1_2 || V1_3
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
 
