@@ -37,7 +37,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo ToStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString));
 
-		private static readonly MethodInfo TranslateMethod = AccessTools.Method(typeof(Translator), nameof(Translator.Translate));
+		private static readonly MethodInfo TranslateMethod = AccessTools.Method(typeof(Translator), nameof(Translator.Translate), new Type[] { typeof(string) });
 
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
