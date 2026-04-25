@@ -35,6 +35,10 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 
+		private static readonly MethodInfo ToStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString));
+
+		private static readonly MethodInfo TranslateMethod = AccessTools.Method(typeof(Translator), nameof(Translator.Translate));
+
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
@@ -56,6 +60,16 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 				if (PatchUtility.Calls(instruction, InitiatePrisonBreakMtbDaysMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, -1f)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				// The time to prison break is either actually never or replaced with never and shouldn't be known either way.
+				// The relations gain on release is either actually none or replaced with none and shouldn't be known either way.
+				if (instruction.LoadsConstant("Never") || instruction.LoadsConstant("None")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "BR.Unknown")) {
 						yield return i;
 					}
 
@@ -90,6 +104,15 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f, localAddress: true)) {
 						yield return i;
 					}
+				}
+
+				// `float.ToString` is only called to insert will and resistance into the UI.
+				if (PatchUtility.Calls(instruction, ToStringMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "BR.Unknown")) {
+						yield return i;
+					}
+
+					yield return new CodeInstruction(OpCodes.Call, TranslateMethod);
 				}
 
 				if (PatchUtility.LoadsField(instruction, IdeoForConversionField)) {
