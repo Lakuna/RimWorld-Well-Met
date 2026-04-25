@@ -196,6 +196,12 @@ namespace Lakuna.BoundedRationality {
 				Settings.HideFactionInformation = hideFactionInformation;
 			}
 
+			if (Enum.GetValues(typeof(PawnType)).OfType<PawnType>().Any((type) => !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, type) && !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, type))) {
+				bool neverHidePawnLabels = Settings.NeverHidePawnLabels;
+				listing.CheckboxLabeled("BR.NeverHidePawnLabels".Translate().CapitalizeFirst(), ref neverHidePawnLabels, MiscellaneousUtility.EndWithPeriod("BR.NeverHidePawnLabels.Desc".Translate().CapitalizeFirst()));
+				Settings.NeverHidePawnLabels = neverHidePawnLabels;
+			}
+
 			if (!KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, PawnType.Colonist)) {
 				bool preventForcedSpeed = Settings.PreventForcedSpeed;
 				listing.CheckboxLabeled("BR.PreventForcedSpeed".Translate().CapitalizeFirst(), ref preventForcedSpeed, MiscellaneousUtility.EndWithPeriod("BR.PreventForcedSpeed.Desc".Translate().CapitalizeFirst()));

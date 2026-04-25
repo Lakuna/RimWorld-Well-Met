@@ -27,6 +27,7 @@ namespace Lakuna.BoundedRationality {
 			this.neverHideMessages = false;
 			this.neverHideLetters = false;
 			this.neverHideAlerts = false;
+			this.neverHidePawnLabels = false;
 			this.preventForcedSpeed = false;
 			this.hideAncientCorpses = true;
 			this.legacyMode = false;
@@ -133,6 +134,13 @@ namespace Lakuna.BoundedRationality {
 		internal bool NeverHideAlerts {
 			get => this.neverHideAlerts;
 			set => this.neverHideAlerts = value;
+		}
+
+		private bool neverHidePawnLabels;
+
+		internal bool NeverHidePawnLabels {
+			get => this.neverHidePawnLabels;
+			set => this.neverHidePawnLabels = value;
 		}
 
 		private bool preventForcedSpeed;
@@ -257,6 +265,7 @@ namespace Lakuna.BoundedRationality {
 			Scribe_Values.Look(ref this.neverHideMessages, nameof(this.neverHideMessages));
 			Scribe_Values.Look(ref this.neverHideLetters, nameof(this.neverHideLetters));
 			Scribe_Values.Look(ref this.neverHideAlerts, nameof(this.neverHideAlerts));
+			Scribe_Values.Look(ref this.neverHidePawnLabels, nameof(this.neverHidePawnLabels));
 			Scribe_Values.Look(ref this.preventForcedSpeed, nameof(this.preventForcedSpeed));
 			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
 			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
