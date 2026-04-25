@@ -21,6 +21,12 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 		private static readonly MethodInfo GetStatValueMethod = AccessTools.Method(typeof(StatExtension), nameof(StatExtension.GetStatValue));
 
+		private static readonly MethodInfo ToStringPercentMethod = AccessTools.Method(typeof(GenText), nameof(GenText.ToStringPercent), new Type[] { typeof(float) });
+
+		private static readonly MethodInfo ValueToStringMethod = AccessTools.Method(typeof(StatDef), nameof(StatDef.ValueToString));
+
+		private static readonly MethodInfo TranslateSimpleMethod = AccessTools.Method(typeof(Translator), nameof(Translator.TranslateSimple));
+
 		private static readonly MethodInfo GetTerrorThoughtsMethod = AccessTools.Method(typeof(TerrorUtility), nameof(TerrorUtility.GetTerrorThoughts));
 
 		private static readonly ConstructorInfo ThoughtMemoryObservationTerrorListConstructor = AccessTools.Constructor(typeof(List<Thought_MemoryObservationTerror>));
@@ -50,6 +56,16 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
+				// These methods are only called to stringify suppression and terror, so both can be replaced with "unknown" if meta information isn't known.
+				if (PatchUtility.Calls(instruction, ToStringPercentMethod) || PatchUtility.Calls(instruction, ValueToStringMethod)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "BR.Unknown")) {
+						yield return i;
+					}
+
+					yield return new CodeInstruction(OpCodes.Call, TranslateSimpleMethod);
+					continue;
+				}
+
 				if (PatchUtility.Calls(instruction, GetTerrorThoughtsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, ThoughtMemoryObservationTerrorListConstructor)) {
 						yield return i;
@@ -68,6 +84,16 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 				if (PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.Calls(instruction, SlaveFactionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
+						yield return i;
+					}
+
+					continue;
+				}
+
+				// The time to slave rebellion is either actually never or replaced with never and shouldn't be known either way.
+				// The relations gain on release is either actually none or replaced with none and shouldn't be known either way.
+				if (instruction.LoadsConstant("Never") || instruction.LoadsConstant("None")) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "BR.Unknown")) {
 						yield return i;
 					}
 

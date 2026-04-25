@@ -35,9 +35,9 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 
 		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 
-		private static readonly MethodInfo ToStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString));
+		private static readonly MethodInfo ToStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString), new Type[] { typeof(string) });
 
-		private static readonly MethodInfo TranslateMethod = AccessTools.Method(typeof(Translator), nameof(Translator.Translate), new Type[] { typeof(string) });
+		private static readonly MethodInfo TranslateSimpleMethod = AccessTools.Method(typeof(Translator), nameof(Translator.TranslateSimple));
 
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
@@ -104,6 +104,8 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f, localAddress: true)) {
 						yield return i;
 					}
+
+					continue;
 				}
 
 				// `float.ToString` is only called to insert will and resistance into the UI.
@@ -112,7 +114,8 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 						yield return i;
 					}
 
-					yield return new CodeInstruction(OpCodes.Call, TranslateMethod);
+					yield return new CodeInstruction(OpCodes.Call, TranslateSimpleMethod);
+					continue;
 				}
 
 				if (PatchUtility.LoadsField(instruction, IdeoForConversionField)) {
